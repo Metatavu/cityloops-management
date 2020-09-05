@@ -31,10 +31,10 @@ export function authReducer(authState: AuthState = initialState, action: AuthAct
     case LOGIN:
       const keycloak = action.keycloak;
       const { token, tokenParsed } = keycloak;
-      const accessToken: AccessToken | undefined = tokenParsed && tokenParsed.sub && token ? {
-        token: token,
-        userId: tokenParsed.sub
-      } : undefined;
+      const userId = tokenParsed?.sub;
+      const accessToken = token && userId ?
+        { token, userId } as AccessToken :
+        undefined;
 
       return { ...authState, keycloak: keycloak, accessToken: accessToken };
     case LOGOUT:
