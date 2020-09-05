@@ -54,7 +54,7 @@ export class MainScreen extends React.Component<Props, State> {
     const { classes } = this.props;
     return (
       <div className={ classes.loader }>
-        <CircularProgress size={ 50 } color="secondary"></CircularProgress>
+        <CircularProgress size={ 50 } color="secondary" />
       </div>
     );
   }
