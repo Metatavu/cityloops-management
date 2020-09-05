@@ -36,7 +36,7 @@ export function authReducer(authState: AuthState = initialState, action: AuthAct
         { token, userId } as AccessToken :
         undefined;
 
-      return { ...authState, keycloak: keycloak, accessToken: accessToken };
+      return { ...authState, keycloak, accessToken };
     case LOGOUT:
       return { ...authState, keycloak: undefined, accessToken: undefined };
     default:
