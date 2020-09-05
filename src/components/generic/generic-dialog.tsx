@@ -63,7 +63,9 @@ export default class GenericDialog extends React.Component<Props, State> {
         aria-describedby="alert-dialog-description"
         fullScreen={ fullScreen }
       >
-        <DialogTitle disableTypography id="alert-dialog-title">{ title }</DialogTitle>
+        <DialogTitle disableTypography id="alert-dialog-title">
+          { title }
+        </DialogTitle>
         <DialogContent>
           { this.props.children }
         </DialogContent>
