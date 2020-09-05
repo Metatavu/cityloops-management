@@ -55,9 +55,9 @@ class App extends React.Component<Props, State> {
    */
   public render() {
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={ theme }>
         <CssBaseline />
-        <Provider store={store}>
+        <Provider store={ store }>
           {/* TODO: Uncomment this when we have keycloak instance running */}
           {/* <AccessTokenRefresh> */}
             <StoreInitializer>
