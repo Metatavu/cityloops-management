@@ -19,7 +19,7 @@ interface Props extends WithStyles<typeof styles> {
    * Event callback for upload save click
    *
    * @param files files
-   * @param key  upload key
+   * @param key upload key
    */
   onSave(files: File[], key?: string): void;
 }
