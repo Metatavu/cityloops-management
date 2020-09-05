@@ -26,7 +26,6 @@ interface Props {
   onConfirm: () => void | Promise<void>;
   open: boolean;
   error: boolean;
-
   fullScreen?: boolean;
 }
 
