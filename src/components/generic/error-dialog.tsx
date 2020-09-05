@@ -48,9 +48,9 @@ export default class ErrorDialog extends React.Component<Props, State> {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="error-dialog-description">
-            <p> { strings.errorDialog.reloadPage } </p>
-            <p> { strings.errorDialog.unsavedContents } </p>
-            <p> { strings.errorDialog.reportIssue } </p>
+            <p>{ strings.errorDialog.reloadPage }</p>
+            <p>{ strings.errorDialog.unsavedContents }</p>
+            <p>{ strings.errorDialog.reportIssue }</p>
             <p>
               { strings.errorDialog.technicalDetails }<br/>
               <br/>
