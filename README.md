@@ -1,1 +1,2 @@
 # cityloops-management
+aws init
