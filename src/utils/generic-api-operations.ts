@@ -14,5 +14,6 @@ export default class ApiOperations {
 	public static listItems = async (accessToken: AccessToken) => {
 		const itemsApi = Api.getItemsApi(accessToken);
 		return await itemsApi.listItems({ });
-	}
+  }
+
 }
