@@ -4,6 +4,10 @@ import LocalizedStrings, { LocalizedStringsMethods } from "localized-strings";
  * Interface describing localized strings
  */
 export interface IStrings extends LocalizedStringsMethods {
+
+  /**
+   * Generic translations
+   */
   comingSoon: string;
   errorDialog: {
     title: string;
@@ -38,9 +42,12 @@ export interface IStrings extends LocalizedStringsMethods {
     refresh: string;
   };
 
-  spaces: {
-    title: string;
-  };
+  /**
+   * Translations related to items
+   */
+  items: {
+    addItem: string;
+  }
 
 }
 

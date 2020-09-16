@@ -32,5 +32,9 @@
     "or": "tai",
     "undefined": "Ei määritelty",
     "refresh": "Päivitä"
+  },
+
+  "items": {
+    "addItem": "Lisää tuote"
   }
 }
