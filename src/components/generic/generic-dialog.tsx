@@ -26,7 +26,6 @@ interface Props {
   onConfirm: () => void | Promise<void>;
   open: boolean;
   error: boolean;
-
   fullScreen?: boolean;
 }
 
@@ -64,7 +63,9 @@ export default class GenericDialog extends React.Component<Props, State> {
         aria-describedby="alert-dialog-description"
         fullScreen={ fullScreen }
       >
-        <DialogTitle disableTypography id="alert-dialog-title">{ title }</DialogTitle>
+        <DialogTitle disableTypography id="alert-dialog-title">
+          { title }
+        </DialogTitle>
         <DialogContent>
           { this.props.children }
         </DialogContent>
@@ -72,7 +73,14 @@ export default class GenericDialog extends React.Component<Props, State> {
           <Button onClick={ onCancel } color="primary">
             { cancelButtonText }
           </Button>
-          <Button disableElevation variant="contained" disabled={ error } onClick={ onConfirm } color="secondary" autoFocus>
+          <Button
+            disableElevation
+            variant="contained"
+            disabled={ error }
+            onClick={ onConfirm }
+            color="secondary"
+            autoFocus
+          >
             { positiveButtonText }
           </Button>
         </DialogActions>

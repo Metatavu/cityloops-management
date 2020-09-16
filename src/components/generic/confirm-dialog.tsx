@@ -50,7 +50,9 @@ export default class ConfirmDialog extends React.Component<Props, State> {
       onClose,
       onCancel,
       title,
-      onConfirm} = this.props;
+      onConfirm
+    } = this.props;
+
     return (
       <>
         <Dialog

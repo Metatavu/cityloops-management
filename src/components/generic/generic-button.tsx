@@ -16,6 +16,8 @@ interface Props extends WithStyles<typeof styles> {
 
 /**
  * React generic button functional component
+ *
+ * @param props component props
  */
 const GenericButton: React.FC<Props> = (props: Props) => (
   <Button

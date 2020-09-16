@@ -19,9 +19,9 @@ interface Props extends WithStyles<typeof styles> {
    * Event callback for upload save click
    *
    * @param files files
-   * @param key  upload key
+   * @param key upload key
    */
-  onSave(files: File[], key?: string): void;
+  onSave: (files: File[], key?: string) => void;
 }
 
 /**
@@ -67,7 +67,7 @@ class FileUploader extends React.Component<Props, State> {
     if (this.state.uploading) {
       return (
         <div className={ classes.imageUploadLoaderContainer }>
-          <CircularProgress color="secondary" style={{ alignSelf: "center" }}></CircularProgress>
+          <CircularProgress color="secondary" style={{ alignSelf: "center" }} />
         </div>
       );
     }
