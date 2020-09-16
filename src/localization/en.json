@@ -32,6 +32,10 @@
     "or": "or",
     "undefined": "Undefined",
     "refresh": "Refresh"
+  },
+
+  "items": {
+    "addItem": "Add item"
   }
 
 }

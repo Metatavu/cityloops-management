@@ -7,16 +7,16 @@ import * as immer from "immer";
 
 import { ThemeProvider } from "@material-ui/styles";
 import cityLoopsTheme from "../styles/theme";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { CssBaseline, responsiveFontSizes } from "@material-ui/core";
 import strings from "../localization/strings";
-// import AccessTokenRefresh from "./containers/access-token-refresh";
+import AccessTokenRefresh from "./containers/access-token-refresh";
 import StoreInitializer from "./containers/store-initializer";
 import moment from "moment";
 import "moment/locale/fi";
 import "moment/locale/en-gb";
 
-import MainScreen from "./screens/main-screen";
+import ItemsScreen from "./screens/items-screen";
 
 const store = createStore<ReduxState, ReduxActions, any, any>(rootReducer);
 
@@ -58,17 +58,17 @@ class App extends React.Component<Props, State> {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Provider store={store}>
-          {/* TODO: Uncomment this when we have keycloak instance running */}
-          {/* <AccessTokenRefresh> */}
+          <AccessTokenRefresh>
             <StoreInitializer>
               <BrowserRouter>
                 <div className="App">
                   <Switch>
+                    <Redirect exact from="/" to="/items" />
                     <Route
-                      path="/"
+                      path="/items"
                       exact={ true }
                       render={({ history }) => (
-                        <MainScreen
+                        <ItemsScreen
                           history={ history }
                         />
                       )}
@@ -77,7 +77,7 @@ class App extends React.Component<Props, State> {
                 </div>
               </BrowserRouter>
             </StoreInitializer>
-          {/* </AccessTokenRefresh> */}
+          </AccessTokenRefresh>
         </Provider>
       </ThemeProvider>
     );
