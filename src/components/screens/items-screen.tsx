@@ -72,15 +72,15 @@ export class ItemsScreen extends React.Component<Props, State> {
         { /* <SearchBar></SearchBar> */ }
         { /* <BreadCrumbs></BreadCrumbs> */ }
 
-      <GenericButton
-        text={ strings.items.addItem }
-        onClick={ this.onAddItemClick }
-      />
+        <GenericButton
+          text={ strings.items.addItem }
+          onClick={ this.onAddItemClick }
+        />
 
-      <ItemList
-        itemList={ itemList }
-        updatePath={ this.updateRoutePath }
-      />
+        <ItemList
+          itemList={ itemList }
+          updatePath={ this.updateRoutePath }
+        />
       </div>
     );
   }
