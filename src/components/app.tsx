@@ -57,7 +57,7 @@ class App extends React.Component<Props, State> {
     return (
       <ThemeProvider theme={ theme }>
         <CssBaseline />
-        <Provider store={store}>
+        <Provider store={ store }>
           <AccessTokenRefresh>
             <StoreInitializer>
               <BrowserRouter>
