@@ -22,5 +22,5 @@ export default class ModifyOperations {
         draft.push(newItem);
       }
     });
-	}
+  }
 }
