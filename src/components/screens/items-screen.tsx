@@ -36,16 +36,9 @@ interface State {
 }
 
 /**
- * Component for main screen
+ * Component for items screen
  */
 export class ItemsScreen extends React.Component<Props, State> {
-
-  /**
-   * Component did mount life cycle handler
-   */
-  public componentDidMount = () => {
-    this.fetchData();
-  }
 
   /**
    * Constructor
@@ -58,6 +51,13 @@ export class ItemsScreen extends React.Component<Props, State> {
       loading: false,
       itemList: []
     };
+  }
+
+  /**
+   * Component did mount life cycle handler
+   */
+  public componentDidMount = () => {
+    this.fetchData();
   }
 
   /**
