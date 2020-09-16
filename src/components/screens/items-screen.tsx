@@ -36,7 +36,7 @@ interface State {
 }
 
 /**
- * Component for main screen
+ * Component for items screen
  */
 export class ItemsScreen extends React.Component<Props, State> {
 
