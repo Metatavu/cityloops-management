@@ -41,13 +41,6 @@ interface State {
 export class ItemsScreen extends React.Component<Props, State> {
 
   /**
-   * Component did mount life cycle handler
-   */
-  public componentDidMount = () => {
-    this.fetchData();
-  }
-
-  /**
    * Constructor
    *
    * @param props component properties
@@ -58,6 +51,13 @@ export class ItemsScreen extends React.Component<Props, State> {
       loading: false,
       itemList: []
     };
+  }
+
+  /**
+   * Component did mount life cycle handler
+   */
+  public componentDidMount = () => {
+    this.fetchData();
   }
 
   /**
