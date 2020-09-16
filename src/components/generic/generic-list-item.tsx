@@ -34,7 +34,7 @@ const GenericListItem: React.FC<Props> = props => {
           />
         </ListItemAvatar>
         <Typography
-          variant="h1"
+          variant="h4"
         >
           { item.title }
         </Typography>
