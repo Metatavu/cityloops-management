@@ -21,7 +21,7 @@ interface State {
 }
 
 /**
- * Component for main screen
+ * Component for item list
  */
 export class ItemList extends React.Component<Props, State> {
 
