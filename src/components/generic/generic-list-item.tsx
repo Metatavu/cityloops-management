@@ -14,7 +14,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 /**
- * React generic item functional component
+ * React generic list item functional component
  */
 const GenericListItem: React.FC<Props> = props => {
   const { item, onClick, style } = props;
