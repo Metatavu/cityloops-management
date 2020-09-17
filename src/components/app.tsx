@@ -17,6 +17,9 @@ import "moment/locale/fi";
 import "moment/locale/en-gb";
 
 import ItemsScreen from "./screens/items-screen";
+import ItemScreen from "./screens/item-screen";
+import AddItemScreen from "./screens/add-item-screen";
+import CategoriesScreen from "./screens/categories-screen";
 
 const store = createStore<ReduxState, ReduxActions, any, any>(rootReducer);
 
@@ -53,7 +56,8 @@ class App extends React.Component<Props, State> {
   /**
    * Component render method
    */
-  public render() {
+  public render = () => {
+
     return (
       <ThemeProvider theme={ theme }>
         <CssBaseline />
@@ -73,6 +77,30 @@ class App extends React.Component<Props, State> {
                         />
                       )}
                     />
+                    <Route
+                      path="/item/:id"
+                      exact={ true }
+                    >
+                      <ItemScreen/>
+                    </Route>
+                    <Route
+                      path="/add"
+                      exact={ true }
+                    >
+                      <AddItemScreen/>
+                    </Route>
+                    <Route
+                      path="/categories"
+                      exact={ true }
+                    >
+                      <CategoriesScreen/>
+                    </Route>
+                    <Route
+                      path="/user"
+                      exact={ true }
+                    >
+                      <CategoriesScreen/>
+                    </Route>
                   </Switch>
                 </div>
               </BrowserRouter>

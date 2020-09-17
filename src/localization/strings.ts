@@ -46,6 +46,7 @@ export interface IStrings extends LocalizedStringsMethods {
    * Translations related to items
    */
   items: {
+    title: string;
     addItem: string;
   }
 

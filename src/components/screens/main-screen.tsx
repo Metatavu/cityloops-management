@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
-import styles from "../../styles/main-view";
+import styles from "../../styles/components/screens/main-view";
 import { WithStyles, withStyles, CircularProgress } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from '../../types';
@@ -24,8 +24,6 @@ interface Props extends WithStyles<typeof styles> {
  */
 interface State {
   loading: boolean;
-  addDialogOpen: boolean;
-  deleteDialogOpen: boolean;
 }
 
 /**
@@ -41,9 +39,7 @@ export class MainScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      loading: false,
-      addDialogOpen: false,
-      deleteDialogOpen: false
+      loading: false
     };
   }
 

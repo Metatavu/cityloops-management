@@ -1,18 +1,25 @@
 import { createMuiTheme } from '@material-ui/core';
-import { red, grey } from "@material-ui/core/colors";
+import { red, green, yellow } from "@material-ui/core/colors";
 
 export default createMuiTheme({
 
   palette: {
-    primary: { main: grey[900] },
+    primary: { main: "#004D76" },
+    secondary: { main: "#00B6ED" },
+    success: { main: green.A700 },
+    warning: { main: yellow.A700 },
+    error: { main: red.A700 },
     background: {
-      default: "#f2f2f2",
+      default: "#F7F7F7",
       paper: "#fff"
     },
     text: {
-      primary: "#000",
-      secondary: "#888"
+      primary: "#222",
+      secondary: "#888",
+      disabled: "#aaa"
     },
-    error: red,
   },
+  typography: {
+    fontFamily: "Kumbh Sans, sans-serif"
+  }
 });
