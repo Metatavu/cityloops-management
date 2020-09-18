@@ -27,6 +27,8 @@ const GenericListItem: React.FC<Props> = props => {
     onDeleteClick
   } = props;
 
+  const exampleSrc = "https://staging-muisti-cdn.metatavu.io/folder/f2d54335-2015-4ccc-8ac2-d4c113b05dc6.jpg";
+
   return(
     <Card
       className={ classes.root }
@@ -36,7 +38,7 @@ const GenericListItem: React.FC<Props> = props => {
       <ListItemAvatar>
         <img
           alt={ `itemImage-${item.id}` }
-          src="https://staging-muisti-cdn.metatavu.io/folder/f2d54335-2015-4ccc-8ac2-d4c113b05dc6.jpg"
+          src={ item.images ? item.images[0] : exampleSrc }
           style={{ width: 100, height: 100 }}
         />
       </ListItemAvatar>
