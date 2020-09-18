@@ -153,7 +153,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 
     const itemsApi = Api.getItemsApi(accessToken);
     await itemsApi.deleteItem({ itemId: item.id });
-    const updatedItemList = ModifyOperations.deleteItemFromList(itemList, item);
+    const updatedItemList = itemList.filter(listItem => listItem.id !== item.id);
     this.setState({
       itemList: updatedItemList
     });

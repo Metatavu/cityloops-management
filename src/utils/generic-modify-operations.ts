@@ -23,20 +23,4 @@ export default class ModifyOperations {
       }
     });
   }
-
-  /**
-   * Delete item from list
-   *
-   * @param itemList list of items
-   * @param itemToDelete item to be deleted from the list
-   * @returns updated list
-   */
-  public static deleteItemFromList = (itemList: Item[], itemToDelete: Item): Item[] => {
-    return produce(itemList, draft => {
-      const itemIndex = itemList.findIndex(item => item.id === itemToDelete.id);
-      if (itemIndex > -1) {
-        draft.splice(itemIndex, 1);
-      }
-    });
-  }
 }
