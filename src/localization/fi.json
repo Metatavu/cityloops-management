@@ -35,6 +35,7 @@
   },
 
   "items": {
+    "title": "Tuotteet",
     "addItem": "Lisää tuote"
   }
 }

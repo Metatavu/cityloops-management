@@ -35,6 +35,7 @@
   },
 
   "items": {
+    "title": "Items",
     "addItem": "Add item"
   }
 

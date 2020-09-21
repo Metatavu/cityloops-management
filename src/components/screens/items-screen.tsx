@@ -5,18 +5,20 @@ import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
-import styles from "../../styles/main-view";
+import styles from "../../styles/components/screens/main-view";
 import { WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from '../../types';
 import { Item } from "../../generated/client";
-import GenericButton from "../generic/generic-button";
 import ItemList from "../items/item-list";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import produce from "immer";
 import ApiOperations from "../../utils/generic-api-operations";
 import ModifyOperations from "../../utils/generic-modify-operations";
+import AppLayout from "../layouts/app-layout";
+import BannerImage from "../generic/banner-image";
+import bannerImageSrc from "../../resources/images/banner-image.png";
 
 /**
  * Component props
@@ -66,22 +68,26 @@ export class ItemsScreen extends React.Component<Props, State> {
   public render = () => {
     const { itemList } = this.state;
     return (
-      <div>
+      <AppLayout
+        headerProps={{
+          onAddItemClick: this.onAddItemClick
+        }}
+      >
         { /* TODO: Implement basic layout */ }
         { /* <TopBar></TopBar> */ }
         { /* <SearchBar></SearchBar> */ }
         { /* <BreadCrumbs></BreadCrumbs> */ }
-
-        <GenericButton
-          text={ strings.items.addItem }
-          onClick={ this.onAddItemClick }
+        <BannerImage
+          image={ bannerImageSrc }
+          title={ strings.items.title }
         />
 
         <ItemList
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
+          deleteItem={ this.deleteItem }
         />
-      </div>
+      </AppLayout>
     );
   }
 
@@ -125,7 +131,32 @@ export class ItemsScreen extends React.Component<Props, State> {
    * @param item clicked item
    */
   private updateRoutePath = (item: Item) => {
-    // TODO: Implement route path update
+    const { history } = this.props;
+    if (!item.id) {
+      return;
+    }
+
+    history.push(`/item/${item.id}`);
+  }
+  /**
+   * Event handler for deleting an item
+   *
+   * @param item item to be deleted
+   */
+  private deleteItem = async (item: Item) => {
+    const { accessToken } = this.props;
+    const { itemList } = this.state;
+
+    if (!item.id) {
+      return;
+    }
+
+    const itemsApi = Api.getItemsApi(accessToken);
+    await itemsApi.deleteItem({ itemId: item.id });
+    const updatedItemList = itemList.filter(listItem => listItem.id !== item.id);
+    this.setState({
+      itemList: updatedItemList
+    });
   }
 
   /**

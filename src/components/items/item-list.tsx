@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import styles from "../../styles/main-view";
+import styles from "../../styles/components/screens/main-view";
 import { List, WithStyles, withStyles } from "@material-ui/core";
 import { Item } from "../../generated/client";
 
@@ -12,6 +12,7 @@ import GenericListItem from "../generic/generic-list-item";
 interface Props extends WithStyles<typeof styles> {
   itemList: Item[];
   updatePath: (item: Item) => void;
+  deleteItem: (item: Item) => void;
 }
 
 /**
@@ -48,15 +49,13 @@ export class ItemList extends React.Component<Props, State> {
           key={ item.id }
           item={ item }
           onClick={ this.onItemClick }
+          onDeleteClick={ this.onDeleteClick }
         />
       );
     });
 
     return (
-      <List
-        component="nav"
-        aria-label="ItemList"
-      >
+      <List>
         { listItems }
       </List>
     );
@@ -70,6 +69,16 @@ export class ItemList extends React.Component<Props, State> {
   private onItemClick = (item: Item) => {
     const { updatePath } = this.props;
     updatePath(item);
+  }
+
+  /**
+   * Event handler for item delete click
+   *
+   * @param item clicked item
+   */
+  private onDeleteClick = (item: Item) => {
+    const { deleteItem } = this.props;
+    deleteItem(item);
   }
 
 }
