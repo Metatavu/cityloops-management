@@ -11,7 +11,9 @@ export default createStyles({
     overflowY: "auto"
   },
   contentWrapper: {
-    height: "100%"
+    height: "100%",
+    display: "flex",
+    minHeight: "80vh"
   }
 
 });
