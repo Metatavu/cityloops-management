@@ -2,9 +2,7 @@ import * as React from "react";
 
 import { WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/screens/categories-screen";
-import { useState } from "react";
 import {  Category } from "../../generated/client";
-import { useEffect } from "react";
 import { AccessToken, CategoryDataHolder } from "../../types";
 import Api from "../../api/api";
 import { KeycloakInstance } from "keycloak-js";
@@ -23,100 +21,227 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 /**
- * Functional component for categories view
- *
- * @param props component props
+ * Component state
  */
-const CategoriesProvider: React.FC<Props> = props => {
+interface State {
+  loading: boolean;
+  categories: Category[];
+  selectedCategory?: Category;
+  openCategories: string[];
+  modifiedCategories: Category[];
+  treeData?: CategoryDataHolder[];
+}
 
-  const { accessToken } = props;
-  const [ stateCategories, setCategories ] = useState<Category[]>([]);
-  const [ selectedCategory, setSelectedCategory ] = useState<Category | undefined>(undefined);
-  const [ openCategories, setOpenCategory ] = useState<string[]>([]);
-  const [ modifiedCategories, setModifiedCategories ] = useState<Category[]>([]);
-  const [ treeData, setTreeData ] = useState<CategoryDataHolder[] | undefined>(undefined);
+class CategoriesProvider extends React.Component<Props, State> {
 
   /**
-   * Initialize categories and tree data
+   * Constructor
+   *
+   * @param props component properties
    */
-  const initializeCategories = async () => {
-    listCategoryData(accessToken)
-    .then(allCategories => updateData(allCategories))
-    .catch(error => console.log(error));
-  };
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      loading: false,
+      categories: [],
+      openCategories: [],
+      modifiedCategories: []
+    };
+  }
 
   /**
-   * Event handler for add category click
+   * Component did mount life cycle handler
+   */
+  public componentDidMount = () => {
+    this.listCategories()
+    .then(categories => this.updateCategoryData(categories))
+    .catch(error => console.log(error));
+  }
+
+  /**
+   * Component render
+   */
+  public render = () => {
+    const {
+      selectedCategory,
+      openCategories,
+      treeData,
+    } = this.state;
+
+    return (
+      <CategoriesScreen
+        selectedCategory={ selectedCategory }
+        openCategories={ openCategories }
+        treeData={ treeData }
+        onAddCategoryClick={ this.onAddCategoryClick }
+        onCategoryClick={ this.onCategoryClick }
+        onCategoryUpdate={ this.onCategoryUpdate }
+        onCategorySaveClick={ this.updateChangedCategories }
+        onCategoryDeleteClick={ this.onCategoryDeleteClick }
+      />
+    );
+  }
+
+  /**
+   * Create category to DB
    *
    * @param parentCategoryId parent category ID
    */
-  const onAddCategoryClick = async (parentCategoryId?: string) => {
-    createCategory(accessToken, parentCategoryId)
-    .then(createdCategory => updateData([ ...stateCategories || [], createdCategory ]))
+  private onAddCategoryClick = (parentCategoryId?: string) => {
+    const { categories } = this.state;
+
+    const newCategory: Category = {
+      name: "New category",
+      parentCategoryId: parentCategoryId
+    };
+
+    this.createCategory(newCategory)
+    .then(createdCategory => this.updateCategoryData(addOrUpdateList(categories, createdCategory), createdCategory))
     .catch(error => console.log(error));
+
   };
 
   /**
-   * Update category data
+   * Event handler for category click
    *
-   * @param categories list of updated categories
+   * @param clickedCategory clicked category
    */
-  const updateData = (updatedCategoryList: Category[], newSelectedCategory?: Category) => {
-    setCategories(updatedCategoryList);
-    const initializedTreeData = constructTreeData(accessToken, updatedCategoryList);
-    setTreeData(initializedTreeData);
-    setSelectedCategory(newSelectedCategory);
+  private onCategoryClick = async (clickedCategory: Category) => {
+    const { openCategories } = this.state;
+
+    this.setState({
+      openCategories: updateOpenedCategories(openCategories, clickedCategory),
+      selectedCategory: clickedCategory
+    });
+  }
+
+  /**
+   * Update category to DB
+   *
+   * @param categoryToUpdate category to update
+   */
+  private onCategoryUpdate = async (categoryToUpdate: Category) => {
+    const { categories } = this.state;
+
+    if (!categoryToUpdate.id) {
+      return;
+    }
+
+    this.setState({
+      modifiedCategories: addOrUpdateList(categories, categoryToUpdate)
+    });
   };
+
 
   /**
    * Update changed categories state
    */
-  const updateChangedCategories = () => {
+  private updateChangedCategories = () => {
+    const { modifiedCategories } = this.state;
+    if (!modifiedCategories) {
+      return;
+    }
+
     modifiedCategories.forEach(category => {
-      updateCategory(accessToken, category);
+      this.updateCategory(category);
     });
   };
 
   /**
-   * Initialize data when component mounts
+   * Event handler for category delete click
+   *
+   * @param categoryToDelete category to delete 
    */
-  useEffect(() => {
-    if (stateCategories.length === 0) {
-      initializeCategories();
-    }
-  });
+  private onCategoryDeleteClick = (categoryToDelete: Category) => {
+    const { categories, modifiedCategories } = this.state;
 
-  return (
-    <CategoriesScreen
-      selectedCategory={ selectedCategory }
-      openCategories={ openCategories }
-      treeData={ treeData }
-      onAddCategoryClick={ onAddCategoryClick }
-      onCategoryClick={
-        category => {
-          setSelectedCategory(category);
-          setOpenCategory(updateOpenedCategories(openCategories, category));
-        }
-      }
-      onCategoryUpdate={
-        category => {
-          updateData(addOrUpdateList(stateCategories, category), category);
-          setModifiedCategories(addOrUpdateList(modifiedCategories, category));
-        }
-      }
-      onCategorySaveClick={ updateChangedCategories }
-      onCategoryDeleteClick={
-        categoryToDelete => {
-          if (askConfirmation()) {
-            updateData(stateCategories.filter(category => category.id !== categoryToDelete.id));
-            setModifiedCategories(modifiedCategories.filter(category => category.id !== categoryToDelete.id));
-            deleteCategory(accessToken, categoryToDelete);
-          }
-        }
-      }
-    />
-  );
-};
+    if (askConfirmation()) {
+      this.updateCategoryData(categories.filter(category => category.id !== categoryToDelete.id));
+      this.setState({
+        modifiedCategories: modifiedCategories.filter(category => category.id !== categoryToDelete.id)
+      });
+      this.deleteCategory(categoryToDelete)
+      .catch(error => console.log(error));
+    }
+  }
+
+  /**
+   * Get category data form API
+   *
+   * @param accessToken keycloak access token
+   */
+  private listCategories = async (): Promise<Category[]> => {
+    const { accessToken } = this.props;
+
+    const categoriesApi = Api.getCategoriesApi(accessToken);
+    return await categoriesApi.listCategories({ });
+  };
+
+  /**
+   * Create category to DB
+   *
+   * @param newCategory category to be created
+   * @returns promise with type Category
+   */
+  private createCategory = async (newCategory: Category): Promise<Category> => {
+    const { accessToken } = this.props;
+
+    const categoriesApi = Api.getCategoriesApi(accessToken);
+    return await categoriesApi.createCategory({
+      category: newCategory
+    });
+  }
+
+  /**
+   * Update category data
+   *
+   * @param updatedCategoryList list of updated categories
+   * @param selectedCategory selected category
+   */
+  private updateCategoryData = (updatedCategoryList: Category[], selectedCategory?: Category) => {
+    const treeData = constructTreeData(updatedCategoryList);
+
+    this.setState({
+      categories: updatedCategoryList,
+      treeData: treeData,
+      selectedCategory: selectedCategory
+    });
+  };
+
+  /**
+   * Update category to DB
+   *
+   * @param categoryToUpdate category to update
+   */
+  private updateCategory = async (categoryToUpdate: Category) => {
+    const { accessToken } = this.props;
+
+    if (!categoryToUpdate.id) {
+      return;
+    }
+
+    const categoriesApi = Api.getCategoriesApi(accessToken);
+    await categoriesApi.updateCategory({
+      categoryId: categoryToUpdate.id,
+      category: categoryToUpdate
+    });
+  };
+
+  /**
+   * Delete category from DB
+   *
+   * @param accessToken keycloak access token
+   * @param categoryToDelete category to delete
+   */
+  private deleteCategory = async (categoryToDelete: Category): Promise<void> => {
+    const { accessToken } = this.props;
+
+    const categoriesApi = Api.getCategoriesApi(accessToken);
+    return await categoriesApi.deleteCategory({
+      categoryId: categoryToDelete.id!!
+    });
+  };
+}
 
 /**
  * Update opened categories list
@@ -144,77 +269,14 @@ const updateOpenedCategories = (openCategories: string[], clickedCategory: Categ
  * @param newItem new category to be added or updated
  * @returns updated list of categories
  */
-const addOrUpdateList = (list: Category[], newItem: Category): Category[] => {
-  return produce(list, draft => {
-    const index = list.findIndex(item => item.id === newItem.id);
+const addOrUpdateList = (categories: Category[], newCategory: Category): Category[] => {
+  return produce(categories, draft => {
+    const index = categories.findIndex(category => category.id === newCategory.id);
     if (index > -1) {
-      draft.splice(index, 1, newItem);
+      draft.splice(index, 1, newCategory);
     } else {
-      draft.push(newItem);
+      draft.push(newCategory);
     }
-  });
-};
-
-/**
- * Get category data form API
- *
- * @param accessToken keycloak access token
- */
-const listCategoryData = async (accessToken: AccessToken) => {
-  const categoriesApi = Api.getCategoriesApi(accessToken);
-  return await categoriesApi.listCategories({ });
-};
-
-/**
- * Create category to DB
- *
- * @param accessToken keycloak access token
- * @param parentCategoryId parent category ID
- */
-const createCategory = async (accessToken: AccessToken, parentCategoryId?: string) => {
-  const newCategory: Category = {
-    name: "New category",
-    parentCategoryId: parentCategoryId
-  };
-
-  const categoriesApi = Api.getCategoriesApi(accessToken);
-  return await categoriesApi.createCategory({
-    category: newCategory
-  });
-};
-
-/**
- * Update category to DB
- *
- * @param accessToken keycloak access token
- * @param categoryToUpdate category to update
- */
-const updateCategory = async (accessToken: AccessToken, categoryToUpdate: Category) => {
-  if (!categoryToUpdate.id) {
-    return;
-  }
-
-  const categoriesApi = Api.getCategoriesApi(accessToken);
-  await categoriesApi.updateCategory({
-    categoryId: categoryToUpdate.id,
-    category: categoryToUpdate
-  });
-};
-
-/**
- * Delete category from DB
- *
- * @param accessToken keycloak access token
- * @param categoryToDelete category to delete
- */
-const deleteCategory = async (accessToken: AccessToken, categoryToDelete: Category) => {
-  if (!categoryToDelete.id) {
-    return;
-  }
-
-  const categoriesApi = Api.getCategoriesApi(accessToken);
-  await categoriesApi.deleteCategory({
-    categoryId: categoryToDelete.id
   });
 };
 

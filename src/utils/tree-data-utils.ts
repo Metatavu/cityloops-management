@@ -1,14 +1,13 @@
 import { Category } from "../generated/client";
-import { AccessToken, CategoryDataHolder } from "../types";
+import { CategoryDataHolder } from "../types";
 
 /**
  * Construct tree data for category provider
  *
- * @param accessToken keycloak access token
  * @param categories list of categories
  * @returns promise with type CategoryDataHolder
  */
-export const constructTreeData = (accessToken: AccessToken, categories: Category[]): CategoryDataHolder[] => {
+export const constructTreeData = (categories: Category[]): CategoryDataHolder[] => {
   const rootCategories = categories.filter(category => !category.parentCategoryId);
   return constructSingleLayer(categories, rootCategories);
 };
