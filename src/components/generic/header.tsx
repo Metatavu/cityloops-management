@@ -14,7 +14,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import SearchIcon from '@material-ui/icons/Search';
 import SaveIcon from '@material-ui/icons/Save';
-import CityLoopsLogo from "../../resources/svg-paths/logo-white";
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import logoPrimary from "../../resources/svg/logo-primary.svg";
@@ -77,7 +76,7 @@ const Header: React.FC<Props> = props => {
             { title }
           </Typography>
         }
-        <IconButton style={{ marginLeft: "auto" }} onClick={ onAddItemClick && onAddItemClick }>
+        <IconButton style={{ marginLeft: "auto" }} onClick={ onAddClick && onAddClick }>
           <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
         </IconButton>
         <IconButton>

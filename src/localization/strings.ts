@@ -55,15 +55,6 @@ export interface IStrings extends LocalizedStringsMethods {
   },
 
   /**
-   * Translations related to categories
-   */
-  categories: {
-    movables: string;
-    buildingMaterials: string;
-    soilAndRockMaterials: string;
-  },
-
-  /**
    * Translations related to users
    */
   user: {
@@ -79,6 +70,9 @@ export interface IStrings extends LocalizedStringsMethods {
     title: string;
     addCategory: string;
     addSubCategory: string;
+    movables: string;
+    buildingMaterials: string;
+    soilAndRockMaterials: string;
   };
 
 }
