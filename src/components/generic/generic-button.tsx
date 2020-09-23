@@ -10,7 +10,7 @@ interface Props extends WithStyles<typeof styles> {
   color?: PropTypes.Color;
   icon?: React.ReactNode;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   style?: React.CSSProperties;
 }
 

@@ -34,6 +34,9 @@ export interface FindItemRequest {
 
 export interface ListItemsRequest {
     userId?: string;
+    firstResult?: number;
+    maxResults?: number;
+    sortByDateOldestFirst?: boolean;
 }
 
 export interface UpdateItemRequest {
@@ -177,6 +180,18 @@ export class ItemsApi extends runtime.BaseAPI {
 
         if (requestParameters.userId !== undefined) {
             queryParameters['userId'] = requestParameters.userId;
+        }
+
+        if (requestParameters.firstResult !== undefined) {
+            queryParameters['firstResult'] = requestParameters.firstResult;
+        }
+
+        if (requestParameters.maxResults !== undefined) {
+            queryParameters['maxResults'] = requestParameters.maxResults;
+        }
+
+        if (requestParameters.sortByDateOldestFirst !== undefined) {
+            queryParameters['sortByDateOldestFirst'] = requestParameters.sortByDateOldestFirst;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

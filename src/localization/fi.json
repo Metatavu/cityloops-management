@@ -25,6 +25,7 @@
   "generic": {
     "add": "Lisää",
     "save": "Tallenna",
+    "delete": "Poista",
     "cancel": "Peruuta",
     "loadNew": "Lataa uusi",
     "name": "Nimi",
@@ -37,5 +38,11 @@
   "items": {
     "title": "Tuotteet",
     "addItem": "Lisää tuote"
+  },
+
+  "categories": {
+    "title": "Kategoriat",
+    "addCategory": "Lisää kategoria",
+    "addSubCategory": "Lisää alakategoria"
   }
 }

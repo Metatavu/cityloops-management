@@ -25,6 +25,7 @@
   "generic": {
     "add": "Add",
     "save": "Save",
+    "delete": "Delete",
     "cancel": "Cancel",
     "loadNew": "Load new",
     "name": "Name",
@@ -37,6 +38,12 @@
   "items": {
     "title": "Items",
     "addItem": "Add item"
+  },
+
+  "categories": {
+    "title": "Categories",
+    "addCategory": "Add category",
+    "addSubCategory": "Add sub category"
   }
 
 }

@@ -33,6 +33,7 @@ export interface IStrings extends LocalizedStringsMethods {
   generic: {
     add: string;
     save: string;
+    delete: string;
     cancel: string;
     loadNew: string;
     name: string;
@@ -49,6 +50,15 @@ export interface IStrings extends LocalizedStringsMethods {
     title: string;
     addItem: string;
   }
+
+  /**
+   * Translations related to categories
+   */
+  categories: {
+    title: string;
+    addCategory: string;
+    addSubCategory: string;
+  };
 
 }
 

@@ -70,7 +70,7 @@ export class ItemsScreen extends React.Component<Props, State> {
     return (
       <AppLayout
         headerProps={{
-          onAddItemClick: this.onAddItemClick
+          onAddClick: this.onAddItemClick
         }}
       >
         { /* TODO: Implement basic layout */ }
