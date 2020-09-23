@@ -16,19 +16,19 @@ export const constructTreeData = (categories: Category[]): CategoryDataHolder[] 
  * Construct single tree layer
  *
  * @param categories list of categories
- * @param categoriesApi categories api
+ * @param parentCategories parent categories
  * @returns promise with type CategoryDataHolder
  */
-export const constructSingleLayer = (allCategories: Category[], categories: Category[]): CategoryDataHolder[] => {
+export const constructSingleLayer = (categories: Category[], parentCategories: Category[]): CategoryDataHolder[] => {
 
-  return categories.map(category => {
-    const subCategories = allCategories.filter(c => c.parentCategoryId === category.id);
+  return parentCategories.map(category => {
+    const childCategories = categories.filter(c => c.parentCategoryId === category.id);
 
     return {
       category: category,
-      childCategories : subCategories.length > 0 ?
-      constructSingleLayer(allCategories, subCategories) :
-      []
+      childCategories : childCategories.length > 0 ?
+        constructSingleLayer(categories, childCategories) :
+        []
     } as CategoryDataHolder;
   });
 };
