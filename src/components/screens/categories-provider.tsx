@@ -32,6 +32,9 @@ interface State {
   treeData?: CategoryDataHolder[];
 }
 
+/**
+ * Class component for category data provider
+ */
 class CategoriesProvider extends React.Component<Props, State> {
 
   /**
