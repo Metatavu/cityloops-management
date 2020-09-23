@@ -49,6 +49,27 @@ export interface IStrings extends LocalizedStringsMethods {
   items: {
     title: string;
     addItem: string;
+    addPosting: string;
+    newPosting: string;
+    postings: string;
+  },
+
+  /**
+   * Translations related to categories
+   */
+  categories: {
+    movables: string;
+    buildingMaterials: string;
+    soilAndRockMaterials: string;
+  },
+
+  /**
+   * Translations related to users
+   */
+  user: {
+    login: string;
+    logout: string;
+    account: string;
   }
 
   /**

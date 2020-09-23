@@ -37,13 +37,25 @@
 
   "items": {
     "title": "Items",
-    "addItem": "Add item"
+    "addItem": "Add item",
+    "addPosting": "Add posting",
+    "newPosting": "New posting",
+    "postings": "Postings"
   },
 
   "categories": {
     "title": "Categories",
     "addCategory": "Add category",
-    "addSubCategory": "Add sub category"
+    "addSubCategory": "Add sub category",
+    "movables": "Movables",
+    "buildingMaterials": "Building materials",
+    "soilAndRockMaterials": "Soil and rock materials"
+  },
+
+  "user": {
+    "login": "Login",
+    "logout": "Logout",
+    "account": "Account"
   }
 
 }
