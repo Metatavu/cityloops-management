@@ -267,8 +267,8 @@ const updateOpenedCategories = (openCategories: string[], clickedCategory: Categ
 /**
  * Add or update list
  *
- * @param itemList old list to be updated
- * @param newItem new category to be added or updated
+ * @param categories categories list
+ * @param newCategory new category to be added or updated
  * @returns updated list of categories
  */
 const addOrUpdateList = (categories: Category[], newCategory: Category): Category[] => {
