@@ -233,7 +233,6 @@ class CategoriesProvider extends React.Component<Props, State> {
   /**
    * Delete category from DB
    *
-   * @param accessToken keycloak access token
    * @param categoryToDelete category to delete
    */
   private deleteCategory = async (categoryToDelete: Category): Promise<void> => {
