@@ -28,11 +28,11 @@ interface OtherProps extends WithStyles<typeof styles> {
 type Props = ScreenProps & OtherProps;
 
 /**
- * Top bar component
+ * Mobile drawer component
  * 
  * @param props component props
  */
-const ResponsiveSideMenu: React.FC<Props> = ({
+const MobileDrawer: React.FC<Props> = ({
   classes,
   open,
   title,
@@ -137,4 +137,4 @@ const ResponsiveSideMenu: React.FC<Props> = ({
   );
 }
 
-export default withStyles(styles)(ResponsiveSideMenu);
+export default withStyles(styles)(MobileDrawer);

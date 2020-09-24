@@ -12,6 +12,7 @@ export interface SetLocaleAction {
  * Store method for set locale
  *
  * @param locale locale string
+ * @returns set locale action
  */
 export function setLocale(locale: string): SetLocaleAction {
   return {

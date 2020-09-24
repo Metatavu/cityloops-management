@@ -22,6 +22,7 @@ const initialState: LocaleState = {
  *
  * @param storeState store state of locale
  * @param action action of locale
+ * @returns updated locale state
  */
 export const localeReducer: Reducer<LocaleState, LocaleAction> = (state = initialState, action): LocaleState => {
   switch (action.type) {
