@@ -9,7 +9,6 @@ export default createStyles({
   },
   contentWrapper: {
     flexGrow: 1,
-    overflowY: "auto",
     paddingTop: 10,
     paddingBottom: 10
   }
