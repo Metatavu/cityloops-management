@@ -9,3 +9,9 @@ export type LOGIN = typeof LOGIN;
  */
 export const LOGOUT = "LOGOUT";
 export type LOGOUT = typeof LOGOUT;
+
+/**
+ * Set locale action
+ */
+export const SET_LOCALE = "SET_LOCALE";
+export type SET_LOCALE = typeof SET_LOCALE;

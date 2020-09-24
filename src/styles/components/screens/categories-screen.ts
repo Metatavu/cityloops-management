@@ -2,7 +2,8 @@ import { createStyles } from "@material-ui/core";
 
 export default createStyles({
   treeContainer: {
-    width: "100%"
+    width: "100%",
+    height: 800
   },
 
   dataContainer: {

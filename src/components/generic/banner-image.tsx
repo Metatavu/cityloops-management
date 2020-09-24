@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { IconButton, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { Hidden, IconButton, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/banner-image";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
@@ -13,24 +13,35 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 /**
- * Functional component for app footer
+ * Functional component for banner image
  * 
  * @param props component props
  */
 const Banner: React.FC<Props> = ({ classes, image, title }) => {
+  /**
+   * Component render
+   */
   return (
-    <div className={ classes.root }>
-      <img src={ image } className={ classes.image } alt="banner" />
+    <div
+      className={ classes.root }
+      style={{
+        backgroundImage: `url(${image})`,
+        backgroundPosition: "center",
+        backgroundSize: "cover"
+      }}
+    >
       { title &&
-        <Typography
-          variant="h3"
-          className={ classes.title }
-        >
-          { title }
-          <IconButton style={{ padding: 0 }}>
-            <ChevronRightIcon className={ classes.chevron } />
-          </IconButton>
-        </Typography>
+        <Hidden mdUp>
+          <Typography
+            variant="h3"
+            className={ classes.title }
+          >
+            { title }
+            <IconButton style={{ padding: 0 }}>
+              <ChevronRightIcon className={ classes.chevron } />
+            </IconButton>
+          </Typography>
+        </Hidden>
       }
     </div>
   );

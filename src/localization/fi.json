@@ -37,12 +37,24 @@
 
   "items": {
     "title": "Tuotteet",
-    "addItem": "Lisää tuote"
+    "addItem": "Lisää tuote",
+    "addPosting": "Lisää ilmoitus",
+    "newPosting": "Uusi ilmoitus",
+    "postings": "Ilmoitukset"
   },
 
   "categories": {
     "title": "Kategoriat",
     "addCategory": "Lisää kategoria",
-    "addSubCategory": "Lisää alakategoria"
+    "addSubCategory": "Lisää alakategoria",
+    "movables": "Irtaimistot",
+    "buildingMaterials": "Rakennustavarat",
+    "soilAndRockMaterials": "Maa- ja kiviainekset"
+  },
+
+  "user": {
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
+    "account": "Tili"
   }
 }

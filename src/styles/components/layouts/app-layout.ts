@@ -3,17 +3,14 @@ import { createStyles } from "@material-ui/core";
 export default createStyles({
 
   root: {
-    width: "100vw",
-    height: "100vh",
-    overflowX: "hidden"
-  },
-  scrollWrapper: {
-    overflowY: "auto"
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column"
   },
   contentWrapper: {
-    height: "100%",
-    display: "flex",
-    minHeight: "80vh"
+    flexGrow: 1,
+    paddingTop: 10,
+    paddingBottom: 10
   }
 
 });

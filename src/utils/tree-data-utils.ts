@@ -26,7 +26,7 @@ export const constructSingleLayer = (categories: Category[], parentCategories: C
 
     return {
       category: category,
-      childCategories : childCategories.length > 0 ?
+      childCategories: childCategories.length > 0 ?
         constructSingleLayer(categories, childCategories) :
         []
     } as CategoryDataHolder;
