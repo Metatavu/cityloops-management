@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    CategoryProperty,
+    CategoryPropertyFromJSON,
+    CategoryPropertyFromJSONTyped,
+    CategoryPropertyToJSON,
+} from './';
+
 /**
  * Item category object
  * @export
@@ -37,6 +44,12 @@ export interface Category {
      * @memberof Category
      */
     parentCategoryId?: string;
+    /**
+     * 
+     * @type {Array<CategoryProperty>}
+     * @memberof Category
+     */
+    properties?: Array<CategoryProperty>;
     /**
      * 
      * @type {string}
@@ -76,6 +89,7 @@ export function CategoryFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': json['name'],
         'parentCategoryId': !exists(json, 'parentCategoryId') ? undefined : json['parentCategoryId'],
+        'properties': !exists(json, 'properties') ? undefined : ((json['properties'] as Array<any>).map(CategoryPropertyFromJSON)),
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
@@ -94,6 +108,7 @@ export function CategoryToJSON(value?: Category | null): any {
         
         'name': value.name,
         'parentCategoryId': value.parentCategoryId,
+        'properties': value.properties === undefined ? undefined : ((value.properties as Array<any>).map(CategoryPropertyToJSON)),
     };
 }
 

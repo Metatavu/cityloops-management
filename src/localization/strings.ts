@@ -35,12 +35,15 @@ export interface IStrings extends LocalizedStringsMethods {
     save: string;
     delete: string;
     cancel: string;
+    clear: string;
     loadNew: string;
     name: string;
     confirmDelete: string;
     or: string;
     undefined: string;
     refresh: string;
+    search: string;
+    imageAlt: string;
   };
 
   /**
@@ -52,6 +55,16 @@ export interface IStrings extends LocalizedStringsMethods {
     addPosting: string;
     newPosting: string;
     postings: string;
+    deletePosting: string;
+    itemTitle: string;
+    images: string;
+    location: string;
+    locationInfo: {
+      address: string;
+      description: string;
+      email: string;
+      phone: string;
+    };
   },
 
   /**
@@ -73,6 +86,13 @@ export interface IStrings extends LocalizedStringsMethods {
     movables: string;
     buildingMaterials: string;
     soilAndRockMaterials: string;
+  };
+
+  /**
+   * Translations related to adding items
+   */
+  addItem: {
+    chooseCategory: string;
   };
 
 }

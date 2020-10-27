@@ -32,6 +32,11 @@ export interface FindUserRequest {
     userId: string;
 }
 
+export interface ListUsersRequest {
+    companyAccount?: boolean;
+    verified?: boolean;
+}
+
 export interface UpdateUserRequest {
     user: User;
     userId: string;
@@ -168,8 +173,16 @@ export class UsersApi extends runtime.BaseAPI {
      * Lists users
      * List users.
      */
-    async listUsersRaw(): Promise<runtime.ApiResponse<Array<User>>> {
+    async listUsersRaw(requestParameters: ListUsersRequest): Promise<runtime.ApiResponse<Array<User>>> {
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.companyAccount !== undefined) {
+            queryParameters['companyAccount'] = requestParameters.companyAccount;
+        }
+
+        if (requestParameters.verified !== undefined) {
+            queryParameters['verified'] = requestParameters.verified;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -195,8 +208,8 @@ export class UsersApi extends runtime.BaseAPI {
      * Lists users
      * List users.
      */
-    async listUsers(): Promise<Array<User>> {
-        const response = await this.listUsersRaw();
+    async listUsers(requestParameters: ListUsersRequest): Promise<Array<User>> {
+        const response = await this.listUsersRaw(requestParameters);
         return await response.value();
     }
 

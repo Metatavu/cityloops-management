@@ -13,13 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    UserRole,
-    UserRoleFromJSON,
-    UserRoleFromJSONTyped,
-    UserRoleToJSON,
-} from './';
-
 /**
  * User object
  * @export
@@ -62,18 +55,6 @@ export interface User {
      * @memberof User
      */
     companyAccount: boolean;
-    /**
-     * 
-     * @type {UserRole}
-     * @memberof User
-     */
-    role: UserRole;
-    /**
-     * List of users search hound ids
-     * @type {Array<string>}
-     * @memberof User
-     */
-    searchHounds?: Array<string>;
     /**
      * Has this user been verified/allowed to use online payment
      * @type {boolean}
@@ -122,8 +103,6 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': json['email'],
         'phoneNumber': json['phoneNumber'],
         'companyAccount': json['companyAccount'],
-        'role': UserRoleFromJSON(json['role']),
-        'searchHounds': !exists(json, 'searchHounds') ? undefined : json['searchHounds'],
         'verified': !exists(json, 'verified') ? undefined : json['verified'],
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
@@ -146,8 +125,6 @@ export function UserToJSON(value?: User | null): any {
         'email': value.email,
         'phoneNumber': value.phoneNumber,
         'companyAccount': value.companyAccount,
-        'role': UserRoleToJSON(value.role),
-        'searchHounds': value.searchHounds,
         'verified': value.verified,
     };
 }

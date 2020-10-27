@@ -27,12 +27,15 @@
     "save": "Save",
     "delete": "Delete",
     "cancel": "Cancel",
+    "clear": "Clear",
     "loadNew": "Load new",
     "name": "Name",
     "confirmDelete": "Are you sure you want to remove selected element?",
     "or": "or",
     "undefined": "Undefined",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "search": "Search",
+    "imageAlt": "Image"
   },
 
   "items": {
@@ -40,7 +43,17 @@
     "addItem": "Add item",
     "addPosting": "Add posting",
     "newPosting": "New posting",
-    "postings": "Postings"
+    "postings": "Postings",
+    "deletePosting": "Delete posting",
+    "itemTitle": "Title",
+    "images": "Posting images",
+    "location": "Location",
+    "locationInfo": {
+      "description": "Collect location info",
+      "address": "Street address",
+      "phone": "Phone number",
+      "email": "Email address"
+    }
   },
 
   "categories": {
@@ -56,6 +69,10 @@
     "login": "Login",
     "logout": "Logout",
     "account": "Account"
+  },
+
+  "addItem": {
+    "chooseCategory": "Choose category"
   }
 
 }
