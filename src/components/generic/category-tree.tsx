@@ -36,7 +36,6 @@ const CategoryTree: React.FC<Props> = props => {
   const treeStructure = TreeDataUtils.constructTreeData(categories);
   const treeNodes = translateToTreeNodes(treeStructure);
 
-
   /**
    * Component render
    */
