@@ -267,6 +267,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * 
    * @param xs sizing for xs breakpoint
    * @param md sizing for md breakpoint
+   * @returns grid properties
    */
   private getGridItemProps = (xs?: boolean | GridSize, md?: boolean | GridSize): GridProps => ({
     item: true,
