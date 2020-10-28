@@ -255,6 +255,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Method for setting container related props to grid components
    * 
    * @param direction flex direction
+   * @returns grid properties
    */
   private getGridContainerProps = (direction?: GridDirection): GridProps => ({
     container: true,
