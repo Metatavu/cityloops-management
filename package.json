@@ -33,6 +33,7 @@
     "react-redux": "^7.1.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-simple-tree-menu": "^1.1.18",
     "react-sortable-tree": "^2.8.0",
     "slugify": "^1.4.0",
     "typescript": "~3.7.2",

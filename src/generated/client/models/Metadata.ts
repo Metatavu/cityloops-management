@@ -18,22 +18,10 @@ import {
     CertificatesFromJSON,
     CertificatesFromJSONTyped,
     CertificatesToJSON,
-    Condition,
-    ConditionFromJSON,
-    ConditionFromJSONTyped,
-    ConditionToJSON,
-    Coordinates,
-    CoordinatesFromJSON,
-    CoordinatesFromJSONTyped,
-    CoordinatesToJSON,
-    Measurements,
-    MeasurementsFromJSON,
-    MeasurementsFromJSONTyped,
-    MeasurementsToJSON,
-    Volume,
-    VolumeFromJSON,
-    VolumeFromJSONTyped,
-    VolumeToJSON,
+    LocationInfo,
+    LocationInfoFromJSON,
+    LocationInfoFromJSONTyped,
+    LocationInfoToJSON,
 } from './';
 
 /**
@@ -44,58 +32,22 @@ import {
 export interface Metadata {
     /**
      * 
+     * @type {LocationInfo}
+     * @memberof Metadata
+     */
+    locationInfo: LocationInfo;
+    /**
+     * 
      * @type {number}
      * @memberof Metadata
      */
     amount?: number;
     /**
      * 
-     * @type {Coordinates}
-     * @memberof Metadata
-     */
-    coordinates?: Coordinates;
-    /**
-     * Item price
-     * @type {number}
-     * @memberof Metadata
-     */
-    price?: number;
-    /**
-     * Price unit. For example €, €/m, €/m3
-     * @type {string}
-     * @memberof Metadata
-     */
-    priceUnit?: string;
-    /**
-     * 
-     * @type {Condition}
-     * @memberof Metadata
-     */
-    condition?: Condition;
-    /**
-     * 
-     * @type {Measurements}
-     * @memberof Metadata
-     */
-    measurements?: Measurements;
-    /**
-     * 
-     * @type {Volume}
-     * @memberof Metadata
-     */
-    volume?: Volume;
-    /**
-     * 
      * @type {Certificates}
      * @memberof Metadata
      */
     certificates?: Certificates;
-    /**
-     * Additional info for item
-     * @type {string}
-     * @memberof Metadata
-     */
-    additionalInfo?: string;
 }
 
 export function MetadataFromJSON(json: any): Metadata {
@@ -108,15 +60,9 @@ export function MetadataFromJSONTyped(json: any, ignoreDiscriminator: boolean): 
     }
     return {
         
+        'locationInfo': LocationInfoFromJSON(json['locationInfo']),
         'amount': !exists(json, 'amount') ? undefined : json['amount'],
-        'coordinates': !exists(json, 'coordinates') ? undefined : CoordinatesFromJSON(json['coordinates']),
-        'price': !exists(json, 'price') ? undefined : json['price'],
-        'priceUnit': !exists(json, 'priceUnit') ? undefined : json['priceUnit'],
-        'condition': !exists(json, 'condition') ? undefined : ConditionFromJSON(json['condition']),
-        'measurements': !exists(json, 'measurements') ? undefined : MeasurementsFromJSON(json['measurements']),
-        'volume': !exists(json, 'volume') ? undefined : VolumeFromJSON(json['volume']),
         'certificates': !exists(json, 'certificates') ? undefined : CertificatesFromJSON(json['certificates']),
-        'additionalInfo': !exists(json, 'additionalInfo') ? undefined : json['additionalInfo'],
     };
 }
 
@@ -129,16 +75,8 @@ export function MetadataToJSON(value?: Metadata | null): any {
     }
     return {
         
+        'locationInfo': LocationInfoToJSON(value.locationInfo),
         'amount': value.amount,
-        'coordinates': CoordinatesToJSON(value.coordinates),
-        'price': value.price,
-        'priceUnit': value.priceUnit,
-        'condition': ConditionToJSON(value.condition),
-        'measurements': MeasurementsToJSON(value.measurements),
-        'volume': VolumeToJSON(value.volume),
         'certificates': CertificatesToJSON(value.certificates),
-        'additionalInfo': value.additionalInfo,
     };
 }
-
-

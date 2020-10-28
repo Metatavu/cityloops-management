@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
-import styles from "../../styles/components/screens/main-view";
+import styles from "../../styles/components/screens/items-screen";
 import { WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from '../../types';
@@ -19,6 +19,7 @@ import ModifyOperations from "../../utils/generic-modify-operations";
 import AppLayout from "../layouts/app-layout";
 import BannerImage from "../generic/banner-image";
 import bannerImageSrc from "../../resources/images/banner-image.png";
+import ItemFormDialog from "../generic/item-form-dialog";
 
 import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasairila 1.png";
 
@@ -69,6 +70,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    */
   public render = () => {
     const { itemList } = this.state;
+
     return (
       <AppLayout
         headerProps={{
@@ -93,6 +95,7 @@ export class ItemsScreen extends React.Component<Props, State> {
           updatePath={ this.updateRoutePath }
           deleteItem={ this.deleteItem }
         />
+        <ItemFormDialog />
       </AppLayout>
     );
   }
@@ -118,8 +121,11 @@ export class ItemsScreen extends React.Component<Props, State> {
 
     const newItem: Item = {
       title: "New Item",
+      userId: accessToken.userId,
       category: category.id,
-      metadata: { },
+      metadata: {
+        locationInfo: {}
+      },
       onlyForCompanies: false
     };
 

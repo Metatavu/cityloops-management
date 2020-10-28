@@ -79,6 +79,12 @@ export interface Item {
      */
     properties?: Array<ItemProperty>;
     /**
+     * User ID
+     * @type {string}
+     * @memberof Item
+     */
+    userId: string;
+    /**
      * 
      * @type {string}
      * @memberof Item
@@ -122,6 +128,7 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
         'images': !exists(json, 'images') ? undefined : json['images'],
         'thumbnailUrl': !exists(json, 'thumbnailUrl') ? undefined : json['thumbnailUrl'],
         'properties': !exists(json, 'properties') ? undefined : ((json['properties'] as Array<any>).map(ItemPropertyFromJSON)),
+        'userId': json['userId'],
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
@@ -145,6 +152,7 @@ export function ItemToJSON(value?: Item | null): any {
         'images': value.images,
         'thumbnailUrl': value.thumbnailUrl,
         'properties': value.properties === undefined ? undefined : ((value.properties as Array<any>).map(ItemPropertyToJSON)),
+        'userId': value.userId,
     };
 }
 

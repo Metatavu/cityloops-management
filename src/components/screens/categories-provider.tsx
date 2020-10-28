@@ -9,7 +9,7 @@ import { KeycloakInstance } from "keycloak-js";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 import CategoriesScreen from "./categories-screen";
-import { constructTreeData } from "../../utils/tree-data-utils";
+import { TreeDataUtils } from "../../utils/tree-data-utils";
 import { produce } from "immer";
 import { askConfirmation } from "../../utils/generic-utils";
 
@@ -202,7 +202,7 @@ class CategoriesProvider extends React.Component<Props, State> {
    * @param selectedCategory selected category
    */
   private updateCategoryData = (updatedCategoryList: Category[], selectedCategory?: Category) => {
-    const treeData = constructTreeData(updatedCategoryList);
+  const treeData = TreeDataUtils.constructTreeData(updatedCategoryList);
 
     this.setState({
       categories: updatedCategoryList,

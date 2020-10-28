@@ -17,5 +17,5 @@ export default createStyles({
 
   title: {
     color: theme.palette.text.primary
-  }
+  },
 });
