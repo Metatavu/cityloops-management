@@ -15,7 +15,6 @@ import strings from "../../localization/strings";
 import Api from "../../api/api";
 import produce from "immer";
 import ApiOperations from "../../utils/generic-api-operations";
-import ModifyOperations from "../../utils/generic-modify-operations";
 import AppLayout from "../layouts/app-layout";
 import BannerImage from "../generic/banner-image";
 import bannerImageSrc from "../../resources/images/banner-image.png";
