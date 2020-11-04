@@ -1,6 +1,6 @@
 export * from './Category';
-export * from './CategoryInputType';
 export * from './CategoryProperty';
+export * from './CategoryPropertyInputType';
 export * from './Certificates';
 export * from './Condition';
 export * from './Coordinates';

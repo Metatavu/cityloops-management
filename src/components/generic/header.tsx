@@ -5,7 +5,6 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { setLocale } from "../../actions/locale";
 import { AccessToken } from "../../types";
-import { KeycloakInstance } from "keycloak-js";
 
 import { AppBar, Button, Container, Hidden, IconButton, MenuItem, Select, Toolbar, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/header";
@@ -18,6 +17,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import logoPrimary from "../../resources/svg/logo-primary.svg";
 import theme from "../../styles/theme";
+import LoginButton from "./login-button";
 
 /**
  * Interface describing properties from screen components
@@ -32,8 +32,8 @@ export interface ScreenProps {
  * Interface describing other component properties
  */
 interface OtherProps extends WithStyles<typeof styles> {
-  keycloak?: KeycloakInstance;
-  accessToken?: AccessToken;
+  anonymousToken?: AccessToken;
+  signedToken?: AccessToken;
   locale: string;
   setLocale: typeof setLocale;
   title?: string;
@@ -52,13 +52,12 @@ type Props = ScreenProps & OtherProps;
  */
 const Header: React.FC<Props> = props => {
   const {
+    signedToken,
     classes,
     title,
     onAddClick,
     onSaveClick,
     toggleSideMenu,
-    keycloak,
-    accessToken,
     setLocale
   } = props;
 
@@ -76,9 +75,11 @@ const Header: React.FC<Props> = props => {
             { title }
           </Typography>
         }
-        <IconButton style={{ marginLeft: "auto" }} onClick={ onAddClick && onAddClick }>
-          <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
-        </IconButton>
+        { onAddClick &&
+          <IconButton style={{ marginLeft: "auto" }} onClick={ onAddClick }>
+            <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
+          </IconButton>
+        }
         <IconButton>
           <SearchIcon fontSize="large" style={{ color: "#fff" }} />
         </IconButton>
@@ -110,17 +111,11 @@ const Header: React.FC<Props> = props => {
         <Button className={ classes.menuButton }>
           { strings.categories.soilAndRockMaterials }
         </Button>
-
-        { /* TODO: Add proper display handling */ }
-        <IconButton
-          style={{ marginLeft: "auto", display: onAddClick ? "block" : "none" }}
-          onClick={ onAddClick && onAddClick }
-        >
-          <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
-        </IconButton>
-        <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
-          <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
-        </IconButton>
+        { onSaveClick &&
+          <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
+            <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
+          </IconButton>
+        }
         { renderAccountSection() }
       </Container>
     );
@@ -130,28 +125,26 @@ const Header: React.FC<Props> = props => {
    * Renders account section of the app bar
    */
   const renderAccountSection = () => {
-    if (!keycloak || !accessToken) {
+    if (!signedToken) {
       return (
         <div className={ classes.accountSection }>
           { renderLanguageSelection() }
-          <Button
-            className={ classes.menuButton }
-            style={{ color: theme.palette.secondary.main }}
-          >
-            { strings.user.login }
-          </Button>
+          <LoginButton />
         </div>
       );
     }
 
     return (
       <div className={ classes.accountSection }>
-        <Button
-          variant="outlined"
-          className={ classes.menuButtonOutlined }
-        >
-          { strings.items.addPosting }
-        </Button>
+        { onAddClick &&
+          <Button
+            variant="outlined"
+            className={ classes.menuButtonOutlined }
+            onClick={ onAddClick }
+          >
+            { strings.items.addPosting }
+          </Button>
+        }
         { renderLanguageSelection() }
         <IconButton className={ classes.imageButton }>
           <MailOutlineIcon />
@@ -210,8 +203,9 @@ const Header: React.FC<Props> = props => {
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    locale: state.locale.locale,
-    accessToken: state.auth.accessToken
+    anonymousToken: state.auth.anonymousToken,
+    signedToken: state.auth.signedToken,
+    locale: state.locale.locale
   };
 }
 

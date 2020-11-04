@@ -14,6 +14,11 @@
     "reload": "Lataa uudelleen"
   },
 
+  "error": {
+    "emptyField": "Täytä kenttä",
+    "invalidEmail": "Tarkista sähköpostin kirjoitusasu"
+  },
+
   "genericDialog": {
     "confirm": "Vahvista",
     "cancel": "Peruuta",
@@ -35,7 +40,8 @@
     "undefined": "Ei määritelty",
     "refresh": "Päivitä",
     "search": "Hae",
-    "imageAlt": "Kuva"
+    "imageAlt": "Kuva",
+    "proceed": "Jatka"
   },
 
   "items": {
@@ -66,9 +72,22 @@
   },
 
   "user": {
+    "registration": "Rekisteröityminen",
+    "registrationSuccessful": "Rekisteröityminen onnistui",
     "login": "Kirjaudu sisään",
+    "loginShort": "Kirjaudu",
     "logout": "Kirjaudu ulos",
-    "account": "Tili"
+    "account": "Tili",
+    "username": "Käyttäjänimi",
+    "password": "Salasana",
+    "name": "Nimi",
+    "address": "Osoite",
+    "email": "Sähköposti",
+    "phoneNumber": "Puhelinnumero",
+    "isCompanyAccount": "Yritystili",
+    "rememberMe": "Muista minut",
+    "register": "Rekisteröidy",
+    "forgotPassword": "Unohtuiko salasana?"
   },
 
   "addItem": {

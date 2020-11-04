@@ -22,6 +22,11 @@ export interface IStrings extends LocalizedStringsMethods {
     reload: string;
   };
 
+  error: {
+    emptyField: string;
+    invalidEmail: string;
+  };
+
   genericDialog: {
     confirm: string;
     cancel: string;
@@ -44,6 +49,7 @@ export interface IStrings extends LocalizedStringsMethods {
     refresh: string;
     search: string;
     imageAlt: string;
+    proceed: string;
   };
 
   /**
@@ -71,9 +77,22 @@ export interface IStrings extends LocalizedStringsMethods {
    * Translations related to users
    */
   user: {
+    registration: string;
+    registrationSuccessful: string;
     login: string;
+    loginShort: string;
     logout: string;
     account: string;
+    username: string;
+    password: string;
+    name: string;
+    address: string;
+    email: string;
+    phoneNumber: string;
+    isCompanyAccount: string;
+    rememberMe: string;
+    register: string;
+    forgotPassword: string;
   }
 
   /**

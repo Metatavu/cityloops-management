@@ -1,29 +1,52 @@
 import { KeycloakInstance } from 'keycloak-js';
 import * as actionTypes from '../constants/actionTypes';
+import { AccessToken } from '../types';
 
 /**
- * Interface for login action type
+ * Interface for anonymous login action type
  */
-export interface LoginAction {
-  type: actionTypes.LOGIN;
+export interface AnonymousLoginAction {
+  type: actionTypes.ANONYMOUS_LOGIN;
+  accessToken: AccessToken;
+}
+
+/**
+ * Interface for signed login action type
+ */
+export interface SignedLoginAction {
+  type: actionTypes.SIGNED_LOGIN;
+  accessToken: AccessToken;
   keycloak: KeycloakInstance;
 }
 
 /**
  * Interface for logout action type
  */
-export interface LogoutAction {
-  type: actionTypes.LOGOUT;
+export interface SignedLogoutAction {
+  type: actionTypes.SIGNED_LOGOUT;
 }
 
 /**
- * Store update method for access token
+ * Store update method for anonymous access token
  *
  * @param keycloak keycloak instance
  */
-export function login(keycloak: KeycloakInstance): LoginAction {
+export function anonymousLogin(accessToken: AccessToken): AnonymousLoginAction {
   return {
-    type: actionTypes.LOGIN,
+    type: actionTypes.ANONYMOUS_LOGIN,
+    accessToken: accessToken
+  };
+}
+
+/**
+ * Store update method for signed access token
+ *
+ * @param keycloak keycloak instance
+ */
+export function signedLogin(keycloak: KeycloakInstance, accessToken: AccessToken): SignedLoginAction {
+  return {
+    type: actionTypes.SIGNED_LOGIN,
+    accessToken: accessToken,
     keycloak: keycloak
   };
 }
@@ -31,10 +54,10 @@ export function login(keycloak: KeycloakInstance): LoginAction {
 /**
  * Store logout method
  */
-export function logout(): LogoutAction {
+export function signedLogout(): SignedLogoutAction {
   return {
-    type: actionTypes.LOGOUT
+    type: actionTypes.SIGNED_LOGOUT
   };
 }
 
-export type AuthAction = LoginAction | LogoutAction;
+export type AuthAction = AnonymousLoginAction | SignedLoginAction | SignedLogoutAction;

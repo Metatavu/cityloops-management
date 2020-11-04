@@ -21,7 +21,8 @@ export default createStyles({
   },
 
   logo: {
-    height: 64
+    height: 64,
+    padding: 8
   },
 
   accountSection: {

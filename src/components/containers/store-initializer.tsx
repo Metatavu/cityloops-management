@@ -11,8 +11,9 @@ import { KeycloakInstance } from "keycloak-js";
  * Component props
  */
 interface Props {
-  keycloak: KeycloakInstance;
-  accessToken: AccessToken;
+  keycloak?: KeycloakInstance;
+  anonymousToken?: AccessToken;
+  signedToken?: AccessToken;
 }
 
 /**
@@ -79,8 +80,9 @@ class StoreInitializer extends React.Component<Props, State> {
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    accessToken: state.auth.accessToken as AccessToken,
-    keycloak: state.auth.keycloak as KeycloakInstance
+    anonymousToken: state.auth.anonymousToken,
+    signedToken: state.auth.signedToken,
+    keycloak: state.auth.keycloak
   };
 }
 
