@@ -45,7 +45,7 @@ export default class Api {
   /**
    * Gets api configuration
    *
-   * @param token access token
+   * @param accessToken keycloak access token
    */
   private static getConfiguration(accessToken: AccessToken) {
     return new Configuration({
