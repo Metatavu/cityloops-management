@@ -114,7 +114,7 @@ class LoginButton extends React.Component<Props, State> {
           className={ classes.loginRow }
         />
         <OutlinedTextField
-          key={ "password" }
+          key="password"
           label={ strings.user.username }
           value={ loginInfo.password || "" }
           onChange={ this.onChangeLoginInfo("password") }
