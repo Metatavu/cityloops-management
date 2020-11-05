@@ -107,7 +107,7 @@ class LoginButton extends React.Component<Props, State> {
     return (
       <>
         <OutlinedTextField
-          key={ "username" }
+          key="username"
           label={ strings.user.username }
           value={ loginInfo.username || "" }
           onChange={ this.onChangeLoginInfo("username") }
