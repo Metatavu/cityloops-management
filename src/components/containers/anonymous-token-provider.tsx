@@ -97,7 +97,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
   /**
    * Component render method
    */
-  public render() {
+  public render = () => {
     if (this.state.error) {
       return (
         <ErrorDialog
