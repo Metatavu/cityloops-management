@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-len
 import { CategoriesApi, Configuration, ItemsApi, SearchHoundsApi, UsersApi } from "../generated/client";
 import { AccessToken } from "../types";
 
