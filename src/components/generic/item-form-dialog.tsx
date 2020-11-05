@@ -460,6 +460,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Empties values of properties in item
    * 
    * @param properties properties found from item
+   * @returns list of properties if there are any, otherwise undefined
    */
   private emptyProperties = (properties: ItemProperty[] | undefined): ItemProperty[] | undefined => {
     if (!properties) {
