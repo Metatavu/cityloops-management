@@ -232,8 +232,10 @@ class RegistrationFormDialog extends React.Component<Props, State> {
 
   /**
    * Validates that form has all fields filled
+   *
+   * @return true if form is filled, otherwise false
    */
-  private formFilled = () => {
+  private formFilled = (): boolean => {
     const { name, email, address, phoneNumber } = this.state.user;
     
     return (
