@@ -91,7 +91,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
   /**
    * Component render method
    */
-  public render() {
+  public render = () = {
     const { signedToken, children } = this.props;
     const { error } = this.state;
     if (error) {
