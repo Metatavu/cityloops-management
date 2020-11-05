@@ -94,6 +94,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
   public render = () = {
     const { signedToken, children } = this.props;
     const { error } = this.state;
+
     if (error) {
       return <ErrorDialog error={ error } onClose={ () => this.setState({ error: undefined }) } />;
     }
