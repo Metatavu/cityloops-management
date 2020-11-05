@@ -179,6 +179,9 @@ class LoginButton extends React.Component<Props, State> {
 
   /**
    * Event handler for change login info
+   *
+   * @param propertyKey property key
+   * @param event React change event
    */
   private onChangeLoginInfo = (propertyKey: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
