@@ -10,7 +10,8 @@ import cityLoopsTheme from "../styles/theme";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { CssBaseline, responsiveFontSizes } from "@material-ui/core";
 import strings from "../localization/strings";
-import AccessTokenRefresh from "./containers/access-token-refresh";
+import SignedTokenProvider from "./containers/signed-token-provider";
+import AnonymousTokenProvider from "./containers/anonymous-token-provider";
 import StoreInitializer from "./containers/store-initializer";
 import moment from "moment";
 import "moment/locale/fi";
@@ -37,7 +38,7 @@ interface State {
 }
 
 /**
- * Material UI's automated responsive font sizes
+ * Material UI theme with automated responsive font sizes
  */
 const theme = responsiveFontSizes(cityLoopsTheme);
 
@@ -63,50 +64,56 @@ class App extends React.Component<Props, State> {
       <ThemeProvider theme={ theme }>
         <CssBaseline />
         <Provider store={ store }>
-          <AccessTokenRefresh>
-            <StoreInitializer>
-              <BrowserRouter>
-                <div className="App">
-                  <Switch>
-                    <Redirect exact from="/" to="/items" />
-                    <Route
-                      path="/items"
-                      exact={ true }
-                      render={({ history }) => (
-                        <ItemsScreen
-                          history={ history }
-                        />
-                      )}
-                    />
-                    <Route
-                      path="/item/:id"
-                      exact={ true }
-                    >
-                      <ItemScreen/>
-                    </Route>
-                    <Route
-                      path="/add"
-                      exact={ true }
-                    >
-                      <AddItemScreen/>
-                    </Route>
-                    <Route
-                      path="/categories"
-                      exact={ true }
-                    >
-                      <CategoriesProvider/>
-                    </Route>
-                    <Route
-                      path="/user"
-                      exact={ true }
-                    >
-                      <UsersScreen/>
-                    </Route>
-                  </Switch>
-                </div>
-              </BrowserRouter>
-            </StoreInitializer>
-          </AccessTokenRefresh>
+          <AnonymousTokenProvider>
+            <SignedTokenProvider>
+              <StoreInitializer>
+                <BrowserRouter>
+                  <div className="App">
+                    <Switch>
+                      {/**
+                       * TODO:
+                       * Remove redirect when front page is done
+                       */}
+                      <Redirect exact from="/" to="/items" />
+                      <Route
+                        path="/items"
+                        exact={ true }
+                        render={({ history }) => (
+                          <ItemsScreen
+                            history={ history }
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/item/:id"
+                        exact={ true }
+                      >
+                        <ItemScreen/>
+                      </Route>
+                      <Route
+                        path="/add"
+                        exact={ true }
+                      >
+                        <AddItemScreen/>
+                      </Route>
+                      <Route
+                        path="/categories"
+                        exact={ true }
+                      >
+                        <CategoriesProvider/>
+                      </Route>
+                      <Route
+                        path="/user"
+                        exact={ true }
+                      >
+                        <UsersScreen/>
+                      </Route>
+                    </Switch>
+                  </div>
+                </BrowserRouter>
+              </StoreInitializer>
+            </SignedTokenProvider>
+          </AnonymousTokenProvider>
         </Provider>
       </ThemeProvider>
     );

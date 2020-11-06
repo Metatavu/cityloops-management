@@ -15,8 +15,8 @@ import { AccessToken } from '../../types';
  */
 interface Props extends WithStyles<typeof styles> {
   history: History;
-  keycloak: KeycloakInstance;
-  accessToken: AccessToken;
+  keycloak?: KeycloakInstance;
+  anonymousToken?: AccessToken;
 }
 
 /**
@@ -63,8 +63,8 @@ export class MainScreen extends React.Component<Props, State> {
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    keycloak: state.auth.keycloak as KeycloakInstance,
-    accessToken: state.auth.accessToken as AccessToken,
+    keycloak: state.auth.keycloak,
+    anonymousToken: state.auth.anonymousToken
   };
 }
 

@@ -1,13 +1,14 @@
 import * as React from "react";
 
+import { Dispatch } from "redux";
+import { ReduxState, ReduxActions } from "../../store";
+import { connect } from "react-redux";
+
 import { WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/screens/categories-screen";
 import {  Category } from "../../generated/client";
 import { AccessToken, CategoryDataHolder } from "../../types";
 import Api from "../../api/api";
-import { KeycloakInstance } from "keycloak-js";
-import { ReduxState, ReduxActions } from "../../store";
-import { connect } from "react-redux";
 import CategoriesScreen from "./categories-screen";
 import { TreeDataUtils } from "../../utils/tree-data-utils";
 import { produce } from "immer";
@@ -17,7 +18,8 @@ import { askConfirmation } from "../../utils/generic-utils";
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
-  accessToken: AccessToken;
+  anonymousToken?: AccessToken;
+  signedToken?: AccessToken;
 }
 
 /**
@@ -99,7 +101,11 @@ class CategoriesProvider extends React.Component<Props, State> {
     };
 
     this.createCategory(newCategory)
-    .then(createdCategory => this.updateCategoryData(addOrUpdateList(categories, createdCategory), createdCategory))
+    .then(createdCategory => {
+      if (createdCategory) {
+        this.updateCategoryData(addOrUpdateList(categories, createdCategory), createdCategory);
+      }
+    })
     .catch(error => console.log(error));
 
   };
@@ -174,9 +180,13 @@ class CategoriesProvider extends React.Component<Props, State> {
    * @param accessToken keycloak access token
    */
   private listCategories = async (): Promise<Category[]> => {
-    const { accessToken } = this.props;
+    const { anonymousToken } = this.props;
 
-    const categoriesApi = Api.getCategoriesApi(accessToken);
+    if (!anonymousToken) {
+      return Promise.reject("No anonymous token");
+    }
+
+    const categoriesApi = Api.getCategoriesApi(anonymousToken);
     return await categoriesApi.listCategories({ });
   };
 
@@ -187,9 +197,13 @@ class CategoriesProvider extends React.Component<Props, State> {
    * @returns promise with type Category
    */
   private createCategory = async (newCategory: Category): Promise<Category> => {
-    const { accessToken } = this.props;
+    const { signedToken } = this.props;
 
-    const categoriesApi = Api.getCategoriesApi(accessToken);
+    if (!signedToken) {
+      return Promise.reject("No signed token");
+    }
+
+    const categoriesApi = Api.getCategoriesApi(signedToken);
     return await categoriesApi.createCategory({
       category: newCategory
     });
@@ -217,13 +231,13 @@ class CategoriesProvider extends React.Component<Props, State> {
    * @param categoryToUpdate category to update
    */
   private updateCategory = async (categoryToUpdate: Category) => {
-    const { accessToken } = this.props;
+    const { signedToken } = this.props;
 
-    if (!categoryToUpdate.id) {
+    if (!signedToken || !categoryToUpdate.id) {
       return;
     }
 
-    const categoriesApi = Api.getCategoriesApi(accessToken);
+    const categoriesApi = Api.getCategoriesApi(signedToken);
     await categoriesApi.updateCategory({
       categoryId: categoryToUpdate.id,
       category: categoryToUpdate
@@ -236,9 +250,13 @@ class CategoriesProvider extends React.Component<Props, State> {
    * @param categoryToDelete category to delete
    */
   private deleteCategory = async (categoryToDelete: Category): Promise<void> => {
-    const { accessToken } = this.props;
+    const { signedToken } = this.props;
 
-    const categoriesApi = Api.getCategoriesApi(accessToken);
+    if (!signedToken) {
+      return;
+    }
+
+    const categoriesApi = Api.getCategoriesApi(signedToken);
     return await categoriesApi.deleteCategory({
       categoryId: categoryToDelete.id!!
     });
@@ -289,8 +307,9 @@ const addOrUpdateList = (categories: Category[], newCategory: Category): Categor
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    keycloak: state.auth.keycloak as KeycloakInstance,
-    accessToken: state.auth.accessToken as AccessToken,
+    keycloak: state.auth.keycloak,
+    anonymousToken: state.auth.anonymousToken,
+    signedToken: state.auth.signedToken
   };
 }
 
@@ -299,7 +318,7 @@ function mapStateToProps(state: ReduxState) {
  *
  * @param dispatch dispatch method
  */
-function mapDispatchToProps(dispatch: React.Dispatch<ReduxActions>) {
+function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
   };
 }

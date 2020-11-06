@@ -92,3 +92,5 @@ export function LocationInfoToJSON(value?: LocationInfo | null): any {
         'address': value.address,
     };
 }
+
+

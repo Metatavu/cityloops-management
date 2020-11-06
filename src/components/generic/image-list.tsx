@@ -14,6 +14,9 @@ interface Props extends WithStyles<typeof styles> {
 
 /**
  * Image list component
+ * 
+ * TODO:
+ * Add image uploading
  */
 const ImageList: React.FC<Props> = props => {
   const { classes, images } = props;
@@ -23,8 +26,9 @@ const ImageList: React.FC<Props> = props => {
    */
   const renderImages = () => {
     return images ?
-      images.map(image =>
+      images.map((image, index) =>
         <div
+          key={ index }
           className={ classes.image }
           style={{ backgroundImage: `url(${image})` }}
         />

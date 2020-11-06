@@ -15,7 +15,6 @@ import strings from "../../localization/strings";
 import Api from "../../api/api";
 import produce from "immer";
 import ApiOperations from "../../utils/generic-api-operations";
-import ModifyOperations from "../../utils/generic-modify-operations";
 import AppLayout from "../layouts/app-layout";
 import BannerImage from "../generic/banner-image";
 import bannerImageSrc from "../../resources/images/banner-image.png";
@@ -28,8 +27,9 @@ import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasa
  */
 interface Props extends WithStyles<typeof styles> {
   history: History;
-  keycloak: KeycloakInstance;
-  accessToken: AccessToken;
+  keycloak?: KeycloakInstance;
+  anonymousToken?: AccessToken;
+  signedToken?: AccessToken;
 }
 
 /**
@@ -37,6 +37,7 @@ interface Props extends WithStyles<typeof styles> {
  */
 interface State {
   loading: boolean;
+  formOpen: boolean;
   itemList: Item[];
 }
 
@@ -54,6 +55,7 @@ export class ItemsScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       loading: false,
+      formOpen: false,
       itemList: []
     };
   }
@@ -69,7 +71,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { itemList } = this.state;
+    const { itemList, formOpen } = this.state;
 
     return (
       <AppLayout
@@ -89,52 +91,19 @@ export class ItemsScreen extends React.Component<Props, State> {
           image={ bannerImageSrc }
           title={ strings.items.title }
         />
-
         <ItemList
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
           deleteItem={ this.deleteItem }
         />
-        <ItemFormDialog />
+        <ItemFormDialog
+          open={ formOpen }
+          onClose={ () => this.setState({ formOpen: false }) }
+          onCreated={ this.addItem }
+          onUpdated={ this.updateItem }
+        />
       </AppLayout>
     );
-  }
-
-  /**
-   * Event handler for add item click
-   *
-   * TODO: Remove this once we have proper component for adding items
-   */
-  private onAddItemClick = async () => {
-    const { accessToken } = this.props;
-    const { itemList } = this.state;
-
-    const categoriesApi = Api.getCategoriesApi(accessToken);
-    const itemsApi = Api.getItemsApi(accessToken);
-
-    const categories = await categoriesApi.listCategories({ });
-    const category = categories.length > 0 ? categories[0] : undefined;
-
-    if (!category || !category.id) {
-      return;
-    }
-
-    const newItem: Item = {
-      title: "New Item",
-      userId: accessToken.userId,
-      category: category.id,
-      metadata: {
-        locationInfo: {}
-      },
-      onlyForCompanies: false
-    };
-
-    const createdItem = await itemsApi.createItem({ item: newItem });
-    const updatedItemList = ModifyOperations.updateItemList(itemList, createdItem);
-
-    this.setState({
-      itemList: updatedItemList
-    });
   }
 
   /**
@@ -150,20 +119,49 @@ export class ItemsScreen extends React.Component<Props, State> {
 
     history.push(`/item/${item.id}`);
   }
+
+  /**
+   * Adds new item to list
+   * 
+   * @param item new item
+   */
+  private addItem = (createdItem: Item) => {
+    this.setState(
+      produce((draft: State) => {
+        draft.itemList.push(createdItem);
+      })
+    );
+  }
+
+  /**
+   * Updates item in list
+   * 
+   * @param item updated item
+   */
+  private updateItem = (updatedItem: Item) => {
+    this.setState(
+      produce((draft: State) => {
+        draft.itemList.map(item =>
+          item.id === updatedItem.id ? updatedItem : item
+        )
+      })
+    )
+  }
+
   /**
    * Event handler for deleting an item
    *
    * @param item item to be deleted
    */
   private deleteItem = async (item: Item) => {
-    const { accessToken } = this.props;
+    const { signedToken } = this.props;
     const { itemList } = this.state;
 
-    if (!item.id) {
+    if (!signedToken || !item.id) {
       return;
     }
 
-    const itemsApi = Api.getItemsApi(accessToken);
+    const itemsApi = Api.getItemsApi(signedToken);
     await itemsApi.deleteItem({ itemId: item.id });
     const updatedItemList = itemList.filter(listItem => listItem.id !== item.id);
     this.setState({
@@ -175,14 +173,25 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Fetch needed data
    */
   private fetchData = async () => {
-    const { accessToken } = this.props;
+    const { anonymousToken } = this.props;
 
-    const itemList = await ApiOperations.listItems(accessToken);
+    if (!anonymousToken) {
+      return;
+    }
+
+    const itemList = await ApiOperations.listItems(anonymousToken);
     this.setState(
       produce((draft: State) => {
         draft.itemList = itemList;
       })
     );
+  }
+
+  /**
+   * Event handler for add item click
+   */
+  private onAddItemClick = () => {
+    this.setState({ formOpen: true });
   }
 }
 
@@ -193,8 +202,9 @@ export class ItemsScreen extends React.Component<Props, State> {
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    keycloak: state.auth.keycloak as KeycloakInstance,
-    accessToken: state.auth.accessToken as AccessToken,
+    keycloak: state.auth.keycloak,
+    anonymousToken: state.auth.anonymousToken,
+    signedToken: state.auth.signedToken
   };
 }
 

@@ -1,8 +1,9 @@
 import * as React from "react";
 
+import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { ReduxState, ReduxActions } from "../../store";
-import { login } from "../../actions/auth";
+import { signedLogin } from "../../actions/auth";
 
 import { AccessToken } from "../../types";
 import ErrorDialog from "../generic/error-dialog";
@@ -13,8 +14,8 @@ import Keycloak from "keycloak-js";
  * Component props
  */
 interface Props {
-  accessToken?: AccessToken;
-  onLogin: (keycloak: KeycloakInstance) => void;
+  signedToken?: AccessToken;
+  onSignedLogin: typeof signedLogin;
 }
 
 /**
@@ -25,9 +26,9 @@ interface State {
 }
 
 /**
- * Component for keeping authentication token fresh
+ * Component providing signed token and keeping it fresh
  */
-class AccessTokenRefresh extends React.Component<Props, State> {
+class SignedTokenProvider extends React.Component<Props, State> {
 
   private keycloak: KeycloakInstance;
   private timer?: any;
@@ -64,7 +65,10 @@ class AccessTokenRefresh extends React.Component<Props, State> {
 
       if (this.keycloak && tokenParsed && tokenParsed.sub && token) {
         this.keycloak.loadUserProfile();
-        this.props.onLogin(this.keycloak);
+        const signedToken = this.buildToken(this.keycloak);
+        if (signedToken) {
+          this.props.onSignedLogin(this.keycloak, signedToken);
+        }
       }
 
       this.refreshAccessToken();
@@ -87,12 +91,15 @@ class AccessTokenRefresh extends React.Component<Props, State> {
   /**
    * Component render method
    */
-  public render() {
-    if (this.state.error) {
-      return <ErrorDialog error={ this.state.error } onClose={ () => this.setState({ error: undefined }) } />;
+  public render = () => {
+    const { signedToken, children } = this.props;
+    const { error } = this.state;
+
+    if (error) {
+      return <ErrorDialog error={ error } onClose={ () => this.setState({ error: undefined }) } />;
     }
 
-    return this.props.accessToken ? this.props.children : null;
+    return signedToken ? children : null;
   }
 
   /**
@@ -102,10 +109,10 @@ class AccessTokenRefresh extends React.Component<Props, State> {
     try {
       const refreshed = this.keycloak.updateToken(70);
       if (refreshed) {
-        const { token, tokenParsed } = this.keycloak;
+        const signedToken = this.buildToken(this.keycloak);
 
-        if (tokenParsed && tokenParsed.sub && token) {
-          this.props.onLogin(this.keycloak);
+        if (signedToken) {
+          this.props.onSignedLogin(this.keycloak, signedToken);
         }
       }
     } catch (e) {
@@ -123,6 +130,33 @@ class AccessTokenRefresh extends React.Component<Props, State> {
       this.keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).success(resolve);
     });
   }
+
+  /**
+   * Builds access token using Keycloak instance
+   * 
+   * @param keycloak Keycloak instance
+   * @returns access token or undefined if building fails
+   */
+  private buildToken = (keycloak: KeycloakInstance): AccessToken | undefined => {
+    const { token, tokenParsed, refreshToken, refreshTokenParsed, profile } = keycloak;
+
+    if (!tokenParsed || !tokenParsed.sub || !token) {
+      return undefined;
+    }
+    
+    const created = new Date();      
+
+    return {
+      created: created,
+      access_token: token,
+      expires_in: tokenParsed.exp,
+      refresh_token: refreshToken,
+      refresh_expires_in: refreshTokenParsed?.exp,
+      firstName: profile?.firstName,
+      lastName: profile?.lastName,
+      userId: tokenParsed.sub
+    };
+  }
 }
 
 /**
@@ -132,7 +166,7 @@ class AccessTokenRefresh extends React.Component<Props, State> {
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    accessToken: state.auth.accessToken
+    signedToken: state.auth.signedToken
   };
 }
 
@@ -141,10 +175,10 @@ function mapStateToProps(state: ReduxState) {
  *
  * @param dispatch dispatch method
  */
-function mapDispatchToProps(dispatch: React.Dispatch<ReduxActions>) {
+function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
-    onLogin: (keycloak: KeycloakInstance) => dispatch(login(keycloak))
+    onSignedLogin: (keycloak: KeycloakInstance, signedToken: AccessToken) => dispatch(signedLogin(keycloak, signedToken))
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccessTokenRefresh);
+export default connect(mapStateToProps, mapDispatchToProps)(SignedTokenProvider);

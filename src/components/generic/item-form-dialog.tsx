@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 
@@ -22,8 +23,11 @@ import testPicture from "../../resources/images/testikuva.jpeg";
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
-  accessToken?: AccessToken;
-  onSubmit?: (item: Item) => void;
+  signedToken?: AccessToken;
+  open?: boolean;
+  onClose?: () => void;
+  onCreated?: (item: Item) => void;
+  onUpdated?: (item: Item) => void;
   existingItem?: Item;
 }
 
@@ -68,20 +72,23 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes } = this.props;
+    const { classes, open, onClose } = this.props;
+    const { loading, item } = this.state;
 
     return (
       <Dialog
         maxWidth="lg"
         fullWidth
-        open={ true }
+        open={ open || false }
+        onClose={ onClose && onClose }
         PaperProps={{ className: classes.dialogContainer }}
       >
         <DialogTitle className={ classes.dialogTitle }>
-          <Typography variant="h5">
-            { strings.items.newPosting }
-          </Typography>
-          <IconButton className={ classes.dialogClose }>
+          { strings.items.newPosting }
+          <IconButton
+            className={ classes.dialogClose }
+            onClick={ onClose && onClose }
+          >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
@@ -89,7 +96,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           dividers
           className={ classes.dialogContent }
         >
-          { this.state.loading || !this.state.item ?
+          { loading || !item ?
             <CircularProgress size={ 60 } className={ classes.loader } /> :
             this.renderDialogContent()
           }
@@ -206,7 +213,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Renders action buttons
    */
   private renderActionButtons = () => {
-    const { classes, existingItem } = this.props;
+    const { classes, existingItem, onClose } = this.props;
     const { loading, selectedCategory } = this.state;
 
     const disabled = loading || !selectedCategory;
@@ -226,6 +233,7 @@ class ItemFormDialog extends React.Component<Props, State> {
               variant="outlined"
               disabled={ disabled }
               className={ classes.buttonOutlined }
+              onClick={ this.emptyForm }
             >
               { strings.generic.clear }
             </Button>
@@ -233,8 +241,8 @@ class ItemFormDialog extends React.Component<Props, State> {
         }
         <Button
           variant="outlined"
-          disabled={ disabled }
           className={ classes.buttonOutlined }
+          onClick={ onClose && onClose }
         >
           { strings.generic.cancel }
         </Button>
@@ -244,6 +252,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           color="secondary"
           disabled={ disabled }
           className={ classes.buttonContained }
+          onClick={ this.submitForm }
         >
           { strings.generic.save }
         </Button>
@@ -279,13 +288,13 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Fetches component data
    */
   private fetchData = async () => {
-    const { accessToken, existingItem } = this.props;
+    const { signedToken, existingItem } = this.props;
 
-    if (!accessToken) {
+    if (!signedToken) {
       return;
     }
 
-    const categoriesApi = Api.getCategoriesApi(accessToken);
+    const categoriesApi = Api.getCategoriesApi(signedToken);
     const categories = await categoriesApi.listCategories({ });
 
     this.setState({ categories });
@@ -318,7 +327,7 @@ class ItemFormDialog extends React.Component<Props, State> {
       { key: "lisätiedot", value: "" }
     ],
     onlyForCompanies: false,
-    userId: this.props.accessToken?.userId || ""
+    userId: this.props.signedToken?.userId || ""
   });
 
   /**
@@ -375,6 +384,93 @@ class ItemFormDialog extends React.Component<Props, State> {
       })
     );
   }
+
+  /**
+   * Submits form
+   */
+  private submitForm = async () => {
+    const {
+      existingItem,
+      signedToken,
+      onCreated,
+      onUpdated,
+      onClose
+    } = this.props;
+    const { item } = this.state;
+
+    if (!signedToken || !onCreated || !onClose || !item) {
+      return;
+    }
+
+    this.setState({ loading: true });
+
+    const itemsApi = Api.getItemsApi(signedToken);
+
+    if (existingItem) {
+      const itemId = item.id!;
+      if (!itemId || !onUpdated) {
+        this.setState({ loading: false });
+        return;
+      }
+
+      const updatedItem = await itemsApi.updateItem({ itemId, item });
+      if (!updatedItem) {
+        this.setState({ loading: false });
+        return;
+      }
+
+      onUpdated(updatedItem);
+      onClose();
+    } else {
+      const newItem = await itemsApi.createItem({ item });
+      if (!newItem || !onCreated) {
+        this.setState({ loading: false });
+        return;
+      }
+  
+      onCreated(newItem);
+      onClose();
+    }
+
+    this.setState({ loading: false });
+  }
+
+  /**
+   * Empties form
+   */
+  private emptyForm = () => {
+    this.setState({
+      item: {
+        ...this.state.item!,
+        metadata: {
+          locationInfo: {},
+          amount: undefined,
+          certificates: undefined
+        },
+        onlyForCompanies: false,
+        title: "",
+        images: undefined,
+        properties: this.emptyProperties(this.state.item!.properties),
+        thumbnailUrl: undefined
+      }
+    });
+  }
+
+  /**
+   * Empties values of properties in item
+   * 
+   * @param properties properties found from item
+   * @returns list of properties if there are any, otherwise undefined
+   */
+  private emptyProperties = (properties: ItemProperty[] | undefined): ItemProperty[] | undefined => {
+    if (!properties) {
+      return undefined;
+    } 
+    
+    return properties.length > 0 ?
+      properties.map(property => ({ ...property, value: "" })) :
+      [];
+  }
 }
 
 /**
@@ -383,7 +479,7 @@ class ItemFormDialog extends React.Component<Props, State> {
  * @param state store state
  */
 const mapStateToProps = (state: ReduxState) => ({
-  accessToken: state.auth.accessToken as AccessToken
+  signedToken: state.auth.signedToken
 });
 
 /**
@@ -391,6 +487,6 @@ const mapStateToProps = (state: ReduxState) => ({
  *
  * @param dispatch dispatch method
  */
-const mapDispatchToProps = (dispatch: React.Dispatch<ReduxActions>) => ({ });
+const mapDispatchToProps = (dispatch: Dispatch<ReduxActions>) => ({ });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ItemFormDialog));

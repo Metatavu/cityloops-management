@@ -14,6 +14,11 @@
     "reload": "Reload"
   },
 
+  "error": {
+    "emptyField": "Fill field",
+    "invalidEmail": "Check email spelling"
+  },
+
   "genericDialog": {
     "confirm": "Confirm",
     "cancel": "Cancel",
@@ -35,7 +40,8 @@
     "undefined": "Undefined",
     "refresh": "Refresh",
     "search": "Search",
-    "imageAlt": "Image"
+    "imageAlt": "Image",
+    "proceed": "Proceed"
   },
 
   "items": {
@@ -66,9 +72,22 @@
   },
 
   "user": {
+    "registration": "Registration",
+    "registrationSuccessful": "Registration successful",
     "login": "Login",
+    "loginShort": "Login",
     "logout": "Logout",
-    "account": "Account"
+    "account": "Account",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "address": "Address",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "isCompanyAccount": "Company account",
+    "rememberMe": "Remember me",
+    "register": "Register",
+    "forgotPassword": "Forgot your password?"
   },
 
   "addItem": {

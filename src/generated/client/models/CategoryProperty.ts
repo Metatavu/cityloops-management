@@ -14,10 +14,10 @@
 
 import { exists, mapValues } from '../runtime';
 import {
-    CategoryInputType,
-    CategoryInputTypeFromJSON,
-    CategoryInputTypeFromJSONTyped,
-    CategoryInputTypeToJSON,
+    CategoryPropertyInputType,
+    CategoryPropertyInputTypeFromJSON,
+    CategoryPropertyInputTypeFromJSONTyped,
+    CategoryPropertyInputTypeToJSON,
 } from './';
 
 /**
@@ -34,10 +34,10 @@ export interface CategoryProperty {
     name: string;
     /**
      * 
-     * @type {CategoryInputType}
+     * @type {CategoryPropertyInputType}
      * @memberof CategoryProperty
      */
-    type: CategoryInputType;
+    type: CategoryPropertyInputType;
     /**
      * Is this property required
      * @type {boolean}
@@ -75,7 +75,7 @@ export function CategoryPropertyFromJSONTyped(json: any, ignoreDiscriminator: bo
     return {
         
         'name': json['name'],
-        'type': CategoryInputTypeFromJSON(json['type']),
+        'type': CategoryPropertyInputTypeFromJSON(json['type']),
         'required': json['required'],
         'infoText': !exists(json, 'infoText') ? undefined : json['infoText'],
         'defaultValue': !exists(json, 'defaultValue') ? undefined : json['defaultValue'],
@@ -93,7 +93,7 @@ export function CategoryPropertyToJSON(value?: CategoryProperty | null): any {
     return {
         
         'name': value.name,
-        'type': CategoryInputTypeToJSON(value.type),
+        'type': CategoryPropertyInputTypeToJSON(value.type),
         'required': value.required,
         'infoText': value.infoText,
         'defaultValue': value.defaultValue,

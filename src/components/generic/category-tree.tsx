@@ -81,6 +81,9 @@ const renderTreeMenuItem = (item: TreeMenuItem, props: Props) => {
     toggleNode,
     isOpen,
     label,
+    openNodes,
+    searchTerm,
+    active,
     ...otherProps
   } = item;
 

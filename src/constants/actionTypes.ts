@@ -1,14 +1,20 @@
 /**
- * Login action
+ * Anonymous login action
  */
-export const LOGIN = "LOGIN";
-export type LOGIN = typeof LOGIN;
+export const ANONYMOUS_LOGIN = "ANONYMOUS_LOGIN";
+export type ANONYMOUS_LOGIN = typeof ANONYMOUS_LOGIN;
 
 /**
- * Logout action
+ * Signed login action
  */
-export const LOGOUT = "LOGOUT";
-export type LOGOUT = typeof LOGOUT;
+export const SIGNED_LOGIN = "SIGNED_LOGIN";
+export type SIGNED_LOGIN = typeof SIGNED_LOGIN;
+
+/**
+ * Signed logout action
+ */
+export const SIGNED_LOGOUT = "SIGNED_LOGOUT";
+export type SIGNED_LOGOUT = typeof SIGNED_LOGOUT;
 
 /**
  * Set locale action
