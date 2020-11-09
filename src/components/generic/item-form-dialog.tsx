@@ -5,6 +5,7 @@ import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 
 import { AccessToken } from "../../types";
+// tslint:disable-next-line: max-line-length
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Item, ItemProperty, LocationInfo } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
@@ -48,7 +49,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Component constructor
-   * 
+   *
    * @param props component props
    */
   constructor(props: Props) {
@@ -262,7 +263,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Method for setting container related props to grid components
-   * 
+   *
    * @param direction flex direction
    * @returns grid properties
    */
@@ -273,7 +274,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Method for setting item related props to grid components
-   * 
+   *
    * @param xs sizing for xs breakpoint
    * @param md sizing for md breakpoint
    * @returns grid properties
@@ -309,16 +310,16 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Creates item structure
-   * 
+   *
    * @returns item object
-   * 
+   *
    * TODO:
    * Add logic for default and category-based properties
    */
   private createItemStructure = (): Item => ({
     title: "Uusi ilmoitus",
     metadata: {
-      locationInfo: {}
+      locationInfo: { }
     },
     properties: [
       { key: "korkeus", value: "" },
@@ -327,21 +328,34 @@ class ItemFormDialog extends React.Component<Props, State> {
       { key: "lisätiedot", value: "" }
     ],
     onlyForCompanies: false,
-    userId: this.props.signedToken?.userId || ""
+    userId: this.props.signedToken?.userId || "",
+    category: this.state.selectedCategory?.id
   });
 
   /**
    * Sets selected category
-   * 
+   *
    * @param selectedCategory selected category
    */
   private selectCategory = (selectedCategory: Category) => {
-    this.setState({ selectedCategory });
+
+    const categoryId = selectedCategory.id;
+    if (!categoryId) {
+      return;
+    }
+
+    this.setState(
+      produce((draft: State) => {
+        draft.selectedCategory = selectedCategory;
+        draft.item!.category = categoryId;
+      })
+    );
+
   }
 
   /**
    * Updates item title
-   * 
+   *
    * @param title title
    */
   private updateTitle = (title: string) => {
@@ -352,7 +366,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Update item images
-   * 
+   *
    * @param images images
    */
   private updateImages = (images: string[]) => {
@@ -363,7 +377,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Update item properties
-   * 
+   *
    * @param properties properties
    */
   private updateProperties = (properties: ItemProperty[]) => {
@@ -374,7 +388,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Update item location info
-   * 
+   *
    * @param locationInfo location info
    */
   private updateLocationInfo = (locationInfo: LocationInfo) => {
@@ -405,7 +419,6 @@ class ItemFormDialog extends React.Component<Props, State> {
     this.setState({ loading: true });
 
     const itemsApi = Api.getItemsApi(signedToken);
-
     if (existingItem) {
       const itemId = item.id!;
       if (!itemId || !onUpdated) {
@@ -427,7 +440,7 @@ class ItemFormDialog extends React.Component<Props, State> {
         this.setState({ loading: false });
         return;
       }
-  
+
       onCreated(newItem);
       onClose();
     }
@@ -443,7 +456,7 @@ class ItemFormDialog extends React.Component<Props, State> {
       item: {
         ...this.state.item!,
         metadata: {
-          locationInfo: {},
+          locationInfo: { },
           amount: undefined,
           certificates: undefined
         },
@@ -458,15 +471,15 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Empties values of properties in item
-   * 
+   *
    * @param properties properties found from item
    * @returns list of properties if there are any, otherwise undefined
    */
   private emptyProperties = (properties: ItemProperty[] | undefined): ItemProperty[] | undefined => {
     if (!properties) {
       return undefined;
-    } 
-    
+    }
+
     return properties.length > 0 ?
       properties.map(property => ({ ...property, value: "" })) :
       [];

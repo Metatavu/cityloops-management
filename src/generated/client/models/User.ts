@@ -56,6 +56,12 @@ export interface User {
      */
     companyAccount: boolean;
     /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    password?: string;
+    /**
      * Has this user been verified/allowed to use online payment
      * @type {boolean}
      * @memberof User
@@ -103,6 +109,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': json['email'],
         'phoneNumber': json['phoneNumber'],
         'companyAccount': json['companyAccount'],
+        'password': !exists(json, 'password') ? undefined : json['password'],
         'verified': !exists(json, 'verified') ? undefined : json['verified'],
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
@@ -125,6 +132,7 @@ export function UserToJSON(value?: User | null): any {
         'email': value.email,
         'phoneNumber': value.phoneNumber,
         'companyAccount': value.companyAccount,
+        'password': value.password,
         'verified': value.verified,
     };
 }
