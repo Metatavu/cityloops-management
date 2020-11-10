@@ -49,3 +49,12 @@ export interface CategoryDataHolder {
   category: Category;
   childCategories: CategoryDataHolder[];
 }
+
+/**
+ * Supported text field types
+ */
+export enum TextFieldTypes {
+  STRING = "string",
+  BOOLEAN = "boolean",
+  PASSWORD = "password"
+}

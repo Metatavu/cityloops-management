@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 
-import { AccessToken } from "../../types";
+import { AccessToken, TextFieldTypes } from "../../types";
 import { Button, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/registration-form-dialog";
 import strings from "../../localization/strings";
@@ -47,7 +47,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
 
   /**
    * Component constructor
-   * 
+   *
    * @param props component props
    */
   constructor(props: Props) {
@@ -139,11 +139,12 @@ class RegistrationFormDialog extends React.Component<Props, State> {
             </Typography>
           ) : (
             <>
-              { this.renderTextField("name", strings.user.name, user.name) }
-              { this.renderTextField("email", strings.user.email, user.email) }
-              { this.renderTextField("address", strings.user.address, user.address) }
-              { this.renderTextField("phoneNumber", strings.user.phoneNumber, user.phoneNumber) }
+              { this.renderTextField("name", strings.user.name, TextFieldTypes.STRING, user.name) }
+              { this.renderTextField("email", strings.user.email, TextFieldTypes.STRING, user.email) }
+              { this.renderTextField("address", strings.user.address, TextFieldTypes.STRING, user.address) }
+              { this.renderTextField("phoneNumber", strings.user.phoneNumber, TextFieldTypes.STRING, user.phoneNumber) }
               { this.renderCheckBox("companyAccount", strings.user.isCompanyAccount, user.companyAccount) }
+              { this.renderTextField("password", strings.user.password, TextFieldTypes.PASSWORD, user.password) }
             </>
           )
         }
@@ -153,14 +154,16 @@ class RegistrationFormDialog extends React.Component<Props, State> {
 
   /**
    * Renders text field
-   * 
+   *
    * @param key key
    * @param displayName displayed name
+   * @param type text field type
    * @param value value
    */
-  private renderTextField = (key: string, displayName: string, value: string) => {
+  private renderTextField = (key: string, displayName: string, type: TextFieldTypes, value?: string) => {
     const { classes } = this.props;
     const { error } = this.state;
+
     return (
       <div className={ classes.formRow }>
         <TextField
@@ -171,9 +174,14 @@ class RegistrationFormDialog extends React.Component<Props, State> {
           fullWidth
           InputLabelProps={{ variant: "outlined" }}
           value={ value }
-          onChange={ this.updateValue(key, "string") }
+          onChange={ this.updateValue(key, type) }
           error={ key === error?.field }
-          helperText={ error?.reason || "" }
+          helperText={
+            key === error?.field ?
+            error?.reason :
+            ""
+          }
+          type={ type }
         />
       </div>
     );
@@ -181,7 +189,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
 
   /**
    * Renders checkbox
-   * 
+   *
    * @param key key
    * @param displayName displayed name
    * @param checked checkbox is checked
@@ -192,7 +200,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
       <div className={ classes.formRow }>
         <Checkbox
           checked={ checked }
-          onChange={ this.updateValue(key, "boolean") }
+          onChange={ this.updateValue(key, TextFieldTypes.BOOLEAN) }
           className={ classes.checkbox }
         />
         <Typography variant="body1">
@@ -204,14 +212,14 @@ class RegistrationFormDialog extends React.Component<Props, State> {
 
   /**
    * Updates user property value
-   * 
+   *
    * @param key property key
-   * @param type property type, defaults to string
+   * @param type property type
    * @param event React change event
    */
-  private updateValue = (key: string, type?: "string" | "boolean") => (event: React.ChangeEvent<HTMLInputElement>) => {
+  private updateValue = (key: string, type?: TextFieldTypes) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
-    const updatedValue = type && type === "boolean" ? checked : value;
+    const updatedValue = type && type === TextFieldTypes.BOOLEAN ? checked : value;
     this.setState({
       user: { ...this.state.user, [key]: updatedValue }
     });
@@ -237,7 +245,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    */
   private formFilled = (): boolean => {
     const { name, email, address, phoneNumber } = this.state.user;
-    
+
     return (
       name !== "" &&
       email !== "" &&
@@ -248,7 +256,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
 
   /**
    * Check if email is valid
-   * 
+   *
    * @param email email
    * @returns true if email is valid, otherwise false
    */
@@ -276,7 +284,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
     } catch(e) {
       console.error(e);
     }
-    
+
     this.setState({ loading: false });
   }
 

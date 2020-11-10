@@ -80,3 +80,5 @@ export function MetadataToJSON(value?: Metadata | null): any {
         'certificates': CertificatesToJSON(value.certificates),
     };
 }
+
+
