@@ -301,7 +301,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private fetchData = async () => {
     const { signedToken, existingItem } = this.props;
-    console.log(signedToken);
+
     if (!signedToken) {
       return;
     }
