@@ -15,7 +15,7 @@ import Config from "../../config";
  */
 interface Props {
   anonymousToken?: AccessToken;
-  onAnonymousLogin: (anonymousToken: AccessToken) => void;
+  anonymousLogin: typeof anonymousLogin;
 }
 
 /**
@@ -58,11 +58,10 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
    * Component did mount life cycle event
    */
   public componentDidMount = () => {
+    this.refreshLogin();
     this.timer = setInterval(async () => {
       this.refreshLogin();
     }, 1000 * 60);
-
-    this.refreshLogin();
   }
 
   /**
@@ -73,13 +72,13 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
       const accessToken = await this.login();
 
       if (accessToken) {
-        this.props.onAnonymousLogin(accessToken);
+        this.props.anonymousLogin(accessToken);
       }
     } else {
       if (!this.isTokenValid(this.props.anonymousToken)) {
         const accessToken = await this.refreshToken(this.props.anonymousToken);
         if (accessToken) {
-          this.props.onAnonymousLogin(accessToken);
+          this.props.anonymousLogin(accessToken);
         }
       }
     }
@@ -88,7 +87,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
   /**
    * Component will unmount life cycle event
    */
-  public componentWillUnmount() {
+  public componentWillUnmount = () => {
     if (this.timer) {
       clearInterval(this.timer);
     }
@@ -143,7 +142,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
     }
 
     const config = Config.getAnonymousLoginConfig();
-    
+
     const response = await fetch(`${config.url}/realms/${config.realm}/protocol/openid-connect/token`, {
       method: 'POST',
       body: querystring.stringify({
@@ -153,7 +152,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
       }),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
-      } 
+      }
     });
 
     return this.buildToken(await response.json());
@@ -161,8 +160,8 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
 
   /**
    * Returns true if token is valid, otherwise false
-   * 
-   * @param token Access token 
+   *
+   * @param token Access token
    * @param slackSeconds seconds to use as slack
    */
   private isTokenValid = (token: AccessToken, slackSeconds?: number) => {
@@ -176,7 +175,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
 
   /**
    * Returns true if token can be refreshed using refresh token, otherwise false
-   * 
+   *
    * @param token Access token
    * @param slackSeconds seconds to use as slack
    */
@@ -191,7 +190,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
 
   /**
    * Builds access token object from login data
-   * 
+   *
    * @param tokenData token data
    * @returns access token
    */
@@ -228,7 +227,7 @@ function mapStateToProps(state: ReduxState) {
  */
 function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
-    onAnonymousLogin: (anonymousToken: AccessToken) => dispatch(anonymousLogin(anonymousToken))
+    anonymousLogin: (anonymousToken: AccessToken) => dispatch(anonymousLogin(anonymousToken))
   };
 }
 

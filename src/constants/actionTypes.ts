@@ -1,4 +1,10 @@
 /**
+ * Set keycloak action
+ */
+export const SET_KEYCLOAK = "SET_KEYCLOAK";
+export type SET_KEYCLOAK = typeof SET_KEYCLOAK;
+
+/**
  * Anonymous login action
  */
 export const ANONYMOUS_LOGIN = "ANONYMOUS_LOGIN";

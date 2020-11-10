@@ -3,6 +3,14 @@ import * as actionTypes from '../constants/actionTypes';
 import { AccessToken } from '../types';
 
 /**
+ * Interface for setting keycloak instance
+ */
+export interface KeycloakAction {
+  type: actionTypes.SET_KEYCLOAK;
+  keycloak: KeycloakInstance;
+}
+
+/**
  * Interface for anonymous login action type
  */
 export interface AnonymousLoginAction {
@@ -16,7 +24,6 @@ export interface AnonymousLoginAction {
 export interface SignedLoginAction {
   type: actionTypes.SIGNED_LOGIN;
   accessToken: AccessToken;
-  keycloak: KeycloakInstance;
 }
 
 /**
@@ -27,9 +34,21 @@ export interface SignedLogoutAction {
 }
 
 /**
+ * Store keycloak instance
+ *
+ * @param keycloak keycloak instance to store
+ */
+export function setKeycloak(keycloak: KeycloakInstance): KeycloakAction {
+  return {
+    type: actionTypes.SET_KEYCLOAK,
+    keycloak: keycloak
+  };
+}
+
+/**
  * Store update method for anonymous access token
  *
- * @param keycloak keycloak instance
+ * @param accessToken access token
  */
 export function anonymousLogin(accessToken: AccessToken): AnonymousLoginAction {
   return {
@@ -41,13 +60,12 @@ export function anonymousLogin(accessToken: AccessToken): AnonymousLoginAction {
 /**
  * Store update method for signed access token
  *
- * @param keycloak keycloak instance
+ * @param accessToken access token
  */
-export function signedLogin(keycloak: KeycloakInstance, accessToken: AccessToken): SignedLoginAction {
+export function signedLogin(accessToken: AccessToken): SignedLoginAction {
   return {
     type: actionTypes.SIGNED_LOGIN,
-    accessToken: accessToken,
-    keycloak: keycloak
+    accessToken: accessToken
   };
 }
 
@@ -60,4 +78,4 @@ export function signedLogout(): SignedLogoutAction {
   };
 }
 
-export type AuthAction = AnonymousLoginAction | SignedLoginAction | SignedLogoutAction;
+export type AuthAction = KeycloakAction | AnonymousLoginAction | SignedLoginAction | SignedLogoutAction;
