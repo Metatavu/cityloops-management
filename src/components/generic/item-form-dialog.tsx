@@ -70,6 +70,17 @@ class ItemFormDialog extends React.Component<Props, State> {
   }
 
   /**
+   * Component did update life cycle method
+   */
+  public componentDidUpdate = async (prevProps: Props) => {
+    if (prevProps.signedToken !== this.props.signedToken) {
+      this.setState({ loading: true });
+      await this.fetchData();
+      this.setState({ loading: false });
+    }
+  }
+
+  /**
    * Component render method
    */
   public render = () => {
@@ -290,7 +301,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private fetchData = async () => {
     const { signedToken, existingItem } = this.props;
-
+    console.log(signedToken);
     if (!signedToken) {
       return;
     }
