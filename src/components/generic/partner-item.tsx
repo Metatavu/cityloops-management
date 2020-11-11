@@ -24,7 +24,7 @@ const PartnerItem: React.FC<Props> = ({ classes, logo }) => {
   return (
     <div className={ classes.root }>
       <div className={ classes.imageContainer }>
-        <img src={ logo } />
+        <img alt="Partner logo" src={ logo } />
       </div>
       <div className={ classes.buttonContainer }>
         <Button fullWidth variant="contained" color="secondary">{ strings.browseProducts }</Button>
