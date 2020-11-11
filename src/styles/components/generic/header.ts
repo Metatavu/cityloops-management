@@ -4,7 +4,10 @@ import theme from "../../theme";
 export default createStyles({
 
   root: {
-    minHeight: 64
+    minHeight: 59,
+    [theme.breakpoints.up("md")]: {
+      minHeight: 64,
+    }
   },
 
   appBar: {

@@ -47,7 +47,7 @@ type Props = ScreenProps & OtherProps;
 
 /**
  * Functional component for app header
- * 
+ *
  * @param props component props
  */
 const Header: React.FC<Props> = props => {
@@ -85,7 +85,7 @@ const Header: React.FC<Props> = props => {
         </IconButton>
       </>
     );
-  }
+  };
 
   /**
    * Renders desktop app bar content
@@ -102,15 +102,6 @@ const Header: React.FC<Props> = props => {
           src={ logoPrimary }
           className={ classes.logo }
         />
-        <Button className={ classes.menuButton }>
-          { strings.categories.movables }
-        </Button>
-        <Button className={ classes.menuButton }>
-          { strings.categories.buildingMaterials }
-        </Button>
-        <Button className={ classes.menuButton }>
-          { strings.categories.soilAndRockMaterials }
-        </Button>
         { onSaveClick &&
           <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
             <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
@@ -119,7 +110,7 @@ const Header: React.FC<Props> = props => {
         { renderAccountSection() }
       </Container>
     );
-  }
+  };
 
   /**
    * Renders account section of the app bar
@@ -154,7 +145,7 @@ const Header: React.FC<Props> = props => {
         </IconButton>
       </div>
     );
-  }
+  };
 
   /**
    * Renders language selection
@@ -174,8 +165,8 @@ const Header: React.FC<Props> = props => {
         )
       }
       </Select>
-    )
-  }
+    );
+  };
 
   /**
    * Component render
@@ -194,7 +185,7 @@ const Header: React.FC<Props> = props => {
       </AppBar>
     </div>
   );
-}
+};
 
 /**
  * Redux mapper for mapping store state to component props

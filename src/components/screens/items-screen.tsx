@@ -11,13 +11,10 @@ import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from '../../types';
 import { Item } from "../../generated/client";
 import ItemList from "../items/item-list";
-import strings from "../../localization/strings";
 import Api from "../../api/api";
 import produce from "immer";
 import ApiOperations from "../../utils/generic-api-operations";
 import AppLayout from "../layouts/app-layout";
-import BannerImage from "../generic/banner-image";
-import bannerImageSrc from "../../resources/images/banner-image.png";
 import ItemFormDialog from "../generic/item-form-dialog";
 
 import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasairila 1.png";
@@ -88,10 +85,6 @@ export class ItemsScreen extends React.Component<Props, State> {
         { /* <TopBar></TopBar> */ }
         { /* <SearchBar></SearchBar> */ }
         { /* <BreadCrumbs></BreadCrumbs> */ }
-        <BannerImage
-          image={ bannerImageSrc }
-          title={ strings.items.title }
-        />
         <ItemList
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
