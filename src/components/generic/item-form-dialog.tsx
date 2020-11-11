@@ -378,8 +378,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     }
 
     const newImages = await this.uploadImages(files);
-    const updatedImageList = [ ...item!.images || [] ] as string[];
-    updatedImageList.push.apply(updatedImageList, newImages);
+    const updatedImageList = [ ...item.images || [], ...newImages ] as string[];
 
     this.setState({
       item: { ...item, images: updatedImageList }
