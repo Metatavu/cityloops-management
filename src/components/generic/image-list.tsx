@@ -3,23 +3,25 @@ import { Typography, WithStyles, withStyles } from '@material-ui/core';
 import styles from "../../styles/components/generic/image-list";
 import strings from "../../localization/strings";
 import AddAPhotoOutlinedIcon from '@material-ui/icons/AddAPhotoOutlined';
+import FileUploader from "../generic/file-uploader";
 
 /**
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
   images?: string[];
-  onUpdate?: (images: string[]) => void;
+  onUpdate: (images: File[]) => void;
+  onImageDeleteClick: (imageUrl: string) => void;
 }
 
 /**
  * Image list component
- * 
- * TODO:
- * Add image uploading
  */
 const ImageList: React.FC<Props> = props => {
-  const { classes, images } = props;
+  const { classes, images, onUpdate, onImageDeleteClick } = props;
+
+  const [ uploadModalOpen, toggleSideMenu ] = React.useState(false);
+  const toggle = () => toggleSideMenu(!uploadModalOpen);
 
   /**
    * Renders images
@@ -31,10 +33,22 @@ const ImageList: React.FC<Props> = props => {
           key={ index }
           className={ classes.image }
           style={{ backgroundImage: `url(${image})` }}
+          onClick={ () => onImageDeleteClick(image) }
         />
       ) :
       [];
-  }
+  };
+
+  /**
+   * Event handler for image upload
+   *
+   * @param files list of files to upload
+   * @param key file key
+   */
+  const onImageUpload = (files: File[], key?: string | undefined) => {
+    toggle();
+    onUpdate(files);
+  };
 
   /**
    * Renders add image
@@ -42,10 +56,19 @@ const ImageList: React.FC<Props> = props => {
   const renderAddImage = () => {
     return (
       <div className={ classes.addImage }>
-        <AddAPhotoOutlinedIcon />
+        <AddAPhotoOutlinedIcon
+          onClick={ toggle }
+        />
+        <FileUploader
+          controlled={ true }
+          open={ uploadModalOpen }
+          allowedFileTypes={ [ "image/png", "image/jpeg" ] }
+          onSave={ onImageUpload }
+          onClose={ toggle }
+        />
       </div>
     );
-  }
+  };
 
   /**
    * Component render

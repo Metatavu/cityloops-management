@@ -122,7 +122,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 
   /**
    * Adds new item to list
-   * 
+   *
    * @param item new item
    */
   private addItem = (createdItem: Item) => {
@@ -135,7 +135,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 
   /**
    * Updates item in list
-   * 
+   *
    * @param item updated item
    */
   private updateItem = (updatedItem: Item) => {

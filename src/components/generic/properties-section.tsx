@@ -14,8 +14,9 @@ interface Props extends WithStyles<typeof styles> {
   images?: string[];
   properties?: ItemProperty[];
   onUpdateTitle?: (title: string) => void;
-  onUpdateImages?: (images: string[]) => void;
+  onUpdateImages: (images: File[]) => void;
   onUpdateProperties?: (properties: ItemProperty[]) => void;
+  onImageDeleteClick: (imageUrl: string) => void;
 }
 
 /**
@@ -29,12 +30,13 @@ const PropertiesSection: React.FC<Props> = props => {
     images,
     onUpdateTitle,
     onUpdateProperties,
-    onUpdateImages
+    onUpdateImages,
+    onImageDeleteClick
   } = props;
 
   /**
    * Event handler for update property value
-   * 
+   *
    * @param key property key
    * @param event React change event
    */
@@ -53,10 +55,10 @@ const PropertiesSection: React.FC<Props> = props => {
     if (updatedProperties && onUpdateProperties) {
       onUpdateProperties(updatedProperties);
     }
-  }
+  };
 
   const propertyFields = properties ?
-    properties.map(property => 
+    properties.map(property =>
       <TextField
         key={ property.key }
         label={ property.key }
@@ -79,6 +81,7 @@ const PropertiesSection: React.FC<Props> = props => {
       <ImageList
         images={ images }
         onUpdate={ onUpdateImages }
+        onImageDeleteClick={ onImageDeleteClick }
       />
       <div className={ classes.propertiesContainer }>
         <TextField
