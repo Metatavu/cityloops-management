@@ -21,5 +21,16 @@ export default createMuiTheme({
   },
   typography: {
     fontFamily: "Kumbh Sans, sans-serif"
+  },
+  overrides: {
+    MuiButton: {
+      root: {
+        textTransform: "initial",
+        fontWeight: 900
+      },
+      containedSecondary: {
+        color: "#fff"
+      }
+    }
   }
 });

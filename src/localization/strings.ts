@@ -8,6 +8,7 @@ export interface IStrings extends LocalizedStringsMethods {
   /**
    * Generic translations
    */
+  browseProducts: string;
   comingSoon: string;
   errorDialog: {
     title: string;

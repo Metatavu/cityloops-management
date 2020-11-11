@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Typography, WithStyles, withStyles } from '@material-ui/core';
+import { Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/image-list";
 import strings from "../../localization/strings";
-import AddAPhotoOutlinedIcon from '@material-ui/icons/AddAPhotoOutlined';
+import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import FileUploader from "../generic/file-uploader";
+import DeleteIcon from "@material-ui/icons/Close";
 
 /**
  * Interface describing component properties
@@ -32,9 +33,12 @@ const ImageList: React.FC<Props> = props => {
         <div
           key={ index }
           className={ classes.image }
-          style={{ backgroundImage: `url(${image})` }}
-          onClick={ () => onImageDeleteClick(image) }
-        />
+          style={{ backgroundImage: `url(${ encodeURI(image) })` }}
+        >
+          <div className={ "image-delete-overlay" } onClick={ () => onImageDeleteClick(image) }>
+            <DeleteIcon></DeleteIcon>
+          </div>
+        </div>
       ) :
       [];
   };
@@ -81,9 +85,11 @@ const ImageList: React.FC<Props> = props => {
       >
         { strings.items.images }
       </Typography>
-      <div className={ classes.imagesContainer }>
+      <div className={ classes.imagesContainer}>
         { renderAddImage() }
-        { renderImages() }
+        <div className={ classes.imagesList }>
+          { renderImages() }
+        </div>
       </div>
     </div>
   );

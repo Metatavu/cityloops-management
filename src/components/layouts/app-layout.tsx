@@ -7,7 +7,8 @@ import Footer from "../generic/footer";
 import { ScreenProps as FooterProps } from "../generic/footer";
 import MobileDrawer from "../generic/mobile-drawer";
 import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
-
+import BannerImage from "../generic/banner-image";
+import bannerImageSrc from "../../resources/images/banner-image.jpg";
 
 /**
  * Interface describing component properties
@@ -52,7 +53,9 @@ const AppLayout: React.FC<Props> = props => {
         toggleSideMenu={ toggle }
         { ...mobileDrawerProps }
       />
-
+      <BannerImage
+        image={ bannerImageSrc }
+      />
       <Container
         fixed
         disableGutters
