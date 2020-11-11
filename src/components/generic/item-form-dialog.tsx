@@ -17,8 +17,7 @@ import LocationSection from "./location-section";
 import produce from "immer";
 import classNames from "classnames";
 import CloseIcon from '@material-ui/icons/Close';
-
-import testPicture from "../../resources/images/testikuva.jpeg";
+import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
 
 /**
  * Interface describing component properties
@@ -26,9 +25,9 @@ import testPicture from "../../resources/images/testikuva.jpeg";
 interface Props extends WithStyles<typeof styles> {
   signedToken?: AccessToken;
   open?: boolean;
-  onClose?: () => void;
-  onCreated?: (item: Item) => void;
-  onUpdated?: (item: Item) => void;
+  onClose: () => void;
+  onCreated: (item: Item) => void;
+  onUpdated: (item: Item) => void;
   existingItem?: Item;
 }
 
@@ -73,7 +72,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Component did update life cycle method
    */
   public componentDidUpdate = async (prevProps: Props) => {
-    if (prevProps.signedToken !== this.props.signedToken) {
+    if (prevProps.signedToken === undefined && this.props.signedToken) {
       this.setState({ loading: true });
       await this.fetchData();
       this.setState({ loading: false });
@@ -92,14 +91,14 @@ class ItemFormDialog extends React.Component<Props, State> {
         maxWidth="lg"
         fullWidth
         open={ open || false }
-        onClose={ onClose && onClose }
+        onClose={ onClose }
         PaperProps={{ className: classes.dialogContainer }}
       >
         <DialogTitle className={ classes.dialogTitle }>
           { strings.items.newPosting }
           <IconButton
             className={ classes.dialogClose }
-            onClick={ onClose && onClose }
+            onClick={ onClose }
           >
             <CloseIcon />
           </IconButton>
@@ -183,16 +182,6 @@ class ItemFormDialog extends React.Component<Props, State> {
       return;
     }
 
-    /**
-     * TODO:
-     * Remove these when actual data is available
-     */
-    const placeholderImages = [
-      testPicture,
-      testPicture,
-      testPicture
-    ];
-
     return (
       <>
         <Grid
@@ -201,11 +190,12 @@ class ItemFormDialog extends React.Component<Props, State> {
         >
           <PropertiesSection
             title={ item?.title }
-            images={ item?.images || placeholderImages }
+            images={ item?.images || [] }
             properties={ item?.properties }
             onUpdateTitle={ this.updateTitle }
             onUpdateImages={ this.updateImages }
             onUpdateProperties={ this.updateProperties }
+            onImageDeleteClick={ this.onImageDelete }
           />
         </Grid>
         <Grid
@@ -225,7 +215,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Renders action buttons
    */
   private renderActionButtons = () => {
-    const { classes, existingItem, onClose } = this.props;
+    const { classes, existingItem } = this.props;
     const { loading, selectedCategory } = this.state;
 
     const disabled = loading || !selectedCategory;
@@ -254,7 +244,7 @@ class ItemFormDialog extends React.Component<Props, State> {
         <Button
           variant="outlined"
           className={ classes.buttonOutlined }
-          onClick={ onClose && onClose }
+          onClick={ this.onCloseFormClick }
         >
           { strings.generic.cancel }
         </Button>
@@ -378,12 +368,45 @@ class ItemFormDialog extends React.Component<Props, State> {
   /**
    * Update item images
    *
-   * @param images images
+   * @param files image files
    */
-  private updateImages = (images: string[]) => {
+  private updateImages = async (files: File[]) => {
+    const { item } = this.state;
+
+    if (!item) {
+      return;
+    }
+
+    const newImages = await this.uploadImages(files);
+    const updatedImageList = [ ...item.images || [], ...newImages ] as string[];
+
     this.setState({
-      item: { ...this.state.item!, images }
+      item: { ...item, images: updatedImageList }
     });
+  }
+
+  /**
+   * Event handler for image delete
+   *
+   * @param imageToDelete image to delete from item 
+   */
+  private onImageDelete = (imageToDelete: string) => {
+    const { item } = this.state;
+    if (!item || !item.images) {
+      return;
+    }
+
+    const updatedImageList = produce(item.images, draft => {
+      const imageIndex = draft.findIndex(image => image === imageToDelete);
+      if (imageIndex > -1) {
+        draft.splice(imageIndex, 1);
+      }
+    });
+
+    this.setState({
+      item: { ...item, images: updatedImageList }
+    });
+
   }
 
   /**
@@ -411,52 +434,112 @@ class ItemFormDialog extends React.Component<Props, State> {
   }
 
   /**
+   * Event handler for close form click
+   */
+  private onCloseFormClick = () => {
+    this.emptyForm();
+    this.props.onClose();
+  }
+
+  /**
    * Submits form
    */
   private submitForm = async () => {
+    const { existingItem } = this.props;
+
+    this.setState({ loading: true });
+
+    if (existingItem) {
+      this.updateItem();
+    } else {
+      this.createItem();
+    }
+
+    this.setState({ loading: false });
+  }
+
+  /**
+   * Uploads images to AWS S3
+   *
+   * @param files list of files to upload
+   */
+  private uploadImages = async (files: File[]) => {
+    const { signedToken } = this.props;
+
+    if (!signedToken) {
+      return [];
+    }
+
+    const imageUrls: string[] = [];
+    for (const file of files) {
+      try {
+        const res = await getPresignedPostData(file, signedToken.userId!);
+        await uploadFileToS3(res.data, file);
+        const imageUrl = `${res.basePath}/${res.data.fields.key}`;
+        imageUrls.push(imageUrl);
+      } catch (e) {
+        //TODO: Proper error handling
+      }
+    }
+
+    return imageUrls;
+  }
+
+  /**
+   * Update existing item to API
+   */
+  private updateItem = async () => {
     const {
-      existingItem,
       signedToken,
-      onCreated,
       onUpdated,
       onClose
     } = this.props;
     const { item } = this.state;
 
-    if (!signedToken || !onCreated || !onClose || !item) {
+    if (!signedToken || !item || !onClose || !onUpdated) {
       return;
     }
 
-    this.setState({ loading: true });
-
     const itemsApi = Api.getItemsApi(signedToken);
-    if (existingItem) {
-      const itemId = item.id!;
-      if (!itemId || !onUpdated) {
-        this.setState({ loading: false });
-        return;
-      }
-
-      const updatedItem = await itemsApi.updateItem({ itemId, item });
-      if (!updatedItem) {
-        this.setState({ loading: false });
-        return;
-      }
-
-      onUpdated(updatedItem);
-      onClose();
-    } else {
-      const newItem = await itemsApi.createItem({ item });
-      if (!newItem || !onCreated) {
-        this.setState({ loading: false });
-        return;
-      }
-
-      onCreated(newItem);
-      onClose();
+    const itemId = item.id!;
+    if (!itemId) {
+      return;
     }
 
-    this.setState({ loading: false });
+    const updatedItem = await itemsApi.updateItem({ itemId, item });
+    if (!updatedItem) {
+      this.setState({ loading: false });
+      return;
+    }
+
+    onUpdated(updatedItem);
+    onClose();
+  }
+
+  /**
+   * Create new item to API
+   */
+  private createItem = async () => {
+    const {
+      signedToken,
+      onCreated,
+      onClose
+    } = this.props;
+    const { item } = this.state;
+
+    if (!signedToken || !item || !onClose || !onCreated) {
+      return;
+    }
+
+    const itemsApi = Api.getItemsApi(signedToken);
+
+    const newItem = await itemsApi.createItem({ item });
+    if (!newItem) {
+      return;
+    }
+
+    onCreated(newItem);
+    onClose();
   }
 
   /**

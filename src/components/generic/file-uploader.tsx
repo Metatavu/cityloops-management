@@ -61,7 +61,7 @@ class FileUploader extends React.Component<Props, State> {
   /**
    * Component render method
    */
-  public render() {
+  public render = () => {
     const { classes, controlled, buttonText } = this.props;
 
     if (this.state.uploading) {
@@ -100,7 +100,7 @@ class FileUploader extends React.Component<Props, State> {
         onSave={ this.onSave }
         cancelButtonText={ strings.generic.cancel }
         submitButtonText={ strings.generic.save }
-        filesLimit={ 1 }
+        filesLimit={ 10 }
         maxFileSize={ 200000000 }
         showPreviewsInDropzone={ false }
       />
@@ -145,6 +145,8 @@ class FileUploader extends React.Component<Props, State> {
 
   /**
    * Event handler for dialog save click
+   *
+   * @param files list of files to upload
    */
   private onSave = async (files: File[]) => {
     const { controlled } = this.props;

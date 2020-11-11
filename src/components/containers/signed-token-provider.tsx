@@ -76,7 +76,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
 
       this.timer = setInterval(() => {
         this.refreshAccessToken();
-      }, 1000 * 5);
+      }, 1000 * 60);
     }
   }
 
@@ -134,7 +134,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
 
   /**
    * Builds access token using Keycloak instance
-   * 
+   *
    * @param keycloak Keycloak instance
    * @returns access token or undefined if building fails
    */
