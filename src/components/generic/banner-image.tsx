@@ -2,7 +2,11 @@ import * as React from "react";
 
 import { Hidden, IconButton, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/banner-image";
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import PartnerItem from "../generic/partner-item";
+import toimintakeskusLogo from "../../resources/images/toimintakeskus.png";
+import metsasairilaLogo from "../../resources/images/metsasairila.png";
+import materiaalitoriLogo from "../../resources/images/materiaalitori.svg";
 
 /**
  * Interface describing component properties
@@ -14,7 +18,7 @@ export interface Props extends WithStyles<typeof styles> {
 
 /**
  * Functional component for banner image
- * 
+ *
  * @param props component props
  */
 const Banner: React.FC<Props> = ({ classes, image, title }) => {
@@ -25,11 +29,16 @@ const Banner: React.FC<Props> = ({ classes, image, title }) => {
     <div
       className={ classes.root }
       style={{
-        backgroundImage: `url(${image})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover"
+        backgroundImage: `url(${ image })`
       }}
     >
+    <Hidden smDown>
+      <div className={ classes.partners }>
+        <PartnerItem logo={ toimintakeskusLogo } />
+        <PartnerItem logo={ metsasairilaLogo } />
+        <PartnerItem logo={ materiaalitoriLogo } />
+      </div>
+    </Hidden>
       { title &&
         <Hidden mdUp>
           <Typography
@@ -45,6 +54,6 @@ const Banner: React.FC<Props> = ({ classes, image, title }) => {
       }
     </div>
   );
-}
+};
 
 export default withStyles(styles)(Banner);

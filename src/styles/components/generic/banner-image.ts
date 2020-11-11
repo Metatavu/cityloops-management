@@ -5,9 +5,12 @@ export default createStyles({
 
   root: {
     position: "relative",
+    display: "flex",
+    justifyContent: "center",
     width: "100%",
+    backgroundPosition: "center 33%",
+    backgroundSize: "cover",
     height: 250,
-
     [theme.breakpoints.up("md")]: {
       height: 300
     },
@@ -19,6 +22,12 @@ export default createStyles({
     [theme.breakpoints.up("xl")]: {
       height: 500
     },
+  },
+
+  partners: {
+    display: "flex",
+    alignSelf: "center",
+    height: 186
   },
 
   title: {
