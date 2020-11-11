@@ -17,7 +17,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import logoPrimary from "../../resources/svg/logo-primary.svg";
 import theme from "../../styles/theme";
-import LoginButton from "./login-button";
+import UserActionButtons from "./user-action-buttons";
 
 /**
  * Interface describing properties from screen components
@@ -129,7 +129,7 @@ const Header: React.FC<Props> = props => {
       return (
         <div className={ classes.accountSection }>
           { renderLanguageSelection() }
-          <LoginButton />
+          <UserActionButtons />
         </div>
       );
     }
@@ -164,7 +164,7 @@ const Header: React.FC<Props> = props => {
       <Select
         className={ classes.languageSelect }
         value={ strings.getLanguage() }
-        onChange={ (event) => setLocale(event.target.value as string) }
+        onChange={ event => setLocale(event.target.value as string) }
       >
       {
         strings.getAvailableLanguages().map(language =>

@@ -3,7 +3,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { ReduxState, ReduxActions } from "../../store";
-import { signedLogin } from "../../actions/auth";
+import { setKeycloak, signedLogin } from "../../actions/auth";
 
 import { AccessToken } from "../../types";
 import ErrorDialog from "../generic/error-dialog";
@@ -16,6 +16,7 @@ import Keycloak from "keycloak-js";
 interface Props {
   signedToken?: AccessToken;
   onSignedLogin: typeof signedLogin;
+  setKeycloak: typeof setKeycloak;
 }
 
 /**
@@ -57,9 +58,9 @@ class SignedTokenProvider extends React.Component<Props, State> {
    */
   public componentDidMount = async () => {
     const auth = await this.keycloakInit();
-
+    this.props.setKeycloak(this.keycloak);
     if (!auth) {
-      window.location.reload();
+      return;
     } else {
       const { token, tokenParsed } = this.keycloak;
 
@@ -67,7 +68,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
         this.keycloak.loadUserProfile();
         const signedToken = this.buildToken(this.keycloak);
         if (signedToken) {
-          this.props.onSignedLogin(this.keycloak, signedToken);
+          this.props.onSignedLogin(signedToken);
         }
       }
 
@@ -75,14 +76,14 @@ class SignedTokenProvider extends React.Component<Props, State> {
 
       this.timer = setInterval(() => {
         this.refreshAccessToken();
-      }, 1000 * 60);
+      }, 1000 * 5);
     }
   }
 
   /**
    * Component will unmount life cycle event
    */
-  public componentWillUnmount() {
+  public componentWillUnmount = () => {
     if (this.timer) {
       clearInterval(this.timer);
     }
@@ -92,27 +93,27 @@ class SignedTokenProvider extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { signedToken, children } = this.props;
+    const { children } = this.props;
     const { error } = this.state;
 
     if (error) {
       return <ErrorDialog error={ error } onClose={ () => this.setState({ error: undefined }) } />;
     }
 
-    return signedToken ? children : null;
+    return children;
   }
 
   /**
    * Refreshes access token
    */
-  private refreshAccessToken() {
+  private refreshAccessToken = () => {
     try {
       const refreshed = this.keycloak.updateToken(70);
       if (refreshed) {
         const signedToken = this.buildToken(this.keycloak);
 
         if (signedToken) {
-          this.props.onSignedLogin(this.keycloak, signedToken);
+          this.props.onSignedLogin(signedToken);
         }
       }
     } catch (e) {
@@ -127,7 +128,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
    */
   private keycloakInit = () => {
     return new Promise(resolve => {
-      this.keycloak.init({ onLoad: "login-required", checkLoginIframe: false }).success(resolve);
+      this.keycloak.init({ onLoad:"check-sso", checkLoginIframe: false }).success(resolve);
     });
   }
 
@@ -143,8 +144,8 @@ class SignedTokenProvider extends React.Component<Props, State> {
     if (!tokenParsed || !tokenParsed.sub || !token) {
       return undefined;
     }
-    
-    const created = new Date();      
+
+    const created = new Date();
 
     return {
       created: created,
@@ -177,7 +178,8 @@ function mapStateToProps(state: ReduxState) {
  */
 function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
-    onSignedLogin: (keycloak: KeycloakInstance, signedToken: AccessToken) => dispatch(signedLogin(keycloak, signedToken))
+    onSignedLogin: (signedToken: AccessToken) => dispatch(signedLogin(signedToken)),
+    setKeycloak: (keycloak: KeycloakInstance) => dispatch(setKeycloak(keycloak))
   };
 }
 

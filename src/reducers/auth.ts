@@ -1,5 +1,5 @@
 import { AuthAction } from '../actions/auth';
-import { ANONYMOUS_LOGIN, SIGNED_LOGIN, SIGNED_LOGOUT } from '../constants/actionTypes';
+import { ANONYMOUS_LOGIN, SET_KEYCLOAK, SIGNED_LOGIN, SIGNED_LOGOUT } from '../constants/actionTypes';
 import { KeycloakInstance } from 'keycloak-js';
 import { AccessToken } from '../types';
 
@@ -30,6 +30,11 @@ const initialState: AuthState = {
  */
 export function authReducer(authState: AuthState = initialState, action: AuthAction): AuthState {
   switch (action.type) {
+    case SET_KEYCLOAK:
+      return {
+        ...authState,
+        keycloak: action.keycloak
+      };
     case ANONYMOUS_LOGIN:
       return {
         ...authState,
@@ -38,7 +43,6 @@ export function authReducer(authState: AuthState = initialState, action: AuthAct
     case SIGNED_LOGIN:
       return {
         ...authState,
-        keycloak: action.keycloak,
         signedToken: action.accessToken
       };
     case SIGNED_LOGOUT:
