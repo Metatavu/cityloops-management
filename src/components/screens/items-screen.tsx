@@ -21,6 +21,7 @@ import bannerImageSrc from "../../resources/images/banner-image.png";
 import ItemFormDialog from "../generic/item-form-dialog";
 
 import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasairila 1.png";
+import MTOperations from "../materiaalitori/mt-operations";
 
 /**
  * Component props
@@ -180,9 +181,10 @@ export class ItemsScreen extends React.Component<Props, State> {
     }
 
     const itemList = await ApiOperations.listItems(anonymousToken);
+    const mtItems = await MTOperations.listItems();
     this.setState(
       produce((draft: State) => {
-        draft.itemList = itemList;
+        draft.itemList = [ ...itemList, ...mtItems ];
       })
     );
   }
