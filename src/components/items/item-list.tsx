@@ -5,6 +5,7 @@ import { List, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Item } from "../../generated/client";
 
 import GenericListItem from "../generic/generic-list-item";
+import theme from "../../styles/theme";
 
 /**
  * Component props
@@ -48,7 +49,7 @@ export class ItemList extends React.Component<Props, State> {
     const listItems = itemList.map(item => {
       return(
         <GenericListItem
-          card
+          card={ cards }
           key={ item.id }
           item={ item }
           onClick={ this.onItemClick }
@@ -60,7 +61,7 @@ export class ItemList extends React.Component<Props, State> {
     return (
       <>
         { title &&
-          <Typography variant="h3">{ title }</Typography>
+          <Typography color="primary" style={{ marginTop: theme.spacing(2) }} variant="h1">{ title }</Typography>
         }
         <List className={ cards ? classes.cards : classes.list }>
           { listItems }

@@ -17,7 +17,9 @@ import ApiOperations from "../../utils/generic-api-operations";
 import AppLayout from "../layouts/app-layout";
 import ItemFormDialog from "../generic/item-form-dialog";
 
+import materiaalitoriLogo from "../../resources/images/materiaalitori.svg";
 import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasairila 1.png";
+import MTOperations from "../materiaalitori/mt-operations";
 
 /**
  * Component props
@@ -36,6 +38,7 @@ interface State {
   loading: boolean;
   formOpen: boolean;
   itemList: Item[];
+  mtToken?: string | null;
 }
 
 /**
@@ -86,7 +89,6 @@ export class ItemsScreen extends React.Component<Props, State> {
         { /* <BreadCrumbs></BreadCrumbs> */ }
         <ItemList
           title={ "Viimeisimmät tuotteet" }
-          cards
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
           deleteItem={ this.deleteItem }
@@ -138,9 +140,9 @@ export class ItemsScreen extends React.Component<Props, State> {
       produce((draft: State) => {
         draft.itemList.map(item =>
           item.id === updatedItem.id ? updatedItem : item
-        )
+        );
       })
-    )
+    );
   }
 
   /**
@@ -175,11 +177,56 @@ export class ItemsScreen extends React.Component<Props, State> {
     }
 
     const itemList = await ApiOperations.listItems(anonymousToken);
+    const mtResponse = await MTOperations.listItems();
+    const mtItems = await this.constructMTItems(mtResponse);
     this.setState(
       produce((draft: State) => {
-        draft.itemList = itemList;
+        draft.itemList = [ ...itemList, ...mtItems ];
       })
     );
+  }
+
+  /**
+   * Construct MT items
+   *
+   * @param response response from MT API endpoint
+   * @returns promise with list of items
+   */
+  private constructMTItems = async (response: Response): Promise<Item[]> => {
+    const mtItems: any[] = await response.json();
+    const items: Item[] = [];
+
+			mtItems.forEach(item => {
+				const newItem: Item = {
+					id: item.id,
+					title: item.title,
+					metadata: {
+						locationInfo: { }
+					},
+					properties: [
+					],
+					images: [
+						materiaalitoriLogo
+					],
+					onlyForCompanies: false,
+					userId: "materiaalitori",
+					category: item.rfoType
+				};
+				items.push(newItem);
+      });
+
+    /**
+     * TODO: We will need some indexing functionality for MT items. This is because
+     * MT requires continuationtoken for fetching items (this token is refreshed on each get request)
+     * and the API only returns 20 items at a time. So for example getting items 60-80 is
+     * impossible without first getting the previous continuationtokens.
+     */
+    // const token = response.headers.get("continuationtoken");
+    // this.setState({
+    //   mtToken: token
+    // });
+
+		return items;
   }
 
   /**
