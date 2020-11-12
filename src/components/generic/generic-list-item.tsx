@@ -1,9 +1,9 @@
 import * as React from "react";
-import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions } from '@material-ui/core';
+import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button } from '@material-ui/core';
 import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import strings from "../../localization/strings";
 
 /**
  * Interface representing component properties
@@ -11,6 +11,7 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 interface Props extends WithStyles<typeof styles> {
   item: Item;
   style?: CSSProperties;
+  card?: boolean;
   onClick: (item: Item) => void;
   onDeleteClick: (item: Item) => void;
 }
@@ -23,6 +24,7 @@ const GenericListItem: React.FC<Props> = props => {
     classes,
     item,
     style,
+    card,
     onClick,
     onDeleteClick
   } = props;
@@ -31,31 +33,49 @@ const GenericListItem: React.FC<Props> = props => {
 
   return(
     <Card
-      className={ classes.root }
+      elevation={ card ? 0 : 2 }
+      className={ card ? classes.card : classes.list }
       onClick={ () => onClick(item) }
       style={ style }
     >
-      <ListItemAvatar>
-        <img
-          alt={ `itemImage-${item.id}` }
-          src={ item.images ? item.images[0] : exampleSrc }
-          style={{ width: 100, height: 100 }}
-        />
-      </ListItemAvatar>
-      <Typography
-        style={{ width: "100%" }}
-        variant="h4"
-      >
-        { item.title }
-      </Typography>
+      {
+        !card ?
+        <ListItemAvatar>
+          <img
+            alt={ `itemImage-${item.id}` }
+            src={ item.images ? item.images[0] : exampleSrc }
+            style={{ width: 100, height: 100 }}
+          />
+        </ListItemAvatar>
+        :
+        <CardContent className={ classes.cardContent }>
+          <div className={ classes.imageWrapper }>
+            <img
+              className={ classes.cardImage }
+              alt={ `itemImage-${item.id}` }
+              src={ item.images ? item.images[0] : exampleSrc }
+              />
+          </div>
+        <Typography
+          style={{ width: "100%" }}
+          variant="h4"
+        >
+          { item.title }
+        </Typography>
+        </CardContent>
+      }
       <CardActions>
-        <DeleteOutlineIcon
+        <Button
+          variant="text"
+          color="secondary"
           onClick={ event => {
               event.stopPropagation();
               onDeleteClick(item);
             }
           }
-        />
+        >
+          { strings.generic.delete }
+        </Button>
       </CardActions>
     </Card>
   );
