@@ -1,4 +1,4 @@
-import { Item } from "../../generated/client";
+import * as querystring from "query-string";
 
 /**
  * Utility class for materiaalitori api calls
@@ -6,39 +6,22 @@ import { Item } from "../../generated/client";
 export default class MTOperations {
 
 	/**
-	 * List items from API
-	 *
-	 * @param accessToken access token
+	 * List items from Materiaalitori API
 	 */
-	public static listItems = async (): Promise<Item[]> => {
-		const apiPath = process.env.REACT_APP_MATERIAALITORI_API_BASE_URL || "";
+	public static listItems = async (token?: string): Promise<Response> => {
+		const apiPath = process.env.REACT_APP_MATERIAALITORI_AWS_GATEWAY_URL || "";
 
-			const response = await fetch(apiPath, {
+		const url = querystring.stringifyUrl({ url: apiPath, query: { "continuationToken": token } });
+
+		return await fetch(
+			url,
+			{
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json'
-				}
-			});
-
-			const mtItems: any[] = await response.json();
-			const items: Item[] = [];
-
-			mtItems.forEach(item => {
-				const newItem: Item = {
-					title: item.title,
-					metadata: {
-						locationInfo: { }
-					},
-					properties: [
-					],
-					onlyForCompanies: false,
-					userId: "materiaalitori",
-					category: item.rfoType
-				};
-				items.push(newItem);
-			});
-
-			return items;
-  }
+				},
+			}
+		);
+  };
 
 }
