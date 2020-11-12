@@ -61,7 +61,13 @@ export class ItemList extends React.Component<Props, State> {
     return (
       <>
         { title &&
-          <Typography color="primary" style={{ marginTop: theme.spacing(2) }} variant="h1">{ title }</Typography>
+          <Typography
+            color="primary"
+            style={{ marginTop: theme.spacing(2) }}
+            variant="h1"
+          >
+            { title }
+          </Typography>
         }
         <List className={ cards ? classes.cards : classes.list }>
           { listItems }
