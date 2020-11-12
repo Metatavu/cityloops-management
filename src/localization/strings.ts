@@ -5,11 +5,12 @@ import LocalizedStrings, { LocalizedStringsMethods } from "localized-strings";
  */
 export interface IStrings extends LocalizedStringsMethods {
 
-  /**
-   * Generic translations
-   */
-  browseProducts: string;
   comingSoon: string;
+  browseProducts: string;
+
+  /**
+   * Translations related to error dialog
+   */
   errorDialog: {
     title: string;
     reloadPage: string;
@@ -23,11 +24,18 @@ export interface IStrings extends LocalizedStringsMethods {
     reload: string;
   };
 
+  /**
+   * Translations related to errors
+   */
   error: {
     emptyField: string;
     invalidEmail: string;
+    itemNotFound: string;
   };
 
+  /**
+   * Translations for generic dialogs
+   */
   genericDialog: {
     confirm: string;
     cancel: string;
@@ -36,6 +44,9 @@ export interface IStrings extends LocalizedStringsMethods {
     add: string;
   };
 
+  /**
+   * Generic translations
+   */
   generic: {
     add: string;
     save: string;
@@ -51,6 +62,14 @@ export interface IStrings extends LocalizedStringsMethods {
     search: string;
     imageAlt: string;
     proceed: string;
+  };
+
+  /**
+   * Translations related to search
+   */
+  search: {
+    category: string;
+    agency: string;
   };
 
   /**
@@ -72,6 +91,7 @@ export interface IStrings extends LocalizedStringsMethods {
       email: string;
       phone: string;
     };
+    createdAt: string;
   },
 
   /**

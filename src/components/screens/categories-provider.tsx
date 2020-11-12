@@ -137,7 +137,8 @@ class CategoriesProvider extends React.Component<Props, State> {
     }
 
     this.setState({
-      modifiedCategories: addOrUpdateList(categories, categoryToUpdate)
+      modifiedCategories: addOrUpdateList(categories, categoryToUpdate),
+      selectedCategory: categoryToUpdate
     });
   };
 
@@ -145,15 +146,24 @@ class CategoriesProvider extends React.Component<Props, State> {
   /**
    * Update changed categories state
    */
-  private updateChangedCategories = () => {
-    const { modifiedCategories } = this.state;
+  private updateChangedCategories = async () => {
+    const { categories, modifiedCategories } = this.state;
     if (!modifiedCategories) {
       return;
     }
 
-    modifiedCategories.forEach(category => {
-      this.updateCategory(category);
-    });
+    const updatedCategories = await Promise.all(
+      modifiedCategories.map(category => this.updateCategory(category))
+    );
+
+    this.updateCategoryData(
+      categories.map(category => {
+        const index = updatedCategories.findIndex(updatedCategory => updatedCategory?.id === category.id);
+        return index > -1 ?
+          updatedCategories[index]! : category;
+      }),
+      this.state.selectedCategory
+    );
   };
 
   /**
@@ -164,13 +174,17 @@ class CategoriesProvider extends React.Component<Props, State> {
   private onCategoryDeleteClick = (categoryToDelete: Category) => {
     const { categories, modifiedCategories } = this.state;
 
+    if (!this.props.signedToken) {
+      return;
+    }
+
     if (askConfirmation()) {
       this.updateCategoryData(categories.filter(category => category.id !== categoryToDelete.id));
       this.setState({
         modifiedCategories: modifiedCategories.filter(category => category.id !== categoryToDelete.id)
       });
       this.deleteCategory(categoryToDelete)
-      .catch(error => console.log(error));
+        .catch(error => console.log(error));
     }
   }
 
@@ -238,7 +252,7 @@ class CategoriesProvider extends React.Component<Props, State> {
     }
 
     const categoriesApi = Api.getCategoriesApi(signedToken);
-    await categoriesApi.updateCategory({
+    return await categoriesApi.updateCategory({
       categoryId: categoryToUpdate.id,
       category: categoryToUpdate
     });

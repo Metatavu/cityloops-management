@@ -107,8 +107,8 @@ const constructSingleLevel = (treeData: CategoryDataHolder[], props: Props): Tre
         />
         ),
       children: childCategories.length > 0 ?
-      constructSingleLevel(childCategories, props) :
-      []
+        constructSingleLevel(childCategories, props) :
+        []
     } as TreeItemSortable;
   });
 };
