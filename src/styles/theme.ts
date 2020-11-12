@@ -10,8 +10,8 @@ export default createMuiTheme({
     warning: { main: yellow.A700 },
     error: { main: red.A700 },
     background: {
-      default: "#F7F7F7",
-      paper: "#fff"
+      default: "#FFFFFF",
+      paper: "#F7F7F7"
     },
     text: {
       primary: "#222",
@@ -20,7 +20,32 @@ export default createMuiTheme({
     },
   },
   typography: {
-    fontFamily: "Kumbh Sans, sans-serif"
+    fontFamily: "'Open Sans', sans-serif",
+    h1: {
+      fontSize: 32,
+      fontWeight: 900
+    },
+    h2: {
+      fontSize: 26,
+      fontWeight: "bold"
+    },
+    h3: {
+      fontSize: 22,
+      fontWeight: "bold"
+    },
+    h4: {
+      fontSize: 16,
+      fontWeight: "bold"
+    },
+    h5: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: "#004D76"
+    },
+    subtitle1: {},
+    subtitle2: {},
+    body1: {},
+    body2: {}
   },
   overrides: {
     MuiButton: {

@@ -88,6 +88,7 @@ export class ItemsScreen extends React.Component<Props, State> {
         { /* <SearchBar></SearchBar> */ }
         { /* <BreadCrumbs></BreadCrumbs> */ }
         <ItemList
+          title={ "Viimeisimmät tuotteet" }
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
           deleteItem={ this.deleteItem }

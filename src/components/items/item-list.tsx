@@ -1,16 +1,19 @@
 import * as React from "react";
 
-import styles from "../../styles/components/screens/main-view";
-import { List, WithStyles, withStyles } from "@material-ui/core";
+import styles from "../../styles/components/generic/item-list";
+import { List, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Item } from "../../generated/client";
 
 import GenericListItem from "../generic/generic-list-item";
+import theme from "../../styles/theme";
 
 /**
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
   itemList: Item[];
+  cards?: boolean;
+  title?: string;
   updatePath: (item: Item) => void;
   deleteItem: (item: Item) => void;
 }
@@ -41,11 +44,12 @@ export class ItemList extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { itemList } = this.props;
+    const { classes, itemList, cards, title } = this.props;
 
     const listItems = itemList.map(item => {
       return(
         <GenericListItem
+          card={ cards }
           key={ item.id }
           item={ item }
           onClick={ this.onItemClick }
@@ -55,9 +59,20 @@ export class ItemList extends React.Component<Props, State> {
     });
 
     return (
-      <List>
-        { listItems }
-      </List>
+      <>
+        { title &&
+          <Typography
+            color="primary"
+            style={{ marginTop: theme.spacing(2) }}
+            variant="h1"
+          >
+            { title }
+          </Typography>
+        }
+        <List className={ cards ? classes.cards : classes.list }>
+          { listItems }
+        </List>
+      </>
     );
   }
 
