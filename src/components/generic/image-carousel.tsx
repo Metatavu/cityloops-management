@@ -17,7 +17,7 @@ export interface Props extends WithStyles<typeof styles> {
 }
 
 /**
- * Functional component for banner image
+ * Functional component for image carousel
  * 
  * @param props component props
  */
