@@ -143,7 +143,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
 
     const config = Config.getAnonymousLoginConfig();
 
-    const response = await fetch(`${config.url}/realms/${config.realm}/protocol/openid-connect/token`, {
+    const response = await fetch(`${config.url}realms/${config.realm}/protocol/openid-connect/token`, {
       method: 'POST',
       body: querystring.stringify({
         grant_type: 'refresh_token',

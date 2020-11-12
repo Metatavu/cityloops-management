@@ -27,18 +27,33 @@ const GenericListItem: React.FC<Props> = props => {
     onDeleteClick
   } = props;
 
-  const exampleSrc = "https://staging-muisti-cdn.metatavu.io/folder/f2d54335-2015-4ccc-8ac2-d4c113b05dc6.jpg";
+  const isMTItem = item.userId === "materiaalitori";
+  const defaultImage = "https://staging-muisti-cdn.metatavu.io/folder/f2d54335-2015-4ccc-8ac2-d4c113b05dc6.jpg";
+
+  /**
+   * Event handler for card click
+   */
+  const onCardClick = () => {
+    if (isMTItem) {
+      window.open(
+        `https://materiaalitori.fi/ilmoitukset/${item.id}`,
+        "_blank"
+      );
+    } else {
+      onClick(item);
+    }
+  };
 
   return(
     <Card
       className={ classes.root }
-      onClick={ () => onClick(item) }
+      onClick={ onCardClick }
       style={ style }
     >
       <ListItemAvatar>
         <img
           alt={ `itemImage-${item.id}` }
-          src={ item.images ? item.images[0] : exampleSrc }
+          src={ item.images ? item.images[0] : defaultImage }
           style={{ width: 100, height: 100 }}
         />
       </ListItemAvatar>
