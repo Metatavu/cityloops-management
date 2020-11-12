@@ -47,7 +47,7 @@ const GenericListItem: React.FC<Props> = props => {
   return(
     <Card
       className={ classes.root }
-      onClick={ () => onCardClick() }
+      onClick={ onCardClick }
       style={ style }
     >
       <ListItemAvatar>
