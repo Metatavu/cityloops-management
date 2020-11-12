@@ -16,7 +16,8 @@
 
   "error": {
     "emptyField": "Täytä kenttä",
-    "invalidEmail": "Tarkista sähköpostin kirjoitusasu"
+    "invalidEmail": "Tarkista sähköpostin kirjoitusasu",
+    "itemNotFound": "Ilmoitusta ei löytynyt"
   },
 
   "genericDialog": {
@@ -44,6 +45,11 @@
     "proceed": "Jatka"
   },
 
+  "search": {
+    "category": "Kategoria",
+    "agency": "Toimipiste"
+  },
+
   "items": {
     "title": "Tuotteet",
     "addItem": "Lisää tuote",
@@ -59,7 +65,8 @@
       "address": "Katuosoite",
       "phone": "Puhelinnumero",
       "email": "Sähköpostiosoite"
-    }
+    },
+    "createdAt": "Ilmoitus jätetty: {0}"
   },
 
   "categories": {

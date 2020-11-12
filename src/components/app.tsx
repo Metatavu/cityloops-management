@@ -87,9 +87,13 @@ class App extends React.Component<Props, State> {
                       <Route
                         path="/item/:id"
                         exact={ true }
-                      >
-                        <ItemScreen/>
-                      </Route>
+                        render={({ history, match }) => (
+                          <ItemScreen
+                            history={ history }
+                            itemId={ match.params.id }
+                          />
+                        )}
+                      />
                       <Route
                         path="/add"
                         exact={ true }

@@ -17,7 +17,8 @@
 
   "error": {
     "emptyField": "Fill field",
-    "invalidEmail": "Check email spelling"
+    "invalidEmail": "Check email spelling",
+    "itemNotFound": "Posting not found"
   },
 
   "genericDialog": {
@@ -45,6 +46,11 @@
     "proceed": "Proceed"
   },
 
+  "search": {
+    "category": "Category",
+    "agency": "Agency"
+  },
+
   "items": {
     "title": "Items",
     "addItem": "Add item",
@@ -60,7 +66,8 @@
       "address": "Street address",
       "phone": "Phone number",
       "email": "Email address"
-    }
+    },
+    "createdAt": "Posting created at: {0}"
   },
 
   "categories": {
