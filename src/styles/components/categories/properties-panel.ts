@@ -1,9 +1,40 @@
 import { createStyles } from "@material-ui/core";
+import theme from "../../theme";
 
 export default createStyles({
+
+  root: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    [theme.breakpoints.down("md")]: {
+      flexDirection: "column"
+    }
+  },
+
   propertiesContainer: {
-    backgroundColor: "#c9c9c9",
-    padding: 10,
-    minHeight: "100%"
+    borderRight: "solid 1px rgba(0, 0, 0, .2)",
+    padding: 20,
+    minHeight: "100%",
+    width: "50%",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+      borderRight: "none",
+      borderBottom: "solid 1px rgba(0, 0, 0, .2)"
+    }
+  },
+
+  nameField: {
+    marginBottom: 20
+  },
+
+  propertyInfoContainer: {
+    padding: 20,
+    minHeight: "100%",
+    width: "50%",
+    [theme.breakpoints.down("md")]: {
+      width: "100%"
+    }
   }
+
 });

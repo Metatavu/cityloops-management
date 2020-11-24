@@ -19,98 +19,117 @@ interface Props extends WithStyles<typeof styles> {
   selectedCategory?: Category;
   openCategories: string[];
   treeData?: CategoryDataHolder[];
-  onAddCategoryClick: (parentCategoryId?: string) => void;
-  onCategoryClick: (category: Category) => void;
-  onCategoryUpdate: (category: Category) => void;
-  onCategorySaveClick: () => void;
-  onCategoryDeleteClick: (category: Category) => void;
+  onAddCategory: (parentCategoryId?: string) => void;
+  onSelectCategory: (category: Category) => void;
+  onUpdateCategory: (category: Category) => void;
+  onSaveCategories: () => void;
+  onDeleteCategory: (category: Category) => void;
 }
 
 /**
  * Functional component for categories view
  */
-const CategoriesScreen: React.FC<Props> = props => {
-  const { selectedCategory, classes, onAddCategoryClick, onCategoryUpdate, onCategorySaveClick } = props;
+const CategoriesScreen: React.FC<Props> = ({
+  treeData,
+  selectedCategory,
+  openCategories,
+  classes,
+  onAddCategory,
+  onSelectCategory,
+  onUpdateCategory,
+  onSaveCategories,
+  onDeleteCategory
+}) => {
 
-  return (
-    <AppLayout
-      headerProps={{
-        onSaveClick: onCategorySaveClick
-      }}
-    >
-      <div className={ classes.treeContainer }>
-        <GenericButton
-          onClick={ () => onAddCategoryClick() }
-          text={ strings.categories.addCategory }
-          style={{
-            backgroundColor: "#00B6ED",
-            marginTop: 10,
-            marginLeft: 10
-          }}
-        />
-        <SortableTree
-          treeData={ constructTreeData(props) }
-          /**
-           * TODO: Add logic for changing order
-           */
-          onChange={ data => console.log(data) }
-        />
-      </div>
-      <div className={ classes.dataContainer }>
-        { selectedCategory &&
-          <PropertiesPanel
-            category={ selectedCategory }
-            onCategoryUpdate={ onCategoryUpdate }
+  /**
+   * Construct display tree data
+   *
+   * @returns returns sortable tree item list
+   */
+  const constructTreeData = (): TreeItemSortable[] => {
+    if (!treeData) {
+      return [];
+    }
+    return constructSingleLevel(treeData);
+  };
+
+  /**
+   * Recursive function that construct single level of the tree
+   *
+   * @param level current level
+   * @returns returns sortable tree item list
+   */
+  const constructSingleLevel = (level: CategoryDataHolder[]): TreeItemSortable[] => {
+    return level.map(categoryData => {
+      const { category, childCategories } = categoryData;
+      return {
+        id: category.id,
+        category: category,
+        expanded: openCategories.includes(category.id!!),
+        title: (
+          <GenericTreeItem
+            category={ category }
+            onAddCategoryClick={ onAddCategory }
+            onClick={ onSelectCategory }
+            onDeleteClick={ onDeleteCategory }
+            hasChildElements={ childCategories.length > 0 }
           />
-        }
+          ),
+        children: childCategories.length > 0 ?
+          constructSingleLevel(childCategories) :
+          []
+      } as TreeItemSortable;
+    });
+  };
+
+  /**
+   * Component render
+   */
+  return (
+    <AppLayout>
+      <div className={ classes.root }>
+        <div className={ classes.treeContainer }>
+          <div className={ classes.actionButtonContainer }>
+            <GenericButton
+              onClick={ () => onAddCategory() }
+              text={ strings.categories.addCategory }
+              style={{
+                backgroundColor: "#00B6ED",
+                marginTop: 10,
+                marginLeft: 10
+              }}
+            />
+            <GenericButton
+              onClick={ () => onSaveCategories() }
+              text={ strings.generic.save }
+              style={{
+                backgroundColor: "#00B6ED",
+                marginTop: 10,
+                marginLeft: 10
+              }}
+            />
+          </div>
+          <SortableTree
+            treeData={ constructTreeData() }
+            onVisibilityToggle={ data => onSelectCategory(data.node.category) }
+            
+            /**
+             * TODO: Add logic for changing order
+             */
+            onChange={ data => console.log(data) }
+          />
+        </div>
+        <div className={ classes.propertiesContainer }>
+          { selectedCategory &&
+            <PropertiesPanel
+              category={ selectedCategory }
+              onCategoryUpdate={ onUpdateCategory }
+            />
+          }
+        </div>
       </div>
     </AppLayout>
   );
-};
-
-/**
- * Construct display tree data
- *
- * @param props component props
- * @returns returns sortable tree item list
- */
-const constructTreeData = (props: Props): TreeItemSortable[] => {
-  const { treeData } = props;
-
-  if (!treeData) {
-    return [];
-  }
-  return constructSingleLevel(treeData, props);
-};
-
-/**
- * Recursive function that construct single level of the tree
- *
- * @param treeData current tree data
- * @param props component props
- * @returns returns sortable tree item list
- */
-const constructSingleLevel = (treeData: CategoryDataHolder[], props: Props): TreeItemSortable[] => {
-  const { openCategories, onAddCategoryClick, onCategoryClick, onCategoryDeleteClick } = props;
-  return treeData.map(categoryData => {
-    const { category, childCategories } = categoryData;
-    return {
-      id: category.id,
-      expanded: openCategories.includes(category.id!!),
-      title: (
-        <GenericTreeItem
-          category={ category }
-          onAddCategoryClick={ onAddCategoryClick }
-          onClick={ onCategoryClick }
-          onDeleteClick={ onCategoryDeleteClick }
-          hasChildElements={ childCategories.length > 0 }
-        />
-        ),
-      children: childCategories.length > 0 ?
-        constructSingleLevel(childCategories, props) :
-        []
-    } as TreeItemSortable;
-  });
 };
 
 export default withStyles(styles)(CategoriesScreen);

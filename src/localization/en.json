@@ -37,6 +37,11 @@
     "clear": "Clear",
     "loadNew": "Load new",
     "name": "Name",
+    "type": "Type",
+    "defaultText": "Default text",
+    "defaultValue": "Default value",
+    "mandatoryField": "Mandatory field",
+    "customConfirmDelete":"Delete {0} \"{1}\"?",
     "confirmDelete": "Are you sure you want to remove selected element?",
     "or": "or",
     "undefined": "Undefined",
@@ -72,11 +77,20 @@
 
   "categories": {
     "title": "Categories",
+    "category": "Category",
     "addCategory": "Add category",
     "addSubCategory": "Add sub category",
     "movables": "Movables",
     "buildingMaterials": "Building materials",
-    "soilAndRockMaterials": "Soil and rock materials"
+    "soilAndRockMaterials": "Soil and rock materials",
+    "noProperties": "No fields",
+    "newProperty": "New field",
+    "addProperty": "Add field",
+    "propertyTypes": {
+      "text": "Text field",
+      "textarea": "Free text field",
+      "number": "Number field"
+    }
   },
 
   "user": {

@@ -55,6 +55,11 @@ export interface IStrings extends LocalizedStringsMethods {
     clear: string;
     loadNew: string;
     name: string;
+    type: string;
+    defaultText: string;
+    defaultValue: string;
+    mandatoryField: string;
+    customConfirmDelete: string;
     confirmDelete: string;
     or: string;
     undefined: string;
@@ -121,11 +126,20 @@ export interface IStrings extends LocalizedStringsMethods {
    */
   categories: {
     title: string;
+    category: string;
     addCategory: string;
     addSubCategory: string;
     movables: string;
     buildingMaterials: string;
     soilAndRockMaterials: string;
+    noProperties: string;
+    newProperty: string;
+    addProperty: string;
+    propertyTypes: {
+      text: string;
+      textarea: string;
+      number: string;
+    };
   };
 
   /**
