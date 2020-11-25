@@ -21,6 +21,7 @@ const CategoryPropertyInfo: React.FC<Props> = ({
   property,
   onUpdate
 }) => {
+
   /**
    * Event handler for input change
    *
