@@ -1,12 +1,15 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, Typography, TextField } from "@material-ui/core";
+import { withStyles, WithStyles, TextField } from "@material-ui/core";
 import styles from "../../styles/components/categories/properties-panel";
 import strings from "../../localization/strings";
-import { Category } from "../../generated/client";
+import { Category, CategoryProperty } from "../../generated/client";
+import CategoryPropertyList from "./category-property-list";
+import CategoryPropertyInfo from "./category-property-info";
+import produce from "immer";
 
 /**
- * Component props
+ * Component properties
  */
 interface Props extends WithStyles<typeof styles> {
   category: Category;
@@ -15,38 +18,91 @@ interface Props extends WithStyles<typeof styles> {
 
 /**
  * Functional component for properties panel
+ * 
+ * @param props component properties
  */
-const PropertiesPanel: React.FC<Props> = props => {
-  const { category, classes } = props;
+const PropertiesPanel: React.FC<Props> = ({
+  category,
+  classes,
+  onCategoryUpdate
+}) => {
+  const { name, properties } = category;
+  const [ selectedPropertyIndex, setSelectedPropertyIndex ] = React.useState<number | undefined>(undefined);
 
+  React.useEffect(() => {
+    if (
+      !properties ||
+      (selectedPropertyIndex && selectedPropertyIndex >= properties.length)
+    ) {
+      setSelectedPropertyIndex(undefined);
+    }
+  }, [properties, selectedPropertyIndex]);
+
+  /**
+   * Event handler for input change
+   *
+   * @param event React change event
+   */
+  const onNameChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    onCategoryUpdate({ ...category, name: event.target.value });
+  };
+
+  /**
+   * Updates property to category
+   * 
+   * @param index index of property
+   * @param updatedProperty updated property
+   */
+  const updateProperty = (index: number) => (updatedProperty: CategoryProperty) => {
+    onUpdatePropertyList(
+      produce(properties || [], draft => {
+        draft[index] = updatedProperty;
+      })
+    );
+  }
+
+  /**
+   * Event handler for update property list
+   * 
+   * @param updatedProperties updated properties list
+   */
+  const onUpdatePropertyList = (updatedProperties: CategoryProperty[]) => {
+    onCategoryUpdate({ ...category, properties: updatedProperties });
+  }
+
+  /**
+   * Component render
+   */
   return (
-    <div className={ classes.propertiesContainer }>
-      <Typography variant="h4">
-        { strings.generic.name }
-      </Typography>
-      <TextField
-        value={ category.name }
-        name="name"
-        onChange={ onInputChange(props) }
-      />
+    <div className={ classes.root }>
+      <div className={ classes.propertiesContainer }>
+        <TextField
+          fullWidth
+          variant="outlined"
+          label={ strings.generic.name }
+          InputLabelProps={{ variant: "outlined" }}
+          value={ name || "" }
+          name="name"
+          onChange={ onNameChange }
+          className={ classes.nameField }
+        />
+        <CategoryPropertyList
+          properties={ category.properties || [] }
+          selectedIndex={ selectedPropertyIndex }
+          onSelectProperty={ setSelectedPropertyIndex }
+          onUpdateProperties={ onUpdatePropertyList }
+        />
+      </div>
+      { properties && selectedPropertyIndex !== undefined && selectedPropertyIndex < properties.length &&
+        <div className={ classes.propertyInfoContainer }>
+            <CategoryPropertyInfo
+              property={ properties[selectedPropertyIndex] }
+              onUpdate={ updateProperty(selectedPropertyIndex!) }
+            />
+        </div>
+      }
     </div>
   );
-};
-
-/**
- * Event handler for input change
- *
- * @param props component props
- * @param event React change event
- */
-const onInputChange = (props: Props) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-  const { category, onCategoryUpdate } = props;
-  const { name, value } = event.target;
-  if (!name) {
-    return;
-  }
-  const updatedCategory: Category = { ...category, name: value };
-  onCategoryUpdate(updatedCategory);
 };
 
 export default withStyles(styles)(PropertiesPanel);

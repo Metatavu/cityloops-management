@@ -78,11 +78,11 @@ class CategoriesProvider extends React.Component<Props, State> {
         selectedCategory={ selectedCategory }
         openCategories={ openCategories }
         treeData={ treeData }
-        onAddCategoryClick={ this.onAddCategoryClick }
-        onCategoryClick={ this.onCategoryClick }
-        onCategoryUpdate={ this.onCategoryUpdate }
-        onCategorySaveClick={ this.updateChangedCategories }
-        onCategoryDeleteClick={ this.onCategoryDeleteClick }
+        onAddCategory={ this.onAddCategoryClick }
+        onSelectCategory={ this.onCategoryClick }
+        onUpdateCategory={ this.onCategoryUpdate }
+        onSaveCategories={ this.updateChangedCategories }
+        onDeleteCategory={ this.onCategoryDeleteClick }
       />
     );
   }
@@ -141,7 +141,6 @@ class CategoriesProvider extends React.Component<Props, State> {
       selectedCategory: categoryToUpdate
     });
   };
-
 
   /**
    * Update changed categories state

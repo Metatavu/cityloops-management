@@ -36,6 +36,11 @@
     "clear": "Tyhjennä",
     "loadNew": "Lataa uusi",
     "name": "Nimi",
+    "type": "Tyyppi",
+    "defaultText": "Oletusteksti",
+    "defaultValue": "Oletusarvo",
+    "mandatoryField": "Pakollinen kenttä",
+    "customConfirmDelete":"Poista {0} \"{1}\"?",
     "confirmDelete": "Haluatko varmasti poistaa valitun elementin?",
     "or": "tai",
     "undefined": "Ei määritelty",
@@ -71,11 +76,20 @@
 
   "categories": {
     "title": "Kategoriat",
+    "category": "Kategoria",
     "addCategory": "Lisää kategoria",
     "addSubCategory": "Lisää alakategoria",
     "movables": "Irtaimistot",
     "buildingMaterials": "Rakennustavarat",
-    "soilAndRockMaterials": "Maa- ja kiviainekset"
+    "soilAndRockMaterials": "Maa- ja kiviainekset",
+    "noProperties": "Ei kenttiä",
+    "newProperty": "Uusi kenttä",
+    "addProperty": "Lisää kenttä",
+    "propertyTypes": {
+      "text": "Tekstikenttä",
+      "textarea": "Vapaa tekstikenttä",
+      "number": "Numerokenttä"
+    }
   },
 
   "user": {
