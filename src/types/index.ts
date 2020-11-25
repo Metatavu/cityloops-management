@@ -58,3 +58,14 @@ export enum TextFieldTypes {
   BOOLEAN = "boolean",
   PASSWORD = "password"
 }
+
+/**
+ * Interface for OSM data.
+ * NOTE: This interface only contains the information we currently need.
+ * There is a lot more data coming from OSM endpoint. We can add more fields
+ * here if needed
+ */
+export interface OSMData {
+  lat: string;
+  lon: string;
+}

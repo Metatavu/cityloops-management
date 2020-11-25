@@ -4,10 +4,10 @@ import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 
-import { AccessToken } from "../../types";
+import { AccessToken, OSMData } from "../../types";
 // tslint:disable-next-line: max-line-length
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { Category, Item, ItemProperty, LocationInfo } from "../../generated/client";
+import { Category, Coordinates, Item, ItemProperty, LocationInfo } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
 import CategoryTree from "./category-tree";
@@ -47,6 +47,11 @@ interface State {
 class ItemFormDialog extends React.Component<Props, State> {
 
   /**
+   * Base path for Open Street Maps address search API
+   */
+  private osmAddressBasePath = "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&polygon_svg=1&namedetails=1&countrycodes=fi&q=";
+
+  /**
    * Component constructor
    *
    * @param props component props
@@ -58,6 +63,14 @@ class ItemFormDialog extends React.Component<Props, State> {
       categories: []
     };
   }
+
+  /**
+   * Default coordinates
+   */
+  private defaultCoordinates: Coordinates = {
+    latitude: 61.6877956,
+    longitude: 27.2726569
+  };
 
   /**
    * Component did mount life cycle method
@@ -425,12 +438,60 @@ class ItemFormDialog extends React.Component<Props, State> {
    *
    * @param locationInfo location info
    */
-  private updateLocationInfo = (locationInfo: LocationInfo) => {
+  private updateLocationInfo = async (locationInfo: LocationInfo) => {
+    const { item } = this.state;
+
+    const previousLocationInfo = item?.metadata.locationInfo;
+    let newCoordinates: Coordinates = { ...this.defaultCoordinates };
+
+    if (previousLocationInfo?.address !== locationInfo.address) {
+      const response = await this.fetchNewCoordinatesForAddress(locationInfo.address);
+      const parsedCoordinates = await this.parseCoordinates(response);
+      newCoordinates = parsedCoordinates;
+    }
+
+    locationInfo.coordinates = newCoordinates;
+
     this.setState(
       produce((draft: State) => {
         draft.item!.metadata.locationInfo = locationInfo;
       })
     );
+  }
+
+  /**
+   * OSM API search function
+   *
+   * @param address address to search
+   * @returns response promise
+   */
+  private fetchNewCoordinatesForAddress = async (address?: string): Promise<Response> => {
+    return await fetch(`${this.osmAddressBasePath}${encodeURIComponent(address || "")}`);
+  }
+
+  /**
+   * Parses coordinates from OSM response
+   *
+   * @param response OSM response
+   * @returns coordinates promise
+   */
+  private parseCoordinates = async (response: Response): Promise<Coordinates> => {
+
+    const coordinates: Coordinates = { ...this.defaultCoordinates };
+
+    if (response.body === null) {
+      return coordinates;
+    }
+
+    const osmData: OSMData[] = await response.json();
+    if (osmData.length === 0) {
+      return coordinates;
+    }
+
+    const firstResult = osmData[0];
+    coordinates.latitude = Number(firstResult.lat);
+    coordinates.longitude = Number(firstResult.lon);
+    return coordinates;
   }
 
   /**
