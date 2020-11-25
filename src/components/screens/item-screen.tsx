@@ -17,11 +17,7 @@ import SearchBar from "../generic/search-bar";
 import ImageCarousel from "../generic/image-carousel";
 import moment from "moment";
 import LocationIcon from '@material-ui/icons/Room';
-/**
- * TODO:
- * Remove when map functionality is done
- */
-import mapImage from "../../resources/images/kartta.png";
+import Map from "../generic/map";
 
 /**
  * Component props
@@ -150,7 +146,7 @@ export class ItemScreen extends React.Component<Props, State> {
             )
           }
         </Typography>
-      </>  
+      </>
     );
   }
 
@@ -203,14 +199,14 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders map
    */
   private renderMap = () => {
-    const { classes } = this.props;
     const { item } = this.state;
-    /**
-     * TODO:
-     * Add map functionality
-     */
+
     return item && (
-      <img src={ mapImage } alt={ strings.generic.imageAlt } className={ classes.map } />
+      <Map
+        locationInfo={ item.metadata.locationInfo }
+        height={ "500px" }
+        defaultZoomLevel={ 15 }
+      />
     );
   }
 

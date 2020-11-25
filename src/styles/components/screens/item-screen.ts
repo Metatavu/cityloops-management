@@ -53,7 +53,8 @@ export default createStyles({
     marginTop: 25
   },
 
-  locationSection: { },
+  locationSection: {
+  },
 
   locationContainer: {
     display: "flex",
