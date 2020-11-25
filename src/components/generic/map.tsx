@@ -40,6 +40,9 @@ class MapComponent extends React.Component<Props, State> {
     };
   }
 
+  /**
+   * Instance of Leaflet map
+   */
   private mapInstance?: MapInstance;
 
   /**
