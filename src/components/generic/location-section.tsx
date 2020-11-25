@@ -21,7 +21,7 @@ interface State {
 }
 
 /**
- * Component for map
+ * Component for location section
  */
 class LocationSection extends React.Component<Props, State> {
 
