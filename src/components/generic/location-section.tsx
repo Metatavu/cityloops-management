@@ -78,7 +78,7 @@ class LocationSection extends React.Component<Props, State> {
   }
 
   /**
-   * Renders text field with given paramentes
+   * Renders text field with given parameters
    *
    * @param key text field key
    * @param displayName display name
