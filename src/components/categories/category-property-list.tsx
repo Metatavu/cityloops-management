@@ -6,7 +6,7 @@ import strings from "../../localization/strings";
 import { CategoryProperty, CategoryPropertyInputType } from "../../generated/client";
 import * as GenericUtils from "../../utils/generic-utils";
 import produce from "immer";
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 /**
