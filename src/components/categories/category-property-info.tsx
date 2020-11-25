@@ -55,6 +55,9 @@ const CategoryPropertyInfo: React.FC<Props> = ({
 
   /**
    * Renders select menu item
+   *
+   * @param displayName display name
+   * @param value menu item value
    */
   const renderMenuItem = (displayName: string, value: string) => {
     return (
