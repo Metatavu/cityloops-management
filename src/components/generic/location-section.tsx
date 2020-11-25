@@ -37,6 +37,9 @@ class LocationSection extends React.Component<Props, State> {
     };
   }
 
+  /**
+   * Debounce delay for search field
+   */
   private delay: NodeJS.Timeout | null = null;
 
   /**
