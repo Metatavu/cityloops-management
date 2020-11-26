@@ -26,8 +26,8 @@ interface Props extends WithStyles<typeof styles> {
   signedToken?: AccessToken;
   open?: boolean;
   onClose: () => void;
-  onCreated: (item: Item) => void;
-  onUpdated: (item: Item) => void;
+  onCreated?: (item: Item) => void;
+  onUpdated?: (item: Item) => void;
   existingItem?: Item;
 }
 

@@ -51,6 +51,7 @@ export interface IStrings extends LocalizedStringsMethods {
     add: string;
     save: string;
     delete: string;
+    edit: string;
     cancel: string;
     clear: string;
     loadNew: string;
@@ -97,7 +98,10 @@ export interface IStrings extends LocalizedStringsMethods {
       phone: string;
     };
     createdAt: string;
-  },
+    deletionSuccessful: string;
+    deletionError: string;
+    returnToFrontPage: string;
+  };
 
   /**
    * Translations related to users

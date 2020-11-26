@@ -13,7 +13,7 @@ interface Props extends WithStyles<typeof styles> {
   style?: CSSProperties;
   card?: boolean;
   onClick: (item: Item) => void;
-  onDeleteClick: (item: Item) => void;
+  onDeleteClick?: (item: Item) => void;
 }
 
 /**
@@ -88,17 +88,20 @@ const GenericListItem: React.FC<Props> = props => {
         </CardContent>
       }
       <CardActions>
-        <Button
-          variant="text"
-          color="secondary"
-          onClick={ event => {
-              event.stopPropagation();
-              onDeleteClick(item);
+        { onDeleteClick &&
+          <Button
+            variant="text"
+            color="secondary"
+            onClick={ event => {
+                event.stopPropagation();
+                onDeleteClick(item);
+              }
             }
-          }
-        >
-          { strings.generic.delete }
-        </Button>
+          >
+            { strings.generic.delete }
+          </Button>
+        }
+
       </CardActions>
     </Card>
   );

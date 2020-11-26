@@ -33,6 +33,7 @@
     "add": "Add",
     "save": "Save",
     "delete": "Delete",
+    "edit": "Edit",
     "cancel": "Cancel",
     "clear": "Clear",
     "loadNew": "Load new",
@@ -72,7 +73,10 @@
       "phone": "Phone number",
       "email": "Email address"
     },
-    "createdAt": "Posting created at: {0}"
+    "createdAt": "Posting created at: {0}",
+    "deletionSuccessful": "Item was deleted successfully!",
+    "deletionError": "Error when deleting item!",
+    "returnToFrontPage": "Return to front page"
   },
 
   "categories": {

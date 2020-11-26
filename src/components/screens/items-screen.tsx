@@ -91,7 +91,6 @@ export class ItemsScreen extends React.Component<Props, State> {
           title={ "Viimeisimmät tuotteet" }
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
-          deleteItem={ this.deleteItem }
         />
         <ItemFormDialog
           open={ formOpen }

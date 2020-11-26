@@ -15,7 +15,7 @@ interface Props extends WithStyles<typeof styles> {
   cards?: boolean;
   title?: string;
   updatePath: (item: Item) => void;
-  deleteItem: (item: Item) => void;
+  deleteItem?: (item: Item) => void;
 }
 
 /**
@@ -44,7 +44,7 @@ export class ItemList extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes, itemList, cards, title } = this.props;
+    const { classes, itemList, cards, title, deleteItem } = this.props;
 
     const listItems = itemList.map(item => {
       return(
@@ -53,7 +53,7 @@ export class ItemList extends React.Component<Props, State> {
           key={ item.id }
           item={ item }
           onClick={ this.onItemClick }
-          onDeleteClick={ this.onDeleteClick }
+          onDeleteClick={ deleteItem ? deleteItem : undefined }
         />
       );
     });
@@ -84,16 +84,6 @@ export class ItemList extends React.Component<Props, State> {
   private onItemClick = (item: Item) => {
     const { updatePath } = this.props;
     updatePath(item);
-  }
-
-  /**
-   * Event handler for item delete click
-   *
-   * @param item clicked item
-   */
-  private onDeleteClick = (item: Item) => {
-    const { deleteItem } = this.props;
-    deleteItem(item);
   }
 
 }
