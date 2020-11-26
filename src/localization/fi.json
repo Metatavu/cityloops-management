@@ -32,6 +32,7 @@
     "add": "Lisää",
     "save": "Tallenna",
     "delete": "Poista",
+    "edit": "Muokkaa",
     "cancel": "Peruuta",
     "clear": "Tyhjennä",
     "loadNew": "Lataa uusi",
@@ -71,7 +72,10 @@
       "phone": "Puhelinnumero",
       "email": "Sähköpostiosoite"
     },
-    "createdAt": "Ilmoitus jätetty: {0}"
+    "createdAt": "Ilmoitus jätetty: {0}",
+    "deletionSuccessful": "Ilmoitus poistettu!",
+    "deletionError": "Ilmoituksen poistossa tapahtui virhe!",
+    "returnToFrontPage": "Palaa etusivulle"
   },
 
   "categories": {

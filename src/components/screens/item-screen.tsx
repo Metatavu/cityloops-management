@@ -6,7 +6,7 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
-import { CircularProgress, Grid, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from '../../types';
 import { Item } from "../../generated/client";
@@ -18,6 +18,10 @@ import ImageCarousel from "../generic/image-carousel";
 import moment from "moment";
 import LocationIcon from '@material-ui/icons/Room';
 import Map from "../generic/map";
+import ItemFormDialog from "../generic/item-form-dialog";
+import { askConfirmation } from "../../utils/generic-utils";
+import logo from "../../resources/svg/logo-primary.svg";
+import CloseIcon from '@material-ui/icons/Close';
 
 /**
  * Component props
@@ -36,6 +40,8 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   loading: boolean;
   item?: Item;
+  formOpen: boolean;
+  successDialogOpen: boolean;
 }
 
 /**
@@ -51,7 +57,9 @@ export class ItemScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
+      formOpen: false,
+      successDialogOpen: false
     };
   }
 
@@ -83,7 +91,7 @@ export class ItemScreen extends React.Component<Props, State> {
 
     return (
       <AppLayout>
-        <SearchBar categories={[]}/>
+        <SearchBar categories={ [] }/>
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -91,6 +99,8 @@ export class ItemScreen extends React.Component<Props, State> {
           { this.renderLocation() }
           { this.renderMap() }
         </div>
+        { this.renderItemFormDialog() }
+        { this.renderDeleteDialog() }
       </AppLayout>
     );
   }
@@ -104,12 +114,15 @@ export class ItemScreen extends React.Component<Props, State> {
 
     return (
       <>
+      <div className={ classes.titleContainer }>
         <Typography
           variant="h1"
           className={ classes.itemTitle }
         >
           { item ? item?.title : strings.error.itemNotFound }
         </Typography>
+        { this.renderItemActionButtons() }
+      </div>
         <Grid
           container
           spacing={ 3 }
@@ -147,6 +160,41 @@ export class ItemScreen extends React.Component<Props, State> {
           }
         </Typography>
       </>
+    );
+  }
+
+  /**
+   * Renders item action buttons
+   */
+  private renderItemActionButtons = () => {
+    const { signedToken, classes } = this.props;
+    const { item } = this.state;
+
+    if (!item || !signedToken || item.userId !== signedToken.userId) {
+      return null;
+    }
+
+    return (
+      <div className={ classes.actionButtonsContainer } >
+        <Button
+          size="small"
+          variant="outlined"
+          color="secondary"
+          className={ classes.deleteButton }
+          onClick={ this.onDeleteClick }
+        >
+          { strings.generic.delete }
+        </Button>
+        <Button
+          size="small"
+          variant="contained"
+          color="secondary"
+          className={ classes.editButton }
+          onClick={ () => this.setState({ formOpen: true }) }
+        >
+          { strings.generic.edit }
+        </Button>
+      </div>
     );
   }
 
@@ -208,6 +256,115 @@ export class ItemScreen extends React.Component<Props, State> {
         defaultZoomLevel={ 15 }
       />
     );
+  }
+
+  /**
+   * Render item form dialog
+   */
+  private renderItemFormDialog = () => {
+    const { formOpen, item } = this.state;
+
+    return (
+      <ItemFormDialog
+        existingItem={ item }
+        open={ formOpen }
+        onClose={ () => this.setState({ formOpen: false }) }
+        onUpdated={ this.updateItem }
+      />
+    );
+  }
+
+  /**
+   * Render delete dialog
+   * TODO: Add error message logic
+   */
+  private renderDeleteDialog = () => {
+    const { classes } = this.props;
+    const { successDialogOpen } = this.state;
+
+    return (
+      <Dialog
+        maxWidth="xs"
+        fullWidth
+        open={ successDialogOpen }
+        onClose={ () => window.location.href = "/" }
+      >
+        <DialogTitle className={ classes.dialogTitle }>
+          <IconButton
+            className={ classes.dialogClose }
+            onClick={ () => window.location.href = "/" }
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent className={ classes.dialogContent }>
+        <img
+          src={ logo }
+          alt={ "logo" }
+          className={ classes.logo }
+        />
+        <Typography className={ classes.contentTitle }>
+          { strings.items.deletionSuccessful }
+        </Typography>
+        </DialogContent>
+        <DialogActions className={ classes.dialogActions }>
+          <Button
+            variant="contained"
+            disableElevation
+            color="secondary"
+            fullWidth
+            className={ classes.submitButton }
+            onClick={ () => window.location.href = "/" }
+          >
+            { strings.items.returnToFrontPage }
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+  }
+
+  /**
+   * Updates item in list
+   *
+   * @param itemToUpdate item to update
+   */
+  private updateItem = async (itemToUpdate: Item) => {
+    const { signedToken, itemId } = this.props;
+
+    if (!signedToken) {
+      return;
+    }
+
+    const itemsApi = Api.getItemsApi(signedToken);
+    const updatedItem = await itemsApi.updateItem({
+      item: itemToUpdate,
+      itemId: itemId
+    });
+
+    this.setState({
+      item: updatedItem
+    });
+  }
+
+  /**
+   * Event handler for delete click
+   */
+  private onDeleteClick = async () => {
+    const { signedToken, itemId } = this.props;
+
+    if (!signedToken) {
+      return;
+    }
+    if (askConfirmation()) {
+      const itemsApi = Api.getItemsApi(signedToken);
+      await itemsApi.deleteItem({
+        itemId: itemId
+      });
+
+      this.setState({
+        successDialogOpen: true
+      });
+    }
   }
 
   /**
