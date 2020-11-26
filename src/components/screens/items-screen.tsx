@@ -83,10 +83,6 @@ export class ItemsScreen extends React.Component<Props, State> {
           title: "Metsäsairila"
         }}
       >
-        { /* TODO: Implement basic layout */ }
-        { /* <TopBar></TopBar> */ }
-        { /* <SearchBar></SearchBar> */ }
-        { /* <BreadCrumbs></BreadCrumbs> */ }
         <ItemList
           title={ "Viimeisimmät tuotteet" }
           itemList={ itemList }
