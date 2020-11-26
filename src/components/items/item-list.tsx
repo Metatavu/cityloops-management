@@ -53,7 +53,7 @@ export class ItemList extends React.Component<Props, State> {
           key={ item.id }
           item={ item }
           onClick={ this.onItemClick }
-          onDeleteClick={ deleteItem ? deleteItem : undefined }
+          onDeleteClick={ deleteItem }
         />
       );
     });
