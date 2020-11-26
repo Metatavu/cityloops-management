@@ -114,9 +114,7 @@ export class ItemScreen extends React.Component<Props, State> {
 
     return (
       <>
-      <div
-        className={ classes.titleContainer }
-      >
+      <div className={ classes.titleContainer }>
         <Typography
           variant="h1"
           className={ classes.itemTitle }
