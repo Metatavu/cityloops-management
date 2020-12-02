@@ -37,19 +37,15 @@ const PropertiesSection: React.FC<Props> = props => {
   /**
    * Event handler for update property value
    *
-   * @param key property key
+   * @param index property index
    * @param event React change event
    */
-  const onUpdateProperty = (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onUpdateProperty = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const updatedProperties = produce(properties, draft => {
       if (!draft) {
         return;
       }
-
-      const propertyIndex = draft.findIndex(property => property.key === key);
-      if (propertyIndex > -1) {
-        draft[propertyIndex].value = event.target.value;
-      }
+      draft[index].value = event.target.value;
     });
 
     if (updatedProperties && onUpdateProperties) {
@@ -58,9 +54,9 @@ const PropertiesSection: React.FC<Props> = props => {
   };
 
   const propertyFields = properties ?
-    properties.map(property =>
+    properties.map((property, index) =>
       <TextField
-        key={ property.key }
+        key={ `${property.key}-${index}` }
         label={ property.key }
         size="medium"
         variant="outlined"
@@ -68,7 +64,7 @@ const PropertiesSection: React.FC<Props> = props => {
         className={ classes.propertyField }
         InputLabelProps={{ variant: "outlined" }}
         value={ property.value || "" }
-        onChange={ onUpdateProperty(property.key) }
+        onChange={ onUpdateProperty(index) }
       />
     ) :
     [];

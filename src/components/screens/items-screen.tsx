@@ -6,7 +6,7 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
-import { WithStyles, withStyles } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from '../../types';
 import { Item } from "../../generated/client";
@@ -20,6 +20,9 @@ import ItemFormDialog from "../generic/item-form-dialog";
 import materiaalitoriLogo from "../../resources/images/materiaalitori.svg";
 import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasairila 1.png";
 import MTOperations from "../materiaalitori/mt-operations";
+import strings from "../../localization/strings";
+import CloseIcon from '@material-ui/icons/Close';
+import logo from "../../resources/svg/logo-primary.svg";
 
 /**
  * Component props
@@ -39,6 +42,8 @@ interface State {
   formOpen: boolean;
   itemList: Item[];
   mtToken?: string | null;
+  successDialogOpen: boolean;
+  itemId?: string;
 }
 
 /**
@@ -56,7 +61,8 @@ export class ItemsScreen extends React.Component<Props, State> {
     this.state = {
       loading: false,
       formOpen: false,
-      itemList: []
+      itemList: [],
+      successDialogOpen: false
     };
   }
 
@@ -84,7 +90,7 @@ export class ItemsScreen extends React.Component<Props, State> {
         }}
       >
         <ItemList
-          title={ "Viimeisimmät tuotteet" }
+          title={ strings.items.latest }
           itemList={ itemList }
           updatePath={ this.updateRoutePath }
         />
@@ -94,7 +100,57 @@ export class ItemsScreen extends React.Component<Props, State> {
           onCreated={ this.addItem }
           onUpdated={ this.updateItem }
         />
+        { this.renderSuccessDialog() }
       </AppLayout>
+    );
+  }
+
+  /**
+   * Render item add success dialog
+   * TODO: Add error message logic
+   */
+  private renderSuccessDialog = () => {
+    const { classes } = this.props;
+    const { successDialogOpen, itemId } = this.state;
+
+    return (
+      <Dialog
+        maxWidth="xs"
+        fullWidth
+        open={ successDialogOpen }
+        onClose={ () => this.setState({ successDialogOpen: false }) }
+      >
+        <DialogTitle className={ classes.dialogTitle }>
+          <IconButton
+            className={ classes.dialogClose }
+            onClick={ () => this.setState({ successDialogOpen: false }) }
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent className={ classes.dialogContent }>
+        <img
+          src={ logo }
+          alt={ "logo" }
+          className={ classes.logo }
+        />
+        <Typography className={ classes.contentTitle }>
+          { strings.items.addSuccessful }
+        </Typography>
+        </DialogContent>
+        <DialogActions className={ classes.dialogActions }>
+          <Button
+            variant="contained"
+            disableElevation
+            color="secondary"
+            fullWidth
+            className={ classes.submitButton }
+            onClick={ () => window.location.href = itemId ? `/item/${itemId}` : "/" }
+          >
+            { strings.items.navigateToItem }
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 
@@ -120,7 +176,9 @@ export class ItemsScreen extends React.Component<Props, State> {
   private addItem = (createdItem: Item) => {
     this.setState(
       produce((draft: State) => {
-        draft.itemList.push(createdItem);
+        draft.itemList.unshift(createdItem);
+        draft.successDialogOpen = true;
+        draft.itemId = createdItem.id;
       })
     );
   }

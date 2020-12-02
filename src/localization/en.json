@@ -49,7 +49,8 @@
     "refresh": "Refresh",
     "search": "Search",
     "imageAlt": "Image",
-    "proceed": "Proceed"
+    "proceed": "Proceed",
+    "dataChanged": "You have unsaved changed. Are you sure you want to continue?"
   },
 
   "search": {
@@ -76,7 +77,11 @@
     "createdAt": "Posting created at: {0}",
     "deletionSuccessful": "Item was deleted successfully!",
     "deletionError": "Error when deleting item!",
-    "returnToFrontPage": "Return to front page"
+    "returnToFrontPage": "Return to front page",
+    "latest": "Latest items",
+    "addSuccessful": "Item was added successfully!",
+    "addError": "Error when creating new item!",
+    "navigateToItem": "Navigate to item"
   },
 
   "categories": {
@@ -117,7 +122,8 @@
   },
 
   "addItem": {
-    "chooseCategory": "Choose category"
+    "chooseCategory": "Choose category",
+    "chooseCategoryInstructions": "Choose category to start adding item"
   }
 
 }
