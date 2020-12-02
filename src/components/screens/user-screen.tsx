@@ -57,6 +57,7 @@ export class UserScreen extends React.Component<Props, State> {
   public render = () => {
     const { tabIndex } = this.state;
     const { classes } = this.props;
+
     return (
       <AppLayout
         banner={ false }
