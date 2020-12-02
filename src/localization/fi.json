@@ -48,7 +48,8 @@
     "refresh": "Päivitä",
     "search": "Hae",
     "imageAlt": "Kuva",
-    "proceed": "Jatka"
+    "proceed": "Jatka",
+    "dataChanged": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti jatkaa?"
   },
 
   "search": {
@@ -75,7 +76,11 @@
     "createdAt": "Ilmoitus jätetty: {0}",
     "deletionSuccessful": "Ilmoitus poistettu!",
     "deletionError": "Ilmoituksen poistossa tapahtui virhe!",
-    "returnToFrontPage": "Palaa etusivulle"
+    "returnToFrontPage": "Palaa etusivulle",
+    "latest": "Viimeisimmät tuotteet",
+    "addSuccessful": "Ilmoituksen lisääminen onnistui!",
+    "addError": "Ilmoituksen lisäämisessä tapahtui virhe!",
+    "navigateToItem": "Siirry ilmoitukseen"
   },
 
   "categories": {
@@ -116,6 +121,7 @@
   },
 
   "addItem": {
-    "chooseCategory": "Valitse kategoria"
+    "chooseCategory": "Valitse kategoria",
+    "chooseCategoryInstructions": "Valitse kategoria aloittaaksesi ilmoituksen luomisen"
   }
 }

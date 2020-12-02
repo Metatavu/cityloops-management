@@ -68,6 +68,7 @@ export interface IStrings extends LocalizedStringsMethods {
     search: string;
     imageAlt: string;
     proceed: string;
+    dataChanged: string;
   };
 
   /**
@@ -101,6 +102,10 @@ export interface IStrings extends LocalizedStringsMethods {
     deletionSuccessful: string;
     deletionError: string;
     returnToFrontPage: string;
+    latest: string;
+    addSuccessful: string;
+    addError: string;
+    navigateToItem: string;
   };
 
   /**
@@ -151,6 +156,7 @@ export interface IStrings extends LocalizedStringsMethods {
    */
   addItem: {
     chooseCategory: string;
+    chooseCategoryInstructions: string;
   };
 
 }

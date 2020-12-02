@@ -18,6 +18,7 @@ import produce from "immer";
 import classNames from "classnames";
 import CloseIcon from '@material-ui/icons/Close';
 import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
+import { askConfirmation } from "../../utils/generic-utils";
 
 /**
  * Interface describing component properties
@@ -39,6 +40,7 @@ interface State {
   item?: Item;
   categories: Category[];
   selectedCategory?: Category;
+  dataChanged: boolean;
 }
 
 /**
@@ -60,7 +62,8 @@ class ItemFormDialog extends React.Component<Props, State> {
     super(props);
     this.state = {
       loading: true,
-      categories: []
+      categories: [],
+      dataChanged: false
     };
   }
 
@@ -97,7 +100,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   public render = () => {
     const { classes, open, onClose } = this.props;
-    const { loading, item } = this.state;
+    const { loading } = this.state;
 
     return (
       <Dialog
@@ -120,7 +123,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           dividers
           className={ classes.dialogContent }
         >
-          { loading || !item ?
+          { loading ?
             <CircularProgress size={ 60 } className={ classes.loader } /> :
             this.renderDialogContent()
           }
@@ -154,9 +157,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           { ...this.getGridContainerProps() }
           { ...this.getGridItemProps(12, 9) }
         >
-          { this.state.selectedCategory &&
-            this.renderItemColumnContent()
-          }
+            { this.renderItemColumnContent() }
         </Grid>
       </Grid>
     );
@@ -192,7 +193,14 @@ class ItemFormDialog extends React.Component<Props, State> {
     const { item } = this.state;
 
     if (!item) {
-      return;
+      return (
+        <Typography
+          variant="h4"
+          style={{ margin: "auto" }}
+        >
+          { strings.addItem.chooseCategoryInstructions }
+        </Typography>
+      );
     }
 
     return (
@@ -234,25 +242,15 @@ class ItemFormDialog extends React.Component<Props, State> {
     const disabled = loading || !selectedCategory;
     return (
       <>
-        { existingItem ? (
-            <Button
-              variant="outlined"
-              color="primary"
-              disabled={ disabled }
-              className={ classes.buttonOutlined }
-            >
-              { strings.generic.clear }
-            </Button>
-          ) : (
-            <Button
-              variant="outlined"
-              disabled={ disabled }
-              className={ classes.buttonOutlined }
-              onClick={ this.emptyForm }
-            >
-              { strings.generic.clear }
-            </Button>
-          )
+        { existingItem &&
+          <Button
+            variant="outlined"
+            color="primary"
+            disabled={ disabled }
+            className={ classes.buttonOutlined }
+          >
+            { strings.generic.clear }
+          </Button>
         }
         <Button
           variant="outlined"
@@ -314,7 +312,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     this.setState({ categories });
 
-    const item = existingItem ?? this.createItemStructure();
+    const item = existingItem;
     const selectedCategory = existingItem ?
       await categoriesApi.findCategory({ categoryId: existingItem!.category! }) :
       undefined;
@@ -330,21 +328,24 @@ class ItemFormDialog extends React.Component<Props, State> {
    * TODO:
    * Add logic for default and category-based properties
    */
-  private createItemStructure = (): Item => ({
-    title: "Uusi ilmoitus",
-    metadata: {
-      locationInfo: { }
-    },
-    properties: [
-      { key: "korkeus", value: "" },
-      { key: "leveys", value: "" },
-      { key: "pituus", value: "" },
-      { key: "lisätiedot", value: "" }
-    ],
-    onlyForCompanies: false,
-    userId: this.props.signedToken?.userId || "",
-    category: this.state.selectedCategory?.id
-  });
+  private createItemStructure = (category: Category): Item => {
+    const properties: ItemProperty[] = [];
+
+      category.properties?.forEach(property => {
+        properties.push({ key: property.name, value: property.defaultValue || "" });
+      });
+
+    return {
+      title: "Uusi ilmoitus",
+      metadata: {
+        locationInfo: { }
+      },
+      properties: properties,
+      onlyForCompanies: false,
+      userId: this.props.signedToken?.userId || "",
+      category: category?.id
+    };
+  }
 
   /**
    * Sets selected category
@@ -352,16 +353,23 @@ class ItemFormDialog extends React.Component<Props, State> {
    * @param selectedCategory selected category
    */
   private selectCategory = (selectedCategory: Category) => {
+    const { dataChanged } = this.state;
+
+    if (dataChanged && !askConfirmation(strings.generic.dataChanged)) {
+      return;
+    }
 
     const categoryId = selectedCategory.id;
     if (!categoryId) {
       return;
     }
 
+    const newItem = this.createItemStructure(selectedCategory);
+
     this.setState(
       produce((draft: State) => {
         draft.selectedCategory = selectedCategory;
-        draft.item!.category = categoryId;
+        draft.item = newItem;
       })
     );
 
@@ -374,6 +382,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private updateTitle = (title: string) => {
     this.setState({
+      dataChanged: true,
       item: { ...this.state.item!, title }
     });
   }
@@ -394,6 +403,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     const updatedImageList = [ ...item.images || [], ...newImages ] as string[];
 
     this.setState({
+      dataChanged: true,
       item: { ...item, images: updatedImageList }
     });
   }
@@ -417,6 +427,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     });
 
     this.setState({
+      dataChanged: true,
       item: { ...item, images: updatedImageList }
     });
 
@@ -429,6 +440,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private updateProperties = (properties: ItemProperty[]) => {
     this.setState({
+      dataChanged: true,
       item: { ...this.state.item!, properties }
     });
   }
@@ -454,6 +466,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     this.setState(
       produce((draft: State) => {
+        draft.dataChanged = true;
         draft.item!.metadata.locationInfo = locationInfo;
       })
     );
@@ -498,6 +511,10 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Event handler for close form click
    */
   private onCloseFormClick = () => {
+    const { dataChanged } = this.state;
+    if (dataChanged && !askConfirmation(strings.generic.dataChanged)) {
+      return;
+    }
     this.emptyForm();
     this.props.onClose();
   }
@@ -516,7 +533,10 @@ class ItemFormDialog extends React.Component<Props, State> {
       this.createItem();
     }
 
-    this.setState({ loading: false });
+    this.setState({
+      loading: false,
+      dataChanged: false
+    });
   }
 
   /**
@@ -608,36 +628,10 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private emptyForm = () => {
     this.setState({
-      item: {
-        ...this.state.item!,
-        metadata: {
-          locationInfo: { },
-          amount: undefined,
-          certificates: undefined
-        },
-        onlyForCompanies: false,
-        title: "",
-        images: undefined,
-        properties: this.emptyProperties(this.state.item!.properties),
-        thumbnailUrl: undefined
-      }
+      item: undefined,
+      selectedCategory: undefined,
+      dataChanged: false
     });
-  }
-
-  /**
-   * Empties values of properties in item
-   *
-   * @param properties properties found from item
-   * @returns list of properties if there are any, otherwise undefined
-   */
-  private emptyProperties = (properties: ItemProperty[] | undefined): ItemProperty[] | undefined => {
-    if (!properties) {
-      return undefined;
-    }
-
-    return properties.length > 0 ?
-      properties.map(property => ({ ...property, value: "" })) :
-      [];
   }
 }
 
