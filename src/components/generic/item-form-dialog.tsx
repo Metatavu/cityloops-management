@@ -358,7 +358,11 @@ class ItemFormDialog extends React.Component<Props, State> {
     return {
       title: "Uusi ilmoitus",
       metadata: {
-        locationInfo: { address: user?.address, phone: user?.phoneNumber, email: user?.email }
+        locationInfo: {
+          address: user?.address,
+          phone: user?.phoneNumber,
+          email: user?.email
+        }
       },
       properties: properties,
       onlyForCompanies: false,
