@@ -21,8 +21,6 @@ import logo from "../../resources/images/toimintakeskus.png";
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
-  keycloak?: KeycloakInstance;
-  anonymousToken?: AccessToken;
   signedToken?: AccessToken;
   history: History;
 }
