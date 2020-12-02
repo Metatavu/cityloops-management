@@ -3,11 +3,9 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
-
 import { AccessToken, OSMData } from "../../types";
-// tslint:disable-next-line: max-line-length
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { Category, Coordinates, Item, ItemProperty, LocationInfo } from "../../generated/client";
+import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
 import CategoryTree from "./category-tree";
@@ -41,6 +39,7 @@ interface State {
   categories: Category[];
   selectedCategory?: Category;
   dataChanged: boolean;
+  user?: User;
 }
 
 /**
@@ -81,6 +80,7 @@ class ItemFormDialog extends React.Component<Props, State> {
   public componentDidMount = async () => {
     this.setState({ loading: true });
     await this.fetchData();
+    await this.fetchUserInformation();
     this.setState({ loading: false });
   }
 
@@ -91,6 +91,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     if (prevProps.signedToken === undefined && this.props.signedToken) {
       this.setState({ loading: true });
       await this.fetchData();
+      await this.fetchUserInformation();
       this.setState({ loading: false });
     }
   }
@@ -321,6 +322,24 @@ class ItemFormDialog extends React.Component<Props, State> {
   }
 
   /**
+   * Fetches user information
+   */
+  private fetchUserInformation = async () => {
+    const { signedToken } = this.props
+
+    if (!signedToken || !signedToken.userId) {
+      return;
+    }
+
+    const usersApi = Api.getUsersApi(signedToken);
+    const userId = signedToken.userId;
+
+    const user = await usersApi.findUser({ userId: userId })
+    
+    this.setState({ user: user })
+  }
+
+  /**
    * Creates item structure
    *
    * @returns item object
@@ -330,7 +349,8 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private createItemStructure = (category: Category): Item => {
     const properties: ItemProperty[] = [];
-
+    const { user } = this.state
+    
       category.properties?.forEach(property => {
         properties.push({ key: property.name, value: property.defaultValue || "" });
       });
@@ -338,7 +358,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     return {
       title: "Uusi ilmoitus",
       metadata: {
-        locationInfo: { }
+        locationInfo: { address: user?.address, phone: user?.phoneNumber, email: user?.email }
       },
       properties: properties,
       onlyForCompanies: false,
@@ -372,7 +392,6 @@ class ItemFormDialog extends React.Component<Props, State> {
         draft.item = newItem;
       })
     );
-
   }
 
   /**
