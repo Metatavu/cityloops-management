@@ -63,7 +63,11 @@ export class UserScreen extends React.Component<Props, State> {
       <AppLayout
         banner={ false }
       >
-        <img className={ classes.logo } alt="Company logo" src={ logo } />
+        <img
+          className={ classes.logo }
+          alt="Company logo"
+          src={ logo }
+        />
         <Tabs
           classes={{ indicator: classes.indicator }}
           onChange= { this.setTabIndex }
