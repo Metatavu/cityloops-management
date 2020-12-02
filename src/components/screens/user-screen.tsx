@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken } from '../../types';
+import { AccessToken } from "../../types";
 import strings from "../../localization/strings";
 import { History } from "history";
 import { Tab, Tabs, WithStyles, withStyles } from "@material-ui/core";
