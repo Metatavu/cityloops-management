@@ -81,6 +81,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 
     return (
       <AppLayout
+        banner={ true }
         headerProps={{
           onAddClick: this.onAddItemClick
         }}

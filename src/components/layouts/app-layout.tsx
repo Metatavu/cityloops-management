@@ -18,6 +18,7 @@ interface Props extends WithStyles<typeof styles> {
   headerProps?: HeaderProps;
   mobileDrawerProps?: MobileDrawerProps;
   footerProps?: FooterProps;
+  banner: boolean;
 }
 
 /**
@@ -32,7 +33,8 @@ const AppLayout: React.FC<Props> = props => {
     classes,
     headerProps,
     mobileDrawerProps,
-    footerProps
+    footerProps,
+    banner
   } = props;
 
   const [ sideMenuOpen, toggleSideMenu ] = React.useState(false);
@@ -53,10 +55,13 @@ const AppLayout: React.FC<Props> = props => {
         toggleSideMenu={ toggle }
         { ...mobileDrawerProps }
       />
-      <BannerImage
+      { banner &&
+        <BannerImage
         image={ bannerImageSrc }
-      />
+        />
+      }
       <Container
+        maxWidth="md"
         fixed
         disableGutters
         className={ classes.contentWrapper }

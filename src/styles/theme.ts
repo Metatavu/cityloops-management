@@ -4,6 +4,7 @@ import { red, green, yellow } from "@material-ui/core/colors";
 export default createMuiTheme({
 
   palette: {
+    // Color scheme for Material UI
     primary: { main: "#004D76" },
     secondary: { main: "#00B6ED" },
     success: { main: green.A700 },
@@ -20,6 +21,7 @@ export default createMuiTheme({
     },
   },
   typography: {
+    // Typography setup for Material UI
     fontFamily: "'Open Sans', sans-serif",
     h1: {
       fontSize: 32,
@@ -48,6 +50,7 @@ export default createMuiTheme({
     body2: {}
   },
   overrides: {
+    // Style overrides for Material UI components
     MuiButton: {
       root: {
         textTransform: "initial",
@@ -56,6 +59,18 @@ export default createMuiTheme({
       containedSecondary: {
         color: "#fff"
       }
-    }
+    },
+    MuiTab: {
+      root: {
+        textTransform: "initial",
+        fontWeight: 600,
+        "&.Mui-selected": {
+          color: "#00B6ED"
+        }
+      },
+    },
+  },
+  props: {
+    // Default properties for Material UI components
   }
 });

@@ -86,7 +86,9 @@ const CategoriesScreen: React.FC<Props> = ({
    * Component render
    */
   return (
-    <AppLayout>
+    <AppLayout
+      banner={ false }
+    >
       <div className={ classes.root }>
         <div className={ classes.treeContainer }>
           <div className={ classes.actionButtonContainer }>
