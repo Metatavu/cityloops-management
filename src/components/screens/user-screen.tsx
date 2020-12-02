@@ -103,7 +103,6 @@ export class UserScreen extends React.Component<Props, State> {
   }
 }
 
-
 /**
  * Redux mapper for mapping store state to component props
  *
