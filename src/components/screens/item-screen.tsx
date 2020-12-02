@@ -81,7 +81,9 @@ export class ItemScreen extends React.Component<Props, State> {
 
     if (loading) {
       return (
-        <AppLayout>
+        <AppLayout
+          banner={ false }
+        >
           <div className={ classes.loaderContainer }>
             <CircularProgress size={ 40 } color="secondary" />
           </div>
@@ -90,7 +92,9 @@ export class ItemScreen extends React.Component<Props, State> {
     }
 
     return (
-      <AppLayout>
+      <AppLayout
+        banner={ false }
+      >
         <SearchBar categories={ [] }/>
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }

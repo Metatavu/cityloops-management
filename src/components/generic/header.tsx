@@ -97,11 +97,13 @@ const Header: React.FC<Props> = props => {
         disableGutters
         className={ classes.desktopContent }
       >
-        <img
-          alt="logo"
-          src={ logoPrimary }
-          className={ classes.logo }
-        />
+        <a href="/">
+          <img
+            alt="logo"
+            src={ logoPrimary }
+            className={ classes.logo }
+            />
+        </a>
         { onSaveClick &&
           <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
             <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
@@ -140,7 +142,7 @@ const Header: React.FC<Props> = props => {
         <IconButton className={ classes.imageButton }>
           <MailOutlineIcon />
         </IconButton>
-        <IconButton className={ classes.imageButton }>
+        <IconButton href="/user" className={ classes.imageButton }>
           <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
         </IconButton>
       </div>

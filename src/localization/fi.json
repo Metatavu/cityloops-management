@@ -120,6 +120,12 @@
     "forgotPassword": "Unohtuiko salasana?"
   },
 
+  "userPage": {
+    "products": "Ilmoitukset",
+    "myInfo": "Omat tiedot",
+    "categories": "Kategoriat"
+  },
+
   "addItem": {
     "chooseCategory": "Valitse kategoria",
     "chooseCategoryInstructions": "Valitse kategoria aloittaaksesi ilmoituksen luomisen"

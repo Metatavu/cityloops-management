@@ -109,9 +109,12 @@ class App extends React.Component<Props, State> {
                       <Route
                         path="/user"
                         exact={ true }
-                      >
-                        <UsersScreen/>
-                      </Route>
+                        render={({ history }) => (
+                          <UsersScreen
+                            history={ history }
+                          />
+                        )}
+                      />
                     </Switch>
                   </div>
                 </BrowserRouter>

@@ -128,7 +128,7 @@ export interface IStrings extends LocalizedStringsMethods {
     rememberMe: string;
     register: string;
     forgotPassword: string;
-  }
+  };
 
   /**
    * Translations related to categories
@@ -157,6 +157,15 @@ export interface IStrings extends LocalizedStringsMethods {
   addItem: {
     chooseCategory: string;
     chooseCategoryInstructions: string;
+  };
+
+  /**
+   * Translations related user page
+   */
+  userPage: {
+    categories: string;
+    myInfo: string;
+    products: string;
   };
 
 }

@@ -121,6 +121,12 @@
     "forgotPassword": "Forgot your password?"
   },
 
+  "userPage": {
+    "products": "My products",
+    "myInfo": "My information",
+    "categories": "Categories"
+  },
+
   "addItem": {
     "chooseCategory": "Choose category",
     "chooseCategoryInstructions": "Choose category to start adding item"
