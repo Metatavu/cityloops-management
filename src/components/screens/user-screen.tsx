@@ -110,8 +110,6 @@ export class UserScreen extends React.Component<Props, State> {
  */
 function mapStateToProps(state: ReduxState) {
   return {
-    keycloak: state.auth.keycloak,
-    anonymousToken: state.auth.anonymousToken,
     signedToken: state.auth.signedToken
   };
 }
