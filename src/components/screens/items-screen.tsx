@@ -109,7 +109,6 @@ export class ItemsScreen extends React.Component<Props, State> {
   private renderLayoutContent = () => {
     const { classes } = this.props;
     const {
-      categories,
       items,
       formOpen,
       loading
