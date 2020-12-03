@@ -81,36 +81,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes } = this.props;
-    const {
-      categories,
-      items,
-      formOpen,
-      loading
-    } = this.state;
-
-    if (loading) {
-      return (
-        <AppLayout
-          banner={ true }
-          headerProps={{
-            onAddClick: this.onAddItemClick
-          }}
-          mobileDrawerProps={{
-            logoUrl: MetsasairilaLogo,
-            title: "Metsäsairila"
-          }}
-        >
-          <SearchBar
-            categories={ categories }
-            onSearch={ this.onSearch }
-          />
-          <div className={ classes.loader }>
-            <CircularProgress size={ 40 } color="secondary" />
-          </div>
-        </AppLayout>
-      );
-    }
+    const { categories } = this.state;
 
     return (
       <AppLayout
@@ -127,6 +98,33 @@ export class ItemsScreen extends React.Component<Props, State> {
           categories={ categories }
           onSearch={ this.onSearch }
         />
+        { this.renderLayoutContent() }
+      </AppLayout>
+    );
+  }
+
+  /**
+   * Renders layout content
+   */
+  private renderLayoutContent = () => {
+    const { classes } = this.props;
+    const {
+      categories,
+      items,
+      formOpen,
+      loading
+    } = this.state;
+
+    if (loading) {
+      return (
+        <div className={ classes.loader }>
+          <CircularProgress size={ 40 } color="secondary" />
+        </div>
+      );
+    }
+
+    return (
+      <>
         <ItemList
           title={ strings.items.latest }
           itemList={ items }
@@ -139,8 +137,9 @@ export class ItemsScreen extends React.Component<Props, State> {
           onUpdated={ this.updateItem }
         />
         { this.renderSuccessDialog() }
-      </AppLayout>
+      </>
     );
+
   }
 
   /**
