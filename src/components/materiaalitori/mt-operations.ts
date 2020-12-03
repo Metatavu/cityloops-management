@@ -16,14 +16,13 @@ export default class MTOperations {
 	public static listItems = async (searchParams: SearchParams, token?: string): Promise<Response> => {
 		const apiPath = process.env.REACT_APP_MATERIAALITORI_AWS_GATEWAY_URL || "";
 
-		const url = querystring.stringifyUrl(
-			{ url: apiPath,
+		const url = querystring.stringifyUrl({
+			url: apiPath,
 				query: {
-				"continuationToken": token,
-				"classification": searchParams.category ? searchParams?.category.name.toLocaleLowerCase() : ""
+					"continuationToken": token,
+					"classification": searchParams?.category?.name.toLocaleLowerCase() ?? ""
 				}
-			}
-		);
+			});
 
 		return await fetch(
 			url,
