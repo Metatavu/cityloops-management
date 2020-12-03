@@ -80,7 +80,8 @@
     "latest": "Viimeisimmät tuotteet",
     "addSuccessful": "Ilmoituksen lisääminen onnistui!",
     "addError": "Ilmoituksen lisäämisessä tapahtui virhe!",
-    "navigateToItem": "Siirry ilmoitukseen"
+    "navigateToItem": "Siirry ilmoitukseen",
+    "noItems": "Haulla ei löytynyt yhtään ilmoitusta"
   },
 
   "categories": {

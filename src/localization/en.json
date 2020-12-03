@@ -81,7 +81,8 @@
     "latest": "Latest items",
     "addSuccessful": "Item was added successfully!",
     "addError": "Error when creating new item!",
-    "navigateToItem": "Navigate to item"
+    "navigateToItem": "Navigate to item",
+    "noItems": "No items listed"
   },
 
   "categories": {

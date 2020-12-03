@@ -34,6 +34,7 @@ export interface FindItemRequest {
 
 export interface ListItemsRequest {
     userId?: string;
+    categoryId?: string;
     firstResult?: number;
     maxResults?: number;
     sortByDateOldestFirst?: boolean;
@@ -180,6 +181,10 @@ export class ItemsApi extends runtime.BaseAPI {
 
         if (requestParameters.userId !== undefined) {
             queryParameters['userId'] = requestParameters.userId;
+        }
+
+        if (requestParameters.categoryId !== undefined) {
+            queryParameters['categoryId'] = requestParameters.categoryId;
         }
 
         if (requestParameters.firstResult !== undefined) {
