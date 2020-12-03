@@ -47,7 +47,7 @@ export class ItemList extends React.Component<Props, State> {
   public render = () => {
     const { classes, itemList, cards, title, deleteItem } = this.props;
 
-    const listItems = itemList.length === 0 ?
+    const listItems = itemList.length < 1 ?
     <Typography>{ strings.items.noItems }</Typography> :
     itemList.map(item => {
       return(
