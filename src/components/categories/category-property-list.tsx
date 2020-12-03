@@ -1,12 +1,12 @@
-import * as React from "react";
-
-import { withStyles, WithStyles, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Toolbar } from "@material-ui/core";
-import styles from "../../styles/components/categories/category-property-list";
-import strings from "../../localization/strings";
-import { CategoryProperty, CategoryPropertyInputType } from "../../generated/client";
-import * as GenericUtils from "../../utils/generic-utils";
-import produce from "immer";
+import { Button, List, ListItem, ListItemSecondaryAction, ListItemText, withStyles, WithStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/AddCircle";
+import produce from "immer";
+import * as React from "react";
+import { CategoryProperty, CategoryPropertyInputType } from "../../generated/client";
+import strings from "../../localization/strings";
+import styles from "../../styles/components/categories/category-property-list";
+import * as GenericUtils from "../../utils/generic-utils";
+
 
 /**
  * Component props

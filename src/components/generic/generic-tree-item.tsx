@@ -1,11 +1,10 @@
-import * as React from "react";
-import { WithStyles, withStyles, Typography, IconButton, ListItem, ListItemText, ListItemSecondaryAction, Button } from '@material-ui/core';
-import styles from "../../styles/components/generic/generic-tree-item";
-import { Category } from "../../generated/client";
+import { Button, Typography, WithStyles, withStyles } from '@material-ui/core';
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import strings from "../../localization/strings";
-import DeleteIcon from "@material-ui/icons/DeleteOutline";
 import AddIcon from "@material-ui/icons/AddCircle";
+import * as React from "react";
+import { Category } from "../../generated/client";
+import strings from "../../localization/strings";
+import styles from "../../styles/components/generic/generic-tree-item";
 import theme from "../../styles/theme";
 
 /**
