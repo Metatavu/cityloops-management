@@ -69,3 +69,12 @@ export interface OSMData {
   lat: string;
   lon: string;
 }
+
+/**
+ * Interface for search parameters
+ */
+export interface SearchParams {
+  text?: string;
+  category?: Category;
+  location?: string;
+}

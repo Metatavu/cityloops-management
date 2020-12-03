@@ -6,14 +6,13 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken } from '../../types';
-import { Item } from "../../generated/client";
+import { AccessToken, SearchParams } from '../../types';
+import { Category, Item } from "../../generated/client";
 import ItemList from "../items/item-list";
 import Api from "../../api/api";
 import produce from "immer";
-import ApiOperations from "../../utils/generic-api-operations";
 import AppLayout from "../layouts/app-layout";
 import ItemFormDialog from "../generic/item-form-dialog";
 
@@ -23,6 +22,7 @@ import MTOperations from "../materiaalitori/mt-operations";
 import strings from "../../localization/strings";
 import CloseIcon from '@material-ui/icons/Close';
 import logo from "../../resources/svg/logo-primary.svg";
+import SearchBar from "../generic/search-bar";
 
 /**
  * Component props
@@ -40,7 +40,8 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   loading: boolean;
   formOpen: boolean;
-  itemList: Item[];
+  categories: Category[];
+  items: Item[];
   mtToken?: string | null;
   successDialogOpen: boolean;
   itemId?: string;
@@ -61,23 +62,26 @@ export class ItemsScreen extends React.Component<Props, State> {
     this.state = {
       loading: false,
       formOpen: false,
-      itemList: [],
-      successDialogOpen: false
+      categories: [],
+      items: [],
+      successDialogOpen: false,
     };
   }
 
   /**
    * Component did mount life cycle handler
    */
-  public componentDidMount = () => {
-    this.fetchData();
+  public componentDidMount = async () => {
+    this.setState({ loading: true });
+    await this.fetchData();
+    this.setState({ loading: false })
   }
 
   /**
    * Component render method
    */
   public render = () => {
-    const { itemList, formOpen } = this.state;
+    const { categories } = this.state;
 
     return (
       <AppLayout
@@ -90,9 +94,39 @@ export class ItemsScreen extends React.Component<Props, State> {
           title: "Metsäsairila"
         }}
       >
+        <SearchBar
+          categories={ categories }
+          onSearch={ this.onSearch }
+        />
+        { this.renderLayoutContent() }
+      </AppLayout>
+    );
+  }
+
+  /**
+   * Renders layout content
+   */
+  private renderLayoutContent = () => {
+    const { classes } = this.props;
+    const {
+      items,
+      formOpen,
+      loading
+    } = this.state;
+
+    if (loading) {
+      return (
+        <div className={ classes.loader }>
+          <CircularProgress size={ 40 } color="secondary" />
+        </div>
+      );
+    }
+
+    return (
+      <>
         <ItemList
           title={ strings.items.latest }
-          itemList={ itemList }
+          itemList={ items }
           updatePath={ this.updateRoutePath }
         />
         <ItemFormDialog
@@ -102,8 +136,9 @@ export class ItemsScreen extends React.Component<Props, State> {
           onUpdated={ this.updateItem }
         />
         { this.renderSuccessDialog() }
-      </AppLayout>
+      </>
     );
+
   }
 
   /**
@@ -156,6 +191,36 @@ export class ItemsScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Performs search from our API and Materiaalitori API
+   *
+   * @param searchParams given search parameters 
+   */
+  private onSearch = async (searchParams: SearchParams) => {
+    const { anonymousToken } = this.props;
+
+    if (!anonymousToken) {
+      return;
+    }
+
+    this.setState({ loading: true });
+
+    const categoryId = searchParams.category?.id;
+    const itemsApi = Api.getItemsApi(anonymousToken);
+    const mtResponse = await MTOperations.listItems(searchParams);
+    const [ items, mtItems ] = await Promise.all<Item[], Item[]>([
+      itemsApi.listItems({ categoryId: categoryId }),
+      this.constructMTItems(mtResponse)
+    ]);
+
+    this.setState(
+      produce((draft: State) => {
+        draft.items = [ ...items, ...mtItems ];
+        draft.loading = false;
+      })
+    );
+  }
+
+  /**
    * Event handler for update route path
    *
    * @param item clicked item
@@ -177,7 +242,7 @@ export class ItemsScreen extends React.Component<Props, State> {
   private addItem = (createdItem: Item) => {
     this.setState(
       produce((draft: State) => {
-        draft.itemList.unshift(createdItem);
+        draft.items.unshift(createdItem);
         draft.successDialogOpen = true;
         draft.itemId = createdItem.id;
       })
@@ -192,7 +257,7 @@ export class ItemsScreen extends React.Component<Props, State> {
   private updateItem = (updatedItem: Item) => {
     this.setState(
       produce((draft: State) => {
-        draft.itemList.map(item =>
+        draft.items.map(item =>
           item.id === updatedItem.id ? updatedItem : item
         );
       })
@@ -206,7 +271,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    */
   private deleteItem = async (item: Item) => {
     const { signedToken } = this.props;
-    const { itemList } = this.state;
+    const { items } = this.state;
 
     if (!signedToken || !item.id) {
       return;
@@ -214,9 +279,9 @@ export class ItemsScreen extends React.Component<Props, State> {
 
     const itemsApi = Api.getItemsApi(signedToken);
     await itemsApi.deleteItem({ itemId: item.id });
-    const updatedItemList = itemList.filter(listItem => listItem.id !== item.id);
+    const updatedItemList = items.filter(listItem => listItem.id !== item.id);
     this.setState({
-      itemList: updatedItemList
+      items: updatedItemList
     });
   }
 
@@ -230,12 +295,19 @@ export class ItemsScreen extends React.Component<Props, State> {
       return;
     }
 
-    const itemList = await ApiOperations.listItems(anonymousToken);
-    const mtResponse = await MTOperations.listItems();
-    const mtItems = await this.constructMTItems(mtResponse);
+    const itemsApi = Api.getItemsApi(anonymousToken);
+    const categoriesApi = Api.getCategoriesApi(anonymousToken);
+    const mtResponse = await MTOperations.listItems({ });
+
+    const [ categories, items, mtItems ] = await Promise.all<Category[], Item[], Item[]>([
+      categoriesApi.listCategories({}),
+      itemsApi.listItems({ }),
+      this.constructMTItems(mtResponse)
+    ]);
     this.setState(
       produce((draft: State) => {
-        draft.itemList = [ ...itemList, ...mtItems ];
+        draft.items = [ ...items, ...mtItems ];
+        draft.categories = categories;
       })
     );
   }

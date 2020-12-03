@@ -106,6 +106,7 @@ export interface IStrings extends LocalizedStringsMethods {
     addSuccessful: string;
     addError: string;
     navigateToItem: string;
+    noItems: string;
   };
 
   /**

@@ -6,6 +6,7 @@ import { Item } from "../../generated/client";
 
 import GenericListItem from "../generic/generic-list-item";
 import theme from "../../styles/theme";
+import strings from "../../localization/strings";
 
 /**
  * Component props
@@ -46,7 +47,9 @@ export class ItemList extends React.Component<Props, State> {
   public render = () => {
     const { classes, itemList, cards, title, deleteItem } = this.props;
 
-    const listItems = itemList.map(item => {
+    const listItems = itemList.length < 1 ?
+    <Typography>{ strings.items.noItems }</Typography> :
+    itemList.map(item => {
       return(
         <GenericListItem
           card={ cards }
