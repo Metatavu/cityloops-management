@@ -2,7 +2,6 @@ import * as React from "react";
 
 import { withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/screens/categories-screen";
-import AppLayout from "../layouts/app-layout";
 import { Category } from "../../generated/client";
 import strings from "../../localization/strings";
 import SortableTree, { TreeItem as TreeItemSortable } from "react-sortable-tree";
@@ -86,51 +85,47 @@ const CategoriesScreen: React.FC<Props> = ({
    * Component render
    */
   return (
-    <AppLayout
-      banner={ false }
-    >
-      <div className={ classes.root }>
-        <div className={ classes.treeContainer }>
-          <div className={ classes.actionButtonContainer }>
-            <GenericButton
-              onClick={ () => onAddCategory() }
-              text={ strings.categories.addCategory }
-              style={{
-                backgroundColor: "#00B6ED",
-                marginTop: 10,
-                marginLeft: 10
-              }}
-            />
-            <GenericButton
-              onClick={ () => onSaveCategories() }
-              text={ strings.generic.save }
-              style={{
-                backgroundColor: "#00B6ED",
-                marginTop: 10,
-                marginLeft: 10
-              }}
-            />
-          </div>
-          <SortableTree
-            treeData={ constructTreeData() }
-            onVisibilityToggle={ data => onSelectCategory(data.node.category) }
-            
-            /**
-             * TODO: Add logic for changing order
-             */
-            onChange={ data => console.log(data) }
+    <div className={ classes.root }>
+      <div className={ classes.treeContainer }>
+        <div className={ classes.actionButtonContainer }>
+          <GenericButton
+            onClick={ () => onAddCategory() }
+            text={ strings.categories.addCategory }
+            style={{
+              backgroundColor: "#00B6ED",
+              marginTop: 10,
+              marginLeft: 10
+            }}
+          />
+          <GenericButton
+            onClick={ () => onSaveCategories() }
+            text={ strings.generic.save }
+            style={{
+              backgroundColor: "#00B6ED",
+              marginTop: 10,
+              marginLeft: 10
+            }}
           />
         </div>
-        <div className={ classes.propertiesContainer }>
-          { selectedCategory &&
-            <PropertiesPanel
-              category={ selectedCategory }
-              onCategoryUpdate={ onUpdateCategory }
-            />
-          }
-        </div>
+        <SortableTree
+          treeData={ constructTreeData() }
+          onVisibilityToggle={ data => onSelectCategory(data.node.category) }
+          
+          /**
+           * TODO: Add logic for changing order
+           */
+          onChange={ data => console.log(data) }
+        />
       </div>
-    </AppLayout>
+      <div className={ classes.propertiesContainer }>
+        { selectedCategory &&
+          <PropertiesPanel
+            category={ selectedCategory }
+            onCategoryUpdate={ onUpdateCategory }
+          />
+        }
+      </div>
+    </div>
   );
 };
 

@@ -12,7 +12,7 @@ import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
 
 import ProductsTab from "../tabs/products-tab";
-import CategoryEditorTab from "../tabs/category-editor-tab";
+import CategoriesProvider from "../screens/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
 
 import logo from "../../resources/images/toimintakeskus.png";
@@ -56,7 +56,7 @@ export class UserScreen extends React.Component<Props, State> {
    */
   public render = () => {
     const { tabIndex } = this.state;
-    const { classes } = this.props;
+    const { classes, signedToken } = this.props;
 
     return (
       <AppLayout
@@ -83,7 +83,7 @@ export class UserScreen extends React.Component<Props, State> {
           <MyInfoTab />
         }
         { tabIndex === 2 &&
-          <CategoryEditorTab />
+          <CategoriesProvider signedToken={ signedToken } />
         }
       </AppLayout>
     );
