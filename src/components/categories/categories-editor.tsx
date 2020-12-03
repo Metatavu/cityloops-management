@@ -1,15 +1,17 @@
 import * as React from "react";
 
-import { withStyles, WithStyles } from "@material-ui/core";
-import styles from "../../styles/components/screens/categories-screen";
+import { withStyles, WithStyles, Toolbar, Button } from '@material-ui/core';
+import styles from "../../styles/components/categories/categories-editor";
 import { Category } from "../../generated/client";
 import strings from "../../localization/strings";
 import SortableTree, { TreeItem as TreeItemSortable } from "react-sortable-tree";
 import GenericTreeItem from "../generic/generic-tree-item";
-import 'react-sortable-tree/style.css';
+import "react-sortable-tree/style.css";
 import { CategoryDataHolder } from "../../types";
-import PropertiesPanel from "../categories/properties-panel";
+import PropertiesPanel from "./properties-panel";
 import GenericButton from "../generic/generic-button";
+import AddIcon from "@material-ui/icons/AddCircle";
+import FileExplorerTheme from "react-sortable-tree-theme-file-explorer";
 
 /**
  * Component props
@@ -28,7 +30,7 @@ interface Props extends WithStyles<typeof styles> {
 /**
  * Functional component for categories view
  */
-const CategoriesScreen: React.FC<Props> = ({
+const CategoriesEditor: React.FC<Props> = ({
   treeData,
   selectedCategory,
   openCategories,
@@ -65,6 +67,7 @@ const CategoriesScreen: React.FC<Props> = ({
         id: category.id,
         category: category,
         expanded: openCategories.includes(category.id!!),
+
         title: (
           <GenericTreeItem
             category={ category }
@@ -86,47 +89,53 @@ const CategoriesScreen: React.FC<Props> = ({
    */
   return (
     <div className={ classes.root }>
-      <div className={ classes.treeContainer }>
-        <div className={ classes.actionButtonContainer }>
-          <GenericButton
-            onClick={ () => onAddCategory() }
-            text={ strings.categories.addCategory }
-            style={{
-              backgroundColor: "#00B6ED",
-              marginTop: 10,
-              marginLeft: 10
-            }}
-          />
-          <GenericButton
-            onClick={ () => onSaveCategories() }
-            text={ strings.generic.save }
-            style={{
-              backgroundColor: "#00B6ED",
-              marginTop: 10,
-              marginLeft: 10
-            }}
+      <Toolbar className={ classes.toolbar }>
+        <Button
+          color="primary"
+          startIcon={ <AddIcon /> }
+          onClick={ () => onAddCategory() }
+          style={{
+            marginTop: 10,
+            marginLeft: 10
+          }}>
+          { strings.categories.addCategory }
+        </Button>
+        <GenericButton
+          onClick={ () => onSaveCategories() }
+          text={ strings.generic.save }
+          style={{
+            backgroundColor: "#00B6ED",
+            marginTop: 10,
+            marginLeft: 10
+          }}
+        />
+      </Toolbar>
+      <div className={ classes.editorContent }>
+        <div className={ classes.treeContainer }>
+          <SortableTree
+            innerStyle={{ height: "auto" }}
+            rowHeight={ 64 }
+            className={ classes.treeWrapper }
+            theme={ FileExplorerTheme }
+            treeData={ constructTreeData() }
+            onVisibilityToggle={ data => onSelectCategory(data.node.category) }
+            /**
+             * TODO: Add logic for changing order
+             */
+            onChange={ data => console.log(data) }
           />
         </div>
-        <SortableTree
-          treeData={ constructTreeData() }
-          onVisibilityToggle={ data => onSelectCategory(data.node.category) }
-          
-          /**
-           * TODO: Add logic for changing order
-           */
-          onChange={ data => console.log(data) }
-        />
-      </div>
-      <div className={ classes.propertiesContainer }>
-        { selectedCategory &&
-          <PropertiesPanel
-            category={ selectedCategory }
-            onCategoryUpdate={ onUpdateCategory }
-          />
-        }
+        <div className={ classes.propertiesContainer }>
+          { selectedCategory &&
+            <PropertiesPanel
+              category={ selectedCategory }
+              onCategoryUpdate={ onUpdateCategory }
+            />
+          }
+        </div>
       </div>
     </div>
   );
 };
 
-export default withStyles(styles)(CategoriesScreen);
+export default withStyles(styles)(CategoriesEditor);

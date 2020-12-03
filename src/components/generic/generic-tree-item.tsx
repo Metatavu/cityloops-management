@@ -1,10 +1,12 @@
 import * as React from "react";
-import { WithStyles, withStyles, Typography } from '@material-ui/core';
+import { WithStyles, withStyles, Typography, IconButton, ListItem, ListItemText, ListItemSecondaryAction, Button } from '@material-ui/core';
 import styles from "../../styles/components/generic/generic-tree-item";
 import { Category } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import GenericButton from "../generic/generic-button";
 import strings from "../../localization/strings";
+import DeleteIcon from "@material-ui/icons/DeleteOutline";
+import AddIcon from "@material-ui/icons/AddCircle";
+import theme from "../../styles/theme";
 
 /**
  * Interface representing component properties
@@ -33,31 +35,43 @@ const GenericTreeItem: React.FC<Props> = props => {
   } = props;
 
   return(
-    <div
-      className={ classes.root }
-      onClick={ () => onClick(category) }
-      style={ style }
-    >
-      <Typography className={ classes.title }>
-        { category.name || "" }
-      </Typography>
-        <GenericButton
-          disabled={ hasChildElements }
-          onClick={
-            event => {
-              event.stopPropagation();
-              onDeleteClick(category);
+    <>
+      <div
+        className={ classes.root }
+        onClick={ () => onClick(category) }
+        style={ style }
+      >
+        <div className={ classes.topRow }>
+          <Typography variant="h5">
+            { category.name || "" }
+          </Typography>
+          <Button
+            size="small"
+            color="inherit"
+            disabled={ hasChildElements }
+            onClick={
+              event => {
+                event.stopPropagation();
+                onDeleteClick(category);
+              }
             }
-          }
-          text={ strings.generic.delete }
-          style={{ backgroundColor: "#004D76", marginRight: 10 }}
-        />
-        <GenericButton
-          onClick={ () => onAddCategoryClick(category.id) }
-          text={ strings.categories.addSubCategory }
-          style={{ backgroundColor: "#00B6ED"}}
-        />
-    </div>
+            style={{ marginRight: theme.spacing(1) }}
+          >
+            { strings.generic.delete }
+          </Button>
+        </div>
+          <Button
+            style={{ marginLeft: theme.spacing(0.5) }}
+            startIcon={ <AddIcon /> }
+            size="small"
+            color="inherit"
+            onClick={ () => onAddCategoryClick(category.id) }
+            title={ strings.categories.addSubCategory }
+          >
+            { strings.generic.add }
+          </Button>
+      </div>
+    </>
   );
 };
 

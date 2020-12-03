@@ -1,13 +1,12 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from "@material-ui/core";
+import { withStyles, WithStyles, List, ListItem, ListItemText, ListItemSecondaryAction, Button, Typography, Toolbar } from "@material-ui/core";
 import styles from "../../styles/components/categories/category-property-list";
 import strings from "../../localization/strings";
 import { CategoryProperty, CategoryPropertyInputType } from "../../generated/client";
 import * as GenericUtils from "../../utils/generic-utils";
 import produce from "immer";
-import AddCircleIcon from "@material-ui/icons/AddCircle";
-import DeleteIcon from "@material-ui/icons/Delete";
+import AddIcon from "@material-ui/icons/AddCircle";
 
 /**
  * Component props
@@ -43,11 +42,11 @@ const CategoryPropertyList: React.FC<Props> = ({
         });
       })
     );
-  }
+  };
 
   /**
    * Event handler for delete property
-   * 
+   *
    * @param index index of property
    */
   const onDelete = (index: number) => () => {
@@ -90,46 +89,42 @@ const CategoryPropertyList: React.FC<Props> = ({
           { property.name }
         </ListItemText>
         <ListItemSecondaryAction>
-          <IconButton
+          <Button
+            color="inherit"
             onClick={ onDelete(index) }
           >
-            <DeleteIcon className={ classes.deleteIcon } />
-          </IconButton>
+            { strings.generic.delete }
+          </Button>
         </ListItemSecondaryAction>
       </ListItem>
     );
-  }
+  };
 
   /**
    * Renders add property item
    */
   const renderAdd = () => {
     return (
-      <ListItem
+      <Button
+        startIcon={ <AddIcon /> }
+        color="primary"
         onClick={ onAdd }
-        className={ classes.listItem }
       >
-        <ListItemText>
-          { strings.categories.addProperty }
-        </ListItemText>
-        <ListItemSecondaryAction>
-          <AddCircleIcon
-            className={ classes.addIcon }
-            onClick={ onAdd }
-          />
-        </ListItemSecondaryAction>
-      </ListItem>
+        { strings.categories.addProperty }
+      </Button>
     );
-  }
+  };
 
   /**
    * Component render
    */
   return (
-    <List>
-      { properties.map((property, index) => renderProperty(property, index)) }
+    <>
       { renderAdd() }
-    </List>
+      <List>
+        { properties.map((property, index) => renderProperty(property, index)) }
+      </List>
+    </>
   );
 };
 

@@ -3,7 +3,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
-import { KeycloakInstance } from "keycloak-js";
 import { AccessToken } from "../../types";
 import strings from "../../localization/strings";
 import { History } from "history";
@@ -12,7 +11,7 @@ import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
 
 import ProductsTab from "../tabs/products-tab";
-import CategoriesProvider from "../screens/categories-provider";
+import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
 
 import logo from "../../resources/images/toimintakeskus.png";

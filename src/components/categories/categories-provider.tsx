@@ -1,15 +1,10 @@
 import * as React from "react";
-
-import { Dispatch } from "redux";
-import { ReduxState, ReduxActions } from "../../store";
-import { connect } from "react-redux";
-
 import { WithStyles, withStyles } from "@material-ui/core";
-import styles from "../../styles/components/screens/categories-screen";
+import styles from "../../styles/components/categories/categories-editor";
 import {  Category } from "../../generated/client";
 import { AccessToken, CategoryDataHolder } from "../../types";
 import Api from "../../api/api";
-import CategoriesScreen from "./categories-screen";
+import CategoriesEditor from "./categories-editor";
 import { TreeDataUtils } from "../../utils/tree-data-utils";
 import { produce } from "immer";
 import { askConfirmation } from "../../utils/generic-utils";
@@ -73,7 +68,7 @@ class CategoriesProvider extends React.Component<Props, State> {
     } = this.state;
 
     return (
-      <CategoriesScreen
+      <CategoriesEditor
         selectedCategory={ selectedCategory }
         openCategories={ openCategories }
         treeData={ treeData }

@@ -20,7 +20,6 @@ import "moment/locale/en-gb";
 import ItemsScreen from "./screens/items-screen";
 import ItemScreen from "./screens/item-screen";
 import AddItemScreen from "./screens/add-item-screen";
-import CategoriesProvider from "./screens/categories-provider";
 import UsersScreen from "./screens/user-screen";
 
 const store = createStore<ReduxState, ReduxActions, any, any>(rootReducer);
@@ -99,12 +98,6 @@ class App extends React.Component<Props, State> {
                         exact={ true }
                       >
                         <AddItemScreen/>
-                      </Route>
-                      <Route
-                        path="/categories"
-                        exact={ true }
-                      >
-                        <CategoriesProvider/>
                       </Route>
                       <Route
                         path="/user"
