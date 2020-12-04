@@ -67,7 +67,6 @@ const CategoriesEditor: React.FC<Props> = ({
         id: category.id,
         category: category,
         expanded: openCategories.includes(category.id!!),
-
         title: (
           <GenericTreeItem
             category={ category }
