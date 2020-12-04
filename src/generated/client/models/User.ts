@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    Coordinates,
+    CoordinatesFromJSON,
+    CoordinatesFromJSONTyped,
+    CoordinatesToJSON,
+} from './';
+
 /**
  * User object
  * @export
@@ -55,6 +62,24 @@ export interface User {
      * @memberof User
      */
     companyAccount: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    companyId?: string;
+    /**
+     * 
+     * @type {Coordinates}
+     * @memberof User
+     */
+    coordinates?: Coordinates;
+    /**
+     * Location description
+     * @type {string}
+     * @memberof User
+     */
+    officeInfo?: string;
     /**
      * 
      * @type {string}
@@ -109,6 +134,9 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'email': json['email'],
         'phoneNumber': json['phoneNumber'],
         'companyAccount': json['companyAccount'],
+        'companyId': !exists(json, 'companyId') ? undefined : json['companyId'],
+        'coordinates': !exists(json, 'coordinates') ? undefined : CoordinatesFromJSON(json['coordinates']),
+        'officeInfo': !exists(json, 'officeInfo') ? undefined : json['officeInfo'],
         'password': !exists(json, 'password') ? undefined : json['password'],
         'verified': !exists(json, 'verified') ? undefined : json['verified'],
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
@@ -132,6 +160,9 @@ export function UserToJSON(value?: User | null): any {
         'email': value.email,
         'phoneNumber': value.phoneNumber,
         'companyAccount': value.companyAccount,
+        'companyId': value.companyId,
+        'coordinates': CoordinatesToJSON(value.coordinates),
+        'officeInfo': value.officeInfo,
         'password': value.password,
         'verified': value.verified,
     };

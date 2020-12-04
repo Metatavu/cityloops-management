@@ -336,7 +336,9 @@ export class ItemsScreen extends React.Component<Props, State> {
 					],
 					onlyForCompanies: false,
 					userId: "materiaalitori",
-					category: item.rfoType
+          category: item.rfoType,
+          price: 0.0,
+          priceUnit: "€"
 				};
 				items.push(newItem);
       });
