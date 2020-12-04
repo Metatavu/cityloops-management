@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, Toolbar, Button } from '@material-ui/core';
+import { withStyles, WithStyles, Toolbar, Button } from "@material-ui/core";
 import styles from "../../styles/components/categories/categories-editor";
 import { Category } from "../../generated/client";
 import strings from "../../localization/strings";
