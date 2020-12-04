@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { withStyles, WithStyles } from "@material-ui/core";
-import styles from "../../styles/components/screens/add-item-screen";
+import styles from "../../styles/components/tabs/user-items-tab";
 import { Item } from "../../generated/client";
 import GenericListItem from "../generic/generic-list-item";
 
@@ -15,7 +15,7 @@ interface Props extends WithStyles<typeof styles> {
 /**
  * Functional component for users items listing tab
  */
-const UserItemsTab: React.FC<Props> = ({ userItems }) => {
+const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
 
   /**
    * Generates user items
@@ -46,7 +46,7 @@ const UserItemsTab: React.FC<Props> = ({ userItems }) => {
    * Component render
    */
   return (
-    <div style={{ display: "flex" }}>
+    <div className={ classes.container }>
       { generateUserItemList() }
     </div>
   );

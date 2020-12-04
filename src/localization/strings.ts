@@ -69,6 +69,7 @@ export interface IStrings extends LocalizedStringsMethods {
     imageAlt: string;
     proceed: string;
     dataChanged: string;
+    noPermissions: string;
   };
 
   /**

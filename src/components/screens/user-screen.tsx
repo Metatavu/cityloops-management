@@ -6,7 +6,7 @@ import { ReduxActions, ReduxState } from "../../store";
 import { AccessToken } from "../../types";
 import strings from "../../localization/strings";
 import { History } from "history";
-import { Tab, Tabs, WithStyles, withStyles } from "@material-ui/core";
+import { Tab, Tabs, Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
 
@@ -76,13 +76,28 @@ export class UserScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes, signedToken } = this.props;
-    const { tabIndex, userItems } = this.state;
-
     return (
       <AppLayout
         banner={ false }
       >
+        { this.renderLayoutContent() }
+      </AppLayout>
+    );
+  }
+
+  /**
+   * Renders layout content
+   */
+  private renderLayoutContent = () => {
+    const { classes, signedToken } = this.props;
+    const { tabIndex, userItems } = this.state;
+
+    if (!signedToken) {
+      return <Typography variant="h4">{ strings.generic.noPermissions }</Typography>;
+    }
+
+    return (
+      <>
         <img
           className={ classes.logo }
           alt="Company logo"
@@ -108,7 +123,7 @@ export class UserScreen extends React.Component<Props, State> {
         { tabIndex === 2 &&
           <CategoriesProvider signedToken={ signedToken } />
         }
-      </AppLayout>
+      </>
     );
   }
 
