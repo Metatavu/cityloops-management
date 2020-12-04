@@ -61,7 +61,7 @@ const AppLayout: React.FC<Props> = props => {
         />
       }
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         fixed
         disableGutters
         className={ classes.contentWrapper }

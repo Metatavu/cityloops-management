@@ -7,21 +7,19 @@ export default createStyles({
     width: "100%",
     height: "100%",
     display: "flex",
+    flexDirection: "row",
     [theme.breakpoints.down("md")]: {
-      flexDirection: "column"
+      flexDirection: "row",
+      borderTop: "1px solid rgba(0,0,0,0.2)"
     }
   },
 
   propertiesContainer: {
-    borderRight: "solid 1px rgba(0, 0, 0, .2)",
+    borderRight: "solid 1px rgba(0, 0, 0, 0.2)",
     padding: 20,
     minHeight: "100%",
     width: "50%",
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-      borderRight: "none",
-      borderBottom: "solid 1px rgba(0, 0, 0, .2)"
-    }
+    overflowY: "auto"
   },
 
   nameField: {
@@ -31,10 +29,7 @@ export default createStyles({
   propertyInfoContainer: {
     padding: 20,
     minHeight: "100%",
-    width: "50%",
-    [theme.breakpoints.down("md")]: {
-      width: "100%"
-    }
+    width: "50%"
   }
 
 });
