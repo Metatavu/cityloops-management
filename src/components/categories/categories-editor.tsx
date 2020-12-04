@@ -28,7 +28,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 /**
- * Functional component for categories view
+ * Functional component for categories editor
  */
 const CategoriesEditor: React.FC<Props> = ({
   treeData,
