@@ -1,15 +1,10 @@
 import * as React from "react";
-
-import { Dispatch } from "redux";
-import { ReduxState, ReduxActions } from "../../store";
-import { connect } from "react-redux";
-
 import { WithStyles, withStyles } from "@material-ui/core";
-import styles from "../../styles/components/screens/categories-screen";
+import styles from "../../styles/components/categories/categories-editor";
 import {  Category } from "../../generated/client";
 import { AccessToken, CategoryDataHolder } from "../../types";
 import Api from "../../api/api";
-import CategoriesScreen from "./categories-screen";
+import CategoriesEditor from "./categories-editor";
 import { TreeDataUtils } from "../../utils/tree-data-utils";
 import { produce } from "immer";
 import { askConfirmation } from "../../utils/generic-utils";
@@ -18,7 +13,6 @@ import { askConfirmation } from "../../utils/generic-utils";
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
-  anonymousToken?: AccessToken;
   signedToken?: AccessToken;
 }
 
@@ -74,7 +68,7 @@ class CategoriesProvider extends React.Component<Props, State> {
     } = this.state;
 
     return (
-      <CategoriesScreen
+      <CategoriesEditor
         selectedCategory={ selectedCategory }
         openCategories={ openCategories }
         treeData={ treeData }
@@ -193,13 +187,13 @@ class CategoriesProvider extends React.Component<Props, State> {
    * @param accessToken keycloak access token
    */
   private listCategories = async (): Promise<Category[]> => {
-    const { anonymousToken } = this.props;
+    const { signedToken } = this.props;
 
-    if (!anonymousToken) {
-      return Promise.reject("No anonymous token");
+    if (!signedToken) {
+      return Promise.reject("No signed token");
     }
 
-    const categoriesApi = Api.getCategoriesApi(anonymousToken);
+    const categoriesApi = Api.getCategoriesApi(signedToken);
     return await categoriesApi.listCategories({ });
   };
 
@@ -313,27 +307,4 @@ const addOrUpdateList = (categories: Category[], newCategory: Category): Categor
   });
 };
 
-/**
- * Redux mapper for mapping store state to component props
- *
- * @param state store state
- */
-function mapStateToProps(state: ReduxState) {
-  return {
-    keycloak: state.auth.keycloak,
-    anonymousToken: state.auth.anonymousToken,
-    signedToken: state.auth.signedToken
-  };
-}
-
-/**
- * Redux mapper for mapping component dispatches
- *
- * @param dispatch dispatch method
- */
-function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
-  return {
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CategoriesProvider));
+export default withStyles(styles)(CategoriesProvider);

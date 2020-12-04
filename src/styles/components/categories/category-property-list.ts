@@ -8,6 +8,7 @@ export default createStyles({
   listItem: {
     borderRadius: 4,
     border: `1px solid ${theme.palette.grey[400]}`,
+    marginBottom: 4,
     cursor: "pointer",
     "&:hover": {
       backgroundColor: theme.palette.action.hover

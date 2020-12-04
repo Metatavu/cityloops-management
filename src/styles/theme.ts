@@ -69,6 +69,11 @@ export default createMuiTheme({
         }
       },
     },
+    MuiOutlinedInput: {
+      root: {
+        backgroundColor: "#fff"
+      }
+    }
   },
   props: {
     // Default properties for Material UI components
