@@ -50,7 +50,8 @@
     "search": "Search",
     "imageAlt": "Image",
     "proceed": "Proceed",
-    "dataChanged": "You have unsaved changed. Are you sure you want to continue?"
+    "dataChanged": "You have unsaved changed. Are you sure you want to continue?",
+    "noPermissions": "You don't have the permissions to view the content of this page."
   },
 
   "search": {

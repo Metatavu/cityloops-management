@@ -46,7 +46,10 @@ const GenericListItem: React.FC<Props> = props => {
     }
   };
 
-  return(
+  /**
+   * TODO: Add price to card once API changes are ready
+   */
+  return (
     <Card
       elevation={ card ? 0 : 0 }
       className={ card ? classes.card : classes.list }
@@ -101,7 +104,6 @@ const GenericListItem: React.FC<Props> = props => {
             { strings.generic.delete }
           </Button>
         }
-
       </CardActions>
     </Card>
   );

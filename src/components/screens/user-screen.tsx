@@ -6,15 +6,17 @@ import { ReduxActions, ReduxState } from "../../store";
 import { AccessToken } from "../../types";
 import strings from "../../localization/strings";
 import { History } from "history";
-import { Tab, Tabs, WithStyles, withStyles } from "@material-ui/core";
+import { Tab, Tabs, Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
 
-import ProductsTab from "../tabs/products-tab";
+import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
 
 import logo from "../../resources/images/toimintakeskus.png";
+import Api from "../../api/api";
+import { Item } from "../../generated/client";
 
 /**
  * Component props
@@ -30,6 +32,7 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   loading: boolean;
   tabIndex: number;
+  userItems: Item[];
 }
 
 /**
@@ -46,21 +49,55 @@ export class UserScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       loading: true,
-      tabIndex: 0
+      tabIndex: 0,
+      userItems: []
     };
+  }
+
+  /**
+   * Component did mount life cycle handler
+   */
+  public componentDidMount = async () => {
+    await this.fetchData();
+  }
+
+  /**
+   * Component did update life cycle handler
+   *
+   * @param prevProps previous props
+   */
+  public componentDidUpdate = async (prevProps: Props) => {
+    if (!prevProps.signedToken && this.props.signedToken) {
+      await this.fetchData();
+    }
   }
 
   /**
    * Component render method
    */
   public render = () => {
-    const { tabIndex } = this.state;
-    const { classes, signedToken } = this.props;
-
     return (
       <AppLayout
         banner={ false }
       >
+        { this.renderLayoutContent() }
+      </AppLayout>
+    );
+  }
+
+  /**
+   * Renders layout content
+   */
+  private renderLayoutContent = () => {
+    const { classes, signedToken } = this.props;
+    const { tabIndex, userItems } = this.state;
+
+    if (!signedToken) {
+      return <Typography variant="h4">{ strings.generic.noPermissions }</Typography>;
+    }
+
+    return (
+      <>
         <img
           className={ classes.logo }
           alt="Company logo"
@@ -76,7 +113,9 @@ export class UserScreen extends React.Component<Props, State> {
           <Tab label={ strings.userPage.categories } value={ 2 }/>
         </Tabs>
         { tabIndex === 0 &&
-          <ProductsTab />
+          <UserItemsTab
+            userItems={ userItems }
+          />
         }
         { tabIndex === 1 &&
           <MyInfoTab />
@@ -84,7 +123,7 @@ export class UserScreen extends React.Component<Props, State> {
         { tabIndex === 2 &&
           <CategoriesProvider signedToken={ signedToken } />
         }
-      </AppLayout>
+      </>
     );
   }
 
@@ -97,6 +136,25 @@ export class UserScreen extends React.Component<Props, State> {
   private setTabIndex = (event: React.ChangeEvent<{}>, newValue: number) => {
     this.setState({
       tabIndex: newValue
+    });
+  }
+
+  /**
+   * Fetches data from API
+   */
+  private fetchData = async () => {
+    const { signedToken } = this.props;
+
+    if (!signedToken || !signedToken.userId) {
+      return;
+    }
+
+    const userId = signedToken.userId;
+    const itemsApi = Api.getItemsApi(signedToken);
+    const items = await itemsApi.listItems({ userId });
+
+    this.setState({
+      userItems: items
     });
   }
 }
