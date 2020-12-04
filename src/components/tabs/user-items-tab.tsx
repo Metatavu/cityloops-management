@@ -14,6 +14,8 @@ interface Props extends WithStyles<typeof styles> {
 
 /**
  * Functional component for users items listing tab
+ *
+ * @param props component properties
  */
 const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
 
