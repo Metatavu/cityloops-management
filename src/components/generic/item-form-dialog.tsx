@@ -361,9 +361,11 @@ class ItemFormDialog extends React.Component<Props, State> {
         locationInfo: {
           address: user?.address,
           phone: user?.phoneNumber,
-          email: user?.email
-        }
+          email: user?.email,
+        },
       },
+      price: 0,
+      priceUnit: "€",
       properties: properties,
       onlyForCompanies: false,
       userId: this.props.signedToken?.userId || "",

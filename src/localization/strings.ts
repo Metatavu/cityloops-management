@@ -69,6 +69,7 @@ export interface IStrings extends LocalizedStringsMethods {
     imageAlt: string;
     proceed: string;
     dataChanged: string;
+    noPermissions: string;
   };
 
   /**
@@ -106,6 +107,7 @@ export interface IStrings extends LocalizedStringsMethods {
     addSuccessful: string;
     addError: string;
     navigateToItem: string;
+    noItems: string;
   };
 
   /**

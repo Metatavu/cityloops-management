@@ -1,10 +1,11 @@
-import * as React from "react";
-import { WithStyles, withStyles, Typography } from '@material-ui/core';
-import styles from "../../styles/components/generic/generic-tree-item";
-import { Category } from "../../generated/client";
+import { Button, Typography, WithStyles, withStyles } from '@material-ui/core';
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
-import GenericButton from "../generic/generic-button";
+import AddIcon from "@material-ui/icons/AddCircle";
+import * as React from "react";
+import { Category } from "../../generated/client";
 import strings from "../../localization/strings";
+import styles from "../../styles/components/generic/generic-tree-item";
+import theme from "../../styles/theme";
 
 /**
  * Interface representing component properties
@@ -38,10 +39,13 @@ const GenericTreeItem: React.FC<Props> = props => {
       onClick={ () => onClick(category) }
       style={ style }
     >
-      <Typography className={ classes.title }>
-        { category.name || "" }
-      </Typography>
-        <GenericButton
+      <div className={ classes.topRow }>
+        <Typography variant="h5">
+          { category.name || "" }
+        </Typography>
+        <Button
+          size="small"
+          color="inherit"
           disabled={ hasChildElements }
           onClick={
             event => {
@@ -49,14 +53,21 @@ const GenericTreeItem: React.FC<Props> = props => {
               onDeleteClick(category);
             }
           }
-          text={ strings.generic.delete }
-          style={{ backgroundColor: "#004D76", marginRight: 10 }}
-        />
-        <GenericButton
+          style={{ marginRight: theme.spacing(1) }}
+        >
+          { strings.generic.delete }
+        </Button>
+      </div>
+        <Button
+          style={{ marginLeft: theme.spacing(0.5) }}
+          startIcon={ <AddIcon /> }
+          size="small"
+          color="inherit"
           onClick={ () => onAddCategoryClick(category.id) }
-          text={ strings.categories.addSubCategory }
-          style={{ backgroundColor: "#00B6ED"}}
-        />
+          title={ strings.categories.addSubCategory }
+        >
+          { strings.generic.add }
+        </Button>
     </div>
   );
 };

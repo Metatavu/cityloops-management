@@ -13,8 +13,8 @@ import produce from "immer";
  */
 interface Props extends WithStyles<typeof styles> {
 
-  coordinates: any;
   user?: User;
+  coordinates: any;
 }
 
 /**
@@ -23,11 +23,14 @@ interface Props extends WithStyles<typeof styles> {
 const MyInfoTab: React.FC<Props> = props => {
   const {
     classes,
-    coordinates,
     user
   } = props;
 
+  const mapInfo: LocationInfo[] = [
+    {
 
+    }
+  ]
 
 
   const renderTextField = (key: string, displayName: string, value: string) => {
@@ -43,6 +46,10 @@ const MyInfoTab: React.FC<Props> = props => {
         fullWidth
       />
     )
+  };
+
+  const onUpdateProperty = (key: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    
   };
 
   /**
@@ -80,10 +87,8 @@ const MyInfoTab: React.FC<Props> = props => {
             { ...getGridItemProps(12, 6) }
             className={ classes.column }
           >
-            { user?.companyAccount && renderTextField("", strings.search.agency, "" || "" ) }
+            { user?.companyAccount && renderTextField("", strings.search.agency, user.officeInfo || "" ) }
             { renderTextField("address", strings.user.address, user?.address || "" ) }
-            { renderMap() }
-
           </Grid>
         </Grid>
         </Grid>
@@ -115,17 +120,7 @@ const MyInfoTab: React.FC<Props> = props => {
     md
   });
 
-  /**
-   * Renders map component
-   */
-  const renderMap = () => {
 
-    return (
-      <Map
-        locationInfo={ coordinates }
-      />
-    );
-  };
 
   const renderTypography = (label: string) => {
     

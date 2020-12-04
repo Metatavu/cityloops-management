@@ -10,14 +10,15 @@ import { Tab, Tabs, WithStyles, withStyles, Button, CircularProgress, Dialog, Di
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
 import { AccessToken, OSMData } from "../../types";
-import ProductsTab from "../tabs/products-tab";
-import CategoryEditorTab from "../tabs/category-editor-tab";
+import UserItemsTab from "../tabs/user-items-tab";
+import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
 import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
-
 import logo from "../../resources/images/toimintakeskus.png";
 import produce from "immer"
 import Api from "../../api/api";
+
+
 
 /**
  * Component props
@@ -37,6 +38,7 @@ interface State {
   item?: Item;
   dataChanged: boolean;
   user?: User;
+  userItems: Item[];
 }
 
 /**
@@ -59,7 +61,8 @@ export class UserScreen extends React.Component<Props, State> {
     this.state = {
       loading: true,
       tabIndex: 0,
-      dataChanged: false
+      dataChanged: false,
+      userItems: []
     };
   }
 
@@ -77,6 +80,7 @@ export class UserScreen extends React.Component<Props, State> {
   public componentDidMount = async () => {
     this.setState({ loading: true });
     await this.fetchUserInformation();
+    await this.fetchData();
     this.setState({ loading: false });
   }
 
@@ -87,6 +91,7 @@ export class UserScreen extends React.Component<Props, State> {
     if (prevProps.signedToken === undefined && this.props.signedToken) {
       this.setState({ loading: true });
       await this.fetchUserInformation();
+      await this.fetchData();
       this.setState({ loading: false });
     }
   }
@@ -102,6 +107,24 @@ export class UserScreen extends React.Component<Props, State> {
       <AppLayout
         banner={ false }
       >
+        { this.renderLayoutContent() }
+      </AppLayout>
+    );
+  }
+
+  /**
+   * Renders layout content
+   */
+  private renderLayoutContent = () => {
+    const { classes, signedToken } = this.props;
+    const { tabIndex, userItems, user } = this.state;
+
+    if (!signedToken) {
+      return <Typography variant="h4">{ strings.generic.noPermissions }</Typography>;
+    }
+
+    return (
+      <>
         <img
           className={ classes.logo }
           alt="Company logo"
@@ -117,7 +140,9 @@ export class UserScreen extends React.Component<Props, State> {
           <Tab label={ strings.userPage.categories } value={ 2 }/>
         </Tabs>
         { tabIndex === 0 &&
-          <ProductsTab />
+          <UserItemsTab
+            userItems={ userItems }
+          />
         }
         { tabIndex === 1 &&
           <MyInfoTab
@@ -126,9 +151,9 @@ export class UserScreen extends React.Component<Props, State> {
           />
         }
         { tabIndex === 2 &&
-          <CategoryEditorTab />
+          <CategoriesProvider signedToken={ signedToken } />
         }
-      </AppLayout>
+      </>
     );
   }
 
@@ -203,37 +228,48 @@ export class UserScreen extends React.Component<Props, State> {
    *
    * @param locationInfo location info
    */
-  private updateLocationInfo = async (locationInfo: LocationInfo) => {
-    const { item } = this.state;
+  private updateUserInfo = async (userInfo: User) => {
+    const { user } = this.state;
 
-    const previousLocationInfo = item?.metadata.locationInfo;
+    if(!user) {
+      return;
+    }
+
+    const previousAddres= user?.address;
     let newCoordinates: Coordinates = { ...this.defaultCoordinates };
 
-    if (previousLocationInfo?.address !== locationInfo.address) {
-      const response = await this.fetchNewCoordinatesForAddress(locationInfo.address);
+    if (previousAddres !== userInfo.address) {
+      const response = await this.fetchNewCoordinatesForAddress(user?.address);
       const parsedCoordinates = await this.parseCoordinates(response);
       newCoordinates = parsedCoordinates;
     }
 
-    locationInfo.coordinates = newCoordinates;
+    user.coordinates = newCoordinates;
 
     this.setState(
       produce((draft: State) => {
         draft.dataChanged = true;
-        draft.item!.metadata.locationInfo = locationInfo;
+        draft.user = userInfo
       })
     );
   }
 
   /**
-   * Update user information
-   *
-   * @param properties properties
+   * Fetches data from API
    */
-  private updateProperties = (properties: ItemProperty[]) => {
+  private fetchData = async () => {
+    const { signedToken } = this.props;
+
+    if (!signedToken || !signedToken.userId) {
+      return;
+    }
+
+    const userId = signedToken.userId;
+    const itemsApi = Api.getItemsApi(signedToken);
+    const items = await itemsApi.listItems({ userId });
+
     this.setState({
-      dataChanged: true,
-      item: { ...this.state.item!, properties }
+      userItems: items
     });
   }
 }

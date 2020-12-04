@@ -49,7 +49,8 @@
     "search": "Hae",
     "imageAlt": "Kuva",
     "proceed": "Jatka",
-    "dataChanged": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti jatkaa?"
+    "dataChanged": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti jatkaa?",
+    "noPermissions": "Sinulla ei ole oikeuksia tämän sivun sisältöön."
   },
 
   "search": {
@@ -80,7 +81,8 @@
     "latest": "Viimeisimmät tuotteet",
     "addSuccessful": "Ilmoituksen lisääminen onnistui!",
     "addError": "Ilmoituksen lisäämisessä tapahtui virhe!",
-    "navigateToItem": "Siirry ilmoitukseen"
+    "navigateToItem": "Siirry ilmoitukseen",
+    "noItems": "Haulla ei löytynyt yhtään ilmoitusta"
   },
 
   "categories": {
