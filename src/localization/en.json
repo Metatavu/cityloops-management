@@ -118,7 +118,11 @@
     "isCompanyAccount": "Company account",
     "rememberMe": "Remember me",
     "register": "Register",
-    "forgotPassword": "Forgot your password?"
+    "forgotPassword": "Forgot your password?",
+    "contactInformation": "Contact information",
+    "changePassword": "Change password"
+
+
   },
 
   "userPage": {
