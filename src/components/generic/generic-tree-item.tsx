@@ -34,43 +34,41 @@ const GenericTreeItem: React.FC<Props> = props => {
   } = props;
 
   return(
-    <>
-      <div
-        className={ classes.root }
-        onClick={ () => onClick(category) }
-        style={ style }
-      >
-        <div className={ classes.topRow }>
-          <Typography variant="h5">
-            { category.name || "" }
-          </Typography>
-          <Button
-            size="small"
-            color="inherit"
-            disabled={ hasChildElements }
-            onClick={
-              event => {
-                event.stopPropagation();
-                onDeleteClick(category);
-              }
+    <div
+      className={ classes.root }
+      onClick={ () => onClick(category) }
+      style={ style }
+    >
+      <div className={ classes.topRow }>
+        <Typography variant="h5">
+          { category.name || "" }
+        </Typography>
+        <Button
+          size="small"
+          color="inherit"
+          disabled={ hasChildElements }
+          onClick={
+            event => {
+              event.stopPropagation();
+              onDeleteClick(category);
             }
-            style={{ marginRight: theme.spacing(1) }}
-          >
-            { strings.generic.delete }
-          </Button>
-        </div>
-          <Button
-            style={{ marginLeft: theme.spacing(0.5) }}
-            startIcon={ <AddIcon /> }
-            size="small"
-            color="inherit"
-            onClick={ () => onAddCategoryClick(category.id) }
-            title={ strings.categories.addSubCategory }
-          >
-            { strings.generic.add }
-          </Button>
+          }
+          style={{ marginRight: theme.spacing(1) }}
+        >
+          { strings.generic.delete }
+        </Button>
       </div>
-    </>
+        <Button
+          style={{ marginLeft: theme.spacing(0.5) }}
+          startIcon={ <AddIcon /> }
+          size="small"
+          color="inherit"
+          onClick={ () => onAddCategoryClick(category.id) }
+          title={ strings.categories.addSubCategory }
+        >
+          { strings.generic.add }
+        </Button>
+    </div>
   );
 };
 

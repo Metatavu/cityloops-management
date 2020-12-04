@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, Toolbar, Button } from '@material-ui/core';
+import { withStyles, WithStyles, Toolbar, Button } from "@material-ui/core";
 import styles from "../../styles/components/categories/categories-editor";
 import { Category } from "../../generated/client";
 import strings from "../../localization/strings";
@@ -28,7 +28,7 @@ interface Props extends WithStyles<typeof styles> {
 }
 
 /**
- * Functional component for categories view
+ * Functional component for categories editor
  */
 const CategoriesEditor: React.FC<Props> = ({
   treeData,
@@ -67,7 +67,6 @@ const CategoriesEditor: React.FC<Props> = ({
         id: category.id,
         category: category,
         expanded: openCategories.includes(category.id!!),
-
         title: (
           <GenericTreeItem
             category={ category }
