@@ -37,7 +37,7 @@ const MyInfoTab: React.FC<Props> = props => {
         key={ key }
         label={ displayName }
         value={ value }
-        className={ classes.propertyField }
+
         variant="outlined"
         size="medium"
         fullWidth
@@ -132,7 +132,7 @@ const MyInfoTab: React.FC<Props> = props => {
     return (
       <Typography
               variant="h2"
-              className={ classes.propertyField }
+
             >
               { label }
             </Typography>
