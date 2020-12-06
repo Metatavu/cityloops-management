@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextField, WithStyles, withStyles } from '@material-ui/core';
+import { TextField, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/location-section";
 
 /**
