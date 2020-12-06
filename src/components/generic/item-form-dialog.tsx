@@ -369,7 +369,9 @@ class ItemFormDialog extends React.Component<Props, State> {
       properties: properties,
       onlyForCompanies: false,
       userId: this.props.signedToken?.userId || "",
-      category: category?.id
+      category: category?.id,
+      price: 0.0,
+      priceUnit: "€"
     };
   }
 
