@@ -12,7 +12,7 @@ import { AccessToken } from "../../types";
 import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
-import { Coordinates, Item, User } from "../../generated/client";
+import { Item, User } from "../../generated/client";
 import logo from "../../resources/images/toimintakeskus.png";
 import Api from "../../api/api";
 
