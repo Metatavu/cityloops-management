@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "../../styles/components/tabs/my-info-tab";
 import strings from "../../localization/strings";
-import { TextField, Typography, WithStyles, withStyles, Grid, GridDirection, GridProps, GridSize, Button } from '@material-ui/core';
+import { TextField, Typography, WithStyles, withStyles, Grid, GridDirection, GridProps, GridSize, Button } from "@material-ui/core";
 import Map from "../generic/map";
 import { User } from "../../generated/client";
 import TextFieldWithDelay from "../generic/text-field-with-delay";
@@ -28,7 +28,7 @@ const MyInfoTab: React.FC<Props> = props => {
   } = props;
 
   /**
-   * Renders item column content
+   * Renders my information content
    */
   const renderMyInformationContent = () => {
 
@@ -197,7 +197,7 @@ const MyInfoTab: React.FC<Props> = props => {
    * Event handler for change password click
    */
   const onChangePassWordClick = () => {
-    const url = `${process.env.REACT_APP_KEYCLOAK_URL}`;
+    const url = process.env.REACT_APP_KEYCLOAK_URL;
     const realm = process.env.REACT_APP_KEYCLOAK_REALM;
     window.location.href = `${url}realms/${realm}/login-actions/reset-credentials`;
   };
