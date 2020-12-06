@@ -121,7 +121,9 @@
     "register": "Rekisteröidy",
     "forgotPassword": "Unohtuiko salasana?",
     "contactInformation": "Yhteystiedot",
-    "changePassword": "Vaihda salasana"
+    "changePassword": "Vaihda salasana",
+    "businessId": "Y-tunnus",
+    "officeInfo": "Toimipiste"
   },
 
   "userPage": {

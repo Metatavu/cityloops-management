@@ -326,8 +326,6 @@ export class ItemsScreen extends React.Component<Props, State> {
 				const newItem: Item = {
 					id: item.id,
           title: item.title,
-          price: 0,
-          priceUnit: "",
 					metadata: {
 						locationInfo: { }
 					},

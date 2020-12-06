@@ -3,22 +3,18 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
-import { KeycloakInstance } from "keycloak-js";
 import strings from "../../localization/strings";
 import { History } from "history";
-import { Tab, Tabs, WithStyles, withStyles, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, } from "@material-ui/core";
+import { Tab, Tabs, WithStyles, withStyles, Typography, CircularProgress } from "@material-ui/core";
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
-import { AccessToken, OSMData } from "../../types";
+import { AccessToken } from "../../types";
 import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
-import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
+import { Coordinates, Item, User } from "../../generated/client";
 import logo from "../../resources/images/toimintakeskus.png";
-import produce from "immer"
 import Api from "../../api/api";
-
-
 
 /**
  * Component props
@@ -46,11 +42,6 @@ interface State {
  */
 export class UserScreen extends React.Component<Props, State> {
 
-    /**
-   * Base path for Open Street Maps address search API
-   */
-  private osmAddressBasePath = "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&polygon_svg=1&namedetails=1&countrycodes=fi&q=";
-
   /**
    * Constructor
    *
@@ -74,7 +65,7 @@ export class UserScreen extends React.Component<Props, State> {
     longitude: 27.2726569
   };
 
-    /**
+  /**
    * Component did mount life cycle method
    */
   public componentDidMount = async () => {
@@ -100,9 +91,6 @@ export class UserScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { tabIndex, user } = this.state;
-    const { classes } = this.props;
-
     return (
       <AppLayout
         banner={ false }
@@ -117,10 +105,23 @@ export class UserScreen extends React.Component<Props, State> {
    */
   private renderLayoutContent = () => {
     const { classes, signedToken } = this.props;
-    const { tabIndex, userItems, user } = this.state;
+    const {
+      tabIndex,
+      userItems,
+      user,
+      loading
+    } = this.state;
 
     if (!signedToken) {
       return <Typography variant="h4">{ strings.generic.noPermissions }</Typography>;
+    }
+
+    if (loading) {
+      return (
+        <div className={ classes.loaderContainer }>
+          <CircularProgress size={ 40 } color="secondary"/>
+        </div>
+      );
     }
 
     return (
@@ -146,8 +147,9 @@ export class UserScreen extends React.Component<Props, State> {
         }
         { tabIndex === 1 &&
           <MyInfoTab
-            coordinates={ this.defaultCoordinates }
             user={ user }
+            onUserInfoChange={ this.onUserInfoChange }
+            onUserSave={ this.onUserSave }
           />
         }
         { tabIndex === 2 &&
@@ -157,11 +159,42 @@ export class UserScreen extends React.Component<Props, State> {
     );
   }
 
-    /**
+  /**
+   * Event handler for user info change
+   *
+   * @param updatedUser updated user
+   */
+  private onUserInfoChange = (updatedUser: User) => {
+    this.setState({
+      user: updatedUser
+    });
+  }
+
+  /**
+   * Event handler for user save
+   */
+  private onUserSave = async () => {
+    const { signedToken } = this.props;
+    const { user } = this.state;
+
+    if (!signedToken || !user || !user.id) {
+      return;
+    }
+
+    const usersApi = Api.getUsersApi(signedToken);
+    const updateUser = await usersApi.updateUser({
+      userId: user.id,
+      user
+    });
+
+    this.setState({ user: updateUser });
+  }
+
+  /**
    * Fetches user information
    */
   private fetchUserInformation = async () => {
-    const { signedToken } = this.props
+    const { signedToken } = this.props;
 
     if (!signedToken || !signedToken.userId) {
       return;
@@ -170,9 +203,8 @@ export class UserScreen extends React.Component<Props, State> {
     const usersApi = Api.getUsersApi(signedToken);
     const userId = signedToken.userId;
 
-    const user = await usersApi.findUser({ userId: userId })
-    
-    this.setState({ user: user })
+    const user = await usersApi.findUser({ userId: userId });
+    this.setState({ user: user });
   }
 
   /**
@@ -181,77 +213,10 @@ export class UserScreen extends React.Component<Props, State> {
    * @param event event object
    * @param newValue new tab index value
    */
-  private setTabIndex = (event: React.ChangeEvent<{}>, newValue: number) => {
+  private setTabIndex = (event: React.ChangeEvent<{ }>, newValue: number) => {
     this.setState({
       tabIndex: newValue
     });
-  }
-
- 
-  /**
-   * OSM API search function
-   *
-   * @param address address to search
-   * @returns response promise
-   */
-  private fetchNewCoordinatesForAddress = async (address?: string): Promise<Response> => {
-    return await fetch(`${this.osmAddressBasePath}${encodeURIComponent(address || "")}`);
-  }
-
-  /**
-   * Parses coordinates from OSM response
-   *
-   * @param response OSM response
-   * @returns coordinates promise
-   */
-  private parseCoordinates = async (response: Response): Promise<Coordinates> => {
-
-    const coordinates: Coordinates = { ...this.defaultCoordinates };
-
-    if (response.body === null) {
-      return coordinates;
-    }
-
-    const osmData: OSMData[] = await response.json();
-    if (osmData.length === 0) {
-      return coordinates;
-    }
-
-    const firstResult = osmData[0];
-    coordinates.latitude = Number(firstResult.lat);
-    coordinates.longitude = Number(firstResult.lon);
-    return coordinates;
-  }
-
-   /**
-   * Update item location info
-   *
-   * @param locationInfo location info
-   */
-  private updateUserInfo = async (userInfo: User) => {
-    const { user } = this.state;
-
-    if(!user) {
-      return;
-    }
-
-    const previousAddres= user?.address;
-    let newCoordinates: Coordinates = { ...this.defaultCoordinates };
-
-    if (previousAddres !== userInfo.address) {
-      const response = await this.fetchNewCoordinatesForAddress(user?.address);
-      const parsedCoordinates = await this.parseCoordinates(response);
-      newCoordinates = parsedCoordinates;
-    }
-
-    user.coordinates = newCoordinates;
-
-    this.setState(
-      produce((draft: State) => {
-        draft.dataChanged = true;
-        draft.user = userInfo
-      })
-    );
   }
 
   /**

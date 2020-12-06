@@ -122,9 +122,9 @@
     "register": "Register",
     "forgotPassword": "Forgot your password?",
     "contactInformation": "Contact information",
-    "changePassword": "Change password"
-
-
+    "changePassword": "Change password",
+    "businessId": "Business ID",
+    "officeInfo": "Agency"
   },
 
   "userPage": {
