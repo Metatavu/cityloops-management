@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "../../styles/components/tabs/my-info-tab";
 import strings from "../../localization/strings";
-import { TextField, Typography, WithStyles, withStyles, Grid, GridDirection, GridProps, GridSize, Button } from '@material-ui/core';
+import { TextField, Typography, WithStyles, withStyles, Grid, GridDirection, GridProps, GridSize, Button } from "@material-ui/core";
 import Map from "../generic/map";
 import { User } from "../../generated/client";
 import TextFieldWithDelay from "../generic/text-field-with-delay";
