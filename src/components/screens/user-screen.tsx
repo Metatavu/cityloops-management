@@ -58,14 +58,6 @@ export class UserScreen extends React.Component<Props, State> {
   }
 
   /**
-   * Default coordinates
-   */
-  private defaultCoordinates: Coordinates = {
-    latitude: 61.6877956,
-    longitude: 27.2726569
-  };
-
-  /**
    * Component did mount life cycle method
    */
   public componentDidMount = async () => {
