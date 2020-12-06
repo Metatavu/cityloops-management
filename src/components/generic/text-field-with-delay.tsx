@@ -51,7 +51,6 @@ class TextFieldWithDelay extends React.Component<Props, State> {
       displayName,
     } = this.props;
 
-
     return (
       <TextField
         key={ inputName }
