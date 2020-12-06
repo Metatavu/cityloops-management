@@ -28,7 +28,7 @@ const MyInfoTab: React.FC<Props> = props => {
   } = props;
 
   /**
-   * Renders item column content
+   * Renders my information content
    */
   const renderMyInformationContent = () => {
 
