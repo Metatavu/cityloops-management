@@ -108,6 +108,8 @@ export interface IStrings extends LocalizedStringsMethods {
     addError: string;
     navigateToItem: string;
     noItems: string;
+    price: string;
+    priceUnit: string;
   };
 
   /**

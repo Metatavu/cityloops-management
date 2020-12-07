@@ -82,7 +82,9 @@
     "addSuccessful": "Ilmoituksen lisääminen onnistui!",
     "addError": "Ilmoituksen lisäämisessä tapahtui virhe!",
     "navigateToItem": "Siirry ilmoitukseen",
-    "noItems": "Haulla ei löytynyt yhtään ilmoitusta"
+    "noItems": "Haulla ei löytynyt yhtään ilmoitusta",
+    "price": "Hinta",
+    "priceUnit": "Hintayksikkö"
   },
 
   "categories": {

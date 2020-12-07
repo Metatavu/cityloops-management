@@ -125,6 +125,12 @@ export class ItemScreen extends React.Component<Props, State> {
         >
           { item ? item?.title : strings.error.itemNotFound }
         </Typography>
+        <Typography
+          variant="h1"
+          className={ classes.itemPrice }
+        >
+          { item ? `${item.price}${item.priceUnit}` : "" }
+        </Typography>
         { this.renderItemActionButtons() }
       </div>
         <Grid
