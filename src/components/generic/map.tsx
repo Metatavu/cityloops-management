@@ -161,7 +161,7 @@ class MapComponent extends React.Component<Props, State> {
     let coords: LatLngExpression = MapFunctions.defaultLatLng;
 
     if (coordinates) {
-      coords = [coordinates.latitude, coordinates.longitude]
+      coords = [ coordinates.latitude, coordinates.longitude ];
     }
 
     const markerOptions: MarkerOptions = {
