@@ -23,7 +23,7 @@ export default class MapFunctions {
   /**
    * Default coordinates in Leaflet LatLngExpression format
    */
-  public static defaultLatLng: LatLngExpression = [61.6877956, 27.2726569];
+  public static defaultLatLng: LatLngExpression = [ 61.6877956, 27.2726569 ];
 
   /**
    * OSM API search function
