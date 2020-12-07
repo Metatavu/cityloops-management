@@ -146,7 +146,7 @@ class MapComponent extends React.Component<Props, State> {
       return MapFunctions.defaultLatLng;
     }
 
-    return([coordinates.latitude, coordinates.longitude]);
+    return([ coordinates.latitude, coordinates.longitude ]);
   }
 
   /**
