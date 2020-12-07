@@ -3,16 +3,18 @@ import * as React from "react";
 import { WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/map";
 import 'leaflet/dist/leaflet.css';
-import { LocationInfo } from "../../generated/client";
+import { Coordinates } from "../../generated/client";
 import { Map, TileLayer } from "react-leaflet";
 import L, { LatLngExpression, MarkerOptions, Map as MapInstance } from "leaflet";
 import markerIcon from "../../resources/svg/marker.svg";
+import MapFunctions from "../../utils/map-functions";
 
 /**
  * Interface representing component properties
  */
 interface Props extends WithStyles<typeof styles> {
-  locationInfo: LocationInfo;
+  address?: string;
+  coordinates?: Coordinates;
   height?: string | number;
   width?: string | number;
   defaultZoomLevel?: number;
@@ -65,11 +67,6 @@ class MapComponent extends React.Component<Props, State> {
   private locationMarker = new L.FeatureGroup();
 
   /**
-   * Default coordinates
-   */
-  private defaultCoordinates: LatLngExpression = [61.6877956, 27.2726569];
-
-  /**
    * Component did mount life-cycle handler
    */
   public componentDidMount = () => {
@@ -82,7 +79,7 @@ class MapComponent extends React.Component<Props, State> {
    * @param prevProps previous props
    */
   public componentDidUpdate = (prevProps: Props) => {
-    if (prevProps.locationInfo.address !== this.props.locationInfo.address) {
+    if (prevProps.address !== this.props.address) {
       this.addLocationMarkerToMap();
     }
   }
@@ -143,28 +140,28 @@ class MapComponent extends React.Component<Props, State> {
    * @returns LatLngExpression
    */
   private getCoordinates = (): LatLngExpression => {
-    const { locationInfo } = this.props;
+    const { coordinates } = this.props;
 
-    if (!locationInfo.coordinates) {
-      return this.defaultCoordinates;
+    if (!coordinates) {
+      return MapFunctions.defaultLatLng;
     }
 
-    return([locationInfo.coordinates.latitude, locationInfo.coordinates.longitude]);
+    return([ coordinates.latitude, coordinates.longitude ]);
   }
 
   /**
    * Add marker to map
    */
   private addLocationMarkerToMap = () => {
-    const { locationInfo } = this.props;
+    const { coordinates } = this.props;
     const { locationMarker } = this;
 
     locationMarker.clearLayers();
 
-    let coords: LatLngExpression = this.defaultCoordinates;
+    let coords: LatLngExpression = MapFunctions.defaultLatLng;
 
-    if (locationInfo.coordinates) {
-      coords = [locationInfo.coordinates.latitude, locationInfo.coordinates.longitude]
+    if (coordinates) {
+      coords = [ coordinates.latitude, coordinates.longitude ];
     }
 
     const markerOptions: MarkerOptions = {

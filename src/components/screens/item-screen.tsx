@@ -253,9 +253,16 @@ export class ItemScreen extends React.Component<Props, State> {
   private renderMap = () => {
     const { item } = this.state;
 
-    return item && (
+    if (!item) {
+      return null;
+    }
+
+    const { address, coordinates } = item.metadata.locationInfo;
+
+    return (
       <Map
-        locationInfo={ item.metadata.locationInfo }
+        address={ address }
+        coordinates={ coordinates }
         height={ "500px" }
         defaultZoomLevel={ 15 }
       />

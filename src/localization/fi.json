@@ -119,7 +119,11 @@
     "isCompanyAccount": "Yritystili",
     "rememberMe": "Muista minut",
     "register": "Rekisteröidy",
-    "forgotPassword": "Unohtuiko salasana?"
+    "forgotPassword": "Unohtuiko salasana?",
+    "contactInformation": "Yhteystiedot",
+    "changePassword": "Vaihda salasana",
+    "businessId": "Y-tunnus",
+    "officeInfo": "Toimipiste"
   },
 
   "userPage": {

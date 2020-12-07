@@ -3,20 +3,18 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
-import { AccessToken } from "../../types";
 import strings from "../../localization/strings";
 import { History } from "history";
-import { Tab, Tabs, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Tab, Tabs, WithStyles, withStyles, Typography, CircularProgress } from "@material-ui/core";
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
-
+import { AccessToken } from "../../types";
 import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
-
+import { Item, User } from "../../generated/client";
 import logo from "../../resources/images/toimintakeskus.png";
 import Api from "../../api/api";
-import { Item } from "../../generated/client";
 
 /**
  * Component props
@@ -32,6 +30,10 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   loading: boolean;
   tabIndex: number;
+  existingItem?: Item;
+  item?: Item;
+  dataChanged: boolean;
+  user?: User;
   userItems: Item[];
 }
 
@@ -50,25 +52,30 @@ export class UserScreen extends React.Component<Props, State> {
     this.state = {
       loading: true,
       tabIndex: 0,
+      dataChanged: false,
       userItems: []
     };
   }
 
   /**
-   * Component did mount life cycle handler
+   * Component did mount life cycle method
    */
   public componentDidMount = async () => {
+    this.setState({ loading: true });
+    await this.fetchUserInformation();
     await this.fetchData();
+    this.setState({ loading: false });
   }
 
   /**
-   * Component did update life cycle handler
-   *
-   * @param prevProps previous props
+   * Component did update life cycle method
    */
   public componentDidUpdate = async (prevProps: Props) => {
-    if (!prevProps.signedToken && this.props.signedToken) {
+    if (prevProps.signedToken === undefined && this.props.signedToken) {
+      this.setState({ loading: true });
+      await this.fetchUserInformation();
       await this.fetchData();
+      this.setState({ loading: false });
     }
   }
 
@@ -90,10 +97,23 @@ export class UserScreen extends React.Component<Props, State> {
    */
   private renderLayoutContent = () => {
     const { classes, signedToken } = this.props;
-    const { tabIndex, userItems } = this.state;
+    const {
+      tabIndex,
+      userItems,
+      user,
+      loading
+    } = this.state;
 
     if (!signedToken) {
       return <Typography variant="h4">{ strings.generic.noPermissions }</Typography>;
+    }
+
+    if (loading) {
+      return (
+        <div className={ classes.loaderContainer }>
+          <CircularProgress size={ 40 } color="secondary"/>
+        </div>
+      );
     }
 
     return (
@@ -118,7 +138,11 @@ export class UserScreen extends React.Component<Props, State> {
           />
         }
         { tabIndex === 1 &&
-          <MyInfoTab />
+          <MyInfoTab
+            user={ user }
+            onUserInfoChange={ this.onUserInfoChange }
+            onUserSave={ this.onUserSave }
+          />
         }
         { tabIndex === 2 &&
           <CategoriesProvider signedToken={ signedToken } />
@@ -128,12 +152,60 @@ export class UserScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Event handler for user info change
+   *
+   * @param updatedUser updated user
+   */
+  private onUserInfoChange = (updatedUser: User) => {
+    this.setState({
+      user: updatedUser
+    });
+  }
+
+  /**
+   * Event handler for user save
+   */
+  private onUserSave = async () => {
+    const { signedToken } = this.props;
+    const { user } = this.state;
+
+    if (!signedToken || !user || !user.id) {
+      return;
+    }
+
+    const usersApi = Api.getUsersApi(signedToken);
+    const updateUser = await usersApi.updateUser({
+      userId: user.id,
+      user
+    });
+
+    this.setState({ user: updateUser });
+  }
+
+  /**
+   * Fetches user information
+   */
+  private fetchUserInformation = async () => {
+    const { signedToken } = this.props;
+
+    if (!signedToken || !signedToken.userId) {
+      return;
+    }
+
+    const usersApi = Api.getUsersApi(signedToken);
+    const userId = signedToken.userId;
+
+    const user = await usersApi.findUser({ userId: userId });
+    this.setState({ user: user });
+  }
+
+  /**
    * Sets tab index
    *
    * @param event event object
    * @param newValue new tab index value
    */
-  private setTabIndex = (event: React.ChangeEvent<{}>, newValue: number) => {
+  private setTabIndex = (event: React.ChangeEvent<{ }>, newValue: number) => {
     this.setState({
       tabIndex: newValue
     });

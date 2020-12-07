@@ -130,6 +130,10 @@ export interface IStrings extends LocalizedStringsMethods {
     rememberMe: string;
     register: string;
     forgotPassword: string;
+    contactInformation: string;
+    changePassword: string;
+    businessId: string;
+    officeInfo: string;
   };
 
   /**

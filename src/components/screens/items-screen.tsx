@@ -325,7 +325,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 			mtItems.forEach(item => {
 				const newItem: Item = {
 					id: item.id,
-					title: item.title,
+          title: item.title,
 					metadata: {
 						locationInfo: { }
 					},

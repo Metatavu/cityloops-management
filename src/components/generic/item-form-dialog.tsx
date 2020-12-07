@@ -3,7 +3,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
-import { AccessToken, OSMData } from "../../types";
+import { AccessToken } from "../../types";
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
@@ -17,6 +17,7 @@ import classNames from "classnames";
 import CloseIcon from '@material-ui/icons/Close';
 import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
 import { askConfirmation } from "../../utils/generic-utils";
+import MapFunctions from "../../utils/map-functions";
 
 /**
  * Interface describing component properties
@@ -48,11 +49,6 @@ interface State {
 class ItemFormDialog extends React.Component<Props, State> {
 
   /**
-   * Base path for Open Street Maps address search API
-   */
-  private osmAddressBasePath = "https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&polygon_svg=1&namedetails=1&countrycodes=fi&q=";
-
-  /**
    * Component constructor
    *
    * @param props component props
@@ -65,14 +61,6 @@ class ItemFormDialog extends React.Component<Props, State> {
       dataChanged: false
     };
   }
-
-  /**
-   * Default coordinates
-   */
-  private defaultCoordinates: Coordinates = {
-    latitude: 61.6877956,
-    longitude: 27.2726569
-  };
 
   /**
    * Component did mount life cycle method
@@ -325,7 +313,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Fetches user information
    */
   private fetchUserInformation = async () => {
-    const { signedToken } = this.props
+    const { signedToken } = this.props;
 
     if (!signedToken || !signedToken.userId) {
       return;
@@ -334,9 +322,8 @@ class ItemFormDialog extends React.Component<Props, State> {
     const usersApi = Api.getUsersApi(signedToken);
     const userId = signedToken.userId;
 
-    const user = await usersApi.findUser({ userId: userId })
-    
-    this.setState({ user: user })
+    const user = await usersApi.findUser({ userId: userId });
+    this.setState({ user });
   }
 
   /**
@@ -349,8 +336,8 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private createItemStructure = (category: Category): Item => {
     const properties: ItemProperty[] = [];
-    const { user } = this.state
-    
+    const { user } = this.state;
+
       category.properties?.forEach(property => {
         properties.push({ key: property.name, value: property.defaultValue || "" });
       });
@@ -361,15 +348,15 @@ class ItemFormDialog extends React.Component<Props, State> {
         locationInfo: {
           address: user?.address,
           phone: user?.phoneNumber,
-          email: user?.email
-        }
+          email: user?.email,
+        },
       },
+      price: 0.0,
+      priceUnit: "€",
       properties: properties,
       onlyForCompanies: false,
       userId: this.props.signedToken?.userId || "",
       category: category?.id,
-      price: 0.0,
-      priceUnit: "€"
     };
   }
 
@@ -479,11 +466,11 @@ class ItemFormDialog extends React.Component<Props, State> {
     const { item } = this.state;
 
     const previousLocationInfo = item?.metadata.locationInfo;
-    let newCoordinates: Coordinates = { ...this.defaultCoordinates };
+    let newCoordinates: Coordinates = MapFunctions.defaultCoordinates;
 
     if (previousLocationInfo?.address !== locationInfo.address) {
-      const response = await this.fetchNewCoordinatesForAddress(locationInfo.address);
-      const parsedCoordinates = await this.parseCoordinates(response);
+      const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
+      const parsedCoordinates = await MapFunctions.parseCoordinates(response);
       newCoordinates = parsedCoordinates;
     }
 
@@ -495,41 +482,6 @@ class ItemFormDialog extends React.Component<Props, State> {
         draft.item!.metadata.locationInfo = locationInfo;
       })
     );
-  }
-
-  /**
-   * OSM API search function
-   *
-   * @param address address to search
-   * @returns response promise
-   */
-  private fetchNewCoordinatesForAddress = async (address?: string): Promise<Response> => {
-    return await fetch(`${this.osmAddressBasePath}${encodeURIComponent(address || "")}`);
-  }
-
-  /**
-   * Parses coordinates from OSM response
-   *
-   * @param response OSM response
-   * @returns coordinates promise
-   */
-  private parseCoordinates = async (response: Response): Promise<Coordinates> => {
-
-    const coordinates: Coordinates = { ...this.defaultCoordinates };
-
-    if (response.body === null) {
-      return coordinates;
-    }
-
-    const osmData: OSMData[] = await response.json();
-    if (osmData.length === 0) {
-      return coordinates;
-    }
-
-    const firstResult = osmData[0];
-    coordinates.latitude = Number(firstResult.lat);
-    coordinates.longitude = Number(firstResult.lon);
-    return coordinates;
   }
 
   /**

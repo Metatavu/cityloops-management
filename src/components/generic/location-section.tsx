@@ -109,7 +109,8 @@ class LocationSection extends React.Component<Props, State> {
 
     return (
       <Map
-        locationInfo={ locationInfo }
+        address={ locationInfo.address }
+        coordinates={ locationInfo.coordinates }
       />
     );
   };
