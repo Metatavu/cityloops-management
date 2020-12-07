@@ -4,7 +4,8 @@ import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 import { AccessToken } from "../../types";
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
+// tslint:disable-next-line: max-line-length
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
@@ -206,6 +207,29 @@ class ItemFormDialog extends React.Component<Props, State> {
             onUpdateImages={ this.updateImages }
             onUpdateProperties={ this.updateProperties }
             onImageDeleteClick={ this.onImageDelete }
+          />
+          <TextField
+            key={ `item-${item.id}-price` }
+            label={ strings.items.price }
+            size="medium"
+            variant="outlined"
+            fullWidth
+            type="number"
+            name="price"
+            InputLabelProps={{ variant: "outlined" }}
+            value={ item.price || 0.0 }
+            onChange={ this.updateItemData }
+          />
+          <TextField
+            key={ `item-${item.id}-priceUnit` }
+            label={ strings.items.priceUnit }
+            size="medium"
+            variant="outlined"
+            fullWidth
+            name="priceUnit"
+            InputLabelProps={{ variant: "outlined" }}
+            value={ item.priceUnit || "" }
+            onChange={ this.updateItemData }
           />
         </Grid>
         <Grid
@@ -454,6 +478,24 @@ class ItemFormDialog extends React.Component<Props, State> {
     this.setState({
       dataChanged: true,
       item: { ...this.state.item!, properties }
+    });
+  }
+
+  /**
+   * Update item data
+   *
+   * @param event react change event
+   */
+  private updateItemData = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const { item } = this.state;
+    const { name, value } = event.target;
+    if (!name || !item) {
+      return;
+    }
+
+    this.setState({
+      dataChanged: true,
+      item: { ...item, [name]: value }
     });
   }
 

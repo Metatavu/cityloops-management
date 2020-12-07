@@ -99,6 +99,12 @@ export default createStyles({
     marginBottom: 20
   },
 
+  itemPrice: {
+    fontSize: 40,
+    marginBottom: 20,
+    fontWeight: 100
+  },
+
   columns: { },
 
   imageColumn: { },
