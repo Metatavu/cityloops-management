@@ -4,6 +4,7 @@ import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import strings from "../../localization/strings";
+import logoPrimary from "../../resources/svg/logo-primary.svg";
 
 /**
  * Interface representing component properties
@@ -30,7 +31,7 @@ const GenericListItem: React.FC<Props> = props => {
   } = props;
 
   const isMTItem = item.userId === "materiaalitori";
-  const defaultImage = "https://staging-muisti-cdn.metatavu.io/folder/f2d54335-2015-4ccc-8ac2-d4c113b05dc6.jpg";
+  const defaultImage = logoPrimary;
 
   /**
    * Event handler for card click
@@ -62,7 +63,7 @@ const GenericListItem: React.FC<Props> = props => {
             <ListItemAvatar className={ classes.listItemAvatar }>
               <img
                 alt={ `itemImage-${item.id}` }
-                src={ item.images ? item.images[0] : defaultImage }
+                src={ item.images && item.images.length > 0 ? item.images[0] : defaultImage }
                 style={{ width: 200, height: 200 }}
               />
             </ListItemAvatar>
