@@ -2,7 +2,7 @@ import * as React from "react";
 import { WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/categories/categories-editor";
 import {  Category } from "../../generated/client";
-import { AccessToken, CategoryDataHolder } from "../../types";
+import { CategoryDataHolder, SignedToken } from "../../types";
 import Api from "../../api/api";
 import CategoriesEditor from "./categories-editor";
 import { TreeDataUtils } from "../../utils/tree-data-utils";
@@ -13,7 +13,7 @@ import { askConfirmation } from "../../utils/generic-utils";
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
 }
 
 /**

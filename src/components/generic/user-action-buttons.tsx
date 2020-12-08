@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { signedLogin } from "../../actions/auth";
 import { setLocale } from "../../actions/locale";
-import { AccessToken } from "../../types";
+import { AccessToken, SignedToken } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
 
 import { Button, withStyles, WithStyles } from "@material-ui/core";
@@ -20,7 +20,7 @@ import RegistrationFormDialog from "./registration-form-dialog";
 interface Props extends WithStyles<typeof styles> {
   keycloak?: KeycloakInstance;
   anonymousToken?: AccessToken;
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
   signedLogin?: typeof signedLogin;
 }
 
@@ -107,7 +107,7 @@ function mapStateToProps(state: ReduxState) {
 function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
     setLocale: (locale: string) => dispatch(setLocale(locale)),
-    login: (signedToken: AccessToken) => dispatch(signedLogin(signedToken))
+    login: (signedToken: SignedToken) => dispatch(signedLogin(signedToken))
   };
 }
 

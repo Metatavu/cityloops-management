@@ -8,7 +8,7 @@ import { History } from "history";
 import { Tab, Tabs, WithStyles, withStyles, Typography, CircularProgress } from "@material-ui/core";
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
-import { AccessToken } from "../../types";
+import { SignedToken } from "../../types";
 import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
@@ -20,7 +20,7 @@ import Api from "../../api/api";
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
   history: History;
 }
 

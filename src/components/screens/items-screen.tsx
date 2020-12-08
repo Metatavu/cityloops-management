@@ -8,7 +8,7 @@ import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken, SearchParams } from '../../types';
+import { AccessToken, SearchParams, SignedToken } from '../../types';
 import { Category, Item } from "../../generated/client";
 import ItemList from "../items/item-list";
 import Api from "../../api/api";
@@ -31,7 +31,7 @@ interface Props extends WithStyles<typeof styles> {
   history: History;
   keycloak?: KeycloakInstance;
   anonymousToken?: AccessToken;
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
 }
 
 /**

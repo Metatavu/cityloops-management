@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { setKeycloak, signedLogin } from "../../actions/auth";
 
-import { AccessToken } from "../../types";
+import { AccessToken, SignedToken } from "../../types";
 import ErrorDialog from "../generic/error-dialog";
 import { KeycloakInstance } from "keycloak-js";
 import Keycloak from "keycloak-js";
@@ -14,7 +14,7 @@ import Keycloak from "keycloak-js";
  * Component props
  */
 interface Props {
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
   onSignedLogin: typeof signedLogin;
   setKeycloak: typeof setKeycloak;
 }
@@ -59,17 +59,13 @@ class SignedTokenProvider extends React.Component<Props, State> {
   public componentDidMount = async () => {
     const auth = await this.keycloakInit();
     this.props.setKeycloak(this.keycloak);
-    if (!auth) {
-      return;
-    } else {
+    if (auth) {
       const { token, tokenParsed } = this.keycloak;
 
       if (this.keycloak && tokenParsed && tokenParsed.sub && token) {
         this.keycloak.loadUserProfile();
         const signedToken = this.buildToken(this.keycloak);
-        if (signedToken) {
-          this.props.onSignedLogin(signedToken);
-        }
+        this.props.onSignedLogin(signedToken ?? null);
       }
 
       this.refreshAccessToken();
@@ -77,6 +73,8 @@ class SignedTokenProvider extends React.Component<Props, State> {
       this.timer = setInterval(() => {
         this.refreshAccessToken();
       }, 1000 * 60);
+    } else {
+      this.props.onSignedLogin(null);
     }
   }
 
@@ -93,14 +91,13 @@ class SignedTokenProvider extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { children } = this.props;
+    const { children, signedToken } = this.props;
     const { error } = this.state;
 
     if (error) {
       return <ErrorDialog error={ error } onClose={ () => this.setState({ error: undefined }) } />;
     }
-
-    return children;
+    return signedToken !== undefined ? children : null;
   }
 
   /**
@@ -112,9 +109,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
       if (refreshed) {
         const signedToken = this.buildToken(this.keycloak);
 
-        if (signedToken) {
-          this.props.onSignedLogin(signedToken);
-        }
+        this.props.onSignedLogin(signedToken ?? null);
       }
     } catch (e) {
       this.setState({
@@ -178,7 +173,7 @@ function mapStateToProps(state: ReduxState) {
  */
 function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
-    onSignedLogin: (signedToken: AccessToken) => dispatch(signedLogin(signedToken)),
+    onSignedLogin: (signedToken?: SignedToken) => dispatch(signedLogin(signedToken)),
     setKeycloak: (keycloak: KeycloakInstance) => dispatch(setKeycloak(keycloak))
   };
 }

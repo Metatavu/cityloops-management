@@ -8,7 +8,7 @@ import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken } from '../../types';
+import { AccessToken, SignedToken } from '../../types';
 import { Item } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
@@ -29,7 +29,7 @@ import CloseIcon from '@material-ui/icons/Close';
 interface Props extends WithStyles<typeof styles> {
   keycloak?: KeycloakInstance;
   anonymousToken?: AccessToken;
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
   history: History;
   itemId: string;
 }

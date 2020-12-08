@@ -1,6 +1,6 @@
 import { KeycloakInstance } from 'keycloak-js';
 import * as actionTypes from '../constants/actionTypes';
-import { AccessToken } from '../types';
+import { AccessToken, SignedToken } from '../types';
 
 /**
  * Interface for setting keycloak instance
@@ -23,7 +23,7 @@ export interface AnonymousLoginAction {
  */
 export interface SignedLoginAction {
   type: actionTypes.SIGNED_LOGIN;
-  accessToken: AccessToken;
+  accessToken?: SignedToken;
 }
 
 /**
@@ -62,7 +62,7 @@ export function anonymousLogin(accessToken: AccessToken): AnonymousLoginAction {
  *
  * @param accessToken access token
  */
-export function signedLogin(accessToken: AccessToken): SignedLoginAction {
+export function signedLogin(accessToken?: SignedToken): SignedLoginAction {
   return {
     type: actionTypes.SIGNED_LOGIN,
     accessToken: accessToken

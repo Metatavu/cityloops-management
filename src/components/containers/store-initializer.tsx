@@ -3,7 +3,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { Dispatch } from "redux";
-import { AccessToken } from "../../types";
+import { AccessToken, SignedToken } from "../../types";
 import ErrorDialog from "../generic/error-dialog";
 import { KeycloakInstance } from "keycloak-js";
 
@@ -13,7 +13,7 @@ import { KeycloakInstance } from "keycloak-js";
 interface Props {
   keycloak?: KeycloakInstance;
   anonymousToken?: AccessToken;
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
 }
 
 /**
