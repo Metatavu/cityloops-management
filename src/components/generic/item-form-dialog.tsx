@@ -3,7 +3,7 @@ import * as React from "react";
 import { Dispatch } from "redux";
 import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
-import { AccessToken } from "../../types";
+import { SignedToken } from "../../types";
 // tslint:disable-next-line: max-line-length
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
@@ -24,7 +24,7 @@ import MapFunctions from "../../utils/map-functions";
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
   open?: boolean;
   onClose: () => void;
   onCreated?: (item: Item) => void;

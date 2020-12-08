@@ -15,6 +15,11 @@ export interface AccessToken {
 }
 
 /**
+ * Type for signed token
+ */
+export type SignedToken = AccessToken | null;
+
+/**
  * Interface describing anonymous login configuration
  */
 export interface AnonymousLoginConfig {

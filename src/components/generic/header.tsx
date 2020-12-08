@@ -4,7 +4,7 @@ import { ReduxActions, ReduxState } from "../../store";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { setLocale } from "../../actions/locale";
-import { AccessToken } from "../../types";
+import { AccessToken, SignedToken } from "../../types";
 
 import { AppBar, Button, Container, Hidden, IconButton, MenuItem, Select, Toolbar, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/header";
@@ -33,7 +33,7 @@ export interface ScreenProps {
  */
 interface OtherProps extends WithStyles<typeof styles> {
   anonymousToken?: AccessToken;
-  signedToken?: AccessToken;
+  signedToken?: SignedToken;
   locale: string;
   setLocale: typeof setLocale;
   title?: string;
