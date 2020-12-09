@@ -48,6 +48,10 @@ export interface IStrings extends LocalizedStringsMethods {
    * Generic translations
    */
   generic: {
+    yes: string;
+    no: string;
+    successfulOperation: string;
+    close: string;
     add: string;
     save: string;
     delete: string;
@@ -85,6 +89,7 @@ export interface IStrings extends LocalizedStringsMethods {
    */
   items: {
     title: string;
+    item: string;
     addItem: string;
     addPosting: string;
     newPosting: string;

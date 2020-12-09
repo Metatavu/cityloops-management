@@ -6,7 +6,7 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, CircularProgress, Grid, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from '../../types';
 import { Item } from "../../generated/client";
@@ -19,9 +19,7 @@ import moment from "moment";
 import LocationIcon from '@material-ui/icons/Room';
 import Map from "../generic/map";
 import ItemFormDialog from "../generic/item-form-dialog";
-import { askConfirmation } from "../../utils/generic-utils";
-import logo from "../../resources/svg/logo-primary.svg";
-import CloseIcon from '@material-ui/icons/Close';
+import GenericConfirmDialog from "../generic/generic-confirm-dialog";
 
 /**
  * Component props
@@ -41,7 +39,9 @@ interface State {
   loading: boolean;
   item?: Item;
   formOpen: boolean;
-  successDialogOpen: boolean;
+  deleteDialogOpen: boolean;
+  deleteLoading: boolean;
+  successfulDelete: boolean;
 }
 
 /**
@@ -59,7 +59,9 @@ export class ItemScreen extends React.Component<Props, State> {
     this.state = {
       loading: true,
       formOpen: false,
-      successDialogOpen: false
+      deleteDialogOpen: false,
+      deleteLoading: false,
+      successfulDelete: false
     };
   }
 
@@ -191,7 +193,7 @@ export class ItemScreen extends React.Component<Props, State> {
           variant="outlined"
           color="secondary"
           className={ classes.deleteButton }
-          onClick={ this.onDeleteClick }
+          onClick={ this.toggleDeleteDialog }
         >
           { strings.generic.delete }
         </Button>
@@ -296,48 +298,50 @@ export class ItemScreen extends React.Component<Props, State> {
    * TODO: Add error message logic
    */
   private renderDeleteDialog = () => {
-    const { classes } = this.props;
-    const { successDialogOpen } = this.state;
+    const {
+      deleteDialogOpen,
+      item,
+      successfulDelete,
+      deleteLoading
+    } = this.state;
 
     return (
-      <Dialog
-        maxWidth="xs"
-        fullWidth
-        open={ successDialogOpen }
-        onClose={ () => window.location.href = "/" }
-      >
-        <DialogTitle className={ classes.dialogTitle }>
-          <IconButton
-            className={ classes.dialogClose }
-            onClick={ () => window.location.href = "/" }
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent className={ classes.dialogContent }>
-        <img
-          src={ logo }
-          alt={ "logo" }
-          className={ classes.logo }
-        />
-        <Typography className={ classes.contentTitle }>
-          { strings.items.deletionSuccessful }
-        </Typography>
-        </DialogContent>
-        <DialogActions className={ classes.dialogActions }>
-          <Button
-            variant="contained"
-            disableElevation
-            color="secondary"
-            fullWidth
-            className={ classes.submitButton }
-            onClick={ () => window.location.href = "/" }
-          >
-            { strings.items.returnToFrontPage }
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <GenericConfirmDialog
+        open={ deleteDialogOpen }
+        loading={ deleteLoading }
+        success={ successfulDelete }
+        title={
+          strings.formatString(
+            strings.generic.customConfirmDelete,
+            strings.items.item,
+            item?.title || ""
+          ) as string
+        }
+        confirmButtonText={ strings.generic.delete }
+        cancelButtonText={ strings.generic.cancel }
+        successCloseButtonText={ strings.items.returnToFrontPage }
+        successTitle={ strings.items.deletionSuccessful }
+        onCancel={ this.toggleDeleteDialog }
+        onClose={ this.toggleDeleteDialog }
+        onConfirm={ this.onDeleteClick }
+        onSuccessClose={ this.onSuccessfulDeleteCloseClick }
+      />
     );
+  }
+
+  /**
+   * Fetch needed data
+   */
+  private fetchData = async () => {
+    const { anonymousToken, itemId } = this.props;
+
+    if (!anonymousToken) {
+      return;
+    }
+
+    const itemsApi = Api.getItemsApi(anonymousToken);
+    const item = await itemsApi.findItem({ itemId });
+    this.setState({ item });
   }
 
   /**
@@ -372,31 +376,35 @@ export class ItemScreen extends React.Component<Props, State> {
     if (!signedToken) {
       return;
     }
-    if (askConfirmation()) {
-      const itemsApi = Api.getItemsApi(signedToken);
-      await itemsApi.deleteItem({
-        itemId: itemId
-      });
 
-      this.setState({
-        successDialogOpen: true
-      });
-    }
+    this.setState({ deleteLoading: true });
+    const itemsApi = Api.getItemsApi(signedToken);
+    await itemsApi.deleteItem({ itemId: itemId })
+      .then(() => this.setState({ successfulDelete: true, deleteLoading: false }))
+      .catch(e => console.error(e));
   }
 
   /**
-   * Fetch needed data
+   * Toggle delete dialog
    */
-  private fetchData = async () => {
-    const { anonymousToken, itemId } = this.props;
+  private toggleDeleteDialog = () => {
+    this.setState({ deleteDialogOpen: !this.state.deleteDialogOpen });
+  }
 
-    if (!anonymousToken) {
-      return;
-    }
+  /**
+   * Toggle edit form dialog
+   */
+  private toggleEditFormDialog = () => {
+    this.setState({ formOpen: !this.state.formOpen });
+  }
 
-    const itemsApi = Api.getItemsApi(anonymousToken);
-    const item = await itemsApi.findItem({ itemId });
-    this.setState({ item });
+  /**
+   * Event handler for closing dialog after successful delete
+   */
+  private onSuccessfulDeleteCloseClick = () => {
+    const { history } = this.props;
+    this.toggleDeleteDialog();
+    history.replace("/");
   }
 }
 

@@ -29,6 +29,10 @@
   },
 
   "generic": {
+    "yes": "Kyllä",
+    "no": "Ei",
+    "successfulOperation": "Operaation onnistui",
+    "close": "Sulje",
     "add": "Lisää",
     "save": "Tallenna",
     "delete": "Poista",
@@ -60,6 +64,7 @@
 
   "items": {
     "title": "Tuotteet",
+    "item": "Ilmoitus",
     "addItem": "Lisää tuote",
     "addPosting": "Lisää ilmoitus",
     "newPosting": "Uusi ilmoitus",
