@@ -28,11 +28,11 @@ export default createMuiTheme({
       fontWeight: 900
     },
     h2: {
-      fontSize: 26,
+      fontSize: 28,
       fontWeight: "bold"
     },
     h3: {
-      fontSize: 22,
+      fontSize: 26,
       fontWeight: "bold"
     },
     h4: {
@@ -44,7 +44,11 @@ export default createMuiTheme({
       fontWeight: "bold",
       color: "#004D76"
     },
-    subtitle1: {},
+    subtitle1: {
+      fontSize: 12,
+      fontWeight: "bold",
+      color: "#004D76"
+    },
     subtitle2: {},
     body1: {},
     body2: {}

@@ -4,7 +4,7 @@ import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import strings from "../../localization/strings";
-import logoPrimary from "../../resources/svg/logo-primary.svg";
+import brokenImage from "../../resources/images/broken-image.png";
 
 /**
  * Interface representing component properties
@@ -31,7 +31,6 @@ const GenericListItem: React.FC<Props> = props => {
   } = props;
 
   const isMTItem = item.userId === "materiaalitori";
-  const defaultImage = logoPrimary;
 
   /**
    * Event handler for card click
@@ -62,9 +61,9 @@ const GenericListItem: React.FC<Props> = props => {
           <CardContent className={ classes.listContent }>
             <ListItemAvatar className={ classes.listItemAvatar }>
               <img
+                className={ classes.cardImage }
                 alt={ `itemImage-${item.id}` }
-                src={ item.images && item.images.length > 0 ? item.images[0] : defaultImage }
-                style={{ width: 200, height: 200 }}
+                src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
               />
             </ListItemAvatar>
             <Typography
@@ -80,14 +79,17 @@ const GenericListItem: React.FC<Props> = props => {
             <img
               className={ classes.cardImage }
               alt={ `itemImage-${item.id}` }
-              src={ item.images ? item.images[0] : defaultImage }
-              />
+              src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
+            />
           </div>
         <Typography
           style={{ width: "100%" }}
           variant="h4"
         >
           { item.title }
+        </Typography>
+        <Typography variant="subtitle1">
+          Location
         </Typography>
         </CardContent>
       }
