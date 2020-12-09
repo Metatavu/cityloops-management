@@ -5,7 +5,7 @@ import * as React from "react";
 import { CategoryProperty, CategoryPropertyInputType } from "../../generated/client";
 import strings from "../../localization/strings";
 import styles from "../../styles/components/categories/category-property-list";
-import * as GenericUtils from "../../utils/generic-utils";
+import GenericConfirmDialog from "../generic/generic-confirm-dialog";
 
 
 /**
@@ -29,6 +29,8 @@ const CategoryPropertyList: React.FC<Props> = ({
   onUpdateProperties
 }) => {
 
+  const [ propertyToDelete, setPropertyToDelete ] = React.useState<CategoryProperty | undefined>(undefined);
+
   /**
    * Event handler for add property
    */
@@ -47,29 +49,27 @@ const CategoryPropertyList: React.FC<Props> = ({
   /**
    * Event handler for delete property
    *
-   * @param index index of property
+   * @param propertyToDelete property to delete
    */
-  const onDelete = (index: number) => () => {
-    if (properties.length <= index) {
-      return;
-    }
-
-    const confirmationMessage = strings.formatString(
-      strings.generic.customConfirmDelete,
-      strings.categories.category.toLowerCase(),
-      properties[index].name
-    ) as string;
-
-    if (!GenericUtils.askConfirmation(confirmationMessage)) {
+  const onDelete = (propertyToDelete: CategoryProperty) => () => {
+    const propertyIndex = properties.findIndex(property => property.name === propertyToDelete.name);
+    if (propertyIndex < 0) {
       return;
     }
 
     onUpdateProperties(
       produce(properties, draft => {
-        draft.splice(index, 1);
+        draft.splice(propertyIndex, 1);
       })
     );
+
+    setPropertyToDelete(undefined);
   }
+
+  /**
+   * Event handler for delete dialog cancel
+   */
+  const onCancel = () => setPropertyToDelete(undefined);
 
   /**
    * Renders property
@@ -91,7 +91,7 @@ const CategoryPropertyList: React.FC<Props> = ({
         <ListItemSecondaryAction>
           <Button
             color="inherit"
-            onClick={ onDelete(index) }
+            onClick={ () => setPropertyToDelete(property) }
           >
             { strings.generic.delete }
           </Button>
@@ -115,6 +115,12 @@ const CategoryPropertyList: React.FC<Props> = ({
     );
   };
 
+  const deleteDialogTitle = propertyToDelete ? strings.formatString(
+    strings.generic.customConfirmDelete,
+    strings.categories.category.toLowerCase(),
+    propertyToDelete.name
+  ) : undefined;
+
   /**
    * Component render
    */
@@ -124,6 +130,17 @@ const CategoryPropertyList: React.FC<Props> = ({
       <List>
         { properties.map((property, index) => renderProperty(property, index)) }
       </List>
+      { propertyToDelete &&
+        <GenericConfirmDialog
+          open={ !!propertyToDelete }
+          title={ deleteDialogTitle as string }
+          confirmButtonText={ strings.generic.confirmDelete }
+          cancelButtonText={ strings.generic.cancel }
+          onCancel={ onCancel }
+          onClose={ onCancel }
+          onConfirm={ onDelete(propertyToDelete) }
+        />
+      }
     </>
   );
 };

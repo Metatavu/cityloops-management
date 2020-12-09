@@ -30,6 +30,10 @@
   },
 
   "generic": {
+    "yes": "Yes",
+    "no": "no",
+    "successfulOperation": "Operation was successful",
+    "close": "Close",
     "add": "Add",
     "save": "Save",
     "delete": "Delete",
@@ -61,6 +65,7 @@
 
   "items": {
     "title": "Items",
+    "item": "posting",
     "addItem": "Add item",
     "addPosting": "Add posting",
     "newPosting": "New posting",

@@ -17,8 +17,8 @@ import produce from "immer";
 import classNames from "classnames";
 import CloseIcon from '@material-ui/icons/Close';
 import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
-import { askConfirmation } from "../../utils/generic-utils";
 import MapFunctions from "../../utils/map-functions";
+import GenericConfirmDialog from "./generic-confirm-dialog";
 
 /**
  * Interface describing component properties
@@ -40,8 +40,11 @@ interface State {
   item?: Item;
   categories: Category[];
   selectedCategory?: Category;
+  categoryToChange?: Category;
   dataChanged: boolean;
   user?: User;
+  changeCategoryConfirmOpen: boolean;
+  closeFormConfirmOpen: boolean;
 }
 
 /**
@@ -59,7 +62,9 @@ class ItemFormDialog extends React.Component<Props, State> {
     this.state = {
       loading: true,
       categories: [],
-      dataChanged: false
+      dataChanged: false,
+      changeCategoryConfirmOpen: false,
+      closeFormConfirmOpen: false
     };
   }
 
@@ -93,35 +98,39 @@ class ItemFormDialog extends React.Component<Props, State> {
     const { loading } = this.state;
 
     return (
-      <Dialog
-        maxWidth="lg"
-        fullWidth
-        open={ open || false }
-        onClose={ onClose }
-        PaperProps={{ className: classes.dialogContainer }}
-      >
-        <DialogTitle className={ classes.dialogTitle }>
-          { strings.items.newPosting }
-          <IconButton
-            className={ classes.dialogClose }
-            onClick={ onClose }
-          >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent
-          dividers
-          className={ classes.dialogContent }
+      <>
+        <Dialog
+          maxWidth="lg"
+          fullWidth
+          open={ open || false }
+          onClose={ onClose }
+          PaperProps={{ className: classes.dialogContainer }}
         >
-          { loading ?
-            <CircularProgress size={ 60 } className={ classes.loader } /> :
-            this.renderDialogContent()
-          }
-        </DialogContent>
-        <DialogActions className={ classes.dialogActions }>
-          { this.renderActionButtons() }
-        </DialogActions>
-      </Dialog>
+          <DialogTitle className={ classes.dialogTitle }>
+            { strings.items.newPosting }
+            <IconButton
+              className={ classes.dialogClose }
+              onClick={ onClose }
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
+          <DialogContent
+            dividers
+            className={ classes.dialogContent }
+          >
+            { loading ?
+              <CircularProgress size={ 60 } className={ classes.loader } /> :
+              this.renderDialogContent()
+            }
+          </DialogContent>
+          <DialogActions className={ classes.dialogActions }>
+            { this.renderActionButtons() }
+          </DialogActions>
+        </Dialog>
+        { this.renderCloseFormConfirmDialog() }
+        { this.renderCategoryChangeConfirmDialog() }
+      </>
     );
   }
 
@@ -270,7 +279,7 @@ class ItemFormDialog extends React.Component<Props, State> {
         <Button
           variant="outlined"
           className={ classes.buttonOutlined }
-          onClick={ this.onCloseFormClick }
+          onClick={ this.closeForm }
         >
           { strings.generic.cancel }
         </Button>
@@ -285,6 +294,43 @@ class ItemFormDialog extends React.Component<Props, State> {
           { strings.generic.save }
         </Button>
       </>
+    );
+  }
+
+  /**
+   * Renders close form confirm dialog
+   */
+  private renderCloseFormConfirmDialog = () => {
+    const { closeFormConfirmOpen } = this.state;
+
+    return (
+      <GenericConfirmDialog
+        title={ strings.generic.dataChanged }
+        open={ closeFormConfirmOpen }
+        onConfirm={ this.closeForm }
+        onCancel={ () => this.toggleCloseFormConfirmDialog(false) }
+        onClose={ () => this.toggleCloseFormConfirmDialog(false) }
+      />
+    );
+  }
+
+  /**
+   * Renders category change confirm dialog
+   */
+  private renderCategoryChangeConfirmDialog = () => {
+    const { changeCategoryConfirmOpen, categoryToChange } = this.state;
+    return (
+      <GenericConfirmDialog
+        title={ strings.generic.dataChanged }
+        open={ changeCategoryConfirmOpen }
+        onConfirm={ () => {
+          if (categoryToChange) {
+            this.selectCategory(categoryToChange);
+          }
+        }}
+        onCancel={ () => this.toggleChangeCategoryConfirmDialog(false) }
+        onClose={ () => this.toggleChangeCategoryConfirmDialog(false) }
+      />
     );
   }
 
@@ -392,12 +438,14 @@ class ItemFormDialog extends React.Component<Props, State> {
    * @param selectedCategory selected category
    */
   private selectCategory = (selectedCategory: Category) => {
-    const { dataChanged } = this.state;
+    const { dataChanged, changeCategoryConfirmOpen } = this.state;
 
-    if (dataChanged && !askConfirmation(strings.generic.dataChanged)) {
+    if (dataChanged && !changeCategoryConfirmOpen) {
+      this.toggleChangeCategoryConfirmDialog(true, selectedCategory);
       return;
     }
 
+    this.toggleChangeCategoryConfirmDialog(false, undefined);
     const categoryId = selectedCategory.id;
     if (!categoryId) {
       return;
@@ -409,6 +457,7 @@ class ItemFormDialog extends React.Component<Props, State> {
       produce((draft: State) => {
         draft.selectedCategory = selectedCategory;
         draft.item = newItem;
+        draft.dataChanged = false;
       })
     );
   }
@@ -529,13 +578,16 @@ class ItemFormDialog extends React.Component<Props, State> {
   }
 
   /**
-   * Event handler for close form click
+   * Closes form
    */
-  private onCloseFormClick = () => {
-    const { dataChanged } = this.state;
-    if (dataChanged && !askConfirmation(strings.generic.dataChanged)) {
+  private closeForm = () => {
+    const { dataChanged, closeFormConfirmOpen } = this.state;
+    if (dataChanged && !closeFormConfirmOpen) {
+      this.toggleCloseFormConfirmDialog(true);
       return;
     }
+
+    this.toggleCloseFormConfirmDialog(false);
     this.emptyForm();
     this.props.onClose();
   }
@@ -652,6 +704,28 @@ class ItemFormDialog extends React.Component<Props, State> {
       item: undefined,
       selectedCategory: undefined,
       dataChanged: false
+    });
+  }
+
+  /**
+   * Toggles close form confirm dialog
+   * 
+   * @param open open
+   */
+  private toggleCloseFormConfirmDialog = (open: boolean) => {
+    this.setState({ closeFormConfirmOpen: open });
+  }
+
+  /**
+   * Toggles change category confirm dialog
+   * 
+   * @param open open
+   * @param category possible category
+   */
+  private toggleChangeCategoryConfirmDialog = (open: boolean, category?: Category) => {
+    this.setState({
+      changeCategoryConfirmOpen: open,
+      categoryToChange: category
     });
   }
 }
