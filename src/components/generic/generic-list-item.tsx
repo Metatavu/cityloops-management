@@ -49,7 +49,6 @@ const GenericListItem: React.FC<Props> = props => {
   /**
    * TODO: Add price to card once API changes are ready
    */
-  console.log( brokenImage )
   return (
     <Card
       elevation={ card ? 0 : 0 }
