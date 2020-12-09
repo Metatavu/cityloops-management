@@ -4,6 +4,7 @@ import { withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/tabs/user-items-tab";
 import { Item } from "../../generated/client";
 import GenericListItem from "../generic/generic-list-item";
+import ItemsRow from "../generic/items-row";
 
 /**
  * Component props
@@ -29,7 +30,6 @@ const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
           card={ true }
           item={ item }
           onClick={ () => onItemClick(item) }
-          style={{ maxWidth: 250 }}
         />
       );
     });
@@ -49,7 +49,9 @@ const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
    */
   return (
     <div className={ classes.container }>
-      { generateUserItemList() }
+      <ItemsRow>
+        { generateUserItemList() }
+      </ItemsRow>
     </div>
   );
 };

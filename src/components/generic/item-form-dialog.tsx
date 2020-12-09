@@ -216,6 +216,7 @@ class ItemFormDialog extends React.Component<Props, State> {
             fullWidth
             type="number"
             name="price"
+            className={ classes.marginTop }
             InputLabelProps={{ variant: "outlined" }}
             value={ item.price || 0.0 }
             onChange={ this.updateItemData }
@@ -227,6 +228,7 @@ class ItemFormDialog extends React.Component<Props, State> {
             variant="outlined"
             fullWidth
             name="priceUnit"
+            className={ classes.marginTop }
             InputLabelProps={{ variant: "outlined" }}
             value={ item.priceUnit || "" }
             onChange={ this.updateItemData }

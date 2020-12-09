@@ -54,6 +54,10 @@ export default createStyles({
     padding: 10
   },
 
+  marginTop: {
+    marginTop: theme.spacing(2)
+  },
+
   buttonOutlined: {
     width: 150,
     padding: 10,
