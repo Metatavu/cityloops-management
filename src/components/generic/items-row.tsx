@@ -2,7 +2,6 @@ import { withStyles, WithStyles } from "@material-ui/core";
 import * as React from "react";
 import styles from "../../styles/components/generic/items-row";
 
-
 /**
  * Interface describing properties from screen component
  */
