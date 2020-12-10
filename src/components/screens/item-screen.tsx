@@ -251,7 +251,9 @@ export class ItemScreen extends React.Component<Props, State> {
       return null;
     }
 
-    const deliveryText = item.delivery ? strings.items.delivery.yes : strings.items.delivery.no;
+    const deliveryText = item.delivery ?
+      strings.items.delivery.yes :
+      strings.items.delivery.no;
 
     return (
       <>
