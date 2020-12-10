@@ -157,6 +157,7 @@ export class ItemScreen extends React.Component<Props, State> {
           >
             <div className={ classes.propertiesContainer }>
               { this.renderProperties() }
+              { this.renderPriceInfo() }
             </div>
           </Grid>
         </Grid>
@@ -237,6 +238,67 @@ export class ItemScreen extends React.Component<Props, State> {
         );
       }) :
       [];
+  }
+
+  /**
+   * Renders properties
+   */
+  private renderPriceInfo = () => {
+    const { classes } = this.props;
+    const { item } = this.state;
+
+    if (!item) {
+      return null;
+    }
+
+    const deliveryText = item.delivery ? strings.items.delivery.yes : strings.items.delivery.no;
+
+    return (
+      <>
+        <Typography
+          paragraph
+          className={ classes.propertyTitle }
+        >
+          { strings.items.delivery.title }
+        </Typography>
+        <Typography
+          paragraph
+          className={ classes.propertyValue }
+        >
+          { deliveryText }
+        </Typography>
+
+        { item.delivery &&
+          <>
+            <Typography
+              paragraph
+              className={ classes.propertyTitle }
+            >
+              { strings.items.deliveryPrice }
+            </Typography>
+            <Typography
+              paragraph
+              className={ classes.propertyValue }
+            >
+              { `${item.deliveryPrice}€` || strings.items.deliveryPrice }
+            </Typography>
+          </>
+        }
+
+        <Typography
+          paragraph
+          className={ classes.propertyTitle }
+        >
+          { strings.items.paymentMethod }
+        </Typography>
+        <Typography
+          paragraph
+          className={ classes.propertyValue }
+        >
+          { item.paymentMethod }
+        </Typography>
+      </>
+    );
   }
 
   /**

@@ -89,7 +89,15 @@
     "navigateToItem": "Siirry ilmoitukseen",
     "noItems": "Haulla ei löytynyt yhtään ilmoitusta",
     "price": "Hinta",
-    "priceUnit": "Hintayksikkö"
+    "priceUnit": "Hintayksikkö",
+    "paymentMethod": "Maksutapa",
+    "delivery": {
+      "title": "Toimitus",
+      "yes": "Toimitus mahdollinen",
+      "no": "Vain nouto"
+    },
+    "deliveryPrice": "Toimituksen hinta",
+    "noDeliveryPrice": "Toimituksen hintaa ei ole määritelty"
   },
 
   "categories": {

@@ -5,7 +5,7 @@ import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 import { SignedToken } from "../../types";
 // tslint:disable-next-line: max-line-length
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
@@ -19,6 +19,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
 import MapFunctions from "../../utils/map-functions";
 import GenericConfirmDialog from "./generic-confirm-dialog";
+import OutlinedTextField from "../generic/outlined-text-field";
+import OutlinedSelect from "../generic/outlined-select";
+import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 
 /**
  * Interface describing component properties
@@ -217,31 +220,7 @@ class ItemFormDialog extends React.Component<Props, State> {
             onUpdateProperties={ this.updateProperties }
             onImageDeleteClick={ this.onImageDelete }
           />
-          <TextField
-            key={ `item-${item.id}-price` }
-            label={ strings.items.price }
-            size="medium"
-            variant="outlined"
-            fullWidth
-            type="number"
-            name="price"
-            className={ classes.marginTop }
-            InputLabelProps={{ variant: "outlined" }}
-            value={ item.price || 0.0 }
-            onChange={ this.updateItemData }
-          />
-          <TextField
-            key={ `item-${item.id}-priceUnit` }
-            label={ strings.items.priceUnit }
-            size="medium"
-            variant="outlined"
-            fullWidth
-            name="priceUnit"
-            className={ classes.marginTop }
-            InputLabelProps={{ variant: "outlined" }}
-            value={ item.priceUnit || "" }
-            onChange={ this.updateItemData }
-          />
+          { this.renderPriceInfo(item) }
         </Grid>
         <Grid
           { ...this.getGridItemProps(12, 6) }
@@ -252,6 +231,80 @@ class ItemFormDialog extends React.Component<Props, State> {
             onUpdate={ this.updateLocationInfo }
           />
         </Grid>
+      </>
+    );
+  }
+
+  /**
+   * Renders price info
+   *
+   * @param item selected item
+   */
+  private renderPriceInfo = (item: Item) => {
+    const { classes } = this.props;
+
+    return (
+      <>
+        <OutlinedTextField
+          key={ `item-${item.id}-price` }
+          label={ strings.items.price }
+          value={ item.price || "" }
+          onChange={ this.updateItemData }
+          type="string"
+          name="price"
+          className={ classes.marginTop }
+        />
+        <OutlinedTextField
+          key={ `item-${item.id}-priceUnit` }
+          label={ strings.items.priceUnit }
+          value={ item.priceUnit || "" }
+          onChange={ this.updateItemData }
+          type="string"
+          name="priceUnit"
+          className={ classes.marginTop }
+        />
+        <OutlinedTextField
+          key={ `item-${item.id}-paymentMethod` }
+          label={ strings.items.paymentMethod }
+          value={ item.paymentMethod || "" }
+          onChange={ this.updateItemData }
+          type="string"
+          name="paymentMethod"
+          className={ classes.marginTop }
+        />
+        <Typography className={ classes.marginTop }>
+          { strings.items.delivery }
+        </Typography>
+        <div style={{ display: "flex" }}>
+
+          <OutlinedSelect
+            key={ `item-${item.id}-delivery` }
+            name="delivery"
+            label={ strings.items.delivery.title }
+            value={ item.delivery }
+            onChange={ this.onDeliveryOptionChange }
+            className={ classes.marginRight }
+          >
+            <MenuItem key={ strings.generic.yes } value={ "true" }>
+              { strings.generic.yes }
+            </MenuItem>
+            <MenuItem key={ strings.generic.no } value={ "false" }>
+              { strings.generic.no }
+            </MenuItem>
+          </OutlinedSelect>
+          { item.delivery &&
+            <OutlinedTextField
+              key={ `item-${item.id}-deliveryPrice` }
+              label={ strings.items.deliveryPrice }
+              value={ item.deliveryPrice || "" }
+              onChange={ this.updateItemData }
+              type="number"
+              name="deliveryPrice"
+              className={ classes.marginTop }
+              disabled={ !item.delivery }
+            />
+          }
+        </div>
       </>
     );
   }
@@ -429,6 +482,8 @@ class ItemFormDialog extends React.Component<Props, State> {
       onlyForCompanies: false,
       userId: this.props.signedToken?.userId || "",
       category: category?.id,
+      delivery: false,
+      paymentMethod: strings.items.paymentMethod
     };
   }
 
@@ -547,6 +602,32 @@ class ItemFormDialog extends React.Component<Props, State> {
     this.setState({
       dataChanged: true,
       item: { ...item, [name]: value }
+    });
+  }
+
+  /**
+   * Event handler for delivery option change
+   *
+   * @param event react change event
+   * @param child child node
+   */
+  private onDeliveryOptionChange = (event: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>, child: React.ReactNode) => {
+    const { item } = this.state;
+
+    const name = event.target.name;
+    const selectValue = event.target.value as string;
+
+    if (!name || !item) {
+      return;
+    }
+
+    const value = selectValue === "true" ? true : false;
+    const itemToUpdate = { ...item, [name]: value };
+    itemToUpdate.deliveryPrice = 0.0;
+
+    this.setState({
+      dataChanged: true,
+      item: itemToUpdate
     });
   }
 
