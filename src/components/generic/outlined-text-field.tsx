@@ -9,11 +9,14 @@ import styles from "../../styles/components/generic/outlined-text-field";
  */
 interface Props extends WithStyles<typeof styles> {
   key?: string;
+  name?: string;
   label?: string;
-  value?: string;
+  value?: string | number;
   className?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   style?: CSSProperties;
+  type?: string;
+  disabled?: boolean;
 }
 
 /**
@@ -24,19 +27,25 @@ interface Props extends WithStyles<typeof styles> {
 const OutlinedTextField: React.FC<Props> = ({
   classes,
   key,
+  name,
   label,
   value,
   className,
   style,
+  type,
+  disabled,
   onChange
 }) => {
   return (
     <TextField
       key={ key }
+      name={ name }
       label={ label }
+      type={ type }
       size="medium"
       variant="outlined"
       fullWidth
+      disabled={ disabled }
       className={ classNames(classes.root, className) }
       style={ style }
       InputLabelProps={{ variant: "outlined" }}

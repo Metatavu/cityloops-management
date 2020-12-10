@@ -8,6 +8,7 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import CloseIcon from '@material-ui/icons/Close';
 import strings from "../../localization/strings";
 import theme from "../../styles/theme";
+import brokenImage from "../../resources/images/broken-image.png";
 
 /**
  * Interface describing component properties
@@ -77,6 +78,9 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
    * Renders images
    */
   const renderImages = () => {
+    if (imageUrls.length === 0) {
+      imageUrls.push(brokenImage);
+    }
     return imageUrls.map((imageUrl, index) =>
       <Fade in={ index === imageIndex } timeout={ 250 }>
         <img

@@ -97,6 +97,24 @@ export interface Item {
      */
     priceUnit: string;
     /**
+     * Payment method
+     * @type {string}
+     * @memberof Item
+     */
+    paymentMethod: string;
+    /**
+     * Is item deliverable
+     * @type {boolean}
+     * @memberof Item
+     */
+    delivery: boolean;
+    /**
+     * Price of delivery
+     * @type {number}
+     * @memberof Item
+     */
+    deliveryPrice?: number;
+    /**
      * 
      * @type {string}
      * @memberof Item
@@ -143,6 +161,9 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
         'userId': json['userId'],
         'price': json['price'],
         'priceUnit': json['priceUnit'],
+        'paymentMethod': json['paymentMethod'],
+        'delivery': json['delivery'],
+        'deliveryPrice': !exists(json, 'deliveryPrice') ? undefined : json['deliveryPrice'],
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
@@ -169,6 +190,9 @@ export function ItemToJSON(value?: Item | null): any {
         'userId': value.userId,
         'price': value.price,
         'priceUnit': value.priceUnit,
+        'paymentMethod': value.paymentMethod,
+        'delivery': value.delivery,
+        'deliveryPrice': value.deliveryPrice,
     };
 }
 

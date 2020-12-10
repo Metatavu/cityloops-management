@@ -90,7 +90,15 @@
     "navigateToItem": "Navigate to item",
     "noItems": "No items listed",
     "price": "Price",
-    "priceUnit": "Price unit"
+    "priceUnit": "Price unit",
+    "paymentMethod": "Payment method",
+    "delivery": {
+      "title": "Delivery",
+      "yes": "Delivery available",
+      "no": "Only pickup"
+    },
+    "deliveryPrice": "Delivery price",
+    "noDeliveryPrice": "Delivery price is not defined"
   },
 
   "categories": {

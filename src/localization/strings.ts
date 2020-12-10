@@ -115,6 +115,14 @@ export interface IStrings extends LocalizedStringsMethods {
     noItems: string;
     price: string;
     priceUnit: string;
+    paymentMethod: string;
+    delivery: {
+      title: string;
+      yes: string;
+      no: string;
+    };
+    deliveryPrice: string;
+    noDeliveryPrice: string;
   };
 
   /**
