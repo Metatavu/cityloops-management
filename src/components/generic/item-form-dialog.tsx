@@ -276,7 +276,6 @@ class ItemFormDialog extends React.Component<Props, State> {
           { strings.items.delivery }
         </Typography>
         <div style={{ display: "flex" }}>
-
           <OutlinedSelect
             key={ `item-${item.id}-delivery` }
             name="delivery"
