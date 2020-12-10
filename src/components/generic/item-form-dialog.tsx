@@ -622,7 +622,10 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     const value = selectValue === "true" ? true : false;
     const itemToUpdate = { ...item, [name]: value };
-    itemToUpdate.deliveryPrice = 0.0;
+
+    if (value) {
+      itemToUpdate.deliveryPrice = 0.0;
+    }
 
     this.setState({
       dataChanged: true,
