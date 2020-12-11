@@ -1,2 +1,3 @@
 # cityloops-management
-aws init 2
+
+TODO: Add better README
