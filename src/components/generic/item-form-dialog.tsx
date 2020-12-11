@@ -273,7 +273,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           className={ classes.marginTop }
         />
         <Typography className={ classes.marginTop }>
-          { strings.items.delivery }
+          { strings.items.delivery.title }
         </Typography>
         <div style={{ display: "flex" }}>
           <OutlinedSelect
