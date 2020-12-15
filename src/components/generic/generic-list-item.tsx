@@ -1,11 +1,10 @@
 import * as React from "react";
-import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button } from '@material-ui/core';
+import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button } from "@material-ui/core";
 import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import strings from "../../localization/strings";
 import brokenImage from "../../resources/images/broken-image.png";
-import theme from "../../styles/theme";
 
 /**
  * Interface representing component properties

@@ -121,8 +121,6 @@ const MyInfoTab: React.FC<Props> = props => {
         <Map
           address={ user?.address }
           coordinates={ user?.coordinates }
-          height={ 400 }
-          width={ "100%" }
         />
       </div>
     );

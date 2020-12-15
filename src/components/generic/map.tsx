@@ -14,8 +14,6 @@ import MapFunctions from "../../utils/map-functions";
 interface Props extends WithStyles<typeof styles> {
   address?: string;
   coordinates?: Coordinates;
-  height?: string | number;
-  width?: string | number;
   defaultZoomLevel?: number;
 }
 
@@ -89,8 +87,6 @@ class MapComponent extends React.Component<Props, State> {
   public render = () => {
     const {
       classes,
-      height,
-      width,
       defaultZoomLevel
     } = this.props;
 

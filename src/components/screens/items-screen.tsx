@@ -82,7 +82,6 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { signedToken } = this.props;
     const { categories } = this.state;
 
     return (
