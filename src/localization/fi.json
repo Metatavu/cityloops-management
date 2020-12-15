@@ -59,7 +59,8 @@
 
   "search": {
     "category": "Kategoria",
-    "agency": "Toimipiste"
+    "agency": "Toimipiste",
+    "noFilter": "Ei rajausta"
   },
 
   "items": {

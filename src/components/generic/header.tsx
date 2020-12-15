@@ -145,6 +145,7 @@ const Header: React.FC<Props> = props => {
         <IconButton href="/user" className={ classes.imageButton }>
           <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
         </IconButton>
+        <UserActionButtons />
       </div>
     );
   };

@@ -120,22 +120,23 @@ export class ItemScreen extends React.Component<Props, State> {
 
     return (
       <>
-      <div className={ classes.titleContainer }>
-        <Typography
-          variant="h1"
-          className={ classes.itemTitle }
-        >
-          { item ? item?.title : strings.error.itemNotFound }
-        </Typography>
-        <Typography
-          variant="h1"
-          className={ classes.itemPrice }
-        >
-          { item ? `${item.price}${item.priceUnit}` : "" }
-        </Typography>
-        { this.renderItemActionButtons() }
-      </div>
+        <div key="titleContainer" className={ classes.titleContainer }>
+          <Typography
+            variant="h1"
+            className={ classes.itemTitle }
+          >
+            { item ? item?.title : strings.error.itemNotFound }
+          </Typography>
+          <Typography
+            variant="h1"
+            className={ classes.itemPrice }
+          >
+            { item ? `${item.price}${item.priceUnit}` : "" }
+          </Typography>
+          { this.renderItemActionButtons() }
+        </div>
         <Grid
+          key="contentContainer"
           container
           spacing={ 3 }
           className={ classes.columns }
@@ -162,6 +163,7 @@ export class ItemScreen extends React.Component<Props, State> {
           </Grid>
         </Grid>
         <Typography
+          key="createdAt"
           variant="body1"
           className={ classes.createdAt }
         >
@@ -190,6 +192,7 @@ export class ItemScreen extends React.Component<Props, State> {
     return (
       <div className={ classes.actionButtonsContainer } >
         <Button
+          key="delete"
           size="small"
           variant="outlined"
           color="secondary"
@@ -199,6 +202,7 @@ export class ItemScreen extends React.Component<Props, State> {
           { strings.generic.delete }
         </Button>
         <Button
+          key="edit"
           size="small"
           variant="contained"
           color="secondary"
@@ -219,22 +223,24 @@ export class ItemScreen extends React.Component<Props, State> {
     const { item } = this.state;
 
     return item?.properties ?
-      item.properties.map(property => {
+      item.properties.map((property, index) => {
         return (
-          <>
+          <div key={ index }>
             <Typography
+              key={ property.key }
               paragraph
               className={ classes.propertyTitle }
             >
               { property.key }
             </Typography>
             <Typography
+              key={ property.value }
               paragraph
               className={ classes.propertyValue }
             >
               { property.value }
             </Typography>
-          </>
+          </div>
         );
       }) :
       [];
@@ -258,12 +264,14 @@ export class ItemScreen extends React.Component<Props, State> {
     return (
       <>
         <Typography
+          key="deliveryTitle"
           paragraph
           className={ classes.propertyTitle }
         >
           { strings.items.delivery.title }
         </Typography>
         <Typography
+          key="deliveryValue"
           paragraph
           className={ classes.propertyValue }
         >
@@ -273,12 +281,14 @@ export class ItemScreen extends React.Component<Props, State> {
         { item.delivery &&
           <>
             <Typography
+              key="priceTitle"
               paragraph
               className={ classes.propertyTitle }
             >
               { strings.items.deliveryPrice }
             </Typography>
             <Typography
+              key="priceValue"
               paragraph
               className={ classes.propertyValue }
             >
@@ -288,12 +298,14 @@ export class ItemScreen extends React.Component<Props, State> {
         }
 
         <Typography
+          key="paymentMethodTitle"
           paragraph
           className={ classes.propertyTitle }
         >
           { strings.items.paymentMethod }
         </Typography>
         <Typography
+          key="paymentMethodValue"
           paragraph
           className={ classes.propertyValue }
         >
