@@ -121,7 +121,7 @@ const CategoriesEditor: React.FC<Props> = ({
             /**
              * TODO: Add logic for changing order
              */
-            onChange={ data => console.log(data) }
+            onChange={ data => {} }
           />
         </div>
         <div className={ classes.propertiesContainer }>

@@ -27,6 +27,7 @@ const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
     return userItems.map(item => {
       return (
         <GenericListItem
+          key={ item.id }
           card={ true }
           item={ item }
           onClick={ () => onItemClick(item) }

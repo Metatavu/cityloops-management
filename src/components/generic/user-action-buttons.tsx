@@ -49,10 +49,22 @@ class UserActionButtons extends React.Component<Props, State> {
    * Component render
    */
   public render = () => {
-    const { classes, keycloak } = this.props;
-    const {
-      registrationDialogOpen
-    } = this.state;
+    const { classes, keycloak, signedToken } = this.props;
+    const { registrationDialogOpen } = this.state;
+
+    if (signedToken) {
+      return (
+        <div className={ classes.root }>
+          <Button
+            className={ classes.popoverButton }
+            style={{ color: theme.palette.secondary.main }}
+            // TODO: Add proper error handling
+            onClick={ () => keycloak?.logout() || console.log("Missing keycloak instance") }>
+            { strings.user.logout }
+          </Button>
+        </div>
+      );
+    }
 
     return (
       <div className={ classes.root }>
@@ -71,7 +83,7 @@ class UserActionButtons extends React.Component<Props, State> {
           className={ classes.popoverButton }
           style={{ color: theme.palette.secondary.main }}
           // TODO: Add proper error handling
-          onClick={ () => keycloak ? keycloak.login() : console.log("Missing keycloak instance")}>
+          onClick={ () => keycloak?.login() || console.log("Missing keycloak instance") }>
           { strings.user.login }
         </Button>
       </div>

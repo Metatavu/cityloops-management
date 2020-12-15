@@ -39,6 +39,7 @@ interface Props extends WithStyles<typeof styles> {
  * Interface describing component state
  */
 interface State {
+  mounted: boolean;
   loading: boolean;
   item?: Item;
   categories: Category[];
@@ -63,6 +64,7 @@ class ItemFormDialog extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
+      mounted: false,
       loading: true,
       categories: [],
       dataChanged: false,
@@ -75,20 +77,35 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Component did mount life cycle method
    */
   public componentDidMount = async () => {
-    this.setState({ loading: true });
-    await this.fetchData();
-    await this.fetchUserInformation();
-    this.setState({ loading: false });
+    this.setState({ mounted: true });
+    if (this.props.signedToken) {
+      try {
+        await this.fetchData();
+        await this.fetchUserInformation();
+      } catch (e) {
+        console.error(`Error fetching data for ItemFormDialog: ${e}`);
+      }
+
+      this.setState({ loading: false });
+    }
   }
 
   /**
    * Component did update life cycle method
+   * 
+   * @param prevProps component properties from previous component state
    */
   public componentDidUpdate = async (prevProps: Props) => {
     if (prevProps.signedToken === undefined && this.props.signedToken) {
       this.setState({ loading: true });
-      await this.fetchData();
-      await this.fetchUserInformation();
+
+      try {
+        await this.fetchData();
+        await this.fetchUserInformation();
+      } catch (e) {
+        console.error(`Error fetching data for ItemFormDialog: ${e}`);
+      }
+
       this.setState({ loading: false });
     }
   }
@@ -412,42 +429,54 @@ class ItemFormDialog extends React.Component<Props, State> {
 
   /**
    * Fetches component data
+   * 
+   * @returns Promise of successful fetch
    */
-  private fetchData = async () => {
+  private fetchData = async (): Promise<void> => {
     const { signedToken, existingItem } = this.props;
 
     if (!signedToken) {
-      return;
+      return Promise.reject("No signed token");
     }
 
-    const categoriesApi = Api.getCategoriesApi(signedToken);
-    const categories = await categoriesApi.listCategories({ });
+    try {
+      const categoriesApi = Api.getCategoriesApi(signedToken);
+      const categories = await categoriesApi.listCategories({ });
 
-    this.setState({ categories });
+      this.setState({ categories });
 
-    const item = existingItem;
-    const selectedCategory = existingItem ?
-      await categoriesApi.findCategory({ categoryId: existingItem!.category! }) :
-      undefined;
+      const item = existingItem;
+      const selectedCategory = existingItem ?
+        await categoriesApi.findCategory({ categoryId: existingItem!.category! }) :
+        undefined;
 
-    this.setState({ item, selectedCategory });
+      this.setState({ item, selectedCategory });
+      return Promise.resolve();
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   /**
    * Fetches user information
+   * 
+   * @returns Promise of successful fetch
    */
-  private fetchUserInformation = async () => {
+  private fetchUserInformation = async (): Promise<void> => {
     const { signedToken } = this.props;
 
     if (!signedToken || !signedToken.userId) {
-      return;
+      return Promise.reject("No signed token or token does not contain user id");
     }
 
-    const usersApi = Api.getUsersApi(signedToken);
-    const userId = signedToken.userId;
-
-    const user = await usersApi.findUser({ userId: userId });
-    this.setState({ user });
+    try {
+      const usersApi = Api.getUsersApi(signedToken);
+      const user = await usersApi.findUser({ userId: signedToken.userId });
+  
+      this.setState({ user });
+    } catch (e) {
+      return Promise.reject(e);
+    }
   }
 
   /**

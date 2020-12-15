@@ -82,7 +82,11 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
       imageUrls.push(brokenImage);
     }
     return imageUrls.map((imageUrl, index) =>
-      <Fade in={ index === imageIndex } timeout={ 250 }>
+      <Fade
+        key={ index }
+        in={ index === imageIndex }
+        timeout={ 250 }
+      >
         <img
           src={ imageUrl }
           alt={ strings.generic.imageAlt }
@@ -121,7 +125,9 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
         }}
       >
         { renderImages() }
-        { renderNavigation(theme.palette.common.white) }
+        { imageUrls.length > 1 &&
+          renderNavigation(theme.palette.common.white)
+        }
         <IconButton
           className={ classes.closeFullScreenButton }
           onClick={ toggleFullScreen }
@@ -139,7 +145,9 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
     <div className={ classes.root }>
       { renderImages() }
       <div className={ classes.controlOverlay }>
-        { renderNavigation() }
+        { imageUrls.length > 1 &&
+          renderNavigation()
+        }
         { renderFullScreenToggle() }
       </div>
       { renderFullscreenDialog() }
