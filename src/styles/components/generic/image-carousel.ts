@@ -6,8 +6,17 @@ export default createStyles({
   root: {
     position: "relative",
     width: "100%",
-    height: 500,
-    backgroundColor: theme.palette.grey[300]
+    height: 200,
+    backgroundColor: theme.palette.grey[300],
+    [theme.breakpoints.up("sm")]: {
+      height: 300,
+    },
+    [theme.breakpoints.up("md")]: {
+      height: 400,
+    },
+    [theme.breakpoints.up("lg")]: {
+      height: 500,
+    },
   },
 
   controlOverlay: {
@@ -27,26 +36,40 @@ export default createStyles({
 
   previousButton: {
     position: "absolute",
-    top: "45%",
-    left: 10,
+    left: theme.spacing(1),
+    bottom: 0,
+    [theme.breakpoints.up("lg")]: {
+      bottom: "50%",
+      transform: "translateY(50%)"
+    },
     "& svg": {
-      fontSize: 50
+      fontSize: 24,
+      [theme.breakpoints.up("lg")]: {
+        fontSize: 50,
+      }
     }
   },
 
   nextButton: {
     position: "absolute",
-    top: "45%",
-    right: 10,
+    right: theme.spacing(1),
+    bottom: 0,
+    [theme.breakpoints.up("lg")]: {
+      bottom: "50%",
+      transform: "translateY(50%)"
+    },
     "& svg": {
-      fontSize: 50
+      fontSize: 24,
+      [theme.breakpoints.up("lg")]: {
+        fontSize: 50,
+      }
     }
   },
 
   fullScreenButton: {
     position: "absolute",
-    top: 10,
-    right: 10
+    top: theme.spacing(1),
+    right: theme.spacing(1),
   },
 
   fullscreenContainer: {
@@ -56,8 +79,8 @@ export default createStyles({
 
   closeFullScreenButton: {
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: theme.spacing(1),
+    right: theme.spacing(1),
     color: theme.palette.common.white
   },
 

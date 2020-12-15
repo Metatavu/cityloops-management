@@ -131,9 +131,8 @@ export class ItemScreen extends React.Component<Props, State> {
           variant="h1"
           className={ classes.itemPrice }
         >
-          { item ? `${item.price}${item.priceUnit}` : "" }
+          { item ? `${ item.price } ${ item.priceUnit }` : "" }
         </Typography>
-        { this.renderItemActionButtons() }
       </div>
         <Grid
           container
@@ -161,17 +160,20 @@ export class ItemScreen extends React.Component<Props, State> {
             </div>
           </Grid>
         </Grid>
-        <Typography
-          variant="body1"
-          className={ classes.createdAt }
-        >
-          { item &&
-            strings.formatString(
-              strings.items.createdAt,
-              moment(item.createdAt).format("DD.MM.YYYY HH:mm")
-            )
-          }
-        </Typography>
+        <div className={ classes.bottomContent }>
+          <Typography
+            variant="body1"
+            className={ classes.createdAt }
+            >
+            { item &&
+              strings.formatString(
+                strings.items.createdAt,
+                moment(item.createdAt).format("DD.MM.YYYY HH:mm")
+                )
+              }
+          </Typography>
+          { this.renderItemActionButtons() }
+        </div>
       </>
     );
   }
@@ -192,7 +194,7 @@ export class ItemScreen extends React.Component<Props, State> {
         <Button
           size="small"
           variant="outlined"
-          color="secondary"
+          color="primary"
           className={ classes.deleteButton }
           onClick={ this.toggleDeleteDialog }
         >
@@ -335,7 +337,6 @@ export class ItemScreen extends React.Component<Props, State> {
       <Map
         address={ address }
         coordinates={ coordinates }
-        height={ "500px" }
         defaultZoomLevel={ 15 }
       />
     );

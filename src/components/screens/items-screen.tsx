@@ -8,7 +8,7 @@ import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken, SearchParams, SignedToken } from '../../types';
+import { AccessToken, SearchParams, SignedToken } from "../../types";
 import { Category, Item } from "../../generated/client";
 import ItemList from "../items/item-list";
 import Api from "../../api/api";
@@ -17,10 +17,9 @@ import AppLayout from "../layouts/app-layout";
 import ItemFormDialog from "../generic/item-form-dialog";
 
 import materiaalitoriLogo from "../../resources/images/materiaalitori.svg";
-import MetsasairilaLogo from "../../resources/images/logo_vaaka_mikkeli-1metsasairila 1.png";
 import MTOperations from "../materiaalitori/mt-operations";
 import strings from "../../localization/strings";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import logo from "../../resources/svg/logo-primary.svg";
 import SearchBar from "../generic/search-bar";
 
@@ -45,6 +44,7 @@ interface State {
   mtToken?: string | null;
   successDialogOpen: boolean;
   itemId?: string;
+  isGrid: boolean;
 }
 
 /**
@@ -65,6 +65,7 @@ export class ItemsScreen extends React.Component<Props, State> {
       categories: [],
       items: [],
       successDialogOpen: false,
+      isGrid: true
     };
   }
 
@@ -81,6 +82,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
+    const { signedToken } = this.props;
     const { categories } = this.state;
 
     return (
@@ -90,8 +92,7 @@ export class ItemsScreen extends React.Component<Props, State> {
           onAddClick: this.onAddItemClick
         }}
         mobileDrawerProps={{
-          logoUrl: MetsasairilaLogo,
-          title: "Metsäsairila"
+          title: this.props.signedToken?.firstName
         }}
       >
         <SearchBar
@@ -111,7 +112,8 @@ export class ItemsScreen extends React.Component<Props, State> {
     const {
       items,
       formOpen,
-      loading
+      loading,
+      isGrid
     } = this.state;
 
     if (loading) {
@@ -125,9 +127,11 @@ export class ItemsScreen extends React.Component<Props, State> {
     return (
       <>
         <ItemList
+          cards={ isGrid }
           title={ strings.items.latest }
           itemList={ items }
           updatePath={ this.updateRoutePath }
+          onToggleListModeClick={ () => this.setState({ isGrid: !isGrid }) }
         />
         <ItemFormDialog
           open={ formOpen }

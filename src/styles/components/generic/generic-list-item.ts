@@ -3,16 +3,24 @@ import theme from "../../theme";
 
 export default createStyles({
 
+  root: {
+    [theme.breakpoints.up("sm")]: {
+      cursor: "pointer",
+      transition: "box-shadow 0.2s ease-out",
+      "&:hover": {
+        boxShadow: "0 0 10px rgba(0,0,0,0.2)"
+      }
+    }
+  },
+
   card: {
     display: "flex",
     flexDirection: "column",
-    borderRadius: 0,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   },
 
   list: {
     display: "flex",
-    borderRadius: 0,
     justifyContent: "space-between",
     alignItems: "baseline",
     marginTop: theme.spacing(1),
@@ -28,24 +36,39 @@ export default createStyles({
 
   listContent: {
     display: "flex",
+    width: "100%"
   },
 
   listItemAvatar: {
     marginRight: theme.spacing(2),
     backgroundColor: theme.palette.background.default,
     display: "flex",
-    width: 260,
-    height: 260,
+    width: 50,
+    height: 50,
     overflow: "hidden",
-    alignItems: "center"
+    alignItems: "center",
+    [theme.breakpoints.up("sm")]: {
+      width: 80,
+      height: 80,
+    }
   },
 
   imageWrapper: {
     display: "flex",
     width: "100%",
-    height: 200,
+    height: 100,
     overflow: "hidden",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#ddd",
+    [theme.breakpoints.up("sm")]: {
+      height: 150,
+    },
+    [theme.breakpoints.up("md")]: {
+      height: 180,
+    },
+    [theme.breakpoints.up("lg")]: {
+      height: 200,
+    },
   },
 
   cardImage: {
@@ -58,6 +81,19 @@ export default createStyles({
     overflow: "hidden",
     backgroundPosition: "center",
     backgroundSize: "cover"
-  }
+  },
+
+  cardListVariantContent: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+
+  spaceBetweenContent: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between"
+  },
 
 });

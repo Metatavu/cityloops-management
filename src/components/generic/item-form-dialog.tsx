@@ -15,7 +15,7 @@ import PropertiesSection from "./properties-section";
 import LocationSection from "./location-section";
 import produce from "immer";
 import classNames from "classnames";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
 import MapFunctions from "../../utils/map-functions";
 import GenericConfirmDialog from "./generic-confirm-dialog";
@@ -343,7 +343,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           className={ classes.buttonContained }
           onClick={ this.submitForm }
         >
-          { strings.generic.save }
+          { existingItem ? strings.generic.save : strings.items.addItem }
         </Button>
       </>
     );

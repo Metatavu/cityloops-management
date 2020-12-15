@@ -9,12 +9,12 @@ import { AccessToken, SignedToken } from "../../types";
 import { AppBar, Button, Container, Hidden, IconButton, MenuItem, Select, Toolbar, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/header";
 import strings from "../../localization/strings";
-import MenuIcon from '@material-ui/icons/Menu';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import SearchIcon from '@material-ui/icons/Search';
-import SaveIcon from '@material-ui/icons/Save';
-import MailOutlineIcon from '@material-ui/icons/MailOutline';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import MenuIcon from "@material-ui/icons/Menu";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import SaveIcon from "@material-ui/icons/Save";
+import ProfileIcon from "@material-ui/icons/Person";
+import MailOutlineIcon from "@material-ui/icons/MailOutline";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logoPrimary from "../../resources/svg/logo-primary.svg";
 import theme from "../../styles/theme";
 import UserActionButtons from "./user-action-buttons";
@@ -66,7 +66,7 @@ const Header: React.FC<Props> = props => {
    */
   const renderMobileContent = () => {
     return (
-      <>
+      <div className={ classes.mobileToolbarContent }>
         <IconButton edge="start" onClick={ toggleSideMenu }>
           <MenuIcon fontSize="large" style={{ color: "#fff" }} />
         </IconButton>
@@ -80,10 +80,10 @@ const Header: React.FC<Props> = props => {
             <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
           </IconButton>
         }
-        <IconButton>
-          <SearchIcon fontSize="large" style={{ color: "#fff" }} />
+        <IconButton href="/user">
+          <ProfileIcon fontSize="large" style={{ color: "#fff" }}  />
         </IconButton>
-      </>
+      </div>
     );
   };
 

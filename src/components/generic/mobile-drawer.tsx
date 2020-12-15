@@ -2,9 +2,9 @@ import * as React from "react";
 import { Drawer, Hidden, List, ListItem, ListItemIcon, Typography, withStyles, WithStyles } from "@material-ui/core";
 import { styles } from "../../styles/components/generic/mobile-drawer";
 import strings from "../../localization/strings";
-import ListIcon from '@material-ui/icons/List';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ListIcon from "@material-ui/icons/List";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 /**
  * Interface describing properties from screen component
@@ -46,17 +46,17 @@ const MobileDrawer: React.FC<Props> = ({
   const renderDrawerContent = () => {
     return (
       <div className={ classes.drawerContent }>
+        { logoUrl &&
         <div className={ classes.logoArea }>
-          { logoUrl &&
-            <div className={ classes.logoCircle }>
-              <img
-                alt="logo"
-                src={ logoUrl }
-                className={ classes.logo }
-              />
-            </div>
-          }
+          <div className={ classes.logoCircle }>
+            <img
+              alt="logo"
+              src={ logoUrl }
+              className={ classes.logo }
+            />
+          </div>
         </div>
+        }
         { title &&
           <Typography
             variant="h3"

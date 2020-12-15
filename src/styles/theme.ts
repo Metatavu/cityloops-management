@@ -1,5 +1,8 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme } from "@material-ui/core";
 import { red, green, yellow } from "@material-ui/core/colors";
+
+const theme = createMuiTheme();
+const { breakpoints } = theme;
 
 export default createMuiTheme({
 
@@ -33,16 +36,20 @@ export default createMuiTheme({
     },
     h3: {
       fontSize: 26,
-      fontWeight: "bold"
+      fontWeight: 300
     },
     h4: {
       fontSize: 16,
-      fontWeight: "bold"
+      fontWeight: "bold",
     },
     h5: {
       fontSize: 16,
       fontWeight: "bold",
       color: "#004D76"
+    },
+    h6: {
+      fontSize: 16,
+      fontWeight: 300,
     },
     subtitle1: {
       fontSize: 12,
@@ -62,6 +69,12 @@ export default createMuiTheme({
       },
       containedSecondary: {
         color: "#fff"
+      },
+      outlinedPrimary: {
+        borderWidth: 2,
+        "&:hover": {
+          borderWidth: 2,
+        }
       }
     },
     MuiTab: {
@@ -76,6 +89,21 @@ export default createMuiTheme({
     MuiOutlinedInput: {
       root: {
         backgroundColor: "#fff"
+      }
+    },
+    MuiCardActions: {
+      root: {
+        "&:empty": {
+          display: "none"
+        }
+      }
+    },
+    MuiCardContent: {
+      root: {
+        padding: theme.spacing(1),
+        [theme.breakpoints.up("sm")]: {
+          padding: theme.spacing(2)
+        }
       }
     }
   },

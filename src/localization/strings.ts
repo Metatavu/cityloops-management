@@ -123,6 +123,8 @@ export interface IStrings extends LocalizedStringsMethods {
     };
     deliveryPrice: string;
     noDeliveryPrice: string;
+    showAsList: string;
+    showAsGrid: string;
   };
 
   /**

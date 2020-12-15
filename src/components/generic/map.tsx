@@ -1,8 +1,7 @@
 import * as React from "react";
-
 import { WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/map";
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 import { Coordinates } from "../../generated/client";
 import { Map, TileLayer } from "react-leaflet";
 import L, { LatLngExpression, MarkerOptions, Map as MapInstance } from "leaflet";
@@ -98,11 +97,7 @@ class MapComponent extends React.Component<Props, State> {
     const coordinates = this.getCoordinates();
 
     return (
-      <div
-        style={{
-          height: height || "100%",
-          width: width || "100%" }}
-      >
+      <div className={ classes.mapRoot }>
         <Map
           ref={ this.setMapRef }
           className={ classes.mapContainer }

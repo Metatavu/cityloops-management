@@ -16,20 +16,44 @@ export default createStyles({
     justifyContent: "space-between"
   },
 
+  bottomContent: {
+    display: "flex",
+    flexDirection: "column",
+    [theme.breakpoints.up("md")]: {
+      justifyContent: "space-between",
+      flexDirection: "row"
+    }
+  },
+
   actionButtonsContainer: {
+    display: "flex",
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(2),
+      "& button": {
+        flex: 1,
+        "&:first-child": {
+          marginRight: theme.spacing(1)
+        },
+        "&:last-child": {
+          marginLeft: theme.spacing(1)
+        }
+      }
+    }
   },
 
   deleteButton: {
-    minWidth: 150,
-    minHeight: 50,
-    fontSize: 18
+    [theme.breakpoints.up("md")]: {
+      minWidth: 150,
+      minHeight: 50
+    }
   },
 
   editButton: {
-    minWidth: 150,
-    minHeight: 50,
-    marginLeft: 20,
-    fontSize: 18
+    [theme.breakpoints.up("md")]: {
+      minWidth: 150,
+      minHeight: 50,
+      marginLeft: theme.spacing(2)
+    }
   },
 
   dialogTitle: { },
@@ -85,24 +109,43 @@ export default createStyles({
 
   propertiesSection: {
     width: "100%",
-    marginTop: 50,
-    padding: "50px 50px 50px 100px",
-    backgroundColor: theme.palette.grey[200],
-    [theme.breakpoints.down("sm")]: {
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.background.paper,
+    [theme.breakpoints.up("sm")]: {
+      padding: theme.spacing(2),
+    },
+    [theme.breakpoints.up("md")]: {
       padding: 25
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "50px 50px 50px 100px",
     }
   },
 
   itemTitle: {
     fontWeight: 900,
-    fontSize: 40,
-    marginBottom: 20
+    fontSize: 20,
+    marginBottom: theme.spacing(1),
+    [theme.breakpoints.up("sm")]: {
+      fontSize: 28,
+    },
+    [theme.breakpoints.up("lg")]: {
+      fontSize: 40,
+      marginBottom: theme.spacing(2)
+    }
   },
 
   itemPrice: {
-    fontSize: 40,
-    marginBottom: 20,
-    fontWeight: 100
+    fontWeight: 100,
+    marginBottom: theme.spacing(1),
+    [theme.breakpoints.up("sm")]: {
+      fontSize: 28,
+    },
+    [theme.breakpoints.up("lg")]: {
+      fontSize: 40,
+      marginBottom: theme.spacing(2)
+    }
   },
 
   columns: { },
