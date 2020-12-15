@@ -82,6 +82,7 @@ export interface IStrings extends LocalizedStringsMethods {
   search: {
     category: string;
     agency: string;
+    noFilter: string;
   };
 
   /**

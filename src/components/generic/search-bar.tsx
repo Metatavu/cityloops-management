@@ -23,6 +23,7 @@ const SearchBar: React.FC<Props> = props => {
 
   const [ searchTerm, setSearchTerm ] = React.useState<string>("");
   const [ selectedCategory, setSelectedCategory ] = React.useState<Category>();
+  const [ selectedAgency, setSelectedAgency ] = React.useState<string>();
 
   /**
    * Event handler for change term
@@ -39,25 +40,32 @@ const SearchBar: React.FC<Props> = props => {
    * @param event React change event
    */
   const onChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const category = categories.find(category => category.id === event.target.value);
-    if (category) {
-      setSelectedCategory(category);
-    }
+    setSelectedCategory(categories.find(category => category.id === event.target.value));
   };
+
+  /**
+   * Event handler for change agency
+   * 
+   * @param event React change event
+   */
+  const onChangeAgency = (event: React.ChangeEvent<HTMLInputElement>) => {
+    /**
+     * TODO: Add support for agencies
+     */
+    const { value } = event.target;
+    setSelectedAgency(value !== "noFilter" ? value : undefined);
+  }
 
   /**
    * Event handler for search button click
    */
   const onSearchClick = () => {
-    if (onSearch) {
-      /**
-       * TODO: Add support for search string and location
-       */
-      const searchParams: SearchParams = {
-        category: selectedCategory
-      };
-      onSearch(searchParams);
-    }
+    /**
+     * TODO: Add support for search string and location
+     */
+    onSearch && onSearch({
+      category: selectedCategory
+    });
   };
 
   /**
@@ -87,9 +95,10 @@ const SearchBar: React.FC<Props> = props => {
         variant="filled"
         className={ classes.selectField }
         label={ strings.search.category }
-        value={ selectedCategory }
+        value={ selectedCategory?.id || "noFilter" }
         onChange={ onChangeCategory }
       >
+        { renderEmptyItem() }
         { categories.map(category =>
           <MenuItem key={ category.id } value={ category.id }>
             { category.name }
@@ -110,8 +119,10 @@ const SearchBar: React.FC<Props> = props => {
         variant="filled"
         className={ classes.selectField }
         label={ strings.search.agency }
-        value={ selectedCategory }
+        value={ selectedAgency || "noFilter" }
+        onChange={ onChangeAgency }
       >
+        { renderEmptyItem() }
         {
           /**
            * TODO:
@@ -121,6 +132,17 @@ const SearchBar: React.FC<Props> = props => {
       </TextField>
     );
   };
+
+  /**
+   * Renders empty item
+   */
+  const renderEmptyItem = () => {
+    return (
+      <MenuItem key="noFilter" value="noFilter">
+        { strings.search.noFilter }
+      </MenuItem>
+    );
+  }
 
   /**
    * Component render

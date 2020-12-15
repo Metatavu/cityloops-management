@@ -60,7 +60,8 @@
 
   "search": {
     "category": "Category",
-    "agency": "Agency"
+    "agency": "Agency",
+    "noFilter": "No filtering"
   },
 
   "items": {
