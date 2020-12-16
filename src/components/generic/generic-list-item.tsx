@@ -99,7 +99,7 @@ const GenericListItem: React.FC<Props> = props => {
           <Typography
             style={{ width: "100%" }}
             variant="h4"
-            >
+          >
             { item.title }
           </Typography>
           { item.price !== 0 &&
