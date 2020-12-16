@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
 import strings from "../../localization/strings";
 import { History } from "history";
-import { Tab, Tabs, WithStyles, withStyles, Typography, CircularProgress } from "@material-ui/core";
+import { Tab, Tabs, WithStyles, withStyles, Typography, CircularProgress, Hidden } from "@material-ui/core";
 import styles from "../../styles/components/screens/user-screen";
 import AppLayout from "../layouts/app-layout";
 import { SignedToken } from "../../types";
@@ -13,7 +13,6 @@ import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
 import MyInfoTab from "../tabs/my-info-tab";
 import { Item, User } from "../../generated/client";
-import logo from "../../resources/images/toimintakeskus.png";
 import Api from "../../api/api";
 
 /**
@@ -35,6 +34,7 @@ interface State {
   dataChanged: boolean;
   user?: User;
   userItems: Item[];
+  formOpen: boolean;
 }
 
 /**
@@ -53,6 +53,7 @@ export class UserScreen extends React.Component<Props, State> {
       loading: true,
       tabIndex: 0,
       dataChanged: false,
+      formOpen: false,
       userItems: []
     };
   }
@@ -86,6 +87,9 @@ export class UserScreen extends React.Component<Props, State> {
     return (
       <AppLayout
         banner={ false }
+        headerProps={{
+          onAddClick: this.onAddItemClick
+        }}
       >
         { this.renderLayoutContent() }
       </AppLayout>
@@ -118,30 +122,42 @@ export class UserScreen extends React.Component<Props, State> {
 
     return (
       <>
-        <img
-          className={ classes.logo }
-          alt="Company logo"
-          src={ logo }
-        />
-        <Tabs
-          classes={{ indicator: classes.indicator }}
-          onChange= { this.setTabIndex }
-          value={ tabIndex }
-        >
-          <Tab label={ strings.userPage.products } value={ 0 }/>
-          <Tab label={ strings.userPage.myInfo } value={ 1 }/>
-          <Tab label={ strings.userPage.categories } value={ 2 }/>
-        </Tabs>
+        <Hidden smDown>
+          <Tabs
+            classes={{ indicator: classes.indicator }}
+            onChange= { this.setTabIndex }
+            value={ tabIndex }
+          >
+            <Tab label={ strings.userPage.products } value={ 0 }/>
+            <Tab label={ strings.userPage.myInfo } value={ 1 }/>
+            <Tab label={ strings.userPage.categories } value={ 2 }/>
+          </Tabs>
+        </Hidden>
+        {/* Mobile tabs */}
+        <Hidden mdUp>
+          <Tabs
+            variant="fullWidth"
+            centered
+            classes={{ indicator: classes.indicator }}
+            onChange= { this.setTabIndex }
+            value={ tabIndex }
+          >
+            <Tab fullWidth label={ strings.userPage.products } value={ 0 }/>
+            <Tab fullWidth label={ strings.userPage.myInfo } value={ 1 }/>
+            <Tab fullWidth label={ strings.userPage.categories } value={ 2 }/>
+          </Tabs>
+        </Hidden>
+
         { tabIndex === 0 &&
           <UserItemsTab
-            userItems={ userItems }
+          userItems={ userItems }
           />
         }
         { tabIndex === 1 &&
           <MyInfoTab
-            user={ user }
-            onUserInfoChange={ this.onUserInfoChange }
-            onUserSave={ this.onUserSave }
+          user={ user }
+          onUserInfoChange={ this.onUserInfoChange } 
+          onUserSave={ this.onUserSave }
           />
         }
         { tabIndex === 2 &&
@@ -229,8 +245,15 @@ export class UserScreen extends React.Component<Props, State> {
       userItems: items
     });
   }
-}
 
+  /**
+   * Event handler for add item click
+   */
+  private onAddItemClick = () => {
+    this.setState({ formOpen: true });
+  }
+
+}
 /**
  * Redux mapper for mapping store state to component props
  *

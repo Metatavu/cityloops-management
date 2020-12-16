@@ -1,5 +1,5 @@
 import * as React from "react";
-import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button } from '@material-ui/core';
+import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button } from "@material-ui/core";
 import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
@@ -52,7 +52,7 @@ const GenericListItem: React.FC<Props> = props => {
   return (
     <Card
       elevation={ card ? 0 : 0 }
-      className={ card ? classes.card : classes.list }
+      className={` ${ classes.root } ${ card ? classes.card : classes.list }`}
       onClick={ onCardClick }
       style={ style }
     >
@@ -66,12 +66,26 @@ const GenericListItem: React.FC<Props> = props => {
                 src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
               />
             </ListItemAvatar>
-            <Typography
-              style={{ width: "100%" }}
-              variant="h2"
-            >
-              { item.title }
-            </Typography>
+            <div className={ classes.cardListVariantContent }>
+              <div>
+                <div className={ classes.spaceBetweenContent }>
+                  <Typography variant="h2">
+                    { item.title }
+                  </Typography>
+                  <Typography variant="h3">
+                    { item.price } { item.priceUnit }
+                  </Typography>
+                </div>
+              </div>
+              <div className={ classes.spaceBetweenContent }>
+                <Typography variant="subtitle1">
+                  { item.metadata.locationInfo.address }
+                </Typography>
+                <Typography variant="subtitle2">
+                  { item.metadata.locationInfo.description }
+                </Typography>
+              </div>
+            </div>
           </CardContent>
         :
         <CardContent className={ classes.cardContent }>
@@ -82,15 +96,20 @@ const GenericListItem: React.FC<Props> = props => {
               src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
             />
           </div>
-        <Typography
-          style={{ width: "100%" }}
-          variant="h4"
-        >
-          { item.title }
-        </Typography>
-        <Typography variant="subtitle1">
-          Location
-        </Typography>
+          <Typography
+            style={{ width: "100%" }}
+            variant="h4"
+          >
+            { item.title }
+          </Typography>
+          { item.price !== 0 &&
+            <Typography variant="h6">
+              { item.price } { item.priceUnit }
+            </Typography>
+          }
+          <Typography variant="subtitle1">
+            { item.metadata.locationInfo.address }
+          </Typography>
         </CardContent>
       }
       <CardActions>

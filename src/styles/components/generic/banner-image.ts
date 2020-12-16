@@ -10,7 +10,10 @@ export default createStyles({
     width: "100%",
     backgroundPosition: "center 33%",
     backgroundSize: "cover",
-    height: 250,
+    height: 0,
+    [theme.breakpoints.up("sm")]: {
+      height: 200
+    },
     [theme.breakpoints.up("md")]: {
       height: 300
     },

@@ -18,6 +18,12 @@ export default createStyles({
     }
   },
 
+  mobileToolbarContent: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between"
+  },
+
   desktopContent: {
     display: "flex",
     alignItems: "center"

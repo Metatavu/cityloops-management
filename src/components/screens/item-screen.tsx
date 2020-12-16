@@ -8,7 +8,7 @@ import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
 import { Button, CircularProgress, Grid, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken, SignedToken } from '../../types';
+import { AccessToken, SignedToken } from "../../types";
 import { Item } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
@@ -16,7 +16,7 @@ import AppLayout from "../layouts/app-layout";
 import SearchBar from "../generic/search-bar";
 import ImageCarousel from "../generic/image-carousel";
 import moment from "moment";
-import LocationIcon from '@material-ui/icons/Room';
+import LocationIcon from "@material-ui/icons/Room";
 import Map from "../generic/map";
 import ItemFormDialog from "../generic/item-form-dialog";
 import GenericConfirmDialog from "../generic/generic-confirm-dialog";
@@ -131,7 +131,7 @@ export class ItemScreen extends React.Component<Props, State> {
             variant="h1"
             className={ classes.itemPrice }
           >
-            { item ? `${item.price}${item.priceUnit}` : "" }
+            { item ? `${ item.price } ${ item.priceUnit }` : "" }
           </Typography>
           { this.renderItemActionButtons() }
         </div>
@@ -162,18 +162,21 @@ export class ItemScreen extends React.Component<Props, State> {
             </div>
           </Grid>
         </Grid>
-        <Typography
-          key="createdAt"
-          variant="body1"
-          className={ classes.createdAt }
-        >
-          { item &&
-            strings.formatString(
-              strings.items.createdAt,
-              moment(item.createdAt).format("DD.MM.YYYY HH:mm")
-            )
-          }
-        </Typography>
+        <div className={ classes.bottomContent }>
+          <Typography
+            key="createdAt"
+            variant="body1"
+            className={ classes.createdAt }
+          >
+            { item &&
+              strings.formatString(
+                strings.items.createdAt,
+                moment(item.createdAt).format("DD.MM.YYYY HH:mm")
+              )
+            }
+          </Typography>
+          { this.renderItemActionButtons() }
+        </div>
       </>
     );
   }
@@ -195,7 +198,7 @@ export class ItemScreen extends React.Component<Props, State> {
           key="delete"
           size="small"
           variant="outlined"
-          color="secondary"
+          color="primary"
           className={ classes.deleteButton }
           onClick={ this.toggleDeleteDialog }
         >
@@ -347,7 +350,6 @@ export class ItemScreen extends React.Component<Props, State> {
       <Map
         address={ address }
         coordinates={ coordinates }
-        height={ "500px" }
         defaultZoomLevel={ 15 }
       />
     );

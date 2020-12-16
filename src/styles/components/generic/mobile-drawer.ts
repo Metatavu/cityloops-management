@@ -7,7 +7,10 @@ export const styles = createStyles({
   drawerContent: {
     backgroundColor: theme.palette.background.default,
     height: "100%",
-    minWidth: 300
+    minWidth: 260,
+    [theme.breakpoints.up("sm")]: {
+      minWidth: 300
+    }
   },
 
   logoArea: {
