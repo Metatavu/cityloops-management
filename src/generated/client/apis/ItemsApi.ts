@@ -38,6 +38,7 @@ export interface ListItemsRequest {
     firstResult?: number;
     maxResults?: number;
     sortByDateOldestFirst?: boolean;
+    includeExpired?: boolean;
 }
 
 export interface UpdateItemRequest {
@@ -197,6 +198,10 @@ export class ItemsApi extends runtime.BaseAPI {
 
         if (requestParameters.sortByDateOldestFirst !== undefined) {
             queryParameters['sortByDateOldestFirst'] = requestParameters.sortByDateOldestFirst;
+        }
+
+        if (requestParameters.includeExpired !== undefined) {
+            queryParameters['includeExpired'] = requestParameters.includeExpired;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

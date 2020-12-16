@@ -11,6 +11,7 @@ import ItemsRow from "../generic/items-row";
  */
 interface Props extends WithStyles<typeof styles> {
   userItems: Item[];
+  onDeleteItemClick: (item: Item) => void;
 }
 
 /**
@@ -18,7 +19,11 @@ interface Props extends WithStyles<typeof styles> {
  *
  * @param props component properties
  */
-const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
+const UserItemsTab: React.FC<Props> = ({
+  userItems,
+  onDeleteItemClick,
+  classes
+}) => {
 
   /**
    * Generates user items
@@ -31,6 +36,7 @@ const UserItemsTab: React.FC<Props> = ({ userItems, classes }) => {
           card={ true }
           item={ item }
           onClick={ () => onItemClick(item) }
+          onDeleteClick={ () => onDeleteItemClick(item) }
         />
       );
     });

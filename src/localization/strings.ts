@@ -74,6 +74,8 @@ export interface IStrings extends LocalizedStringsMethods {
     proceed: string;
     dataChanged: string;
     noPermissions: string;
+    saveSuccessful: string;
+    saveError: string;
   };
 
   /**
@@ -184,13 +186,28 @@ export interface IStrings extends LocalizedStringsMethods {
   };
 
   /**
-   * Translations related user page
+   * Translations related to user page
    */
   userPage: {
     categories: string;
     myInfo: string;
     products: string;
+    searchHounds: string;
   };
+
+  /**
+   * Translations related to search hounds
+   */
+  searchHounds: {
+    newHound: string;
+    addSearchHound: string;
+    category: string;
+    minPrice: string;
+    maxPrice: string;
+    notificationOn: string;
+    expires: string;
+    noHounds: string;
+  }
 
 }
 

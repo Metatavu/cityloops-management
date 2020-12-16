@@ -11,9 +11,12 @@ import AppLayout from "../layouts/app-layout";
 import { SignedToken } from "../../types";
 import UserItemsTab from "../tabs/user-items-tab";
 import CategoriesProvider from "../categories/categories-provider";
+import SearchHoundsProvider from "../search-hounds/search-hound-provider";
 import MyInfoTab from "../tabs/my-info-tab";
 import { Item, User } from "../../generated/client";
 import Api from "../../api/api";
+import ItemFormDialog from "../generic/item-form-dialog";
+import produce from "immer";
 
 /**
  * Component props
@@ -35,6 +38,7 @@ interface State {
   user?: User;
   userItems: Item[];
   formOpen: boolean;
+  successDialogOpen: boolean;
 }
 
 /**
@@ -54,7 +58,8 @@ export class UserScreen extends React.Component<Props, State> {
       tabIndex: 0,
       dataChanged: false,
       formOpen: false,
-      userItems: []
+      userItems: [],
+      successDialogOpen: true
     };
   }
 
@@ -84,6 +89,8 @@ export class UserScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
+    const { formOpen } = this.state;
+
     return (
       <AppLayout
         banner={ false }
@@ -92,6 +99,11 @@ export class UserScreen extends React.Component<Props, State> {
         }}
       >
         { this.renderLayoutContent() }
+        <ItemFormDialog
+          open={ formOpen }
+          onClose={ () => this.setState({ formOpen: false }) }
+          onCreated={ this.addItem }
+        />
       </AppLayout>
     );
   }
@@ -131,6 +143,7 @@ export class UserScreen extends React.Component<Props, State> {
             <Tab label={ strings.userPage.products } value={ 0 }/>
             <Tab label={ strings.userPage.myInfo } value={ 1 }/>
             <Tab label={ strings.userPage.categories } value={ 2 }/>
+            <Tab label={ strings.userPage.searchHounds } value={ 3 }/>
           </Tabs>
         </Hidden>
         {/* Mobile tabs */}
@@ -145,25 +158,44 @@ export class UserScreen extends React.Component<Props, State> {
             <Tab fullWidth label={ strings.userPage.products } value={ 0 }/>
             <Tab fullWidth label={ strings.userPage.myInfo } value={ 1 }/>
             <Tab fullWidth label={ strings.userPage.categories } value={ 2 }/>
+            <Tab fullWidth label={ strings.userPage.searchHounds } value={ 3 }/>
           </Tabs>
         </Hidden>
 
         { tabIndex === 0 &&
           <UserItemsTab
-          userItems={ userItems }
+            userItems={ userItems }
+            onDeleteItemClick={ this.deleteItem }
           />
         }
         { tabIndex === 1 &&
           <MyInfoTab
-          user={ user }
-          onUserInfoChange={ this.onUserInfoChange } 
-          onUserSave={ this.onUserSave }
+            user={ user }
+            onUserInfoChange={ this.onUserInfoChange } 
+            onUserSave={ this.onUserSave }
           />
         }
         { tabIndex === 2 &&
           <CategoriesProvider signedToken={ signedToken } />
         }
+        { tabIndex === 3 &&
+          <SearchHoundsProvider signedToken={ signedToken } />
+        }
       </>
+    );
+  }
+
+  /**
+   * Adds new item to list
+   *
+   * @param item new item
+   */
+  private addItem = (createdItem: Item) => {
+    this.setState(
+      produce((draft: State) => {
+        draft.successDialogOpen = true;
+        draft.userItems.unshift(createdItem);
+      })
     );
   }
 
@@ -196,6 +228,27 @@ export class UserScreen extends React.Component<Props, State> {
     });
 
     this.setState({ user: updateUser });
+  }
+
+  /**
+   * Event handler for deleting an item
+   *
+   * @param item item to be deleted
+   */
+  private deleteItem = async (item: Item) => {
+    const { signedToken } = this.props;
+    const { userItems } = this.state;
+
+    if (!signedToken || !item.id) {
+      return;
+    }
+
+    const itemsApi = Api.getItemsApi(signedToken);
+    await itemsApi.deleteItem({ itemId: item.id });
+    const updatedItemList = userItems.filter(listItem => listItem.id !== item.id);
+    this.setState({
+      userItems: updatedItemList
+    });
   }
 
   /**

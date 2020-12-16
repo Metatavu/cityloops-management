@@ -511,7 +511,8 @@ class ItemFormDialog extends React.Component<Props, State> {
       userId: this.props.signedToken?.userId || "",
       category: category?.id,
       delivery: false,
-      paymentMethod: strings.items.paymentMethod
+      paymentMethod: strings.items.paymentMethod,
+      expired: false
     };
   }
 

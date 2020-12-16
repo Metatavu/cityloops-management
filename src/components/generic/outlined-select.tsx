@@ -33,6 +33,7 @@ const OutlinedSelect: React.FC<Props> = ({
 }) => {
   return (
     <Select
+      fullWidth
       variant="outlined"
       key={ key }
       name={ name }

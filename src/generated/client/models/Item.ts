@@ -43,6 +43,18 @@ export interface Item {
      */
     title: string;
     /**
+     * Is item expired or not, settings this false will renew the item
+     * @type {boolean}
+     * @memberof Item
+     */
+    expired: boolean;
+    /**
+     * Date item expires
+     * @type {Date}
+     * @memberof Item
+     */
+    readonly expiresAt?: Date;
+    /**
      * Item category id
      * @type {string}
      * @memberof Item
@@ -152,6 +164,8 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
         
         'id': !exists(json, 'id') ? undefined : json['id'],
         'title': json['title'],
+        'expired': json['expired'],
+        'expiresAt': !exists(json, 'expiresAt') ? undefined : (new Date(json['expiresAt'])),
         'category': !exists(json, 'category') ? undefined : json['category'],
         'onlyForCompanies': json['onlyForCompanies'],
         'metadata': MetadataFromJSON(json['metadata']),
@@ -181,6 +195,7 @@ export function ItemToJSON(value?: Item | null): any {
     return {
         
         'title': value.title,
+        'expired': value.expired,
         'category': value.category,
         'onlyForCompanies': value.onlyForCompanies,
         'metadata': MetadataToJSON(value.metadata),

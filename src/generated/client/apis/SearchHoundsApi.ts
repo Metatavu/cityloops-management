@@ -32,6 +32,12 @@ export interface FindSearchHoundRequest {
     searchHoundId: string;
 }
 
+export interface ListSearchHoundsRequest {
+    userId?: string;
+    categoryId?: string;
+    notificationsOn?: boolean;
+}
+
 export interface UpdateSearchHoundRequest {
     searchHound: SearchHound;
     searchHoundId: string;
@@ -168,8 +174,20 @@ export class SearchHoundsApi extends runtime.BaseAPI {
      * Lists search hounds
      * List search hounds.
      */
-    async listSearchHoundsRaw(): Promise<runtime.ApiResponse<Array<SearchHound>>> {
+    async listSearchHoundsRaw(requestParameters: ListSearchHoundsRequest): Promise<runtime.ApiResponse<Array<SearchHound>>> {
         const queryParameters: runtime.HTTPQuery = {};
+
+        if (requestParameters.userId !== undefined) {
+            queryParameters['userId'] = requestParameters.userId;
+        }
+
+        if (requestParameters.categoryId !== undefined) {
+            queryParameters['categoryId'] = requestParameters.categoryId;
+        }
+
+        if (requestParameters.notificationsOn !== undefined) {
+            queryParameters['notificationsOn'] = requestParameters.notificationsOn;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -195,8 +213,8 @@ export class SearchHoundsApi extends runtime.BaseAPI {
      * Lists search hounds
      * List search hounds.
      */
-    async listSearchHounds(): Promise<Array<SearchHound>> {
-        const response = await this.listSearchHoundsRaw();
+    async listSearchHounds(requestParameters: ListSearchHoundsRequest): Promise<Array<SearchHound>> {
+        const response = await this.listSearchHoundsRaw(requestParameters);
         return await response.value();
     }
 
