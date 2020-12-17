@@ -188,7 +188,7 @@ export class UserScreen extends React.Component<Props, State> {
   /**
    * Adds new item to list
    *
-   * @param item new item
+   * @param createdItem created item
    */
   private addItem = (createdItem: Item) => {
     this.setState(
