@@ -3,7 +3,13 @@ import theme from "../../theme";
 
 export default createStyles({
 
-  root: {
+  card: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    padding: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       cursor: "pointer",
       transition: "box-shadow 0.2s ease-out",
@@ -11,15 +17,6 @@ export default createStyles({
         boxShadow: "0 0 10px rgba(0,0,0,0.2)"
       }
     }
-  },
-
-  list: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "baseline",
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    padding: theme.spacing(2)
   },
 
   listContent: {

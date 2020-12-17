@@ -10,7 +10,7 @@ interface Props extends WithStyles<typeof styles>{
   open: boolean;
   fullScreen?: boolean;
   error?: boolean;
-  title: string;
+  title?: string;
   loading?: boolean;
   success?: boolean;
   successTitle?: string;

@@ -108,7 +108,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
     return (
       <GenericConfirmDialog
         open={ deleteDialogOpen }
-        title={ deleteDialogTitle }
+        title={ deleteDialogTitle || strings.generic.delete }
         confirmButtonText={ strings.generic.confirmDelete }
         cancelButtonText={ strings.generic.cancel }
         onCancel={ () => this.setState({ deleteDialogOpen: false }) }

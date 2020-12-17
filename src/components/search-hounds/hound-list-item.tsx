@@ -32,7 +32,7 @@ const HoundListItem: React.FC<Props> = props => {
    */
   return (
     <Card
-      className={` ${ classes.root } ${ classes.list }`}
+      className={ classes.card }
       onClick={ () => onClick(searchHound) }
       style={ style }
     >
