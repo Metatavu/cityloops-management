@@ -259,9 +259,9 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   };
 
   /**
-   * Get search hound data form API
+   * Get categories data form API
    *
-   * @returns promise with type SearchHound
+   * @returns promise of list of categories
    */
   private listCategories = async (): Promise<Category[]> => {
     const { signedToken } = this.props;
