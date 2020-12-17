@@ -64,9 +64,9 @@ const MyInfoTab: React.FC<Props> = props => {
                 inputName="address"
                 onUpdate={ handleAddressChange }
                 value={ user?.address || "" }
-              /> &&
-              renderMap()
+              />
             }
+            { user?.companyAccount && renderMap() }
           </Grid>
         </Grid>
       </Grid>

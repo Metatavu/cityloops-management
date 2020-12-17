@@ -56,6 +56,14 @@ export default createStyles({
     }
   },
 
+  renewButton: {
+    [theme.breakpoints.up("md")]: {
+      minWidth: 150,
+      minHeight: 50,
+      marginLeft: theme.spacing(2)
+    }
+  },
+
   dialogTitle: { },
 
   dialogClose: {

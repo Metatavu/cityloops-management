@@ -17,6 +17,7 @@ import { Item, User } from "../../generated/client";
 import Api from "../../api/api";
 import ItemFormDialog from "../generic/item-form-dialog";
 import produce from "immer";
+import GenericConfirmDialog from "../generic/generic-confirm-dialog";
 
 /**
  * Component props
@@ -38,7 +39,8 @@ interface State {
   user?: User;
   userItems: Item[];
   formOpen: boolean;
-  successDialogOpen: boolean;
+  deleteDialogOpen: boolean;
+  itemToDelete?: Item;
 }
 
 /**
@@ -59,7 +61,7 @@ export class UserScreen extends React.Component<Props, State> {
       dataChanged: false,
       formOpen: false,
       userItems: [],
-      successDialogOpen: true
+      deleteDialogOpen: false
     };
   }
 
@@ -142,8 +144,10 @@ export class UserScreen extends React.Component<Props, State> {
           >
             <Tab label={ strings.userPage.products } value={ 0 }/>
             <Tab label={ strings.userPage.myInfo } value={ 1 }/>
-            <Tab label={ strings.userPage.categories } value={ 2 }/>
-            <Tab label={ strings.userPage.searchHounds } value={ 3 }/>
+            <Tab label={ strings.userPage.searchHounds } value={ 2 }/>
+            { this.isUserAdmin() &&
+              <Tab label={ strings.userPage.categories } value={ 3 }/>
+            }
           </Tabs>
         </Hidden>
         {/* Mobile tabs */}
@@ -157,15 +161,17 @@ export class UserScreen extends React.Component<Props, State> {
           >
             <Tab fullWidth label={ strings.userPage.products } value={ 0 }/>
             <Tab fullWidth label={ strings.userPage.myInfo } value={ 1 }/>
-            <Tab fullWidth label={ strings.userPage.categories } value={ 2 }/>
-            <Tab fullWidth label={ strings.userPage.searchHounds } value={ 3 }/>
+            <Tab fullWidth label={ strings.userPage.searchHounds } value={ 2 }/>
+            { this.isUserAdmin() &&
+              <Tab fullWidth label={ strings.userPage.categories } value={ 3 }/>
+            }
           </Tabs>
         </Hidden>
 
         { tabIndex === 0 &&
           <UserItemsTab
             userItems={ userItems }
-            onDeleteItemClick={ this.deleteItem }
+            onDeleteItemClick={ this.deleteItemClick }
           />
         }
         { tabIndex === 1 &&
@@ -176,12 +182,40 @@ export class UserScreen extends React.Component<Props, State> {
           />
         }
         { tabIndex === 2 &&
-          <CategoriesProvider signedToken={ signedToken } />
-        }
-        { tabIndex === 3 &&
           <SearchHoundsProvider signedToken={ signedToken } />
         }
+        { tabIndex === 3 && this.isUserAdmin() &&
+          <CategoriesProvider signedToken={ signedToken } />
+        }
+        { this.renderConfirmDialog() }
       </>
+    );
+  }
+
+  /**
+   * Renders confirmation dialog
+   */
+  private renderConfirmDialog = () => {
+    const { itemToDelete, deleteDialogOpen } = this.state;
+
+    const deleteDialogTitle = itemToDelete ?
+      strings.formatString(
+        strings.generic.customConfirmDelete,
+        strings.items.item.toLowerCase(),
+        itemToDelete.title
+      ) as string :
+      undefined;
+
+    return (
+      <GenericConfirmDialog
+        open={ deleteDialogOpen }
+        title={ deleteDialogTitle || strings.generic.delete }
+        confirmButtonText={ strings.generic.confirmDelete }
+        cancelButtonText={ strings.generic.cancel }
+        onCancel={ () => this.setState({ deleteDialogOpen: false }) }
+        onClose={ () => this.setState({ deleteDialogOpen: false }) }
+        onConfirm={ this.deleteItem }
+      />
     );
   }
 
@@ -193,7 +227,6 @@ export class UserScreen extends React.Component<Props, State> {
   private addItem = (createdItem: Item) => {
     this.setState(
       produce((draft: State) => {
-        draft.successDialogOpen = true;
         draft.userItems.unshift(createdItem);
       })
     );
@@ -231,23 +264,35 @@ export class UserScreen extends React.Component<Props, State> {
   }
 
   /**
-   * Event handler for deleting an item
+   * Event handler for delete item click
    *
-   * @param item item to be deleted
+   * @param itemToDelete item to delete
    */
-  private deleteItem = async (item: Item) => {
-    const { signedToken } = this.props;
-    const { userItems } = this.state;
+  private deleteItemClick = (itemToDelete: Item) => {
+    this.setState({
+      itemToDelete,
+      deleteDialogOpen: true
+    });
+  }
 
-    if (!signedToken || !item.id) {
+  /**
+   * Deletes an item
+   */
+  private deleteItem = async () => {
+    const { signedToken } = this.props;
+    const { userItems, itemToDelete } = this.state;
+
+    if (!signedToken || !itemToDelete || !itemToDelete.id) {
       return;
     }
 
     const itemsApi = Api.getItemsApi(signedToken);
-    await itemsApi.deleteItem({ itemId: item.id });
-    const updatedItemList = userItems.filter(listItem => listItem.id !== item.id);
+    await itemsApi.deleteItem({ itemId: itemToDelete.id });
+    const updatedItemList = userItems.filter(listItem => listItem.id !== itemToDelete.id);
     this.setState({
-      userItems: updatedItemList
+      userItems: updatedItemList,
+      deleteDialogOpen: false,
+      itemToDelete: undefined
     });
   }
 
@@ -304,6 +349,21 @@ export class UserScreen extends React.Component<Props, State> {
    */
   private onAddItemClick = () => {
     this.setState({ formOpen: true });
+  }
+
+  /**
+   * Checks if user has admin role
+   *
+   * @returns is user admin or not
+   */
+  private isUserAdmin = (): boolean => {
+    const { signedToken } = this.props;
+
+    if (!signedToken || !signedToken.roles) {
+      return false;
+    }
+
+    return signedToken.roles.includes("admin");
   }
 
 }

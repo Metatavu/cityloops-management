@@ -134,7 +134,14 @@ class SignedTokenProvider extends React.Component<Props, State> {
    * @returns access token or undefined if building fails
    */
   private buildToken = (keycloak: KeycloakInstance): AccessToken | undefined => {
-    const { token, tokenParsed, refreshToken, refreshTokenParsed, profile } = keycloak;
+    const {
+      token,
+      tokenParsed,
+      refreshToken,
+      refreshTokenParsed,
+      profile,
+      realmAccess
+    } = keycloak;
 
     if (!tokenParsed || !tokenParsed.sub || !token) {
       return undefined;
@@ -150,7 +157,8 @@ class SignedTokenProvider extends React.Component<Props, State> {
       refresh_expires_in: refreshTokenParsed?.exp,
       firstName: profile?.firstName,
       lastName: profile?.lastName,
-      userId: tokenParsed.sub
+      userId: tokenParsed.sub,
+      roles: realmAccess?.roles
     };
   }
 }

@@ -101,7 +101,9 @@
       "no": "Only pickup"
     },
     "deliveryPrice": "Delivery price",
-    "noDeliveryPrice": "Delivery price is not defined"
+    "noDeliveryPrice": "Delivery price is not defined",
+    "renew": "Renew item",
+    "renewSuccessful": "Renew was successful!"
   },
 
   "categories": {

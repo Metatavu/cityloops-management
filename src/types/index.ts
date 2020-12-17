@@ -12,6 +12,7 @@ export interface AccessToken {
   firstName?: string;
   lastName?: string;
   userId?: string;
+  roles?: string[]
 }
 
 /**

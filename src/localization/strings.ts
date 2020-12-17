@@ -128,6 +128,8 @@ export interface IStrings extends LocalizedStringsMethods {
     noDeliveryPrice: string;
     showAsList: string;
     showAsGrid: string;
+    renew: string;
+    renewSuccessful: string;
   };
 
   /**
