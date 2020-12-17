@@ -25,15 +25,6 @@ export default createStyles({
     }
   },
 
-  treeContainer: {
-    flex: 1,
-    borderRight: "solid 1px rgba(0, 0, 0, 0.2)",
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-      borderRight: "none"
-    }
-  },
-
   contentWrapper: {
     width: "100%",
     height: "100%",
@@ -53,22 +44,10 @@ export default createStyles({
     }
   },
 
-  actionButtonContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0 20px"
-  },
-
   content: {
     display: "flex",
     flexDirection: "column",
     width: "100%"
   },
-
-  propertiesContainer: {
-    display: "flex",
-    flex: 2,
-  }
 
 });

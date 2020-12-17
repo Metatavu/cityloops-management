@@ -1,6 +1,4 @@
 import * as React from "react";
-import { WithStyles, withStyles } from "@material-ui/core";
-import styles from "../../styles/components/categories/categories-editor";
 import {  Category, SearchHound } from "../../generated/client";
 import { SignedToken } from "../../types";
 import Api from "../../api/api";
@@ -13,7 +11,7 @@ import GenericConfirmDialog from "../generic/generic-confirm-dialog";
 /**
  * Interface representing component properties
  */
-interface Props extends WithStyles<typeof styles> {
+interface Props {
   signedToken?: SignedToken;
 }
 
@@ -358,4 +356,4 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   };
 }
 
-export default withStyles(styles)(SearchHoundsProvider);
+export default SearchHoundsProvider;
