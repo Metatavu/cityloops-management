@@ -268,27 +268,6 @@ export class ItemsScreen extends React.Component<Props, State> {
   }
 
   /**
-   * Event handler for deleting an item
-   *
-   * @param item item to be deleted
-   */
-  private deleteItem = async (item: Item) => {
-    const { signedToken } = this.props;
-    const { items } = this.state;
-
-    if (!signedToken || !item.id) {
-      return;
-    }
-
-    const itemsApi = Api.getItemsApi(signedToken);
-    await itemsApi.deleteItem({ itemId: item.id });
-    const updatedItemList = items.filter(listItem => listItem.id !== item.id);
-    this.setState({
-      items: updatedItemList
-    });
-  }
-
-  /**
    * Fetch needed data
    */
   private fetchData = async () => {
@@ -343,7 +322,8 @@ export class ItemsScreen extends React.Component<Props, State> {
           price: 0.0,
           priceUnit: "€",
           delivery: false,
-          paymentMethod: ""
+          paymentMethod: "",
+          expired: false
 				};
 				items.push(newItem);
       });

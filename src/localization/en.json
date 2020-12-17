@@ -55,7 +55,9 @@
     "imageAlt": "Image",
     "proceed": "Proceed",
     "dataChanged": "You have unsaved changed. Are you sure you want to continue?",
-    "noPermissions": "You don't have the permissions to view the content of this page."
+    "noPermissions": "You don't have the permissions to view the content of this page.",
+    "saveSuccessful": "Save was successful",
+    "saveError": "Save failed"
   },
 
   "search": {
@@ -146,12 +148,24 @@
   "userPage": {
     "products": "My products",
     "myInfo": "My information",
-    "categories": "Categories"
+    "categories": "Categories",
+    "searchHounds": "Search hounds"
   },
 
   "addItem": {
     "chooseCategory": "Choose category",
     "chooseCategoryInstructions": "Choose category to start adding item"
+  },
+
+  "searchHounds": {
+    "newHound": "New search hound",
+    "addSearchHound": "Add search hound",
+    "category": "Search hound category",
+    "minPrice": "Minimum price",
+    "maxPrice": "Maximum price",
+    "notificationOn": "Notification on",
+    "expires": "Search hound expires",
+    "noHounds": "No active search hounds"
   }
 
 }

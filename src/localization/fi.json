@@ -54,7 +54,9 @@
     "imageAlt": "Kuva",
     "proceed": "Jatka",
     "dataChanged": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti jatkaa?",
-    "noPermissions": "Sinulla ei ole oikeuksia tämän sivun sisältöön."
+    "noPermissions": "Sinulla ei ole oikeuksia tämän sivun sisältöön.",
+    "saveSuccessful": "Tallennus onnistui",
+    "saveError": "Tallennuksessa tapahtui virhe"
   },
 
   "search": {
@@ -147,11 +149,23 @@
   "userPage": {
     "products": "Ilmoitukset",
     "myInfo": "Omat tiedot",
-    "categories": "Kategoriat"
+    "categories": "Kategoriat",
+    "searchHounds": "Hakuagentit"
   },
 
   "addItem": {
     "chooseCategory": "Valitse kategoria",
     "chooseCategoryInstructions": "Valitse kategoria aloittaaksesi ilmoituksen luomisen"
+  },
+
+  "searchHounds": {
+    "newHound": "Uusi hakuagentti",
+    "addSearchHound": "Lisää hakuagentti",
+    "category": "Hakuagentin kategoria",
+    "minPrice": "Hinta vähintään",
+    "maxPrice": "Hinta enintään",
+    "notificationOn": "Ilmoitukset käytössä",
+    "expires": "Hakuagentti vanhenee",
+    "noHounds": "Ei aktiivisia hakuagentteja"
   }
 }

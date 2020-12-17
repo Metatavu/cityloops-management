@@ -13,17 +13,6 @@
  */
 
 import { exists, mapValues } from '../runtime';
-import {
-    Condition,
-    ConditionFromJSON,
-    ConditionFromJSONTyped,
-    ConditionToJSON,
-    Volume,
-    VolumeFromJSON,
-    VolumeFromJSONTyped,
-    VolumeToJSON,
-} from './';
-
 /**
  * Search hound object
  * @export
@@ -31,29 +20,41 @@ import {
  */
 export interface SearchHound {
     /**
+     * 
+     * @type {string}
+     * @memberof SearchHound
+     */
+    readonly id?: string;
+    /**
      * Search hound name
      * @type {string}
      * @memberof SearchHound
      */
     name: string;
     /**
-     * 
+     * Are notifications on or off
      * @type {boolean}
      * @memberof SearchHound
      */
     notificationsOn: boolean;
     /**
-     * List of category ids
-     * @type {Array<string>}
+     * Category id
+     * @type {string}
      * @memberof SearchHound
      */
-    categories: Array<string>;
+    categoryId: string;
     /**
-     * List of user ids
-     * @type {Array<string>}
+     * Owner of this search hound
+     * @type {string}
      * @memberof SearchHound
      */
-    users?: Array<string>;
+    userId: string;
+    /**
+     * When seach hound expires
+     * @type {Date}
+     * @memberof SearchHound
+     */
+    expires: Date;
     /**
      * Minimum price of the item
      * @type {number}
@@ -66,48 +67,6 @@ export interface SearchHound {
      * @memberof SearchHound
      */
     maxPrice?: number;
-    /**
-     * How far from users location/address search will try to find items
-     * @type {number}
-     * @memberof SearchHound
-     */
-    locationRange?: number;
-    /**
-     * Minimum amount of items
-     * @type {number}
-     * @memberof SearchHound
-     */
-    minAmount?: number;
-    /**
-     * Maximum amount of items
-     * @type {number}
-     * @memberof SearchHound
-     */
-    maxAmount?: number;
-    /**
-     * 
-     * @type {Volume}
-     * @memberof SearchHound
-     */
-    minVolume?: Volume;
-    /**
-     * 
-     * @type {Volume}
-     * @memberof SearchHound
-     */
-    maxVolume?: Volume;
-    /**
-     * 
-     * @type {Condition}
-     * @memberof SearchHound
-     */
-    condition?: Condition;
-    /**
-     * When seach hound expires
-     * @type {Date}
-     * @memberof SearchHound
-     */
-    expires?: Date;
     /**
      * 
      * @type {string}
@@ -144,19 +103,14 @@ export function SearchHoundFromJSONTyped(json: any, ignoreDiscriminator: boolean
     }
     return {
         
+        'id': !exists(json, 'id') ? undefined : json['id'],
         'name': json['name'],
         'notificationsOn': json['notificationsOn'],
-        'categories': json['categories'],
-        'users': !exists(json, 'users') ? undefined : json['users'],
+        'categoryId': json['categoryId'],
+        'userId': json['userId'],
+        'expires': (new Date(json['expires'])),
         'minPrice': !exists(json, 'minPrice') ? undefined : json['minPrice'],
         'maxPrice': !exists(json, 'maxPrice') ? undefined : json['maxPrice'],
-        'locationRange': !exists(json, 'locationRange') ? undefined : json['locationRange'],
-        'minAmount': !exists(json, 'minAmount') ? undefined : json['minAmount'],
-        'maxAmount': !exists(json, 'maxAmount') ? undefined : json['maxAmount'],
-        'minVolume': !exists(json, 'minVolume') ? undefined : VolumeFromJSON(json['minVolume']),
-        'maxVolume': !exists(json, 'maxVolume') ? undefined : VolumeFromJSON(json['maxVolume']),
-        'condition': !exists(json, 'condition') ? undefined : ConditionFromJSON(json['condition']),
-        'expires': !exists(json, 'expires') ? undefined : (new Date(json['expires'])),
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
@@ -175,17 +129,11 @@ export function SearchHoundToJSON(value?: SearchHound | null): any {
         
         'name': value.name,
         'notificationsOn': value.notificationsOn,
-        'categories': value.categories,
-        'users': value.users,
+        'categoryId': value.categoryId,
+        'userId': value.userId,
+        'expires': (value.expires.toISOString()),
         'minPrice': value.minPrice,
         'maxPrice': value.maxPrice,
-        'locationRange': value.locationRange,
-        'minAmount': value.minAmount,
-        'maxAmount': value.maxAmount,
-        'minVolume': VolumeToJSON(value.minVolume),
-        'maxVolume': VolumeToJSON(value.maxVolume),
-        'condition': ConditionToJSON(value.condition),
-        'expires': value.expires === undefined ? undefined : (value.expires.toISOString()),
     };
 }
 
