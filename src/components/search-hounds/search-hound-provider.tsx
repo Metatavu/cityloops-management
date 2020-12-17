@@ -60,7 +60,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
 
     this.listCategories()
     .then(categories => this.setState({ categories }))
-    .catch(error => console.error(error))
+    .catch(error => console.error(error));
   }
 
   /**
