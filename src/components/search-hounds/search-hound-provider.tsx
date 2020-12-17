@@ -275,7 +275,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   };
 
   /**
-   * Create search hound to DB
+   * Create search hound to API
    *
    * @param newSearchHound searchHound to be created
    * @returns promise with type SearchHound
