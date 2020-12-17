@@ -339,7 +339,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   }
 
   /**
-   * Delete search hound from DB
+   * Delete search hound from API
    *
    * @param searchHoundToDelete searchHound to delete
    * @returns promise with type SearchHound
