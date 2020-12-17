@@ -162,8 +162,8 @@
     "newHound": "Uusi hakuagentti",
     "addSearchHound": "Lisää hakuagentti",
     "category": "Hakuagentin kategoria",
-    "minPrice": "Minimi hinta",
-    "maxPrice": "Maksimi hinta",
+    "minPrice": "Hinta vähintään",
+    "maxPrice": "Hinta enintään",
     "notificationOn": "Ilmoitukset käytössä",
     "expires": "Hakuagentti vanhenee",
     "noHounds": "Ei aktiivisia hakuagentteja"
