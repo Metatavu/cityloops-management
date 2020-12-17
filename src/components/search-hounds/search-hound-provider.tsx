@@ -97,16 +97,18 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   private renderConfirmDialog = () => {
     const { selectedSearchHound, deleteDialogOpen } = this.state;
 
-    const deleteDialogTitle = selectedSearchHound ? strings.formatString(
-      strings.generic.customConfirmDelete,
-      strings.categories.category.toLowerCase(),
-      selectedSearchHound.name
-    ) : undefined;
+    const deleteDialogTitle = selectedSearchHound ?
+      strings.formatString(
+        strings.generic.customConfirmDelete,
+        strings.categories.category.toLowerCase(),
+        selectedSearchHound.name
+      ) as string :
+      undefined;
 
     return (
       <GenericConfirmDialog
         open={ deleteDialogOpen }
-        title={ deleteDialogTitle as string }
+        title={ deleteDialogTitle }
         confirmButtonText={ strings.generic.confirmDelete }
         cancelButtonText={ strings.generic.cancel }
         onCancel={ () => this.setState({ deleteDialogOpen: false }) }
