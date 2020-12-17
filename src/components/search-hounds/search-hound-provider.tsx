@@ -138,7 +138,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   }
 
   /**
-   * Create searchHound to DB
+   * Event handler for create search hound click
    */
   private onAddSearchHoundClick = () => {
     const { signedToken } = this.props;
