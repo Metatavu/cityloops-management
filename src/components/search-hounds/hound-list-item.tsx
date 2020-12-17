@@ -22,7 +22,6 @@ interface Props extends WithStyles<typeof styles> {
 const HoundListItem: React.FC<Props> = props => {
   const {
     selected,
-    classes,
     searchHound,
     style,
     onClick,

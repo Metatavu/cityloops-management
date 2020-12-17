@@ -5,7 +5,6 @@ import styles from "../../styles/components/search-hounds/search-hounds-editor";
 import { Category, SearchHound } from "../../generated/client";
 import strings from "../../localization/strings";
 import "react-sortable-tree/style.css";
-import GenericButton from "../generic/generic-button";
 import AddIcon from "@material-ui/icons/AddCircle";
 import HoundListItem from "./hound-list-item";
 import HoundContent from "./hound-content";

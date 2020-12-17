@@ -11,7 +11,6 @@ import { KeycloakInstance } from "keycloak-js";
 import { Button, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/user-action-buttons";
 import strings from "../../localization/strings";
-import theme from "../../styles/theme";
 import RegistrationFormDialog from "./registration-form-dialog";
 
 /**

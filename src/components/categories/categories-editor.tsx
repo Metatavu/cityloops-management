@@ -9,7 +9,6 @@ import GenericTreeItem from "../generic/generic-tree-item";
 import "react-sortable-tree/style.css";
 import { CategoryDataHolder } from "../../types";
 import PropertiesPanel from "./properties-panel";
-import GenericButton from "../generic/generic-button";
 import AddIcon from "@material-ui/icons/AddCircle";
 import FileExplorerTheme from "react-sortable-tree-theme-file-explorer";
 
