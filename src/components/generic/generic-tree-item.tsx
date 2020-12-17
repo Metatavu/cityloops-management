@@ -14,7 +14,7 @@ interface Props extends WithStyles<typeof styles> {
   category: Category;
   style?: CSSProperties;
   hasChildElements: boolean;
-  onAddCategoryClick: (parentCategoryId?: string) => void;
+  onAddCategoryClick: (parentCategory?: Category) => void;
   onClick: (category: Category) => void;
   onDeleteClick: (category: Category) => void;
 }
@@ -63,7 +63,12 @@ const GenericTreeItem: React.FC<Props> = props => {
           startIcon={ <AddIcon /> }
           size="small"
           color="inherit"
-          onClick={ () => onAddCategoryClick(category.id) }
+          onClick={
+            event => {
+              event.stopPropagation();
+              onAddCategoryClick(category);
+            }
+          }
           title={ strings.categories.addSubCategory }
         >
           { strings.generic.add }

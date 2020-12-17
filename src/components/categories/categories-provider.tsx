@@ -75,6 +75,7 @@ class CategoriesProvider extends React.Component<Props, State> {
         onAddCategory={ this.onAddCategoryClick }
         onSelectCategory={ this.onCategoryClick }
         onUpdateCategory={ this.onCategoryUpdate }
+        onUpdateCategoryOrder={ this.onCategoryOrderUpdate }
         onSaveCategories={ this.updateChangedCategories }
         onDeleteCategory={ this.onCategoryDeleteClick }
       />
@@ -82,26 +83,29 @@ class CategoriesProvider extends React.Component<Props, State> {
   }
 
   /**
-   * Create category to DB
+   * Create category to API
    *
-   * @param parentCategoryId parent category ID
+   * @param parentCategory parent category
    */
-  private onAddCategoryClick = (parentCategoryId?: string) => {
+  private onAddCategoryClick = async (parentCategory?: Category) => {
     const { categories } = this.state;
 
     const newCategory: Category = {
       name: "New category",
-      parentCategoryId: parentCategoryId
+      parentCategoryId: parentCategory?.id
     };
 
-    this.createCategory(newCategory)
-    .then(createdCategory => {
-      if (createdCategory) {
-        this.updateCategoryData(addOrUpdateList(categories, createdCategory), createdCategory);
-      }
-    })
-    .catch(error => console.log(error));
+    try {
+      const createdCategory = await this.createCategory(newCategory);
+      createdCategory && this.updateCategoryData(
+        addOrUpdateList(categories, createdCategory),
+        createdCategory
+      );
 
+      parentCategory && this.onCategoryClick(parentCategory);
+    } catch (e) {
+      return Promise.reject(e);
+    }
   };
 
   /**
@@ -119,22 +123,40 @@ class CategoriesProvider extends React.Component<Props, State> {
   }
 
   /**
-   * Update category to DB
+   * Update category to state
    *
    * @param categoryToUpdate category to update
    */
   private onCategoryUpdate = async (categoryToUpdate: Category) => {
-    const { categories } = this.state;
+    const { modifiedCategories } = this.state;
 
     if (!categoryToUpdate.id) {
       return;
     }
 
     this.setState({
-      modifiedCategories: addOrUpdateList(categories, categoryToUpdate),
+      modifiedCategories: addOrUpdateList(modifiedCategories, categoryToUpdate),
       selectedCategory: categoryToUpdate
     });
   };
+
+  /**
+   * Update category order to state
+   * 
+   * @param categoryToUpdate category to update
+   * @param parentCategoryId parent category id
+   */
+  private onCategoryOrderUpdate = (categoryToUpdate: Category, parentCategoryId?: string) => {
+    const { categories } = this.state;
+
+    if (!categoryToUpdate.id) {
+      return;
+    }
+
+    const updatedCategory: Category = { ...categoryToUpdate, parentCategoryId };
+    this.onCategoryUpdate(updatedCategory);
+    this.updateCategoryData(addOrUpdateList(categories, updatedCategory), updatedCategory);
+  }
 
   /**
    * Update changed categories state

@@ -20,9 +20,10 @@ interface Props extends WithStyles<typeof styles> {
   selectedCategory?: Category;
   openCategories: string[];
   treeData?: CategoryDataHolder[];
-  onAddCategory: (parentCategoryId?: string) => void;
+  onAddCategory: (parentCategory?: Category) => void;
   onSelectCategory: (category: Category) => void;
   onUpdateCategory: (category: Category) => void;
+  onUpdateCategoryOrder: (category: Category, newParentId: string) => void;
   onSaveCategories: () => void;
   onDeleteCategory: (category: Category) => void;
 }
@@ -38,6 +39,7 @@ const CategoriesEditor: React.FC<Props> = ({
   onAddCategory,
   onSelectCategory,
   onUpdateCategory,
+  onUpdateCategoryOrder,
   onSaveCategories,
   onDeleteCategory
 }) => {
@@ -92,7 +94,7 @@ const CategoriesEditor: React.FC<Props> = ({
         <Button
           color="primary"
           startIcon={ <AddIcon /> }
-          onClick={ () => onAddCategory() }
+          onClick={ () => onAddCategory(undefined) }
           style={{
             marginTop: 10,
             marginLeft: 10
@@ -118,10 +120,8 @@ const CategoriesEditor: React.FC<Props> = ({
             theme={ FileExplorerTheme }
             treeData={ constructTreeData() }
             onVisibilityToggle={ data => onSelectCategory(data.node.category) }
-            /**
-             * TODO: Add logic for changing order
-             */
-            onChange={ data => {} }
+            onChange={ () => {} }
+            onMoveNode={ ({ nextParentNode, node }) => onUpdateCategoryOrder(node.category, nextParentNode?.id) }
           />
         </div>
         <div className={ classes.propertiesContainer }>
