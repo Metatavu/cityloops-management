@@ -18,7 +18,6 @@ export default createStyles({
   },
 
   cancelButton: {
-    marginRight: "auto"
   },
 
   dialogClose: {

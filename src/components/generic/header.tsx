@@ -134,9 +134,16 @@ const Header: React.FC<Props> = props => {
       <div className={ classes.accountSection }>
         { onAddClick && addElement }
         { renderLanguageSelection() }
-        <IconButton href="/user" className={ classes.imageButton }>
-          <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
-        </IconButton>
+        <Hidden mdUp>
+          <IconButton href="/user" className={ classes.imageButton }>
+            <AccountCircleIcon htmlColor={ "#fff" } />
+          </IconButton>
+        </Hidden>
+        <Hidden smDown>
+          <IconButton href="/user" className={ classes.imageButton }>
+            <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
+          </IconButton>
+        </Hidden>
         <UserActionButtons />
       </div>
     );

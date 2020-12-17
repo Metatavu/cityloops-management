@@ -1,4 +1,4 @@
-import { Button, List, ListItem, ListItemSecondaryAction, ListItemText, withStyles, WithStyles } from "@material-ui/core";
+import { Button, List, ListItem, ListItemSecondaryAction, ListItemText, Typography, withStyles, WithStyles } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/AddCircle";
 import produce from "immer";
 import * as React from "react";
@@ -134,12 +134,14 @@ const CategoryPropertyList: React.FC<Props> = ({
         <GenericConfirmDialog
           open={ !!propertyToDelete }
           title={ deleteDialogTitle as string }
-          confirmButtonText={ strings.generic.confirmDelete }
+          confirmButtonText={ strings.generic.yes }
           cancelButtonText={ strings.generic.cancel }
           onCancel={ onCancel }
           onClose={ onCancel }
           onConfirm={ onDelete(propertyToDelete) }
-        />
+        >
+          <Typography>{ strings.generic.confirmDeleteText }</Typography>
+        </GenericConfirmDialog>
       }
     </>
   );

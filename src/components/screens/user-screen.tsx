@@ -210,12 +210,14 @@ export class UserScreen extends React.Component<Props, State> {
       <GenericConfirmDialog
         open={ deleteDialogOpen }
         title={ deleteDialogTitle || strings.generic.delete }
-        confirmButtonText={ strings.generic.confirmDelete }
+        confirmButtonText={ strings.generic.yes }
         cancelButtonText={ strings.generic.cancel }
         onCancel={ () => this.setState({ deleteDialogOpen: false }) }
         onClose={ () => this.setState({ deleteDialogOpen: false }) }
         onConfirm={ this.deleteItem }
-      />
+      >
+        <Typography>{ strings.generic.confirmDeleteText }</Typography>
+      </GenericConfirmDialog>
     );
   }
 

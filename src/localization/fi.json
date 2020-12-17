@@ -46,7 +46,7 @@
     "defaultValue": "Oletusarvo",
     "mandatoryField": "Pakollinen kenttä",
     "customConfirmDelete":"Poista {0} \"{1}\"?",
-    "confirmDelete": "Haluatko varmasti poistaa valitun elementin?",
+    "confirmDeleteText": "Haluatko varmasti poistaa valitun elementin?",
     "or": "tai",
     "undefined": "Ei määritelty",
     "refresh": "Päivitä",
@@ -161,6 +161,7 @@
   },
 
   "searchHounds": {
+    "searchHound": "hakuagentti",
     "newHound": "Uusi hakuagentti",
     "addSearchHound": "Lisää hakuagentti",
     "category": "Hakuagentin kategoria",

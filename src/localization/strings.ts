@@ -65,7 +65,7 @@ export interface IStrings extends LocalizedStringsMethods {
     defaultValue: string;
     mandatoryField: string;
     customConfirmDelete: string;
-    confirmDelete: string;
+    confirmDeleteText: string;
     or: string;
     undefined: string;
     refresh: string;
@@ -201,6 +201,7 @@ export interface IStrings extends LocalizedStringsMethods {
    * Translations related to search hounds
    */
   searchHounds: {
+    searchHound: string;
     newHound: string;
     addSearchHound: string;
     category: string;

@@ -47,7 +47,7 @@
     "defaultValue": "Default value",
     "mandatoryField": "Mandatory field",
     "customConfirmDelete":"Delete {0} \"{1}\"?",
-    "confirmDelete": "Are you sure you want to remove selected element?",
+    "confirmDeleteText": "Are you sure you want to remove selected element?",
     "or": "or",
     "undefined": "Undefined",
     "refresh": "Refresh",
@@ -160,6 +160,7 @@
   },
 
   "searchHounds": {
+    "searchHound": "Search hound",
     "newHound": "New search hound",
     "addSearchHound": "Add search hound",
     "category": "Search hound category",

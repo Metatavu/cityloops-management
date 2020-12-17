@@ -7,6 +7,7 @@ import SearchHoundsEditor from "../search-hounds/search-hounds-editor";
 import moment from "moment";
 import strings from "../../localization/strings";
 import GenericConfirmDialog from "../generic/generic-confirm-dialog";
+import { Typography } from "@material-ui/core";
 
 /**
  * Interface representing component properties
@@ -100,7 +101,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
     const deleteDialogTitle = selectedSearchHound ?
       strings.formatString(
         strings.generic.customConfirmDelete,
-        strings.categories.category.toLowerCase(),
+        strings.searchHounds.searchHound.toLowerCase(),
         selectedSearchHound.name
       ) as string :
       undefined;
@@ -109,12 +110,14 @@ class SearchHoundsProvider extends React.Component<Props, State> {
       <GenericConfirmDialog
         open={ deleteDialogOpen }
         title={ deleteDialogTitle || strings.generic.delete }
-        confirmButtonText={ strings.generic.confirmDelete }
+        confirmButtonText={ strings.generic.yes }
         cancelButtonText={ strings.generic.cancel }
         onCancel={ () => this.setState({ deleteDialogOpen: false }) }
         onClose={ () => this.setState({ deleteDialogOpen: false }) }
         onConfirm={ this.onConfirmDelete }
-      />
+      >
+        <Typography>{ strings.generic.confirmDeleteText }</Typography>
+      </GenericConfirmDialog>
     );
   }
   

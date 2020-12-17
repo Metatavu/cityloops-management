@@ -6,7 +6,11 @@ export default createStyles({
   root: { },
 
   popoverButton: {
-    textTransform: "initial"
+    textTransform: "initial",
+    color: theme.palette.common.white,
+    [theme.breakpoints.up("md")]: {
+      color: theme.palette.secondary.main
+    }
   },
 
   popover: {
@@ -33,8 +37,11 @@ export default createStyles({
   },
 
   loginButton: {
+    borderRadius: 0,
     color: theme.palette.common.white,
-    borderRadius: 0
+    [theme.breakpoints.up("md")]: {
+      color: theme.palette.secondary.main
+    }
   },
 
   registerButton: {
@@ -42,7 +49,10 @@ export default createStyles({
     padding: 10,
     fontWeight: 600,
     textTransform: "initial",
-    color: theme.palette.primary.main
+    color: theme.palette.common.white,
+    [theme.breakpoints.up("md")]: {
+      color: theme.palette.secondary.main
+    }
   },
 
   forgotPasswordButton: {
