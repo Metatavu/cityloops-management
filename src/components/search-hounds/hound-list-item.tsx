@@ -33,6 +33,7 @@ const HoundListItem: React.FC<Props> = props => {
    */
   return (
     <ListItem
+      key={ searchHound.id }
       button
       selected={ selected }
       onClick={ () => onClick(searchHound) }

@@ -53,6 +53,7 @@ const SearchHoundsEditor: React.FC<Props> = ({
     return searchHounds.map(hound => {
       return (
         <HoundListItem
+          key={ hound.id }
           searchHound={ hound }
           onClick={ () => onSelectSearchHound(hound) }
           onDeleteClick={ () => onDeleteSearchHound(hound) }
