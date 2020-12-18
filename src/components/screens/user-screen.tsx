@@ -365,7 +365,7 @@ export class UserScreen extends React.Component<Props, State> {
   private isUserAdmin = (): boolean => {
     const { signedToken } = this.props;
 
-    return signedToken && signedToken.roles && signedToken.roles.includes("admin");
+    return !!signedToken && !!signedToken.roles && signedToken.roles.includes("admin");
   }
 
 }
