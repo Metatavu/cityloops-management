@@ -188,7 +188,7 @@ export class ItemsScreen extends React.Component<Props, State> {
             color="secondary"
             fullWidth
             className={ classes.submitButton }
-            onClick={ () => itemId ? history.push(`/item/${itemId}`) : history.push("/") }
+            onClick={ () => history.push(itemId ? `/item/${itemId}` : "/") }
           >
             { strings.items.navigateToItem }
           </Button>
