@@ -46,7 +46,7 @@
     "defaultValue": "Oletusarvo",
     "mandatoryField": "Pakollinen kenttä",
     "customConfirmDelete":"Poista {0} \"{1}\"?",
-    "confirmDelete": "Haluatko varmasti poistaa valitun elementin?",
+    "confirmDeleteText": "Haluatko varmasti poistaa valitun elementin?",
     "or": "tai",
     "undefined": "Ei määritelty",
     "refresh": "Päivitä",
@@ -102,7 +102,9 @@
     "deliveryPrice": "Toimituksen hinta",
     "noDeliveryPrice": "Toimituksen hintaa ei ole määritelty",
     "showAsList": "Näytä tuotteet listana",
-    "showAsGrid": "Näytä tuotteet ruudukkona"
+    "showAsGrid": "Näytä tuotteet ruudukkona",
+    "renew": "Uusi tuotteen voimassaoloaika",
+    "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!"
   },
 
   "categories": {
@@ -159,6 +161,7 @@
   },
 
   "searchHounds": {
+    "searchHound": "hakuagentti",
     "newHound": "Uusi hakuagentti",
     "addSearchHound": "Lisää hakuagentti",
     "category": "Hakuagentin kategoria",
@@ -166,6 +169,7 @@
     "maxPrice": "Hinta enintään",
     "notificationOn": "Ilmoitukset käytössä",
     "expires": "Hakuagentti vanhenee",
-    "noHounds": "Ei aktiivisia hakuagentteja"
+    "noHounds": "Ei aktiivisia hakuagentteja",
+    "activeHounds": "Aktiiviset hakuagentit"
   }
 }

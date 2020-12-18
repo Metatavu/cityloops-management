@@ -30,6 +30,7 @@ interface Props extends WithStyles<typeof styles> {
   signedToken?: SignedToken;
   history: History;
   itemId: string;
+  locale: string;
 }
 
 /**
@@ -42,6 +43,9 @@ interface State {
   deleteDialogOpen: boolean;
   deleteLoading: boolean;
   successfulDelete: boolean;
+  updateOpen: boolean;
+  successfulUpdate: boolean;
+  updateLoading: boolean;
 }
 
 /**
@@ -61,7 +65,10 @@ export class ItemScreen extends React.Component<Props, State> {
       formOpen: false,
       deleteDialogOpen: false,
       deleteLoading: false,
-      successfulDelete: false
+      successfulDelete: false,
+      updateOpen: false,
+      successfulUpdate: false,
+      updateLoading: false
     };
   }
 
@@ -78,13 +85,14 @@ export class ItemScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { loading } = this.state;
 
     if (loading) {
       return (
         <AppLayout
           banner={ false }
+          history={ history }
         >
           <div className={ classes.loaderContainer }>
             <CircularProgress size={ 40 } color="secondary" />
@@ -96,8 +104,12 @@ export class ItemScreen extends React.Component<Props, State> {
     return (
       <AppLayout
         banner={ false }
+        history={ history }
       >
-        <SearchBar categories={ [] }/>
+        <SearchBar
+          categories={ [] }
+          locale={ this.props.locale }
+        />
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -107,6 +119,7 @@ export class ItemScreen extends React.Component<Props, State> {
         </div>
         { this.renderItemFormDialog() }
         { this.renderDeleteDialog() }
+        { this.renderItemUpdatedDialog() }
       </AppLayout>
     );
   }
@@ -133,7 +146,6 @@ export class ItemScreen extends React.Component<Props, State> {
           >
             { item ? `${ item.price } ${ item.priceUnit }` : "" }
           </Typography>
-          { this.renderItemActionButtons() }
         </div>
         <Grid
           key="contentContainer"
@@ -213,6 +225,16 @@ export class ItemScreen extends React.Component<Props, State> {
           onClick={ () => this.setState({ formOpen: true }) }
         >
           { strings.generic.edit }
+        </Button>
+        <Button
+          key="renew"
+          size="small"
+          variant="text"
+          color="secondary"
+          className={ classes.renewButton }
+          onClick={ this.renewClick }
+        >
+          { strings.items.renew }
         </Button>
       </div>
     );
@@ -408,6 +430,56 @@ export class ItemScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Render item update dialog
+   */
+  private renderItemUpdatedDialog = () => {
+    const {
+      updateOpen,
+      successfulUpdate,
+      updateLoading
+    } = this.state;
+
+    return (
+      <GenericConfirmDialog
+        open={ updateOpen }
+        loading={ updateLoading }
+        success={ successfulUpdate }
+        title={ successfulUpdate ?
+          strings.generic.saveSuccessful :
+          strings.generic.saveError
+        }
+        confirmButtonText={ strings.generic.proceed }
+        cancelButtonText={ strings.generic.close }
+        successCloseButtonText={ strings.generic.close }
+        successTitle={ strings.items.renewSuccessful }
+        onCancel={ this.closeUpdateSuccessDialog }
+        onClose={ this.closeUpdateSuccessDialog }
+        onConfirm={ this.closeUpdateSuccessDialog }
+        onSuccessClose={ this.closeUpdateSuccessDialog }
+      />
+    );
+  }
+
+  /**
+   * Closes update success dialog
+   */
+  private closeUpdateSuccessDialog = () => {
+    this.setState({
+      updateOpen: !this.state.updateOpen,
+    })
+  }
+
+  /**
+   * Event handler for renew clickå
+   */
+  private renewClick = async () => {
+    this.setState({ updateOpen: true });
+
+    this.updateItem(this.state.item)
+    .catch(error => console.error(error));
+  }
+
+  /**
    * Fetch needed data
    */
   private fetchData = async () => {
@@ -427,22 +499,27 @@ export class ItemScreen extends React.Component<Props, State> {
    *
    * @param itemToUpdate item to update
    */
-  private updateItem = async (itemToUpdate: Item) => {
+  private updateItem = async (itemToUpdate?: Item) => {
     const { signedToken, itemId } = this.props;
 
-    if (!signedToken) {
+    if (!signedToken || !itemToUpdate) {
       return;
     }
 
+    this.setState({ updateLoading: true });
     const itemsApi = Api.getItemsApi(signedToken);
-    const updatedItem = await itemsApi.updateItem({
+    await itemsApi.updateItem({
       item: itemToUpdate,
       itemId: itemId
-    });
-
-    this.setState({
-      item: updatedItem
-    });
+    })
+    .then(updatedItem => {
+      this.setState({
+        successfulUpdate: true,
+        updateLoading: false,
+        item: updatedItem
+      });
+    })
+    .catch(e => console.error(e));
   }
 
   /**
@@ -470,13 +547,6 @@ export class ItemScreen extends React.Component<Props, State> {
   }
 
   /**
-   * Toggle edit form dialog
-   */
-  private toggleEditFormDialog = () => {
-    this.setState({ formOpen: !this.state.formOpen });
-  }
-
-  /**
    * Event handler for closing dialog after successful delete
    */
   private onSuccessfulDeleteCloseClick = () => {
@@ -495,7 +565,8 @@ function mapStateToProps(state: ReduxState) {
   return {
     keycloak: state.auth.keycloak,
     anonymousToken: state.auth.anonymousToken,
-    signedToken: state.auth.signedToken
+    signedToken: state.auth.signedToken,
+    locale: state.locale.locale
   };
 }
 

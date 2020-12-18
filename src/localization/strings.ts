@@ -65,7 +65,7 @@ export interface IStrings extends LocalizedStringsMethods {
     defaultValue: string;
     mandatoryField: string;
     customConfirmDelete: string;
-    confirmDelete: string;
+    confirmDeleteText: string;
     or: string;
     undefined: string;
     refresh: string;
@@ -128,6 +128,8 @@ export interface IStrings extends LocalizedStringsMethods {
     noDeliveryPrice: string;
     showAsList: string;
     showAsGrid: string;
+    renew: string;
+    renewSuccessful: string;
   };
 
   /**
@@ -199,6 +201,7 @@ export interface IStrings extends LocalizedStringsMethods {
    * Translations related to search hounds
    */
   searchHounds: {
+    searchHound: string;
     newHound: string;
     addSearchHound: string;
     category: string;
@@ -207,6 +210,7 @@ export interface IStrings extends LocalizedStringsMethods {
     notificationOn: string;
     expires: string;
     noHounds: string;
+    activeHounds: string;
   }
 
 }

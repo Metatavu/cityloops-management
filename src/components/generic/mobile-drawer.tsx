@@ -3,8 +3,7 @@ import { Drawer, Hidden, List, ListItem, ListItemIcon, Typography, withStyles, W
 import { styles } from "../../styles/components/generic/mobile-drawer";
 import strings from "../../localization/strings";
 import ListIcon from "@material-ui/icons/List";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { History } from "history";
 
 /**
  * Interface describing properties from screen component
@@ -20,6 +19,7 @@ export interface ScreenProps {
 interface OtherProps extends WithStyles<typeof styles> {
   open: boolean;
   toggleSideMenu: () => void;
+  history: History;
 }
 
 /**
@@ -37,7 +37,8 @@ const MobileDrawer: React.FC<Props> = ({
   open,
   title,
   logoUrl,
-  toggleSideMenu
+  history,
+  toggleSideMenu,
 }) => {
 
   /**
@@ -69,19 +70,9 @@ const MobileDrawer: React.FC<Props> = ({
           {
             renderListItem(
               strings.items.postings,
-              { boldText: true, icon: <ListIcon fontSize="large" /> }
-            )
-          }
-          {
-            renderListItem(
-              strings.items.newPosting,
-              { icon: <AddCircleOutlineIcon fontSize="large" /> }
-            )
-          }
-          {
-            renderListItem(
-              strings.user.account,
-              { icon: <AccountCircleIcon fontSize="large" /> }
+              navigateTo,
+              { boldText: true, icon: <ListIcon fontSize="large" /> },
+              "/items",
             )
           }
         </List>
@@ -93,14 +84,22 @@ const MobileDrawer: React.FC<Props> = ({
    * Renders list item
    * 
    * @param name item name
+   * @param action action that is triggered when list item is clicked
    * @param boldText is item name written in bold
    * @param icon possible icon
+   * @param path to navigate
    */
-  const renderListItem = (name: string, options?: { boldText?: boolean, icon?: JSX.Element }) => {
+  const renderListItem = (
+    name: string,
+    action: (path?: string) => void,
+    options?: { boldText?: boolean, icon?: JSX.Element },
+    path?: string,
+  ) => {
     return (
       <ListItem
         button
         className={ classes.listItem }
+        onClick={ () => action(path) }
       >
         { options?.icon &&
           <ListItemIcon className={ classes.listIcon }>
@@ -115,6 +114,17 @@ const MobileDrawer: React.FC<Props> = ({
         </Typography>
       </ListItem>
     );
+  }
+
+  /**
+   * Navigates to given path
+   *
+   * @param path path
+   */
+  const navigateTo = (path?: string) => {
+    if (path) {
+      history.push(path);
+    }
   }
 
   /**

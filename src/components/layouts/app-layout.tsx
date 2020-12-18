@@ -9,6 +9,7 @@ import MobileDrawer from "../generic/mobile-drawer";
 import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
 import BannerImage from "../generic/banner-image";
 import bannerImageSrc from "../../resources/images/banner-image.jpg";
+import { History } from "history";
 
 /**
  * Interface describing component properties
@@ -19,6 +20,7 @@ interface Props extends WithStyles<typeof styles> {
   mobileDrawerProps?: MobileDrawerProps;
   footerProps?: FooterProps;
   banner: boolean;
+  history: History;
 }
 
 /**
@@ -34,7 +36,8 @@ const AppLayout: React.FC<Props> = props => {
     headerProps,
     mobileDrawerProps,
     footerProps,
-    banner
+    banner,
+    history
   } = props;
 
   const [ sideMenuOpen, toggleSideMenu ] = React.useState(false);
@@ -49,11 +52,13 @@ const AppLayout: React.FC<Props> = props => {
         title={ title }
         toggleSideMenu={ toggle }
         { ...headerProps }
+        history={ history }
       />
       <MobileDrawer
         open={ sideMenuOpen }
         toggleSideMenu={ toggle }
         { ...mobileDrawerProps }
+        history={ history }
       />
       { banner &&
         <BannerImage

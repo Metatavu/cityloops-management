@@ -9,7 +9,6 @@ import GenericTreeItem from "../generic/generic-tree-item";
 import "react-sortable-tree/style.css";
 import { CategoryDataHolder } from "../../types";
 import PropertiesPanel from "./properties-panel";
-import GenericButton from "../generic/generic-button";
 import AddIcon from "@material-ui/icons/AddCircle";
 import FileExplorerTheme from "react-sortable-tree-theme-file-explorer";
 
@@ -95,21 +94,16 @@ const CategoriesEditor: React.FC<Props> = ({
           color="primary"
           startIcon={ <AddIcon /> }
           onClick={ () => onAddCategory(undefined) }
-          style={{
-            marginTop: 10,
-            marginLeft: 10
-          }}>
+        >
           { strings.categories.addCategory }
         </Button>
-        <GenericButton
+        <Button
+          variant="contained"
+          color="primary"
           onClick={ () => onSaveCategories() }
-          text={ strings.generic.save }
-          style={{
-            backgroundColor: "#00B6ED",
-            marginTop: 10,
-            marginLeft: 10
-          }}
-        />
+        >
+          { strings.generic.save }
+        </Button>
       </Toolbar>
       <div className={ classes.editorContent }>
         <div className={ classes.treeContainer }>

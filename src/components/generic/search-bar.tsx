@@ -11,6 +11,7 @@ import { SearchParams } from "../../types";
 interface Props extends WithStyles<typeof styles> {
   categories: Category[];
   onSearch?: (searchParams: SearchParams) => void;
+  locale: string;
 }
 
 /**
@@ -21,18 +22,18 @@ interface Props extends WithStyles<typeof styles> {
 const SearchBar: React.FC<Props> = props => {
   const { classes, categories, onSearch } = props;
 
-  const [ searchTerm, setSearchTerm ] = React.useState<string>("");
+  // const [ searchTerm, setSearchTerm ] = React.useState<string>("");
   const [ selectedCategory, setSelectedCategory ] = React.useState<Category>();
-  const [ selectedAgency, setSelectedAgency ] = React.useState<string>();
+  // const [ selectedAgency, setSelectedAgency ] = React.useState<string>();
 
-  /**
-   * Event handler for change term
-   *
-   * @param event React change event
-   */
-  const onChangeTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
-  };
+  // /**
+  //  * Event handler for change term
+  //  *
+  //  * @param event React change event
+  //  */
+  // const onChangeTerm = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
   /**
    * Event handler for change category
@@ -43,18 +44,18 @@ const SearchBar: React.FC<Props> = props => {
     setSelectedCategory(categories.find(category => category.id === event.target.value));
   };
 
-  /**
-   * Event handler for change agency
-   * 
-   * @param event React change event
-   */
-  const onChangeAgency = (event: React.ChangeEvent<HTMLInputElement>) => {
-    /**
-     * TODO: Add support for agencies
-     */
-    const { value } = event.target;
-    setSelectedAgency(value !== "noFilter" ? value : undefined);
-  }
+  // /**
+  //  * Event handler for change agency
+  //  * 
+  //  * @param event React change event
+  //  */
+  // const onChangeAgency = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   /**
+  //    * TODO: Add support for agencies
+  //    */
+  //   const { value } = event.target;
+  //   setSelectedAgency(value !== "noFilter" ? value : undefined);
+  // }
 
   /**
    * Event handler for search button click
@@ -68,21 +69,22 @@ const SearchBar: React.FC<Props> = props => {
     });
   };
 
-  /**
-   * Renders search field
-   */
-  const renderSearchField = () => {
-    return (
-      <TextField
-        size="small"
-        variant="filled"
-        className={ classes.searchField }
-        placeholder={ strings.generic.search }
-        value={ searchTerm }
-        onChange={ onChangeTerm }
-      />
-    );
-  };
+  // Text and agency search are not needed at the moment
+  // /**
+  //  * Renders search field
+  //  */
+  // const renderSearchField = () => {
+  //   return (
+  //     <TextField
+  //       size="small"
+  //       variant="filled"
+  //       className={ classes.searchField }
+  //       placeholder={ strings.generic.search }
+  //       value={ searchTerm }
+  //       onChange={ onChangeTerm }
+  //     />
+  //   );
+  // };
 
   /**
    * Renders category select field
@@ -108,30 +110,31 @@ const SearchBar: React.FC<Props> = props => {
     );
   };
 
-  /**
-   * Renders agency select field
-   */
-  const renderAgencySelect = () => {
-    return (
-      <TextField
-        select
-        size="small"
-        variant="filled"
-        className={ classes.selectField }
-        label={ strings.search.agency }
-        value={ selectedAgency || "noFilter" }
-        onChange={ onChangeAgency }
-      >
-        { renderEmptyItem() }
-        {
-          /**
-           * TODO:
-           * Add agency options to search
-           */
-        }
-      </TextField>
-    );
-  };
+  // Text and agency search are not needed at the moment
+  // /**
+  //  * Renders agency select field
+  //  */
+  // const renderAgencySelect = () => {
+  //   return (
+  //     <TextField
+  //       select
+  //       size="small"
+  //       variant="filled"
+  //       className={ classes.selectField }
+  //       label={ strings.search.agency }
+  //       value={ selectedAgency || "noFilter" }
+  //       onChange={ onChangeAgency }
+  //     >
+  //       { renderEmptyItem() }
+  //       {
+  //         /**
+  //          * TODO:
+  //          * Add agency options to search
+  //          */
+  //       }
+  //     </TextField>
+  //   );
+  // };
 
   /**
    * Renders empty item
@@ -149,9 +152,10 @@ const SearchBar: React.FC<Props> = props => {
    */
   return (
     <div className={ classes.root }>
-      { renderSearchField() }
+      {/* Text and agency search are not needed at the moment.*/}
+      {/* { renderSearchField() } */}
       { renderCategorySelect() }
-      { renderAgencySelect() }
+      {/* { renderAgencySelect() } */}
       <Button
         size="small"
         variant="contained"

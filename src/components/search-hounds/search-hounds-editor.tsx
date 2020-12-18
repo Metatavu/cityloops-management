@@ -1,11 +1,10 @@
 import * as React from "react";
 
-import { withStyles, WithStyles, Toolbar, Button, Typography } from "@material-ui/core";
+import { withStyles, WithStyles, Toolbar, Button, Typography, List } from "@material-ui/core";
 import styles from "../../styles/components/search-hounds/search-hounds-editor";
 import { Category, SearchHound } from "../../generated/client";
 import strings from "../../localization/strings";
 import "react-sortable-tree/style.css";
-import GenericButton from "../generic/generic-button";
 import AddIcon from "@material-ui/icons/AddCircle";
 import HoundListItem from "./hound-list-item";
 import HoundContent from "./hound-content";
@@ -54,6 +53,7 @@ const SearchHoundsEditor: React.FC<Props> = ({
     return searchHounds.map(hound => {
       return (
         <HoundListItem
+          key={ hound.id }
           searchHound={ hound }
           onClick={ () => onSelectSearchHound(hound) }
           onDeleteClick={ () => onDeleteSearchHound(hound) }
@@ -84,32 +84,32 @@ const SearchHoundsEditor: React.FC<Props> = ({
    */
   return (
     <div className={ classes.root }>
-      <Toolbar className={ classes.toolbar }>
-        <Button
-          color="primary"
-          startIcon={ <AddIcon /> }
-          onClick={ () => onAddSearchHound() }
-          style={{
-            marginTop: 10,
-            marginLeft: 10
-          }}>
-          { strings.searchHounds.addSearchHound }
-        </Button>
-        <GenericButton
-          onClick={ () => onSaveSearchHounds() }
-          text={ strings.generic.save }
-          style={{
-            backgroundColor: "#00B6ED",
-            marginTop: 10,
-            marginLeft: 10
-          }}
-        />
-      </Toolbar>
       <div className={ classes.contentWrapper }>
-        <div className={ classes.houndList }>
-          { renderUserHounds() }
+        <div>
+          <Toolbar>
+            <Typography variant="h3">{ strings.searchHounds.activeHounds }</Typography>
+          </Toolbar>
+          <List className={ classes.houndList }>
+            { renderUserHounds() }
+          </List>
         </div>
         <div className={ classes.content }>
+          <Toolbar className={ classes.toolbar }>
+            <Button
+              color="primary"
+              startIcon={ <AddIcon /> }
+              onClick={ () => onAddSearchHound() }
+            >
+              { strings.searchHounds.addSearchHound }
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={ () => onSaveSearchHounds() }
+            >
+              { strings.generic.save }
+            </Button>
+          </Toolbar>
           { renderSearchHoundContent() }
         </div>
       </div>

@@ -65,11 +65,23 @@ export default createStyles({
   },
 
   languageSelect: {
-    marginLeft: 20,
-    marginRight: 10
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(4),
+    color: "#fff",
+    [theme.breakpoints.down("md")]: {
+      "& .MuiSelect-icon": {
+        color: "#fff"
+      }
+    },
+    [theme.breakpoints.up("md")]: {
+      color: theme.palette.text.primary,
+      marginLeft: theme.spacing(6),
+      marginRight: theme.spacing(4),
+    }
   },
 
   imageButton: {
+    marginRight: theme.spacing(2)
   }
 
 });

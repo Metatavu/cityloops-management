@@ -6,6 +6,7 @@ import Map from "../generic/map";
 import { User } from "../../generated/client";
 import TextFieldWithDelay from "../generic/text-field-with-delay";
 import MapFunctions from "../../utils/map-functions";
+import { History } from "history";
 
 /**
  * Interface describing component properties
@@ -14,6 +15,7 @@ interface Props extends WithStyles<typeof styles> {
   user?: User;
   onUserInfoChange: (user: User) => void;
   onUserSave: () => void;
+  history: History;
 }
 
 /**
@@ -24,7 +26,8 @@ const MyInfoTab: React.FC<Props> = props => {
     classes,
     user,
     onUserInfoChange,
-    onUserSave
+    onUserSave,
+    history
   } = props;
 
   /**
@@ -64,9 +67,9 @@ const MyInfoTab: React.FC<Props> = props => {
                 inputName="address"
                 onUpdate={ handleAddressChange }
                 value={ user?.address || "" }
-              /> &&
-              renderMap()
+              />
             }
+            { user?.companyAccount && renderMap() }
           </Grid>
         </Grid>
       </Grid>
@@ -197,7 +200,7 @@ const MyInfoTab: React.FC<Props> = props => {
   const onChangePassWordClick = () => {
     const url = process.env.REACT_APP_KEYCLOAK_URL;
     const realm = process.env.REACT_APP_KEYCLOAK_REALM;
-    window.location.href = `${url}realms/${realm}/login-actions/reset-credentials`;
+    history.push(`${url}realms/${realm}/login-actions/reset-credentials`);
   };
 
   /**

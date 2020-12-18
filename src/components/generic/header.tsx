@@ -12,12 +12,11 @@ import strings from "../../localization/strings";
 import MenuIcon from "@material-ui/icons/Menu";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import SaveIcon from "@material-ui/icons/Save";
-import ProfileIcon from "@material-ui/icons/Person";
-import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logoPrimary from "../../resources/svg/logo-primary.svg";
 import theme from "../../styles/theme";
 import UserActionButtons from "./user-action-buttons";
+import { History } from "history";
 
 /**
  * Interface describing properties from screen components
@@ -38,6 +37,7 @@ interface OtherProps extends WithStyles<typeof styles> {
   setLocale: typeof setLocale;
   title?: string;
   toggleSideMenu: () => void;
+  history: History;
 }
 
 /**
@@ -58,7 +58,8 @@ const Header: React.FC<Props> = props => {
     onAddClick,
     onSaveClick,
     toggleSideMenu,
-    setLocale
+    setLocale,
+    history
   } = props;
 
   /**
@@ -75,14 +76,7 @@ const Header: React.FC<Props> = props => {
             { title }
           </Typography>
         }
-        { onAddClick &&
-          <IconButton style={{ marginLeft: "auto" }} onClick={ onAddClick }>
-            <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
-          </IconButton>
-        }
-        <IconButton href="/user">
-          <ProfileIcon fontSize="large" style={{ color: "#fff" }}  />
-        </IconButton>
+        { renderAccountSection(true) }
       </div>
     );
   };
@@ -97,27 +91,28 @@ const Header: React.FC<Props> = props => {
         disableGutters
         className={ classes.desktopContent }
       >
-        <a href="/">
-          <img
-            alt="logo"
-            src={ logoPrimary }
-            className={ classes.logo }
-            />
-        </a>
+        <img
+          alt="logo"
+          src={ logoPrimary }
+          className={ classes.logo }
+          onClick={ () => history.push("/") }
+          />
         { onSaveClick &&
           <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
             <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
           </IconButton>
         }
-        { renderAccountSection() }
+        { renderAccountSection(false) }
       </Container>
     );
   };
 
   /**
    * Renders account section of the app bar
+   *
+   * @param mobile mobile view
    */
-  const renderAccountSection = () => {
+  const renderAccountSection = (mobile: boolean) => {
     if (!signedToken) {
       return (
         <div className={ classes.accountSection }>
@@ -127,24 +122,38 @@ const Header: React.FC<Props> = props => {
       );
     }
 
+    const addElement = mobile ?
+      <IconButton style={{ marginLeft: "auto" }} onClick={ onAddClick }>
+        <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
+      </IconButton> :
+      <Button
+        variant="outlined"
+        className={ classes.menuButtonOutlined }
+        onClick={ onAddClick }
+      >
+        { strings.items.addPosting }
+      </Button>;
+
     return (
       <div className={ classes.accountSection }>
-        { onAddClick &&
-          <Button
-            variant="outlined"
-            className={ classes.menuButtonOutlined }
-            onClick={ onAddClick }
-          >
-            { strings.items.addPosting }
-          </Button>
-        }
+        { onAddClick && addElement }
         { renderLanguageSelection() }
-        <IconButton className={ classes.imageButton }>
-          <MailOutlineIcon />
-        </IconButton>
-        <IconButton href="/user" className={ classes.imageButton }>
-          <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
-        </IconButton>
+        <Hidden mdUp>
+          <IconButton
+            onClick={ () => history.push("/user") }
+            className={ classes.imageButton }
+          >
+            <AccountCircleIcon htmlColor={ "#fff" } />
+          </IconButton>
+        </Hidden>
+        <Hidden smDown>
+          <IconButton
+            onClick={ () => history.push("/user") }
+            className={ classes.imageButton }
+          >
+            <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
+          </IconButton>
+        </Hidden>
         <UserActionButtons />
       </div>
     );

@@ -9,5 +9,5 @@ import strings from "../localization/strings";
  * @returns returns confirmation value
  */
 export const askConfirmation = (customText?: string): boolean => {
-  return window.confirm(customText || strings.generic.confirmDelete);
+  return window.confirm(customText || strings.generic.confirmDeleteText);
 };

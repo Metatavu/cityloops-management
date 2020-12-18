@@ -5,6 +5,7 @@ import styles from "../../styles/components/tabs/user-items-tab";
 import { Item } from "../../generated/client";
 import GenericListItem from "../generic/generic-list-item";
 import ItemsRow from "../generic/items-row";
+import { History } from "history";
 
 /**
  * Component props
@@ -12,6 +13,7 @@ import ItemsRow from "../generic/items-row";
 interface Props extends WithStyles<typeof styles> {
   userItems: Item[];
   onDeleteItemClick: (item: Item) => void;
+  history: History;
 }
 
 /**
@@ -22,6 +24,7 @@ interface Props extends WithStyles<typeof styles> {
 const UserItemsTab: React.FC<Props> = ({
   userItems,
   onDeleteItemClick,
+  history,
   classes
 }) => {
 
@@ -48,7 +51,7 @@ const UserItemsTab: React.FC<Props> = ({
    * @param item clicked item
    */
   const onItemClick = (item: Item) => {
-    window.location.href = `/item/${item.id}`;
+    history.push(`/item/${item.id}`);
   };
 
   /**
