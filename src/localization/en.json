@@ -168,7 +168,8 @@
     "maxPrice": "Maximum price",
     "notificationOn": "Notification on",
     "expires": "Search hound expires",
-    "noHounds": "No active search hounds"
+    "noHounds": "No active search hounds",
+    "activeHounds": "Active search hounds"
   }
 
 }

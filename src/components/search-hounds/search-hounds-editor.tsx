@@ -87,7 +87,7 @@ const SearchHoundsEditor: React.FC<Props> = ({
       <div className={ classes.contentWrapper }>
         <div>
           <Toolbar>
-            <Typography variant="h3">Aktiiviset hakuagentit</Typography>
+            <Typography variant="h3">{ strings.searchHounds.activeHounds }</Typography>
           </Toolbar>
           <List className={ classes.houndList }>
             { renderUserHounds() }

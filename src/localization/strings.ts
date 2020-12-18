@@ -210,6 +210,7 @@ export interface IStrings extends LocalizedStringsMethods {
     notificationOn: string;
     expires: string;
     noHounds: string;
+    activeHounds: string;
   }
 
 }

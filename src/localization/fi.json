@@ -169,6 +169,7 @@
     "maxPrice": "Hinta enintään",
     "notificationOn": "Ilmoitukset käytössä",
     "expires": "Hakuagentti vanhenee",
-    "noHounds": "Ei aktiivisia hakuagentteja"
+    "noHounds": "Ei aktiivisia hakuagentteja",
+    "activeHounds": "Aktiiviset hakuagentit"
   }
 }
