@@ -30,6 +30,7 @@ interface Props extends WithStyles<typeof styles> {
   signedToken?: SignedToken;
   history: History;
   itemId: string;
+  locale: string;
 }
 
 /**
@@ -84,13 +85,14 @@ export class ItemScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { loading } = this.state;
 
     if (loading) {
       return (
         <AppLayout
           banner={ false }
+          history={ history }
         >
           <div className={ classes.loaderContainer }>
             <CircularProgress size={ 40 } color="secondary" />
@@ -102,8 +104,12 @@ export class ItemScreen extends React.Component<Props, State> {
     return (
       <AppLayout
         banner={ false }
+        history={ history }
       >
-        <SearchBar categories={ [] }/>
+        <SearchBar
+          categories={ [] }
+          locale={ this.props.locale }
+        />
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -559,7 +565,8 @@ function mapStateToProps(state: ReduxState) {
   return {
     keycloak: state.auth.keycloak,
     anonymousToken: state.auth.anonymousToken,
-    signedToken: state.auth.signedToken
+    signedToken: state.auth.signedToken,
+    locale: state.locale.locale
   };
 }
 

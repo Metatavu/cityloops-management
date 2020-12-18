@@ -11,6 +11,7 @@ import { SearchParams } from "../../types";
 interface Props extends WithStyles<typeof styles> {
   categories: Category[];
   onSearch?: (searchParams: SearchParams) => void;
+  locale: string;
 }
 
 /**

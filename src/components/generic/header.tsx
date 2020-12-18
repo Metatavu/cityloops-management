@@ -16,6 +16,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logoPrimary from "../../resources/svg/logo-primary.svg";
 import theme from "../../styles/theme";
 import UserActionButtons from "./user-action-buttons";
+import { History } from "history";
 
 /**
  * Interface describing properties from screen components
@@ -36,6 +37,7 @@ interface OtherProps extends WithStyles<typeof styles> {
   setLocale: typeof setLocale;
   title?: string;
   toggleSideMenu: () => void;
+  history: History;
 }
 
 /**
@@ -56,7 +58,8 @@ const Header: React.FC<Props> = props => {
     onAddClick,
     onSaveClick,
     toggleSideMenu,
-    setLocale
+    setLocale,
+    history
   } = props;
 
   /**
@@ -88,13 +91,12 @@ const Header: React.FC<Props> = props => {
         disableGutters
         className={ classes.desktopContent }
       >
-        <a href="/">
-          <img
-            alt="logo"
-            src={ logoPrimary }
-            className={ classes.logo }
-            />
-        </a>
+        <img
+          alt="logo"
+          src={ logoPrimary }
+          className={ classes.logo }
+          onClick={ () => history.push("/") }
+          />
         { onSaveClick &&
           <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
             <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
@@ -135,12 +137,18 @@ const Header: React.FC<Props> = props => {
         { onAddClick && addElement }
         { renderLanguageSelection() }
         <Hidden mdUp>
-          <IconButton href="/user" className={ classes.imageButton }>
+          <IconButton
+            onClick={ () => history.push("/user") }
+            className={ classes.imageButton }
+          >
             <AccountCircleIcon htmlColor={ "#fff" } />
           </IconButton>
         </Hidden>
         <Hidden smDown>
-          <IconButton href="/user" className={ classes.imageButton }>
+          <IconButton
+            onClick={ () => history.push("/user") }
+            className={ classes.imageButton }
+          >
             <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
           </IconButton>
         </Hidden>

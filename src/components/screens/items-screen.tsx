@@ -31,6 +31,7 @@ interface Props extends WithStyles<typeof styles> {
   keycloak?: KeycloakInstance;
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
+  locale: string;
 }
 
 /**
@@ -82,6 +83,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
+    const { history } = this.props;
     const { categories } = this.state;
 
     return (
@@ -93,10 +95,12 @@ export class ItemsScreen extends React.Component<Props, State> {
         mobileDrawerProps={{
           title: this.props.signedToken?.firstName
         }}
+        history={ history }
       >
         <SearchBar
           categories={ categories }
           onSearch={ this.onSearch }
+          locale={ this.props.locale }
         />
         { this.renderLayoutContent() }
       </AppLayout>
@@ -149,7 +153,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * TODO: Add error message logic
    */
   private renderSuccessDialog = () => {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { successDialogOpen, itemId } = this.state;
 
     return (
@@ -184,7 +188,7 @@ export class ItemsScreen extends React.Component<Props, State> {
             color="secondary"
             fullWidth
             className={ classes.submitButton }
-            onClick={ () => window.location.href = itemId ? `/item/${itemId}` : "/" }
+            onClick={ () => itemId ? history.push(`/item/${itemId}`) : history.push("/") }
           >
             { strings.items.navigateToItem }
           </Button>
@@ -359,7 +363,8 @@ function mapStateToProps(state: ReduxState) {
   return {
     keycloak: state.auth.keycloak,
     anonymousToken: state.auth.anonymousToken,
-    signedToken: state.auth.signedToken
+    signedToken: state.auth.signedToken,
+    locale: state.locale.locale
   };
 }
 

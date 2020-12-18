@@ -91,6 +91,7 @@ export class UserScreen extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
+    const { history } = this.props; 
     const { formOpen } = this.state;
 
     return (
@@ -99,6 +100,7 @@ export class UserScreen extends React.Component<Props, State> {
         headerProps={{
           onAddClick: this.onAddItemClick
         }}
+        history={ history }
       >
         { this.renderLayoutContent() }
         <ItemFormDialog
@@ -114,7 +116,7 @@ export class UserScreen extends React.Component<Props, State> {
    * Renders layout content
    */
   private renderLayoutContent = () => {
-    const { classes, signedToken } = this.props;
+    const { classes, signedToken, history } = this.props;
     const {
       tabIndex,
       userItems,
@@ -172,6 +174,7 @@ export class UserScreen extends React.Component<Props, State> {
           <UserItemsTab
             userItems={ userItems }
             onDeleteItemClick={ this.deleteItemClick }
+            history={ history }
           />
         }
         { tabIndex === 1 &&
@@ -179,6 +182,7 @@ export class UserScreen extends React.Component<Props, State> {
             user={ user }
             onUserInfoChange={ this.onUserInfoChange } 
             onUserSave={ this.onUserSave }
+            history={ history }
           />
         }
         { tabIndex === 2 &&

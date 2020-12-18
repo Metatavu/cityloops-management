@@ -3,6 +3,7 @@ import { Drawer, Hidden, List, ListItem, ListItemIcon, Typography, withStyles, W
 import { styles } from "../../styles/components/generic/mobile-drawer";
 import strings from "../../localization/strings";
 import ListIcon from "@material-ui/icons/List";
+import { History } from "history";
 
 /**
  * Interface describing properties from screen component
@@ -18,6 +19,7 @@ export interface ScreenProps {
 interface OtherProps extends WithStyles<typeof styles> {
   open: boolean;
   toggleSideMenu: () => void;
+  history: History;
 }
 
 /**
@@ -35,6 +37,7 @@ const MobileDrawer: React.FC<Props> = ({
   open,
   title,
   logoUrl,
+  history,
   toggleSideMenu,
 }) => {
 
@@ -120,7 +123,7 @@ const MobileDrawer: React.FC<Props> = ({
    */
   const navigateTo = (path?: string) => {
     if (path) {
-      window.location.href = path;
+      history.push(path);
     }
   }
 
