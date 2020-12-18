@@ -109,6 +109,8 @@ const Header: React.FC<Props> = props => {
 
   /**
    * Renders account section of the app bar
+   *
+   * @param mobile mobile view
    */
   const renderAccountSection = (mobile: boolean) => {
     if (!signedToken) {
