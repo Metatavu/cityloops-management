@@ -1,0 +1,175 @@
+{
+  "browseProducts": "Selaa ilmoituksia",
+  "comingSoon": "Tulossa pian!",
+  "errorDialog": {
+    "title": "Hups! Jokin meni pieleen",
+    "reloadPage": "Kokeile ladata sivu uudelleen.",
+    "unsavedContents": "Huomaathan, että tallentamattomat sisällöt häviävät uudelleenladattaessa. Mikäli sinulla on sivulla tallentamattomia sisältöjä, voit sulkea tämän ilmoituksen ja kopioida sisällöt leikepöydälle ennen uudelleenlatausta.",
+    "reportIssue": "Mikäli ongelma jatkuu, ota sähköpostilla yhteyttä osoitteeseen support@metatavu.fi. Liitä tekniset lisätiedot osaksi sähköpostia nopeuttaaksesi ongelan selvittelyä.",
+    "technicalDetails": "Teknisiä lisätietoja:",
+    "time": "Aika: {0}",
+    "url": "Osoite: {0}",
+    "errorMessage": "Virheilmoitus: ",
+    "close": "Sulje",
+    "reload": "Lataa uudelleen"
+  },
+
+  "error": {
+    "emptyField": "Täytä kenttä",
+    "invalidEmail": "Tarkista sähköpostin kirjoitusasu",
+    "itemNotFound": "Ilmoitusta ei löytynyt"
+  },
+
+  "genericDialog": {
+    "confirm": "Vahvista",
+    "cancel": "Peruuta",
+    "save": "Tallenna",
+    "delete": "Poista",
+    "add": "Lisää"
+  },
+
+  "generic": {
+    "yes": "Kyllä",
+    "no": "Ei",
+    "successfulOperation": "Operaation onnistui",
+    "close": "Sulje",
+    "add": "Lisää",
+    "save": "Tallenna",
+    "delete": "Poista",
+    "edit": "Muokkaa",
+    "cancel": "Peruuta",
+    "clear": "Tyhjennä",
+    "loadNew": "Lataa uusi",
+    "name": "Nimi",
+    "type": "Tyyppi",
+    "defaultText": "Oletusteksti",
+    "defaultValue": "Oletusarvo",
+    "mandatoryField": "Pakollinen kenttä",
+    "customConfirmDelete":"Poista {0} \"{1}\"?",
+    "confirmDeleteText": "Haluatko varmasti poistaa valitun elementin?",
+    "or": "tai",
+    "undefined": "Ei määritelty",
+    "refresh": "Päivitä",
+    "search": "Hae",
+    "imageAlt": "Kuva",
+    "proceed": "Jatka",
+    "dataChanged": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti jatkaa?",
+    "noPermissions": "Sinulla ei ole oikeuksia tämän sivun sisältöön.",
+    "saveSuccessful": "Tallennus onnistui",
+    "saveError": "Tallennuksessa tapahtui virhe"
+  },
+
+  "search": {
+    "category": "Kategoria",
+    "agency": "Toimipiste",
+    "noFilter": "Ei rajausta"
+  },
+
+  "items": {
+    "title": "Tuotteet",
+    "item": "Ilmoitus",
+    "addItem": "Lisää tuote",
+    "addPosting": "Lisää ilmoitus",
+    "newPosting": "Uusi ilmoitus",
+    "postings": "Ilmoitukset",
+    "deletePosting": "Poista ilmoitus",
+    "itemTitle": "Otsikko",
+    "images": "Tuotteen kuvat",
+    "location": "Sijainti",
+    "locationInfo": {
+      "description": "Noutopaikan lisätieto",
+      "address": "Katuosoite",
+      "phone": "Puhelinnumero",
+      "email": "Sähköpostiosoite"
+    },
+    "createdAt": "Ilmoitus jätetty: {0}",
+    "deletionSuccessful": "Ilmoitus poistettu!",
+    "deletionError": "Ilmoituksen poistossa tapahtui virhe!",
+    "returnToFrontPage": "Palaa etusivulle",
+    "latest": "Viimeisimmät tuotteet",
+    "addSuccessful": "Ilmoituksen lisääminen onnistui!",
+    "addError": "Ilmoituksen lisäämisessä tapahtui virhe!",
+    "navigateToItem": "Siirry ilmoitukseen",
+    "noItems": "Haulla ei löytynyt yhtään ilmoitusta",
+    "price": "Hinta",
+    "priceUnit": "Hintayksikkö",
+    "paymentMethod": "Maksutapa",
+    "delivery": {
+      "title": "Toimitus",
+      "yes": "Toimitus mahdollinen",
+      "no": "Vain nouto"
+    },
+    "deliveryPrice": "Toimituksen hinta",
+    "noDeliveryPrice": "Toimituksen hintaa ei ole määritelty",
+    "showAsList": "Näytä tuotteet listana",
+    "showAsGrid": "Näytä tuotteet ruudukkona",
+    "renew": "Uusi tuotteen voimassaoloaika",
+    "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!"
+  },
+
+  "categories": {
+    "title": "Kategoriat",
+    "category": "Kategoria",
+    "addCategory": "Lisää kategoria",
+    "addSubCategory": "Lisää alakategoria",
+    "movables": "Irtaimistot",
+    "buildingMaterials": "Rakennustavarat",
+    "soilAndRockMaterials": "Maa- ja kiviainekset",
+    "noProperties": "Ei kenttiä",
+    "newProperty": "Uusi kenttä",
+    "addProperty": "Lisää kenttä",
+    "propertyTypes": {
+      "text": "Tekstikenttä",
+      "textarea": "Vapaa tekstikenttä",
+      "number": "Numerokenttä"
+    }
+  },
+
+  "user": {
+    "registration": "Rekisteröityminen",
+    "registrationSuccessful": "Rekisteröityminen onnistui",
+    "login": "Kirjaudu sisään",
+    "loginShort": "Kirjaudu",
+    "logout": "Kirjaudu ulos",
+    "account": "Tili",
+    "username": "Käyttäjänimi",
+    "password": "Salasana",
+    "name": "Nimi",
+    "address": "Osoite",
+    "email": "Sähköposti",
+    "phoneNumber": "Puhelinnumero",
+    "isCompanyAccount": "Yritystili",
+    "rememberMe": "Muista minut",
+    "register": "Rekisteröidy",
+    "forgotPassword": "Unohtuiko salasana?",
+    "contactInformation": "Yhteystiedot",
+    "changePassword": "Vaihda salasana",
+    "businessId": "Y-tunnus",
+    "officeInfo": "Toimipiste"
+  },
+
+  "userPage": {
+    "products": "Ilmoitukset",
+    "myInfo": "Omat tiedot",
+    "categories": "Kategoriat",
+    "searchHounds": "Hakuagentit"
+  },
+
+  "addItem": {
+    "chooseCategory": "Valitse kategoria",
+    "chooseCategoryInstructions": "Valitse kategoria aloittaaksesi ilmoituksen luomisen"
+  },
+
+  "searchHounds": {
+    "searchHound": "hakuagentti",
+    "newHound": "Uusi hakuagentti",
+    "addSearchHound": "Lisää hakuagentti",
+    "category": "Hakuagentin kategoria",
+    "minPrice": "Hinta vähintään",
+    "maxPrice": "Hinta enintään",
+    "notificationOn": "Ilmoitukset käytössä",
+    "expires": "Hakuagentti vanhenee",
+    "noHounds": "Ei aktiivisia hakuagentteja",
+    "activeHounds": "Aktiiviset hakuagentit"
+  }
+}

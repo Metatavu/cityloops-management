@@ -1,0 +1,88 @@
+{
+  "name": "cityloops-management",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.5.1",
+    "@material-ui/lab": "^4.0.0-alpha.46",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "@types/react-leaflet": "^2.5.2",
+    "@types/react-sortable-tree": "^0.3.12",
+    "classnames": "^2.2.6",
+    "clsx": "^1.1.0",
+    "codemirror": "^5.52.0",
+    "coveralls": "^3.1.0",
+    "immer": "^6.0.9",
+    "install": "^0.13.0",
+    "jsonlint-mod": "^1.7.5",
+    "jwt-decode": "^3.0.0",
+    "keycloak-js": "^8.0.1",
+    "leaflet": "^1.7.1",
+    "localized-strings": "^0.2.4",
+    "material-ui-dropzone": "^3.0.0",
+    "moment": "^2.24.0",
+    "npm": "^6.14.8",
+    "query-string": "^6.13.6",
+    "react": "^16.12.0",
+    "react-codemirror2": "^6.0.0",
+    "react-dom": "^16.12.0",
+    "react-html-parser": "^2.0.2",
+    "react-leaflet": "2.7.0",
+    "react-leaflet-search": "^2.0.1",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "react-simple-tree-menu": "^1.1.18",
+    "react-sortable-tree": "^2.8.0",
+    "react-sortable-tree-theme-file-explorer": "^2.0.0",
+    "slugify": "^1.4.0",
+    "typescript": "^3.8.3",
+    "uuid": "^7.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --coverage",
+    "eject": "react-scripts eject",
+    "coveralls": "cat ./coverage/lcov.info | node node_modules/.bin/coveralls",
+    "build-client": "./node_modules/@openapitools/openapi-generator-cli/bin/openapi-generator generate -i cityloops-api-spec/swagger.yaml -o ./src/generated/client -c generator-config.json -g typescript-fetch"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^1.0.10-4.2.3",
+    "@types/classnames": "^2.2.9",
+    "@types/codemirror": "0.0.86",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/leaflet": "^1.5.19",
+    "@types/lodash": "^4.14.149",
+    "@types/react-html-parser": "^2.0.1",
+    "@types/react-redux": "^7.1.7",
+    "@types/react-router-dom": "^5.1.3",
+    "@types/react-sortable-tree-theme-file-explorer": "0.0.0",
+    "@types/uuid": "^7.0.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^2.23.0",
+    "eslint": "^6.8.0",
+    "tslint": "^6.0.0"
+  }
+}

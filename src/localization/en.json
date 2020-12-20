@@ -1,0 +1,175 @@
+{
+  "browseProducts": "Browse products",
+  "comingSoon": "Coming soon!",
+
+  "errorDialog": {
+    "title": "Whoops! Something went wrong",
+    "reloadPage": "Try reloading the page.",
+    "unsavedContents": "Please note that unsaved content will not be saved when reloading. If you have unsaved content on this page, you can close this message and copy the content to the clipboard before reloading.",
+    "reportIssue": "If the problem persists, contact support@metatavu.fi by email. Please include technical details in to the email to speed up resolution of the problem.",
+    "technicalDetails": "technical details:",
+    "time": "Time: {0}",
+    "url": "URL: {0}",
+    "errorMessage": "Error message: ",
+    "close": "Close",
+    "reload": "Reload"
+  },
+
+  "error": {
+    "emptyField": "Fill field",
+    "invalidEmail": "Check email spelling",
+    "itemNotFound": "Posting not found"
+  },
+
+  "genericDialog": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "add": "Add"
+  },
+
+  "generic": {
+    "yes": "Yes",
+    "no": "no",
+    "successfulOperation": "Operation was successful",
+    "close": "Close",
+    "add": "Add",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "loadNew": "Load new",
+    "name": "Name",
+    "type": "Type",
+    "defaultText": "Default text",
+    "defaultValue": "Default value",
+    "mandatoryField": "Mandatory field",
+    "customConfirmDelete":"Delete {0} \"{1}\"?",
+    "confirmDeleteText": "Are you sure you want to remove selected element?",
+    "or": "or",
+    "undefined": "Undefined",
+    "refresh": "Refresh",
+    "search": "Search",
+    "imageAlt": "Image",
+    "proceed": "Proceed",
+    "dataChanged": "You have unsaved changed. Are you sure you want to continue?",
+    "noPermissions": "You don't have the permissions to view the content of this page.",
+    "saveSuccessful": "Save was successful",
+    "saveError": "Save failed"
+  },
+
+  "search": {
+    "category": "Category",
+    "agency": "Agency",
+    "noFilter": "No filtering"
+  },
+
+  "items": {
+    "title": "Items",
+    "item": "posting",
+    "addItem": "Add item",
+    "addPosting": "Add posting",
+    "newPosting": "New posting",
+    "postings": "Postings",
+    "deletePosting": "Delete posting",
+    "itemTitle": "Title",
+    "images": "Posting images",
+    "location": "Location",
+    "locationInfo": {
+      "description": "Collect location info",
+      "address": "Street address",
+      "phone": "Phone number",
+      "email": "Email address"
+    },
+    "createdAt": "Posting created at: {0}",
+    "deletionSuccessful": "Item was deleted successfully!",
+    "deletionError": "Error when deleting item!",
+    "returnToFrontPage": "Return to front page",
+    "latest": "Latest items",
+    "addSuccessful": "Item was added successfully!",
+    "addError": "Error when creating new item!",
+    "navigateToItem": "Navigate to item",
+    "noItems": "No items listed",
+    "price": "Price",
+    "priceUnit": "Price unit",
+    "paymentMethod": "Payment method",
+    "delivery": {
+      "title": "Delivery",
+      "yes": "Delivery available",
+      "no": "Only pickup"
+    },
+    "deliveryPrice": "Delivery price",
+    "noDeliveryPrice": "Delivery price is not defined",
+    "renew": "Renew item",
+    "renewSuccessful": "Renew was successful!"
+  },
+
+  "categories": {
+    "title": "Categories",
+    "category": "Category",
+    "addCategory": "Add category",
+    "addSubCategory": "Add sub category",
+    "movables": "Movables",
+    "buildingMaterials": "Building materials",
+    "soilAndRockMaterials": "Soil and rock materials",
+    "noProperties": "No fields",
+    "newProperty": "New field",
+    "addProperty": "Add field",
+    "propertyTypes": {
+      "text": "Text field",
+      "textarea": "Free text field",
+      "number": "Number field"
+    }
+  },
+
+  "user": {
+    "registration": "Registration",
+    "registrationSuccessful": "Registration successful",
+    "login": "Login",
+    "loginShort": "Login",
+    "logout": "Logout",
+    "account": "Account",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "address": "Address",
+    "email": "Email",
+    "phoneNumber": "Phone number",
+    "isCompanyAccount": "Company account",
+    "rememberMe": "Remember me",
+    "register": "Register",
+    "forgotPassword": "Forgot your password?",
+    "contactInformation": "Contact information",
+    "changePassword": "Change password",
+    "businessId": "Business ID",
+    "officeInfo": "Agency"
+  },
+
+  "userPage": {
+    "products": "My products",
+    "myInfo": "My information",
+    "categories": "Categories",
+    "searchHounds": "Search hounds"
+  },
+
+  "addItem": {
+    "chooseCategory": "Choose category",
+    "chooseCategoryInstructions": "Choose category to start adding item"
+  },
+
+  "searchHounds": {
+    "searchHound": "Search hound",
+    "newHound": "New search hound",
+    "addSearchHound": "Add search hound",
+    "category": "Search hound category",
+    "minPrice": "Minimum price",
+    "maxPrice": "Maximum price",
+    "notificationOn": "Notification on",
+    "expires": "Search hound expires",
+    "noHounds": "No active search hounds",
+    "activeHounds": "Active search hounds"
+  }
+
+}
