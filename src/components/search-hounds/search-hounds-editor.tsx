@@ -44,9 +44,7 @@ const SearchHoundsEditor: React.FC<Props> = ({
   const renderUserHounds = () => {
     if (searchHounds.length === 0) {
       return (
-        <Typography variant="h3">
-          { strings.searchHounds.noHounds }
-        </Typography>
+        null
       );
     }
 
@@ -87,7 +85,10 @@ const SearchHoundsEditor: React.FC<Props> = ({
       <div className={ classes.contentWrapper }>
         <div>
           <Toolbar>
-            <Typography variant="h3">{ strings.searchHounds.activeHounds }</Typography>
+            { searchHounds.length > 0 ?
+              <Typography variant="h3">{ strings.searchHounds.activeHounds }</Typography> :
+              <Typography variant="h3">{ strings.searchHounds.noHounds }</Typography>
+            }
           </Toolbar>
           <List className={ classes.houndList }>
             { renderUserHounds() }

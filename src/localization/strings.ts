@@ -195,6 +195,7 @@ export interface IStrings extends LocalizedStringsMethods {
     myInfo: string;
     products: string;
     searchHounds: string;
+    noUserItems: string;
   };
 
   /**
@@ -212,6 +213,8 @@ export interface IStrings extends LocalizedStringsMethods {
     noHounds: string;
     activeHounds: string;
   }
+
+  privacyStatement: string;
 
 }
 

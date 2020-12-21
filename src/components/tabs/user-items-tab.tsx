@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import { withStyles, WithStyles } from "@material-ui/core";
+import { Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/tabs/user-items-tab";
 import { Item } from "../../generated/client";
 import GenericListItem from "../generic/generic-list-item";
 import ItemsRow from "../generic/items-row";
 import { History } from "history";
+import strings from "../../localization/strings";
 
 /**
  * Component props
@@ -32,6 +33,11 @@ const UserItemsTab: React.FC<Props> = ({
    * Generates user items
    */
   const generateUserItemList = () => {
+    if (userItems.length === 0) {
+      return (
+        <Typography variant="h4">{ strings.userPage.noUserItems }</Typography>
+      );
+    }
     return userItems.map(item => {
       return (
         <GenericListItem

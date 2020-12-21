@@ -151,7 +151,8 @@
     "products": "My products",
     "myInfo": "My information",
     "categories": "Categories",
-    "searchHounds": "Search hounds"
+    "searchHounds": "Search hounds",
+    "noUserItems": "You don't have active items"
   },
 
   "addItem": {
@@ -170,6 +171,8 @@
     "expires": "Search hound expires",
     "noHounds": "No active search hounds",
     "activeHounds": "Active search hounds"
-  }
+  },
+
+  "privacyStatement": "Privacy Statement"
 
 }

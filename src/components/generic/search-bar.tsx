@@ -3,7 +3,8 @@ import { Button, MenuItem, TextField, WithStyles, withStyles } from '@material-u
 import styles from "../../styles/components/generic/search-bar";
 import strings from "../../localization/strings";
 import { Category } from "../../generated/client";
-import { SearchParams } from "../../types";
+import { CategoryDataHolder, SearchParams } from "../../types";
+import { TreeDataUtils } from "../../utils/tree-data-utils";
 
 /**
  * Interface describing component properties
@@ -90,6 +91,9 @@ const SearchBar: React.FC<Props> = props => {
    * Renders category select field
    */
   const renderCategorySelect = () => {
+
+    const sortedCategories = TreeDataUtils.constructTreeData(categories);
+
     return (
       <TextField
         select
@@ -100,12 +104,8 @@ const SearchBar: React.FC<Props> = props => {
         value={ selectedCategory?.id || "noFilter" }
         onChange={ onChangeCategory }
       >
-        { renderEmptyItem() }
-        { categories.map(category =>
-          <MenuItem key={ category.id } value={ category.id }>
-            { category.name }
-          </MenuItem>
-        )}
+        { renderMenuItem("noFilter", "noFilter", strings.search.noFilter, 0) }
+        { renderTreeStructure(sortedCategories, 0) }
       </TextField>
     );
   };
@@ -137,12 +137,40 @@ const SearchBar: React.FC<Props> = props => {
   // };
 
   /**
-   * Renders empty item
+   * Renders tree category structure
+   *
+   * @param categoryData list of category data holders
+   * @param level tree level
    */
-  const renderEmptyItem = () => {
+  const renderTreeStructure = (categoryData: CategoryDataHolder[], level: number) => {
+    const elements: JSX.Element[] = [];
+    categoryData.forEach(data => {
+      elements.push(renderMenuItem(data.category.id || "", data.category.id || "", data.category.name, level));
+      if (data.childCategories.length > 0) {
+        const newLevel = level + 20;
+        elements.push(...renderTreeStructure(data.childCategories, newLevel));
+      }
+    });
+
+    return elements;
+  };
+
+  /**
+   * Renders menu item
+   *
+   * @param key menu item key
+   * @param value menu item value
+   * @param title menu item title
+   * @param level menu item level
+   */
+  const renderMenuItem = (key: string, value: string, title: string, level: number) => {
     return (
-      <MenuItem key="noFilter" value="noFilter">
-        { strings.search.noFilter }
+      <MenuItem
+        key={ key }
+        value={ value }
+        style={{ marginLeft: level }}
+      >
+        { title }
       </MenuItem>
     );
   }

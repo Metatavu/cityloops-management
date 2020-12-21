@@ -27,7 +27,6 @@ const MyInfoTab: React.FC<Props> = props => {
     user,
     onUserInfoChange,
     onUserSave,
-    history
   } = props;
 
   /**
@@ -200,7 +199,7 @@ const MyInfoTab: React.FC<Props> = props => {
   const onChangePassWordClick = () => {
     const url = process.env.REACT_APP_KEYCLOAK_URL;
     const realm = process.env.REACT_APP_KEYCLOAK_REALM;
-    history.push(`${url}realms/${realm}/login-actions/reset-credentials`);
+    window.location.href = `${url}realms/${realm}/login-actions/reset-credentials`;
   };
 
   /**
