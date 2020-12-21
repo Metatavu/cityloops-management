@@ -5,12 +5,16 @@ export default createStyles({
 
   root: {
     backgroundColor: theme.palette.primary.main,
-    minHeight: 200,
+    height: 200,
     width: "100%",
 
     [theme.breakpoints.up("lg")]: {
-      minHeight: 400
+      height: 100
     }
+  },
+
+  privacyStatement: {
+    cursor: "pointer",
   }
 
 });

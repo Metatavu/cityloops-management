@@ -152,7 +152,8 @@
     "products": "Ilmoitukset",
     "myInfo": "Omat tiedot",
     "categories": "Kategoriat",
-    "searchHounds": "Hakuagentit"
+    "searchHounds": "Hakuagentit",
+    "noUserItems": "Sinulla ei ole aktiivisia ilmoituksia"
   },
 
   "addItem": {
@@ -171,5 +172,8 @@
     "expires": "Hakuagentti vanhenee",
     "noHounds": "Ei aktiivisia hakuagentteja",
     "activeHounds": "Aktiiviset hakuagentit"
-  }
+  },
+
+  "privacyStatement": "Tietosuojaseloste"
+
 }

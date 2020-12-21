@@ -19,8 +19,7 @@ import "moment/locale/en-gb";
 
 import ItemsScreen from "./screens/items-screen";
 import ItemScreen from "./screens/item-screen";
-import AddItemScreen from "./screens/add-item-screen";
-import UsersScreen from "./screens/user-screen";
+import UserScreen from "./screens/user-screen";
 
 const store = createStore<ReduxState, ReduxActions, any, any>(rootReducer);
 
@@ -69,10 +68,6 @@ class App extends React.Component<Props, State> {
                 <BrowserRouter>
                   <div className="App">
                     <Switch>
-                      {/**
-                       * TODO:
-                       * Remove redirect when front page is done
-                       */}
                       <Redirect exact from="/" to="/items" />
                       <Route
                         path="/items"
@@ -94,16 +89,10 @@ class App extends React.Component<Props, State> {
                         )}
                       />
                       <Route
-                        path="/add"
-                        exact={ true }
-                      >
-                        <AddItemScreen/>
-                      </Route>
-                      <Route
                         path="/user"
                         exact={ true }
                         render={({ history }) => (
-                          <UsersScreen
+                          <UserScreen
                             history={ history }
                           />
                         )}

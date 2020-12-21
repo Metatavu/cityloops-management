@@ -1,8 +1,10 @@
 import * as React from "react";
 
-import { Container, Hidden, withStyles, WithStyles } from "@material-ui/core";
+import { Container, Hidden, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/footer";
 import logoWhite from "../../resources/svg/logo-white.svg";
+import privacyPolicyPDF from "../../resources/tietosuojaseloste.pdf";
+import strings from "../../localization/strings";
 
 /**
  * Interface describing properties from screen component
@@ -35,6 +37,12 @@ const Footer: React.FC<Props> = props => {
   return (
     <div className={ classes.root }>
       <Container fixed disableGutters>
+        <Typography
+          className={ classes.privacyStatement }
+          onClick={ () => window.open(privacyPolicyPDF, "_blank") }
+        >
+          { strings.privacyStatement }
+        </Typography>
         <Hidden mdUp>
           <img
             alt="logo"
