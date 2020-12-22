@@ -7,6 +7,7 @@ import GenericListItem from "../generic/generic-list-item";
 import ItemsRow from "../generic/items-row";
 import { History } from "history";
 import strings from "../../localization/strings";
+import theme from "../../styles/theme";
 
 /**
  * Component props
@@ -35,7 +36,9 @@ const UserItemsTab: React.FC<Props> = ({
   const generateUserItemList = () => {
     if (userItems.length === 0) {
       return (
-        <Typography variant="h4">{ strings.userPage.noUserItems }</Typography>
+        <div style={{ padding: theme.spacing(2) }}>
+          <Typography variant="h4">{ strings.userPage.noUserItems }</Typography>
+        </div>
       );
     }
     return userItems.map(item => {

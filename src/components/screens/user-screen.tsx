@@ -155,8 +155,7 @@ export class UserScreen extends React.Component<Props, State> {
         {/* Mobile tabs */}
         <Hidden mdUp>
           <Tabs
-            variant="fullWidth"
-            centered
+            variant="scrollable"
             classes={{ indicator: classes.indicator }}
             onChange= { this.setTabIndex }
             value={ tabIndex }

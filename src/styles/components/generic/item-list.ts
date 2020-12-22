@@ -12,23 +12,25 @@ export default createStyles({
   },
 
   listRoot: {
-    marginTop: theme.spacing(2)
+    [theme.breakpoints.up("sm")]: {
+      marginTop: theme.spacing(2)
+    }
   },
 
 
   cards: {
     display: "grid",
-    gridGap: theme.spacing(1),
     gridTemplateColumns: "repeat(1, 1fr)",
     [theme.breakpoints.up("xs")]: {
-      gridTemplateColumns: "repeat(2, 1fr)",
+      gridTemplateColumns: "repeat(2, 1fr)"
     },
     [theme.breakpoints.up("sm")]: {
       gridTemplateColumns: "repeat(3, 1fr)",
-      gridGap: theme.spacing(2)
+      gridGap: theme.spacing(1)
     },
     [theme.breakpoints.up("md")]: {
-      gridTemplateColumns: "repeat(4, 1fr)",
+      gridGap: theme.spacing(2),
+      gridTemplateColumns: "repeat(4, 1fr)"
     }
   },
 

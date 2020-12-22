@@ -29,6 +29,7 @@
   },
 
   "generic": {
+    "selectLanguage": "Valitse kieli",
     "yes": "Kyllä",
     "no": "Ei",
     "successfulOperation": "Operaation onnistui",

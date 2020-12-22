@@ -69,7 +69,7 @@ const Header: React.FC<Props> = props => {
     return (
       <div className={ classes.mobileToolbarContent }>
         <IconButton edge="start" onClick={ toggleSideMenu }>
-          <MenuIcon fontSize="large" style={{ color: "#fff" }} />
+          <MenuIcon fontSize="default" style={{ color: "#fff" }} />
         </IconButton>
         { title &&
           <Typography variant="h6">
@@ -116,16 +116,20 @@ const Header: React.FC<Props> = props => {
     if (!signedToken) {
       return (
         <div className={ classes.accountSection }>
-          { renderLanguageSelection() }
           <UserActionButtons />
         </div>
       );
     }
 
     const addElement = mobile ?
-      <IconButton style={{ marginLeft: "auto" }} onClick={ onAddClick }>
-        <AddCircleOutlineIcon fontSize="large" style={{ color: "#fff" }}/>
-      </IconButton> :
+      <Button
+        color="inherit"
+        startIcon={<AddCircleOutlineIcon fontSize="small" style={{ color: "#fff" }}/>}
+        style={{ marginRight: theme.spacing(2) }}
+        onClick={ onAddClick }
+      >
+        { strings.items.addPosting }
+      </Button> :
       <Button
         variant="outlined"
         className={ classes.menuButtonOutlined }
@@ -137,7 +141,6 @@ const Header: React.FC<Props> = props => {
     return (
       <div className={ classes.accountSection }>
         { onAddClick && addElement }
-        { renderLanguageSelection() }
         <Hidden mdUp>
           <IconButton
             onClick={ () => history.push("/user") }
@@ -154,7 +157,6 @@ const Header: React.FC<Props> = props => {
             <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
           </IconButton>
         </Hidden>
-        <UserActionButtons />
       </div>
     );
   };

@@ -23,9 +23,13 @@ export default createStyles({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "baseline",
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
-    padding: theme.spacing(2)
+    marginTop: theme.spacing(0.5),
+    padding: theme.spacing(1),
+    [theme.breakpoints.up("md")]: {
+      padding: theme.spacing(2),
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(1),
+    }
   },
 
   cardContent: {
@@ -93,7 +97,17 @@ export default createStyles({
   spaceBetweenContent: {
     width: "100%",
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    flexDirection: "column",
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
+    },
+    "& h3": {
+      marginTop: theme.spacing(2),
+      [theme.breakpoints.up("md")]: {
+        marginTop: 0
+      }
+    }
   },
 
 });

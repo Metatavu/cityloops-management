@@ -8,10 +8,11 @@ import { setLocale } from "../../actions/locale";
 import { AccessToken, SignedToken } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
 
-import { Button, withStyles, WithStyles } from "@material-ui/core";
+import { Button, Hidden, IconButton, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/user-action-buttons";
 import strings from "../../localization/strings";
 import RegistrationFormDialog from "./registration-form-dialog";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 /**
  * Interface describing component properties
@@ -76,12 +77,19 @@ class UserActionButtons extends React.Component<Props, State> {
           open={ registrationDialogOpen }
           onClose={ this.toggleRegistrationDialog }
         />
-        <Button
-          className={ classes.popoverButton }
-          // TODO: Add proper error handling
-          onClick={ () => keycloak?.login() || console.log("Missing keycloak instance") }>
-          { strings.user.login }
-        </Button>
+        <Hidden mdUp>
+          <IconButton onClick={ () => keycloak?.login() || console.log("Missing keycloak instance") }>
+            <AccountCircleIcon htmlColor={ "#fff" } />
+          </IconButton>
+        </Hidden>
+        <Hidden smDown>
+          <Button
+            className={ classes.popoverButton }
+            // TODO: Add proper error handling
+            onClick={ () => keycloak?.login() || console.log("Missing keycloak instance") }>
+            { strings.user.login }
+          </Button>
+        </Hidden>
       </div>
     );
   }

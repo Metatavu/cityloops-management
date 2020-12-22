@@ -68,7 +68,7 @@ export default createStyles({
     marginLeft: theme.spacing(4),
     marginRight: theme.spacing(4),
     color: "#fff",
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("sm")]: {
       "& .MuiSelect-icon": {
         color: "#fff"
       }
@@ -81,7 +81,9 @@ export default createStyles({
   },
 
   imageButton: {
-    marginRight: theme.spacing(2)
+    [theme.breakpoints.up("md")]: {
+      marginRight: theme.spacing(2)
+    }
   }
 
 });

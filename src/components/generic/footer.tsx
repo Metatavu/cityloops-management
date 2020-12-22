@@ -36,21 +36,23 @@ const Footer: React.FC<Props> = props => {
    */
   return (
     <div className={ classes.root }>
-      <Container fixed disableGutters>
+      <Container className={ classes.content } disableGutters>
+        <img
+          className={ classes.logo }
+          alt="logo"
+          src={ logoWhite }
+          width={ 250 }
+        />
         <Typography
           className={ classes.privacyStatement }
           onClick={ () => window.open(privacyPolicyPDF, "_blank") }
         >
           { strings.privacyStatement }
         </Typography>
-        <Hidden mdUp>
-          <img
-            alt="logo"
-            src={ logoWhite }
-            width={ 250 }
-          />
-        </Hidden>
       </Container>
+      <Typography className={ classes.copyright }>
+        Copyright @ kiertoon.fi 2020
+      </Typography>
     </div>
   );
 }

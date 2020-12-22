@@ -48,6 +48,7 @@ export interface IStrings extends LocalizedStringsMethods {
    * Generic translations
    */
   generic: {
+    selectLanguage: string;
     yes: string;
     no: string;
     successfulOperation: string;

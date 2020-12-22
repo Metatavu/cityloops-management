@@ -27,20 +27,32 @@ export default createMuiTheme({
     // Typography setup for Material UI
     fontFamily: "'Open Sans', sans-serif",
     h1: {
-      fontSize: 32,
-      fontWeight: 900
+      fontSize: 16,
+      fontWeight: 900,
+      [breakpoints.up("sm")]: {
+        fontSize: 32,
+      }
     },
     h2: {
-      fontSize: 28,
-      fontWeight: "bold"
+      fontSize: 14,
+      fontWeight: "bold",
+      [breakpoints.up("sm")]: {
+        fontSize: 28,
+      }
     },
     h3: {
-      fontSize: 26,
-      fontWeight: 300
+      fontSize: 14,
+      fontWeight: 300,
+      [breakpoints.up("sm")]: {
+        fontSize: 26,
+      }
     },
     h4: {
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: "bold",
+      [breakpoints.up("sm")]: {
+        fontSize: 16,
+      }
     },
     h5: {
       fontSize: 16,
@@ -104,6 +116,11 @@ export default createMuiTheme({
         [breakpoints.up("sm")]: {
           padding: theme.spacing(2)
         }
+      }
+    },
+    MuiListItemIcon: {
+      root: {
+        minWidth: 40
       }
     }
   },

@@ -30,6 +30,7 @@
   },
 
   "generic": {
+    "selectLanguage": "Choose language",
     "yes": "Yes",
     "no": "no",
     "successfulOperation": "Operation was successful",

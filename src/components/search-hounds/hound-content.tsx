@@ -109,7 +109,7 @@ const HoundContent: React.FC<Props> = props => {
       <MenuItem
         key={ key }
         value={ value }
-        style={{ marginLeft: level }}
+        style={{ marginLeft: level, fontWeight: level === 0 ? 600 : 400 }}
       >
         { title }
       </MenuItem>

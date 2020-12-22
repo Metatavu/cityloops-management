@@ -1,14 +1,26 @@
 import * as React from "react";
-import { Drawer, Hidden, List, ListItem, ListItemIcon, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { ReduxActions, ReduxState } from "../../store";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
+import { setLocale } from "../../actions/locale";
+
+import { Drawer, Hidden, List, ListItem, ListItemIcon, MenuItem, Select, Typography, withStyles, WithStyles } from "@material-ui/core";
 import { styles } from "../../styles/components/generic/mobile-drawer";
 import strings from "../../localization/strings";
 import ListIcon from "@material-ui/icons/List";
 import { History } from "history";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SignOutIcon from "@material-ui/icons/ExitToApp";
+import RegisterIcon from "@material-ui/icons/PersonAdd";
+import { AccessToken, SignedToken } from "../../types";
+import { KeycloakInstance } from "keycloak-js";
+import theme from "../../styles/theme";
 
 /**
  * Interface describing properties from screen component
  */
 export interface ScreenProps {
+  keycloak?: KeycloakInstance;
   title?: string;
   logoUrl?: string;
 }
@@ -17,6 +29,10 @@ export interface ScreenProps {
  * Interface describing other properties
  */
 interface OtherProps extends WithStyles<typeof styles> {
+  anonymousToken?: AccessToken;
+  signedToken?: SignedToken;
+  locale: string;
+  setLocale: typeof setLocale;
   open: boolean;
   toggleSideMenu: () => void;
   history: History;
@@ -33,11 +49,14 @@ type Props = ScreenProps & OtherProps;
  * @param props component props
  */
 const MobileDrawer: React.FC<Props> = ({
+  keycloak,
+  signedToken,
   classes,
   open,
   title,
   logoUrl,
   history,
+  setLocale,
   toggleSideMenu,
 }) => {
 
@@ -47,6 +66,7 @@ const MobileDrawer: React.FC<Props> = ({
   const renderDrawerContent = () => {
     return (
       <div className={ classes.drawerContent }>
+        { renderLanguageSelection() }
         { logoUrl &&
         <div className={ classes.logoArea }>
           <div className={ classes.logoCircle }>
@@ -71,14 +91,62 @@ const MobileDrawer: React.FC<Props> = ({
             renderListItem(
               strings.items.postings,
               navigateTo,
-              { boldText: true, icon: <ListIcon fontSize="large" /> },
+              { boldText: true, icon: <ListIcon fontSize="small" /> },
               "/items",
+            )
+          }
+          {
+            renderListItem(
+              strings.user.logout,
+              logOut,
+              { boldText: true, icon: <SignOutIcon fontSize="small" /> },
+              "/user",
+            )
+          }
+          {
+            renderListItem(
+              strings.user.login,
+              logIn,
+              { boldText: true, icon: <AccountCircleIcon fontSize="small" /> },
+              "/user",
+            )
+          }
+          {
+            renderListItem(
+              strings.user.register,
+              register,
+              { boldText: true, icon: <RegisterIcon fontSize="small" /> },
+              "/user",
             )
           }
         </List>
       </div>
     );
-  }
+  };
+
+  /**
+   * Renders language selection
+   */
+  const renderLanguageSelection = () => {
+    return (
+      <div style={{ padding: theme.spacing(2) }}>
+        <Typography>{ strings.generic.selectLanguage }</Typography>
+        <Select
+          fullWidth
+          value={ strings.getLanguage() }
+          onChange={ event => setLocale(event.target.value as string) }
+          >
+        {
+          strings.getAvailableLanguages().map(language =>
+            <MenuItem key={ language } value={ language }>
+              { language }
+            </MenuItem>
+          )
+        }
+        </Select>
+      </div>
+    );
+  };
 
   /**
    * Renders list item
@@ -128,6 +196,27 @@ const MobileDrawer: React.FC<Props> = ({
   }
 
   /**
+   * Log out
+   */
+  const logOut = () => {
+    keycloak?.logout() || console.log("Missing keycloak instance")
+  }
+
+  /**
+   * Log in
+   */
+  const logIn = () => {
+    //TODO; Login logic
+  }
+
+  /**
+   * Register
+   */
+  const register = () => {
+    //TODO: register logic
+  }
+
+  /**
    * Component render
    */
   return (
@@ -147,4 +236,28 @@ const MobileDrawer: React.FC<Props> = ({
   );
 }
 
-export default withStyles(styles)(MobileDrawer);
+/**
+ * Redux mapper for mapping store state to component props
+ *
+ * @param state store state
+ */
+function mapStateToProps(state: ReduxState) {
+  return {
+    anonymousToken: state.auth.anonymousToken,
+    signedToken: state.auth.signedToken,
+    locale: state.locale.locale
+  };
+}
+
+/**
+ * Redux mapper for mapping component dispatches
+ *
+ * @param dispatch dispatch method
+ */
+function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
+  return {
+    setLocale: (locale: string) => dispatch(setLocale(locale))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MobileDrawer));
