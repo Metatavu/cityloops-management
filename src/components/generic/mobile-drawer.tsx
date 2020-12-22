@@ -12,9 +12,11 @@ import { History } from "history";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import SignOutIcon from "@material-ui/icons/ExitToApp";
 import RegisterIcon from "@material-ui/icons/PersonAdd";
+import PersonIcon from "@material-ui/icons/Person";
 import { AccessToken, SignedToken } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
 import theme from "../../styles/theme";
+import RegistrationFormDialog from "../generic/registration-form-dialog";
 
 /**
  * Interface describing properties from screen component
@@ -60,6 +62,9 @@ const MobileDrawer: React.FC<Props> = ({
   toggleSideMenu,
 }) => {
 
+  const [ registrationDialogOpen, toggleRegistrationDialog ] = React.useState(false);
+  const toggle = () => toggleRegistrationDialog(!registrationDialogOpen);
+
   /**
    * Renders drawer content
    */
@@ -95,7 +100,15 @@ const MobileDrawer: React.FC<Props> = ({
               "/items",
             )
           }
-          {
+          { signedToken && 
+            renderListItem(
+              strings.userPage.myInfo,
+              navigateTo,
+              { boldText: true, icon: <PersonIcon fontSize="small" /> },
+              "/user",
+            )
+          }
+          { signedToken && 
             renderListItem(
               strings.user.logout,
               logOut,
@@ -103,7 +116,7 @@ const MobileDrawer: React.FC<Props> = ({
               "/user",
             )
           }
-          {
+          { !signedToken &&
             renderListItem(
               strings.user.login,
               logIn,
@@ -111,10 +124,10 @@ const MobileDrawer: React.FC<Props> = ({
               "/user",
             )
           }
-          {
+          { !signedToken &&
             renderListItem(
               strings.user.register,
-              register,
+              toggle,
               { boldText: true, icon: <RegisterIcon fontSize="small" /> },
               "/user",
             )
@@ -199,21 +212,15 @@ const MobileDrawer: React.FC<Props> = ({
    * Log out
    */
   const logOut = () => {
-    keycloak?.logout() || console.log("Missing keycloak instance")
+    console.log(keycloak);
+    keycloak?.logout() || console.log("Missing keycloak instance");
   }
 
   /**
    * Log in
    */
   const logIn = () => {
-    //TODO; Login logic
-  }
-
-  /**
-   * Register
-   */
-  const register = () => {
-    //TODO: register logic
+    keycloak?.login() || console.log("Missing keycloak instance");
   }
 
   /**
@@ -232,6 +239,10 @@ const MobileDrawer: React.FC<Props> = ({
       >
         { renderDrawerContent() }
       </Drawer>
+      <RegistrationFormDialog
+        open={ registrationDialogOpen }
+        onClose={ toggle }
+      />
     </Hidden>
   );
 }
@@ -245,6 +256,7 @@ function mapStateToProps(state: ReduxState) {
   return {
     anonymousToken: state.auth.anonymousToken,
     signedToken: state.auth.signedToken,
+    keycloak: state.auth.keycloak,
     locale: state.locale.locale
   };
 }

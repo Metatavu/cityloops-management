@@ -194,7 +194,7 @@ export interface IStrings extends LocalizedStringsMethods {
   userPage: {
     categories: string;
     myInfo: string;
-    products: string;
+    myProducts: string;
     searchHounds: string;
     noUserItems: string;
   };

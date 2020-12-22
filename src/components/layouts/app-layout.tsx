@@ -5,12 +5,10 @@ import Header from "../generic/header";
 import { ScreenProps as HeaderProps } from "../generic/header";
 import Footer from "../generic/footer";
 import { ScreenProps as FooterProps } from "../generic/footer";
-import MobileDrawer from "../generic/mobile-drawer";
 import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
 import BannerImage from "../generic/banner-image";
 import bannerImageSrc from "../../resources/images/banner-image.jpg";
 import { History } from "history";
-import logo from "../../resources/svg/logo-primary.svg";
 
 /**
  * Interface describing component properties
@@ -41,25 +39,15 @@ const AppLayout: React.FC<Props> = props => {
     history
   } = props;
 
-  const [ sideMenuOpen, toggleSideMenu ] = React.useState(false);
-  const toggle = () => toggleSideMenu(!sideMenuOpen);
-
   /**
    * Component render
    */
   return (
     <div className={ classes.root }>
       <Header
+        mobileDrawerProps={ mobileDrawerProps }
         title={ title }
-        toggleSideMenu={ toggle }
         { ...headerProps }
-        history={ history }
-      />
-      <MobileDrawer
-        logoUrl={ logo }
-        open={ sideMenuOpen }
-        toggleSideMenu={ toggle }
-        { ...mobileDrawerProps }
         history={ history }
       />
       { banner &&

@@ -10,13 +10,15 @@ import { AppBar, Button, Container, Hidden, IconButton, MenuItem, Select, Toolba
 import styles from "../../styles/components/generic/header";
 import strings from "../../localization/strings";
 import MenuIcon from "@material-ui/icons/Menu";
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import SaveIcon from "@material-ui/icons/Save";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logoPrimary from "../../resources/svg/logo-primary.svg";
 import theme from "../../styles/theme";
 import UserActionButtons from "./user-action-buttons";
 import { History } from "history";
+import MobileDrawer from "../generic/mobile-drawer";
+import logo from "../../resources/svg/logo-primary.svg";
+import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
 
 /**
  * Interface describing properties from screen components
@@ -31,12 +33,12 @@ export interface ScreenProps {
  * Interface describing other component properties
  */
 interface OtherProps extends WithStyles<typeof styles> {
+  mobileDrawerProps?: MobileDrawerProps;
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
   locale: string;
   setLocale: typeof setLocale;
   title?: string;
-  toggleSideMenu: () => void;
   history: History;
 }
 
@@ -57,10 +59,13 @@ const Header: React.FC<Props> = props => {
     title,
     onAddClick,
     onSaveClick,
-    toggleSideMenu,
     setLocale,
-    history
+    history,
+    mobileDrawerProps
   } = props;
+
+  const [ sideMenuOpen, toggleSideMenu ] = React.useState(false);
+  const toggle = () => toggleSideMenu(!sideMenuOpen);
 
   /**
    * Renders mobile app bar content
@@ -68,7 +73,7 @@ const Header: React.FC<Props> = props => {
   const renderMobileContent = () => {
     return (
       <div className={ classes.mobileToolbarContent }>
-        <IconButton edge="start" onClick={ toggleSideMenu }>
+        <IconButton edge="start" onClick={ toggle }>
           <MenuIcon fontSize="default" style={{ color: "#fff" }} />
         </IconButton>
         { title &&
@@ -76,7 +81,13 @@ const Header: React.FC<Props> = props => {
             { title }
           </Typography>
         }
-        { renderAccountSection(true) }
+        <MobileDrawer
+          logoUrl={ logo }
+          open={ sideMenuOpen }
+          toggleSideMenu={ toggle }
+          { ...mobileDrawerProps }
+          history={ history }
+        />
       </div>
     );
   };
@@ -102,17 +113,15 @@ const Header: React.FC<Props> = props => {
             <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
           </IconButton>
         }
-        { renderAccountSection(false) }
+        { renderAccountSection() }
       </Container>
     );
   };
 
   /**
    * Renders account section of the app bar
-   *
-   * @param mobile mobile view
    */
-  const renderAccountSection = (mobile: boolean) => {
+  const renderAccountSection = () => {
     if (!signedToken) {
       return (
         <div className={ classes.accountSection }>
@@ -121,29 +130,20 @@ const Header: React.FC<Props> = props => {
       );
     }
 
-    const addElement = mobile ?
-      <Button
-        color="inherit"
-        startIcon={<AddCircleOutlineIcon fontSize="small" style={{ color: "#fff" }}/>}
-        style={{ marginRight: theme.spacing(2) }}
-        onClick={ onAddClick }
-      >
-        { strings.items.addPosting }
-      </Button> :
-      <Button
-        variant="outlined"
-        className={ classes.menuButtonOutlined }
-        onClick={ onAddClick }
-      >
-        { strings.items.addPosting }
-      </Button>;
-
     return (
       <div className={ classes.accountSection }>
         <Hidden smDown>
           { renderLanguageSelection() }
         </Hidden>
-        { onAddClick && addElement }
+        { onAddClick &&
+          <Button
+            variant="outlined"
+            className={ classes.menuButtonOutlined }
+            onClick={ onAddClick }
+          >
+            { strings.items.addPosting }
+          </Button>
+        }
         <Hidden mdUp>
           <IconButton
             onClick={ () => history.push("/user") }

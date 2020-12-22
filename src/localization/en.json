@@ -149,7 +149,7 @@
   },
 
   "userPage": {
-    "products": "My products",
+    "myProducts": "My products",
     "myInfo": "My information",
     "categories": "Categories",
     "searchHounds": "Search hounds",

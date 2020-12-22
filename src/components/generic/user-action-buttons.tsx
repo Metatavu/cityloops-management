@@ -101,7 +101,7 @@ class UserActionButtons extends React.Component<Props, State> {
    */
   private toggleRegistrationDialog = () =>
     this.setState({ registrationDialogOpen: !this.state.registrationDialogOpen });
-}
+  }
 
 /**
  * Redux mapper for mapping store state to component props

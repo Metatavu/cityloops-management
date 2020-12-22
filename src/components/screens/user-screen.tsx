@@ -66,6 +66,18 @@ export class UserScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Component will mount life cycle handler
+   */
+  public componentWillMount = () => {
+    const { signedToken } = this.props; 
+
+    if (!signedToken) {
+      window.location.href = "/";
+      return;
+    }
+  }
+
+  /**
    * Component did mount life cycle method
    */
   public componentDidMount = async () => {
@@ -144,7 +156,7 @@ export class UserScreen extends React.Component<Props, State> {
             onChange= { this.setTabIndex }
             value={ tabIndex }
           >
-            <Tab label={ strings.userPage.products } value={ 0 }/>
+            <Tab label={ strings.userPage.myProducts } value={ 0 }/>
             <Tab label={ strings.userPage.myInfo } value={ 1 }/>
             <Tab label={ strings.userPage.searchHounds } value={ 2 }/>
             { this.isUserAdmin() &&
@@ -160,7 +172,7 @@ export class UserScreen extends React.Component<Props, State> {
             onChange= { this.setTabIndex }
             value={ tabIndex }
           >
-            <Tab fullWidth label={ strings.userPage.products } value={ 0 }/>
+            <Tab fullWidth label={ strings.userPage.myProducts } value={ 0 }/>
             <Tab fullWidth label={ strings.userPage.myInfo } value={ 1 }/>
             <Tab fullWidth label={ strings.userPage.searchHounds } value={ 2 }/>
             { this.isUserAdmin() &&
