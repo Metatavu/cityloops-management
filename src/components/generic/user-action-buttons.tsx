@@ -13,6 +13,7 @@ import styles from "../../styles/components/generic/user-action-buttons";
 import strings from "../../localization/strings";
 import RegistrationFormDialog from "./registration-form-dialog";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import SignOutIcon from "@material-ui/icons/ExitToApp";
 
 /**
  * Interface describing component properties
@@ -56,6 +57,7 @@ class UserActionButtons extends React.Component<Props, State> {
       return (
         <div className={ classes.root }>
           <Button
+            startIcon={ <SignOutIcon /> }
             className={ classes.popoverButton }
             // TODO: Add proper error handling
             onClick={ () => keycloak?.logout() || console.log("Missing keycloak instance") }>

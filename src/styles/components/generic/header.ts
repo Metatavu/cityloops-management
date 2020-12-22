@@ -82,7 +82,7 @@ export default createStyles({
 
   imageButton: {
     [theme.breakpoints.up("md")]: {
-      marginRight: theme.spacing(2)
+      marginLeft: theme.spacing(2)
     }
   }
 

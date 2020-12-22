@@ -140,6 +140,9 @@ const Header: React.FC<Props> = props => {
 
     return (
       <div className={ classes.accountSection }>
+        <Hidden smDown>
+          { renderLanguageSelection() }
+        </Hidden>
         { onAddClick && addElement }
         <Hidden mdUp>
           <IconButton
@@ -150,12 +153,14 @@ const Header: React.FC<Props> = props => {
           </IconButton>
         </Hidden>
         <Hidden smDown>
-          <IconButton
+          <Button
+            color="secondary"
+            startIcon={ <AccountCircleIcon htmlColor={ theme.palette.secondary.main } /> }
             onClick={ () => history.push("/user") }
-            className={ classes.imageButton }
+            style={{ marginLeft: theme.spacing(4) }}
           >
-            <AccountCircleIcon htmlColor={ theme.palette.secondary.main } />
-          </IconButton>
+            { strings.user.account }
+          </Button>
         </Hidden>
       </div>
     );

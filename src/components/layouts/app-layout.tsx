@@ -10,6 +10,7 @@ import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
 import BannerImage from "../generic/banner-image";
 import bannerImageSrc from "../../resources/images/banner-image.jpg";
 import { History } from "history";
+import logo from "../../resources/svg/logo-primary.svg";
 
 /**
  * Interface describing component properties
@@ -55,6 +56,7 @@ const AppLayout: React.FC<Props> = props => {
         history={ history }
       />
       <MobileDrawer
+        logoUrl={ logo }
         open={ sideMenuOpen }
         toggleSideMenu={ toggle }
         { ...mobileDrawerProps }

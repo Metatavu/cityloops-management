@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Container, Hidden, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { Container, Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/footer";
 import logoWhite from "../../resources/svg/logo-white.svg";
 import privacyPolicyPDF from "../../resources/tietosuojaseloste.pdf";

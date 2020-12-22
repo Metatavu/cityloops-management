@@ -66,7 +66,6 @@ const MobileDrawer: React.FC<Props> = ({
   const renderDrawerContent = () => {
     return (
       <div className={ classes.drawerContent }>
-        { renderLanguageSelection() }
         { logoUrl &&
         <div className={ classes.logoArea }>
           <div className={ classes.logoCircle }>
@@ -74,10 +73,11 @@ const MobileDrawer: React.FC<Props> = ({
               alt="logo"
               src={ logoUrl }
               className={ classes.logo }
-            />
+              />
           </div>
         </div>
         }
+        { renderLanguageSelection() }
         { title &&
           <Typography
             variant="h3"
