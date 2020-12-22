@@ -14,7 +14,7 @@ export const styles = createStyles({
   },
 
   logoArea: {
-    height: 250,
+    height: 180,
     backgroundImage: `url(${drawerBackground})`,
     backgroundPosition: "center bottom",
     backgroundRepeat: "no-repeat",
@@ -26,8 +26,9 @@ export const styles = createStyles({
   },
 
   logoCircle: {
-    width: 150,
-    height: 150,
+    width: 120,
+    height: 120,
+    padding: theme.spacing(2),
     borderRadius: "50%",
     backgroundColor: theme.palette.background.default,
     display: "flex",

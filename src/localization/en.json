@@ -30,6 +30,7 @@
   },
 
   "generic": {
+    "selectLanguage": "Choose language",
     "yes": "Yes",
     "no": "no",
     "successfulOperation": "Operation was successful",
@@ -148,7 +149,7 @@
   },
 
   "userPage": {
-    "products": "My products",
+    "myProducts": "My products",
     "myInfo": "My information",
     "categories": "Categories",
     "searchHounds": "Search hounds",
@@ -173,6 +174,7 @@
     "activeHounds": "Active search hounds"
   },
 
-  "privacyStatement": "Privacy Statement"
+  "privacyStatement": "Privacy Statement",
+  "copyRight": "Copyright @ kiertoon.fi 2020"
 
 }

@@ -48,6 +48,7 @@ export interface IStrings extends LocalizedStringsMethods {
    * Generic translations
    */
   generic: {
+    selectLanguage: string;
     yes: string;
     no: string;
     successfulOperation: string;
@@ -193,7 +194,7 @@ export interface IStrings extends LocalizedStringsMethods {
   userPage: {
     categories: string;
     myInfo: string;
-    products: string;
+    myProducts: string;
     searchHounds: string;
     noUserItems: string;
   };
@@ -215,6 +216,7 @@ export interface IStrings extends LocalizedStringsMethods {
   }
 
   privacyStatement: string;
+  copyRight: string;
 
 }
 

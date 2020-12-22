@@ -42,12 +42,19 @@ export default createStyles({
     "& > div div:focus": {
       outline: "none"
     },
+    "& .rstcustom__rowWrapper": {
+      flex: "1 1 auto"
+    },
+    "& .rstcustom__row": {
+      flex: "1 1 auto"
+    },
     "& .rstcustom__node": {
       "& > div": {
         display: "flex"
       },
       "& .rstcustom__rowLabel": {
-        paddingRight: 0
+        paddingRight: 0,
+        flex: "1 1 auto"
       }
     }
   },

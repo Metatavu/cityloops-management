@@ -29,6 +29,7 @@
   },
 
   "generic": {
+    "selectLanguage": "Valitse kieli",
     "yes": "Kyllä",
     "no": "Ei",
     "successfulOperation": "Operaation onnistui",
@@ -149,7 +150,7 @@
   },
 
   "userPage": {
-    "products": "Ilmoitukset",
+    "myProducts": "Omat ilmoitukset",
     "myInfo": "Omat tiedot",
     "categories": "Kategoriat",
     "searchHounds": "Hakuagentit",
@@ -174,6 +175,7 @@
     "activeHounds": "Aktiiviset hakuagentit"
   },
 
-  "privacyStatement": "Tietosuojaseloste"
+  "privacyStatement": "Tietosuojaseloste",
+  "copyRight": "Copyright @ kiertoon.fi 2020"
 
 }
