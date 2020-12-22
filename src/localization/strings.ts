@@ -216,6 +216,7 @@ export interface IStrings extends LocalizedStringsMethods {
   }
 
   privacyStatement: string;
+  copyRight: string;
 
 }
 

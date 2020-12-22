@@ -51,7 +51,7 @@ const Footer: React.FC<Props> = props => {
         </Typography>
       </Container>
       <Typography className={ classes.copyright }>
-        Copyright @ kiertoon.fi 2020
+        { strings.copyRight }
       </Typography>
     </div>
   );

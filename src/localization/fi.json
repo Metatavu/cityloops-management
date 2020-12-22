@@ -175,6 +175,7 @@
     "activeHounds": "Aktiiviset hakuagentit"
   },
 
-  "privacyStatement": "Tietosuojaseloste"
+  "privacyStatement": "Tietosuojaseloste",
+  "copyRight": "Copyright @ kiertoon.fi 2020"
 
 }
