@@ -29,6 +29,7 @@
   },
 
   "generic": {
+    "selectLanguage": "Valitse kieli",
     "yes": "Kyllä",
     "no": "Ei",
     "successfulOperation": "Operaation onnistui",
@@ -149,10 +150,11 @@
   },
 
   "userPage": {
-    "products": "Ilmoitukset",
+    "myProducts": "Omat ilmoitukset",
     "myInfo": "Omat tiedot",
     "categories": "Kategoriat",
-    "searchHounds": "Hakuagentit"
+    "searchHounds": "Hakuagentit",
+    "noUserItems": "Sinulla ei ole aktiivisia ilmoituksia"
   },
 
   "addItem": {
@@ -171,5 +173,9 @@
     "expires": "Hakuagentti vanhenee",
     "noHounds": "Ei aktiivisia hakuagentteja",
     "activeHounds": "Aktiiviset hakuagentit"
-  }
+  },
+
+  "privacyStatement": "Tietosuojaseloste",
+  "copyRight": "Copyright @ kiertoon.fi 2020"
+
 }

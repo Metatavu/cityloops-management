@@ -7,6 +7,8 @@ import OutlinedSelect from "../generic/outlined-select";
 import strings from "../../localization/strings";
 import classNames from "classnames";
 import moment from "moment";
+import { CategoryDataHolder } from "../../types";
+import { TreeDataUtils } from "../../utils/tree-data-utils";
 
 /**
  * Interface representing component properties
@@ -76,17 +78,45 @@ const HoundContent: React.FC<Props> = props => {
   }
 
   /**
-   * Renders categories to select
+   * Renders tree category structure
+   *
+   * @param categoryData list of category data holders
+   * @param level tree level
    */
-  const renderCategories = () => {
-    return categories.map(category => {
-      return (
-        <MenuItem key={ category.id } value={ category.id }>
-          { category.name }
-        </MenuItem>
-      );
+  const renderTreeStructure = (categoryData: CategoryDataHolder[], level: number) => {
+    const elements: JSX.Element[] = [];
+    categoryData.forEach(data => {
+      elements.push(renderMenuItem(data.category.id || "", data.category.id || "", data.category.name, level));
+      if (data.childCategories.length > 0) {
+        const newLevel = level + 20;
+        elements.push(...renderTreeStructure(data.childCategories, newLevel));
+      }
     });
+
+    return elements;
+  };
+
+  /**
+   * Renders menu item
+   *
+   * @param key menu item key
+   * @param value menu item value
+   * @param title menu item title
+   * @param level menu item level
+   */
+  const renderMenuItem = (key: string, value: string, title: string, level: number) => {
+    return (
+      <MenuItem
+        key={ key }
+        value={ value }
+        style={{ marginLeft: level, fontWeight: level === 0 ? 600 : 400 }}
+      >
+        { title }
+      </MenuItem>
+    );
   }
+
+  const sortedCategories = TreeDataUtils.constructTreeData(categories);
 
   /**
    * Component render
@@ -111,7 +141,8 @@ const HoundContent: React.FC<Props> = props => {
         value={ searchHound.categoryId }
         className={ classes.marginTop }
       >
-        { renderCategories() }
+        { renderMenuItem("noFilter", "noFilter", strings.search.noFilter, 0) }
+        { renderTreeStructure(sortedCategories, 0) }
       </OutlinedSelect>
 
       <div className={ classNames(classes.notificationsOnContainer, classes.marginTop) }>
