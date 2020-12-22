@@ -56,7 +56,7 @@ export default createMuiTheme({
     },
     h5: {
       fontSize: 16,
-      fontWeight: "bold",
+      fontWeight: 600,
       color: "#004D76"
     },
     h6: {

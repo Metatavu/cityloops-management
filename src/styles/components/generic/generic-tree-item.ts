@@ -4,9 +4,9 @@ import theme from "../../theme";
 export default createStyles({
 
   root: {
+    flex: "1 1 auto",
     display: "flex",
     borderRadius: 4,
-    width: 250,
     justifyContent: "space-between",
     flexDirection: "column",
     alignItems: "flex-start",
