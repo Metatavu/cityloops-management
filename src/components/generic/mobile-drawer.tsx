@@ -212,7 +212,6 @@ const MobileDrawer: React.FC<Props> = ({
    * Log out
    */
   const logOut = () => {
-    console.log(keycloak);
     keycloak?.logout() || console.log("Missing keycloak instance");
   }
 
