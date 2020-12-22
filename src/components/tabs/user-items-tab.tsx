@@ -37,7 +37,9 @@ const UserItemsTab: React.FC<Props> = ({
     if (userItems.length === 0) {
       return (
         <div style={{ padding: theme.spacing(2) }}>
-          <Typography variant="h4">{ strings.userPage.noUserItems }</Typography>
+          <Typography variant="h4">
+            { strings.userPage.noUserItems }
+          </Typography>
         </div>
       );
     }
