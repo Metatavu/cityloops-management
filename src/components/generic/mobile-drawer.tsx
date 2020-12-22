@@ -78,7 +78,7 @@ const MobileDrawer: React.FC<Props> = ({
               alt="logo"
               src={ logoUrl }
               className={ classes.logo }
-              />
+            />
           </div>
         </div>
         }
