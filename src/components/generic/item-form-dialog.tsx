@@ -495,10 +495,13 @@ class ItemFormDialog extends React.Component<Props, State> {
         properties.push({ key: property.name, value: property.defaultValue || "" });
       });
 
-      properties.push({
-        key: "Lisätiedot",
-        value: ""
-      });
+      if (!properties.find(property => property.key === "Lisätiedot")) {
+        properties.push({
+          key: "Lisätiedot",
+          value: ""
+        });
+      }
+      
 
     return {
       title: "Uusi ilmoitus",
