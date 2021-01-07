@@ -495,6 +495,11 @@ class ItemFormDialog extends React.Component<Props, State> {
         properties.push({ key: property.name, value: property.defaultValue || "" });
       });
 
+      properties.push({
+        key: "Lisätiedot",
+        value: ""
+      });
+
     return {
       title: "Uusi ilmoitus",
       metadata: {
