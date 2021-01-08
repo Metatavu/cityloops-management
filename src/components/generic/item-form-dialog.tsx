@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { SignedToken } from "../../types";
 // tslint:disable-next-line: max-line-length
 import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { Category, Coordinates, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
+import { Category, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
 import CategoryTree from "./category-tree";
@@ -495,6 +495,13 @@ class ItemFormDialog extends React.Component<Props, State> {
         properties.push({ key: property.name, value: property.defaultValue || "" });
       });
 
+      if (!properties.find(property => property.key === "Lisätiedot")) {
+        properties.push({
+          key: "Lisätiedot",
+          value: ""
+        });
+      }
+
     return {
       title: "Uusi ilmoitus",
       metadata: {
@@ -672,15 +679,16 @@ class ItemFormDialog extends React.Component<Props, State> {
     const { item } = this.state;
 
     const previousLocationInfo = item?.metadata.locationInfo;
-    let newCoordinates: Coordinates = MapFunctions.defaultCoordinates;
+
+    if (!previousLocationInfo?.coordinates) {
+      locationInfo.coordinates = MapFunctions.defaultCoordinates;
+    }
 
     if (previousLocationInfo?.address !== locationInfo.address) {
       const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
       const parsedCoordinates = await MapFunctions.parseCoordinates(response);
-      newCoordinates = parsedCoordinates;
+      locationInfo.coordinates = parsedCoordinates;
     }
-
-    locationInfo.coordinates = newCoordinates;
 
     this.setState(
       produce((draft: State) => {

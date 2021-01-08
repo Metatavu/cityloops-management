@@ -61,6 +61,9 @@ const PropertiesSection: React.FC<Props> = props => {
         size="medium"
         variant="outlined"
         fullWidth
+        multiline={ property.key === "Lisätiedot" }
+        rows={ 3 }
+        rowsMax={ 10 }
         className={ classes.propertyField }
         InputLabelProps={{ variant: "outlined" }}
         value={ property.value || "" }
