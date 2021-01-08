@@ -501,7 +501,6 @@ class ItemFormDialog extends React.Component<Props, State> {
           value: ""
         });
       }
-      
 
     return {
       title: "Uusi ilmoitus",
