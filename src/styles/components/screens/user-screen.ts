@@ -17,7 +17,9 @@ export default createStyles({
 
   indicator: {
     height: 4
-  }, loader: {
+  },
+  
+  loader: {
     alignSelf: "center"
   },
 

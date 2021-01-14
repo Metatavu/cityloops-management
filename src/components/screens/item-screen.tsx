@@ -6,7 +6,7 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
-import { Button, CircularProgress, Grid, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Breadcrumbs, Button, CircularProgress, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
 import { Item } from "../../generated/client";
@@ -105,8 +105,9 @@ export class ItemScreen extends React.Component<Props, State> {
         banner={ false }
         history={ history }
       >
-        {/* TODO: Tuomas */}
-        <Typography onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Typography>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Link>
+        </Breadcrumbs>
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -137,12 +138,6 @@ export class ItemScreen extends React.Component<Props, State> {
           >
             { item ? item?.title : strings.error.itemNotFound }
           </Typography>
-          <Typography
-            variant="h1"
-            className={ classes.itemPrice }
-          >
-            { item ? `${ item.price } ${ item.priceUnit }` : "" }
-          </Typography>
         </div>
         <Grid
           key="contentContainer"
@@ -151,22 +146,21 @@ export class ItemScreen extends React.Component<Props, State> {
           className={ classes.columns }
           alignItems="stretch"
         >
-          <Grid
-            item
-            xs={ 12 }
-            md
-          >
+          <Grid item xs={ 12 } md>
             <ImageCarousel
               imageUrls={ item?.images || [] }
             />
           </Grid>
-          <Grid
-            item
-            xs={ 12 }
-            md
-          >
+          <Grid item xs={ 12 } md>
             <div className={ classes.propertiesContainer }>
+              <Typography
+                variant="h1"
+                className={ classes.itemPrice }
+              >
+                { item ? `${ item.price } ${ item.priceUnit }` : "" }
+              </Typography>
               { this.renderProperties() }
+              { this.renderSellerInfo() }
               { this.renderPriceInfo() }
             </div>
           </Grid>
@@ -241,28 +235,27 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties
    */
   private renderProperties = () => {
-    const { classes } = this.props;
     const { item } = this.state;
 
     return item?.properties ?
       item.properties.map((property, index) => {
-        return (
-          <div key={ index }>
+        return property.value && (
+          <Box key={ index }>
             <Typography
               key={ property.key }
-              paragraph
-              className={ classes.propertyTitle }
+              variant="h4"
             >
               { property.key }
             </Typography>
-            <Typography
-              key={ property.value }
-              paragraph
-              className={ classes.propertyValue }
-            >
-              { property.value }
-            </Typography>
-          </div>
+            <Box mt={ 1 } mb={ 1 }>
+              <Typography
+                key={ property.value }
+                variant="body1"
+                >
+                { property.value }
+              </Typography>
+            </Box>
+          </Box>
         );
       }) :
       [];
@@ -272,7 +265,6 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties
    */
   private renderPriceInfo = () => {
-    const { classes } = this.props;
     const { item } = this.state;
 
     if (!item) {
@@ -287,59 +279,58 @@ export class ItemScreen extends React.Component<Props, State> {
       <>
         <Typography
           key="deliveryTitle"
-          paragraph
-          className={ classes.propertyTitle }
+          variant="h4"
         >
           { strings.items.delivery.title }
         </Typography>
-        <Typography
-          key="deliveryValue"
-          paragraph
-          className={ classes.propertyValue }
-        >
-          { deliveryText }
-        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography
+            key="deliveryValue"
+            variant="body1"
+          >
+            { deliveryText }
+          </Typography>
+        </Box>
 
         { item.delivery &&
           <>
             <Typography
               key="priceTitle"
-              paragraph
-              className={ classes.propertyTitle }
+              variant="h4"
             >
               { strings.items.deliveryPrice }
             </Typography>
-            <Typography
-              key="priceValue"
-              paragraph
-              className={ classes.propertyValue }
-            >
-              { `${item.deliveryPrice}€` || strings.items.deliveryPrice }
-            </Typography>
+            <Box mt={ 1 } mb={ 1 }>
+              <Typography
+                key="priceValue"
+                variant="body1"
+              >
+                { `${item.deliveryPrice}€` || strings.items.deliveryPrice }
+              </Typography>
+            </Box>
           </>
         }
 
         <Typography
           key="paymentMethodTitle"
-          paragraph
-          className={ classes.propertyTitle }
+          variant="h4"
         >
           { strings.items.paymentMethod }
         </Typography>
-        <Typography
-          key="paymentMethodValue"
-          paragraph
-          className={ classes.propertyValue }
-        >
-          { item.paymentMethod }
-        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography
+            key="paymentMethodValue"
+            variant="body1"
+          >
+            { item.paymentMethod }
+          </Typography>
+        </Box>
       </>
     );
   }
 
   /**
    * Renders location
-   * TODO: Tuomas
    */
   private renderLocation = () => {
     const { classes } = this.props;
@@ -347,22 +338,40 @@ export class ItemScreen extends React.Component<Props, State> {
     return item && (
       <div className={ classes.locationContainer }>
         <LocationIcon className={ classes.locationIcon }/>
-        <Typography>
-          { strings.items.userInfo }
-        </Typography>
         <Typography variant="h5">
           { item.metadata.locationInfo.address }
         </Typography>
         <Typography variant="h5">
           { item.metadata.locationInfo.description }
         </Typography>
-        <Typography variant="h5">
-          { item.metadata.locationInfo.email }
-        </Typography>
-        <Typography variant="h5">
-          { item.metadata.locationInfo.phone }
-        </Typography>
       </div>
+    );
+  }
+
+  /**
+   * Renders seller info
+   */
+  private renderSellerInfo = () => {
+    const { item } = this.state;
+    return item && (
+      <>
+        <Typography variant="h4">
+          { strings.items.locationInfo.email }
+        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography variant="body1">
+            { item.metadata.locationInfo.email }
+          </Typography>
+        </Box>
+        <Typography variant="h4">
+          { strings.items.locationInfo.phone }
+        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography variant="body1">
+            { item.metadata.locationInfo.phone }
+          </Typography>
+        </Box>
+      </>
     );
   }
 
@@ -379,11 +388,13 @@ export class ItemScreen extends React.Component<Props, State> {
     const { address, coordinates } = item.metadata.locationInfo;
 
     return (
-      <Map
-        address={ address }
-        coordinates={ coordinates }
-        defaultZoomLevel={ 15 }
-      />
+      <Box mb={ 6 }>
+        <Map
+          address={ address }
+          coordinates={ coordinates }
+          defaultZoomLevel={ 15 }
+        />
+      </Box>
     );
   }
 

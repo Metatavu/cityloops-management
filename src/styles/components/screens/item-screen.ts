@@ -134,10 +134,11 @@ export default createStyles({
   itemTitle: {
     fontWeight: 900,
     fontSize: 20,
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       fontSize: 28,
     },
+
     [theme.breakpoints.up("lg")]: {
       fontSize: 40,
       marginBottom: theme.spacing(2)
@@ -146,7 +147,7 @@ export default createStyles({
 
   itemPrice: {
     fontWeight: 100,
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       fontSize: 28,
     },

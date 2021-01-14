@@ -4,7 +4,7 @@ import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import strings from "../../localization/strings";
-import brokenImage from "../../resources/images/broken-image.png";
+import brokenImage from "../../resources/svg/broken-image-icon.svg";
 
 /**
  * Interface representing component properties

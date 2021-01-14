@@ -8,7 +8,7 @@ import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import CloseIcon from '@material-ui/icons/Close';
 import strings from "../../localization/strings";
 import theme from "../../styles/theme";
-import brokenImage from "../../resources/images/broken-image.png";
+import brokenImage from "../../resources/svg/broken-image-icon.svg";
 
 /**
  * Interface describing component properties

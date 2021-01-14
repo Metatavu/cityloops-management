@@ -6,19 +6,19 @@ import { connect } from "react-redux";
 import { setLocale } from "../../actions/locale";
 import { AccessToken, SignedToken } from "../../types";
 
-import { AppBar, Button, Container, Hidden, IconButton, MenuItem, Select, Toolbar, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { AppBar, Box, Button, Container, Hidden, IconButton, MenuItem, Select, Toolbar, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/header";
 import strings from "../../localization/strings";
 import MenuIcon from "@material-ui/icons/Menu";
 import SaveIcon from "@material-ui/icons/Save";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import logoPrimary from "../../resources/svg/logo-primary.svg";
-import theme from "../../styles/theme";
+import logoSecondary from "../../resources/svg/logo-white.svg";
 import UserActionButtons from "./user-action-buttons";
 import { History } from "history";
 import MobileDrawer from "../generic/mobile-drawer";
 import logo from "../../resources/svg/logo-primary.svg";
 import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
+import AddIcon from "@material-ui/icons/Add"
 
 /**
  * Interface describing properties from screen components
@@ -56,7 +56,6 @@ const Header: React.FC<Props> = props => {
   const {
     signedToken,
     classes,
-    title,
     onAddClick,
     onSaveClick,
     setLocale,
@@ -72,15 +71,27 @@ const Header: React.FC<Props> = props => {
    */
   const renderMobileContent = () => {
     return (
-      <div className={ classes.mobileToolbarContent }>
-        <IconButton edge="start" onClick={ toggle }>
-          <MenuIcon fontSize="default" style={{ color: "#fff" }} />
-        </IconButton>
-        { title &&
-          <Typography variant="h6">
-            { title }
-          </Typography>
-        }
+      <>
+        <Box display={ "flex" } alignItems={ "center" }>
+          <img
+            alt="logo"
+            src={ logoSecondary }
+            className={ classes.mobileLogo }
+            onClick={ () => history.push("/") }
+          />
+          { signedToken &&
+            onAddClick &&
+              <Button
+                startIcon={ <AddIcon /> }
+                color="inherit"
+                variant="outlined"
+                className={ classes.menuButton }
+                onClick={ onAddClick }
+              >
+              { strings.items.addPosting }
+            </Button>
+          }
+        </Box>
         <MobileDrawer
           logoUrl={ logo }
           open={ sideMenuOpen }
@@ -88,7 +99,10 @@ const Header: React.FC<Props> = props => {
           { ...mobileDrawerProps }
           history={ history }
         />
-      </div>
+        <IconButton edge="end" onClick={ toggle }>
+          <MenuIcon fontSize="default" style={{ color: "#fff" }} />
+        </IconButton>
+      </>
     );
   };
 
@@ -123,50 +137,22 @@ const Header: React.FC<Props> = props => {
    */
   const renderAccountSection = () => {
 
-    if (!signedToken) {
-      return (
-        <div className={ classes.accountSection }>
-          <UserActionButtons />
-        </div>
-      );
-    }
-
     return (
       <div className={ classes.accountSection }>
-        <Hidden smDown>
-          { renderLanguageSelection() }
-        </Hidden>
-        { onAddClick &&
-          <Button
-            variant="outlined"
-            className={ classes.menuButtonOutlined }
-            onClick={ onAddClick }
-          >
+        { renderLanguageSelection() }
+        { signedToken &&
+          onAddClick &&
+            <Button
+              variant="outlined"
+              className={ classes.menuButtonOutlined }
+              onClick={ onAddClick }
+            >
             { strings.items.addPosting }
           </Button>
         }
-        {/* TODO: Tuomas */}
-        <div className={ classes.accountSection }>
-          <UserActionButtons />
-        </div>
-        <Hidden mdUp>
-          <IconButton
-            onClick={ () => history.push("/user") }
-            className={ classes.imageButton }
-          >
-            <AccountCircleIcon htmlColor={ "#fff" } />
-          </IconButton>
-        </Hidden>
-        <Hidden smDown>
-          <Button
-            color="secondary"
-            startIcon={ <AccountCircleIcon htmlColor={ theme.palette.secondary.main } /> }
-            onClick={ () => history.push("/user") }
-            style={{ marginLeft: theme.spacing(4) }}
-          >
-            { strings.user.account }
-          </Button>
-        </Hidden>
+        <Box ml={ 2 }>
+          <UserActionButtons history={ history } />
+        </Box>
       </div>
     );
   };
@@ -198,7 +184,7 @@ const Header: React.FC<Props> = props => {
   return (
     <div className={ classes.root }>
       <AppBar position="fixed" className={ classes.appBar }>
-        <Toolbar>
+        <Toolbar className={ classes.toolbar }>
           <Hidden mdUp>
             { renderMobileContent() }
           </Hidden>
