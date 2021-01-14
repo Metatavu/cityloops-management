@@ -80,7 +80,7 @@ const ImageList: React.FC<Props> = props => {
   return(
     <div className={ classes.root }>
       <Typography
-        variant="h6"
+        variant="h4"
         className={ classes.title }
       >
         { strings.items.images }

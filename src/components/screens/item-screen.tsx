@@ -104,6 +104,9 @@ export class ItemScreen extends React.Component<Props, State> {
       <AppLayout
         banner={ false }
         history={ history }
+        headerProps={{
+          onAddClick: this.onAddItemClick
+        }}
       >
         <Breadcrumbs aria-label="breadcrumb">
           <Link onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Link>
@@ -199,33 +202,27 @@ export class ItemScreen extends React.Component<Props, State> {
       <div className={ classes.actionButtonsContainer } >
         <Button
           key="delete"
-          size="small"
           variant="outlined"
           color="primary"
-          className={ classes.deleteButton }
           onClick={ this.toggleDeleteDialog }
         >
           { strings.generic.delete }
         </Button>
         <Button
-          key="edit"
-          size="small"
-          variant="contained"
-          color="secondary"
-          className={ classes.editButton }
-          onClick={ () => this.setState({ formOpen: true }) }
-        >
-          { strings.generic.edit }
-        </Button>
-        <Button
           key="renew"
-          size="small"
           variant="text"
           color="secondary"
-          className={ classes.renewButton }
           onClick={ this.renewClick }
         >
           { strings.items.renew }
+        </Button>
+        <Button
+          key="edit"
+          variant="text"
+          color="secondary"
+          onClick={ () => this.setState({ formOpen: true }) }
+        >
+          { strings.generic.edit }
         </Button>
       </div>
     );
@@ -338,11 +335,13 @@ export class ItemScreen extends React.Component<Props, State> {
     return item && (
       <div className={ classes.locationContainer }>
         <LocationIcon className={ classes.locationIcon }/>
+        <Box mr={ 2 }>
+          <Typography variant="h4">
+            { item.metadata.locationInfo.description }
+          </Typography>
+        </Box>
         <Typography variant="h5">
           { item.metadata.locationInfo.address }
-        </Typography>
-        <Typography variant="h5">
-          { item.metadata.locationInfo.description }
         </Typography>
       </div>
     );
@@ -544,6 +543,13 @@ export class ItemScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Event handler for add item click
+   */
+  private onAddItemClick = () => {
+    this.setState({ formOpen: true });
+  }
+
+  /**
    * Event handler for delete click
    */
   private onDeleteClick = async () => {
@@ -559,6 +565,7 @@ export class ItemScreen extends React.Component<Props, State> {
       .then(() => this.setState({ successfulDelete: true, deleteLoading: false }))
       .catch(e => console.error(e));
   }
+
 
   /**
    * Toggle delete dialog

@@ -104,7 +104,7 @@
     "noDeliveryPrice": "Toimituksen hintaa ei ole määritelty",
     "showAsList": "Näytä tuotteet listana",
     "showAsGrid": "Näytä tuotteet ruudukkona",
-    "renew": "Uusi tuotteen voimassaoloaika",
+    "renew": "Uusi voimassaoloaika",
     "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!",
     "userInfo": "Ilmoittajan tiedot"
   },

@@ -5,7 +5,7 @@ import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 import { SignedToken } from "../../types";
 // tslint:disable-next-line: max-line-length
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
@@ -127,7 +127,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           PaperProps={{ className: classes.dialogContainer }}
         >
           <DialogTitle className={ classes.dialogTitle }>
-            { strings.items.newPosting }
+            <Typography variant="h3">{ strings.items.newPosting }</Typography>
             <IconButton
               className={ classes.dialogClose }
               onClick={ onClose }
@@ -191,7 +191,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     return (
       <>
-        <Typography variant="h6">
+        <Typography variant="h4">
           { strings.addItem.chooseCategory }
         </Typography>
         <CategoryTree
@@ -289,10 +289,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           name="paymentMethod"
           className={ classes.marginTop }
         />
-        <Typography className={ classes.marginTop }>
-          { strings.items.delivery.title }
-        </Typography>
-        <div style={{ display: "flex" }}>
+        <Box display={ "flex" } mt={ 2 }>
           <OutlinedSelect
             key={ `item-${item.id}-delivery` }
             name="delivery"
@@ -300,7 +297,7 @@ class ItemFormDialog extends React.Component<Props, State> {
             value={ item.delivery }
             onChange={ this.onDeliveryOptionChange }
             className={ classes.marginRight }
-          >
+            >
             <MenuItem key={ strings.generic.yes } value={ "true" }>
               { strings.generic.yes }
             </MenuItem>
@@ -309,18 +306,19 @@ class ItemFormDialog extends React.Component<Props, State> {
             </MenuItem>
           </OutlinedSelect>
           { item.delivery &&
-            <OutlinedTextField
-              key={ `item-${item.id}-deliveryPrice` }
-              label={ strings.items.deliveryPrice }
-              value={ item.deliveryPrice || "" }
-              onChange={ this.updateItemData }
-              type="number"
-              name="deliveryPrice"
-              className={ classes.marginTop }
-              disabled={ !item.delivery }
-            />
+            <Box ml={ 2 }>
+              <OutlinedTextField
+                key={ `item-${item.id}-deliveryPrice` }
+                label={ strings.items.deliveryPrice }
+                value={ item.deliveryPrice || "" }
+                onChange={ this.updateItemData }
+                type="number"
+                name="deliveryPrice"
+                disabled={ !item.delivery }
+              />
+            </Box>
           }
-        </div>
+          </Box>
       </>
     );
   }

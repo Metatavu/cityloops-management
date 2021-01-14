@@ -19,20 +19,19 @@ export default createStyles({
   bottomContent: {
     display: "flex",
     flexDirection: "column",
-    [theme.breakpoints.up("md")]: {
-      justifyContent: "space-between",
-      flexDirection: "row"
-    }
   },
 
   actionButtonsContainer: {
-    display: "flex",
+    marginTop: theme.spacing(2),
+    "& button": {
+      "&:first-child": {
+        marginRight: theme.spacing(2)
+      }
+    },
     [theme.breakpoints.down("md")]: {
-      padding: theme.spacing(2),
       "& button": {
-        flex: 1,
         "&:first-child": {
-          marginRight: theme.spacing(1)
+          marginRight: theme.spacing(2)
         },
         "&:last-child": {
           marginLeft: theme.spacing(1)
@@ -139,9 +138,13 @@ export default createStyles({
       fontSize: 28,
     },
 
+    [theme.breakpoints.up("md")]: {
+      marginBottom: theme.spacing(2)
+    },
+
     [theme.breakpoints.up("lg")]: {
       fontSize: 40,
-      marginBottom: theme.spacing(2)
+      marginBottom: theme.spacing(6)
     }
   },
 

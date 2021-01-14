@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TextField, Typography, WithStyles, withStyles } from '@material-ui/core';
+import { Box, TextField, Typography, WithStyles, withStyles } from '@material-ui/core';
 import styles from "../../styles/components/generic/location-section";
 import { Coordinates, LocationInfo } from "../../generated/client";
 import strings from "../../localization/strings";
@@ -84,7 +84,7 @@ class LocationSection extends React.Component<Props, State> {
 
     return (
       <div className={ classes.root }>
-        <Typography variant="h6">
+        <Typography variant="h4">
           { strings.items.location }
         </Typography>
         { this.renderTextField("description", strings.items.locationInfo.description, description || "") }
@@ -106,19 +106,19 @@ class LocationSection extends React.Component<Props, State> {
    * @param value text field value
    */
   private renderTextField = (key: string, displayName: string, value: string) => {
-    const { classes } = this.props;
 
     return (
-      <TextField
-        key={ key }
-        label={ displayName }
-        value={ value }
-        onChange={ this.onChange(key) }
-        fullWidth
-        variant="outlined"
-        InputLabelProps={{ variant: "outlined" }}
-        className={ classes.textField }
-      />
+      <Box mt={ 2 }>
+        <TextField
+          key={ key }
+          label={ displayName }
+          value={ value }
+          onChange={ this.onChange(key) }
+          fullWidth
+          variant="outlined"
+          InputLabelProps={{ variant: "outlined" }}
+        />
+      </Box>
     );
   };
 
@@ -130,10 +130,12 @@ class LocationSection extends React.Component<Props, State> {
     const { coordinates } = this.state;
 
     return (
-      <Map
-        address={ locationInfo.address }
-        coordinates={ coordinates }
-      />
+      <Box mt={ 2 }>
+        <Map
+          address={ locationInfo.address }
+          coordinates={ coordinates }
+        />
+      </Box>
     );
   };
 
