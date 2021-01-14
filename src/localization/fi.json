@@ -105,7 +105,8 @@
     "showAsList": "Näytä tuotteet listana",
     "showAsGrid": "Näytä tuotteet ruudukkona",
     "renew": "Uusi tuotteen voimassaoloaika",
-    "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!"
+    "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!",
+    "userInfo": "Ilmoittajan tiedot"
   },
 
   "categories": {
@@ -145,7 +146,7 @@
     "forgotPassword": "Unohtuiko salasana?",
     "contactInformation": "Yhteystiedot",
     "changePassword": "Vaihda salasana",
-    "businessId": "Y-tunnus",
+    "companyId": "Y-tunnus",
     "officeInfo": "Toimipiste"
   },
 

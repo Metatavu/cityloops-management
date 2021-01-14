@@ -131,6 +131,7 @@ export interface IStrings extends LocalizedStringsMethods {
     showAsGrid: string;
     renew: string;
     renewSuccessful: string;
+    userInfo: string;
   };
 
   /**
@@ -155,7 +156,7 @@ export interface IStrings extends LocalizedStringsMethods {
     forgotPassword: string;
     contactInformation: string;
     changePassword: string;
-    businessId: string;
+    companyId: string;
     officeInfo: string;
   };
 

@@ -13,7 +13,6 @@ import { Item } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import AppLayout from "../layouts/app-layout";
-import SearchBar from "../generic/search-bar";
 import ImageCarousel from "../generic/image-carousel";
 import moment from "moment";
 import LocationIcon from "@material-ui/icons/Room";
@@ -106,10 +105,8 @@ export class ItemScreen extends React.Component<Props, State> {
         banner={ false }
         history={ history }
       >
-        <SearchBar
-          categories={ [] }
-          locale={ this.props.locale }
-        />
+        {/* TODO: Tuomas */}
+        <Typography onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Typography>
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -342,6 +339,7 @@ export class ItemScreen extends React.Component<Props, State> {
 
   /**
    * Renders location
+   * TODO: Tuomas
    */
   private renderLocation = () => {
     const { classes } = this.props;
@@ -349,8 +347,20 @@ export class ItemScreen extends React.Component<Props, State> {
     return item && (
       <div className={ classes.locationContainer }>
         <LocationIcon className={ classes.locationIcon }/>
-        <Typography variant="body1">
+        <Typography>
+          { strings.items.userInfo }
+        </Typography>
+        <Typography variant="h5">
           { item.metadata.locationInfo.address }
+        </Typography>
+        <Typography variant="h5">
+          { item.metadata.locationInfo.description }
+        </Typography>
+        <Typography variant="h5">
+          { item.metadata.locationInfo.email }
+        </Typography>
+        <Typography variant="h5">
+          { item.metadata.locationInfo.phone }
         </Typography>
       </div>
     );

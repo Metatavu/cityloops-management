@@ -79,7 +79,19 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
    */
   const renderImages = () => {
     if (imageUrls.length === 0) {
-      imageUrls.push(brokenImage);
+      return (
+        <Fade
+        key="no-image-placeholder"
+        in={ true }
+        timeout={ 250 }
+      >
+        <img
+          src={ brokenImage }
+          alt={ strings.generic.imageAlt }
+          className={ classes.image }
+        />
+      </Fade>
+      );
     }
     return imageUrls.map((imageUrl, index) =>
       <Fade

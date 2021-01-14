@@ -15,6 +15,7 @@ interface Props extends WithStyles<typeof styles> {
   card?: boolean;
   onClick: (item: Item) => void;
   onDeleteClick?: (item: Item) => void;
+  onEditClick?: (item: Item) => void;
 }
 
 /**
@@ -27,7 +28,8 @@ const GenericListItem: React.FC<Props> = props => {
     style,
     card,
     onClick,
-    onDeleteClick
+    onDeleteClick,
+    onEditClick
   } = props;
 
   const isMTItem = item.userId === "materiaalitori";
@@ -113,6 +115,19 @@ const GenericListItem: React.FC<Props> = props => {
         </CardContent>
       }
       <CardActions>
+        { onEditClick &&
+          <Button
+            variant="text"
+            color="secondary"
+            onClick={ event => {
+                event.stopPropagation();
+                onEditClick(item);
+              }
+            }
+          >
+            { strings.generic.edit }
+          </Button>
+        }
         { onDeleteClick &&
           <Button
             variant="text"

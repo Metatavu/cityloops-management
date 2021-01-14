@@ -491,16 +491,16 @@ class ItemFormDialog extends React.Component<Props, State> {
     const properties: ItemProperty[] = [];
     const { user } = this.state;
 
-      category.properties?.forEach(property => {
-        properties.push({ key: property.name, value: property.defaultValue || "" });
-      });
+    category.properties?.forEach(property => {
+      properties.push({ key: property.name, value: property.defaultValue || "" });
+    });
 
-      if (!properties.find(property => property.key === "Lisätiedot")) {
-        properties.push({
-          key: "Lisätiedot",
-          value: ""
-        });
-      }
+    if (!properties.find(property => property.key === "Lisätiedot")) {
+      properties.push({
+        key: "Lisätiedot",
+        value: ""
+      });
+    }
 
     return {
       title: "Uusi ilmoitus",
@@ -509,6 +509,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           address: user?.address,
           phone: user?.phoneNumber,
           email: user?.email,
+          coordinates: user?.coordinates
         },
       },
       price: 0.0,

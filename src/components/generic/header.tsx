@@ -122,6 +122,7 @@ const Header: React.FC<Props> = props => {
    * Renders account section of the app bar
    */
   const renderAccountSection = () => {
+
     if (!signedToken) {
       return (
         <div className={ classes.accountSection }>
@@ -144,6 +145,10 @@ const Header: React.FC<Props> = props => {
             { strings.items.addPosting }
           </Button>
         }
+        {/* TODO: Tuomas */}
+        <div className={ classes.accountSection }>
+          <UserActionButtons />
+        </div>
         <Hidden mdUp>
           <IconButton
             onClick={ () => history.push("/user") }
