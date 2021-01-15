@@ -36,7 +36,12 @@ const GenericTreeItem: React.FC<Props> = props => {
   return(
     <div
       className={ classes.root }
-      onClick={ () => onClick(category) }
+      onClick={
+        event => {
+          event.stopPropagation();
+          onClick(category);
+        } 
+      }
       style={ style }
     >
       <div className={ classes.topRow }>
@@ -71,7 +76,7 @@ const GenericTreeItem: React.FC<Props> = props => {
           }
           title={ strings.categories.addSubCategory }
         >
-          { strings.generic.add }
+          { strings.categories.addSubCategory }
         </Button>
     </div>
   );

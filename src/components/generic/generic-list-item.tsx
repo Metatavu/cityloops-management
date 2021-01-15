@@ -4,7 +4,7 @@ import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
 import strings from "../../localization/strings";
-import brokenImage from "../../resources/images/broken-image.png";
+import brokenImage from "../../resources/svg/broken-image-icon.svg";
 
 /**
  * Interface representing component properties
@@ -15,6 +15,7 @@ interface Props extends WithStyles<typeof styles> {
   card?: boolean;
   onClick: (item: Item) => void;
   onDeleteClick?: (item: Item) => void;
+  onEditClick?: (item: Item) => void;
 }
 
 /**
@@ -27,7 +28,8 @@ const GenericListItem: React.FC<Props> = props => {
     style,
     card,
     onClick,
-    onDeleteClick
+    onDeleteClick,
+    onEditClick
   } = props;
 
   const isMTItem = item.userId === "materiaalitori";
@@ -113,6 +115,19 @@ const GenericListItem: React.FC<Props> = props => {
         </CardContent>
       }
       <CardActions>
+        { onEditClick &&
+          <Button
+            variant="text"
+            color="secondary"
+            onClick={ event => {
+                event.stopPropagation();
+                onEditClick(item);
+              }
+            }
+          >
+            { strings.generic.edit }
+          </Button>
+        }
         { onDeleteClick &&
           <Button
             variant="text"

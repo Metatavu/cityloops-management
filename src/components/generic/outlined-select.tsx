@@ -1,3 +1,4 @@
+import { FormControl, InputLabel } from "@material-ui/core";
 import Select from "@material-ui/core/Select/Select";
 import withStyles, { WithStyles } from "@material-ui/core/styles/withStyles";
 import classNames from "classnames";
@@ -32,18 +33,24 @@ const OutlinedSelect: React.FC<Props> = ({
   onChange
 }) => {
   return (
-    <Select
-      fullWidth
-      variant="outlined"
-      key={ key }
-      name={ name }
-      className={ classNames(classes.deliverySelect, className) }
-      label={ label }
-      value={ value }
-      onChange={ onChange }
-    >
-      { children }
-    </Select>
+    <FormControl variant="outlined">
+      <InputLabel id={`${ label }-input-label`}>
+        { label }
+      </InputLabel>
+      <Select
+        fullWidth
+        variant="outlined"
+        key={ key }
+        name={ name }
+        className={ classNames(classes.deliverySelect, className) }
+        label={ label }
+        labelId={`${ label }-input-label`}
+        value={ value }
+        onChange={ onChange }
+      >
+        { children }
+      </Select>
+    </FormControl>
   );
 }
 

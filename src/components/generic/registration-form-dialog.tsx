@@ -144,6 +144,9 @@ class RegistrationFormDialog extends React.Component<Props, State> {
               { this.renderTextField("address", strings.user.address, TextFieldTypes.STRING, user.address) }
               { this.renderTextField("phoneNumber", strings.user.phoneNumber, TextFieldTypes.STRING, user.phoneNumber) }
               { this.renderCheckBox("companyAccount", strings.user.isCompanyAccount, user.companyAccount) }
+              { user.companyAccount &&
+                this.renderTextField("companyId", strings.user.businessId, TextFieldTypes.STRING, user.companyId)
+              }
               { this.renderTextField("password", strings.user.password, TextFieldTypes.PASSWORD, user.password) }
             </>
           )

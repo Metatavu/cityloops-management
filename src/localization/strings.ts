@@ -131,6 +131,7 @@ export interface IStrings extends LocalizedStringsMethods {
     showAsGrid: string;
     renew: string;
     renewSuccessful: string;
+    userInfo: string;
   };
 
   /**

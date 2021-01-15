@@ -307,7 +307,7 @@ const updateOpenedCategories = (openCategories: string[], clickedCategory: Categ
   if (openCategories.includes(clickedCategory.id)) {
     return openCategories.filter(id => id !== clickedCategory.id);
   } else {
-    return [ ...openCategories || [], clickedCategory.id!!];
+    return [ ...openCategories || [], clickedCategory.id];
   }
 };
 
