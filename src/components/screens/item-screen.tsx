@@ -352,7 +352,11 @@ export class ItemScreen extends React.Component<Props, State> {
    */
   private renderSellerInfo = () => {
     const { item } = this.state;
-    return item && (
+    if (!item) {
+      return null;
+    }
+    
+    return (
       <>
         <Typography variant="h4">
           { strings.items.locationInfo.email }
