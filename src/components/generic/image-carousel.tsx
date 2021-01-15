@@ -81,15 +81,15 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
     if (imageUrls.length === 0) {
       return (
         <Fade
-        key="no-image-placeholder"
-        in={ true }
-        timeout={ 250 }
-      >
-        <img
-          src={ brokenImage }
-          alt={ strings.generic.imageAlt }
-          className={ classes.image }
-        />
+          key="no-image-placeholder"
+          in={ true }
+          timeout={ 250 }
+        >
+          <img
+            src={ brokenImage }
+            alt={ strings.generic.imageAlt }
+            className={ classes.image }
+          />
       </Fade>
       );
     }
