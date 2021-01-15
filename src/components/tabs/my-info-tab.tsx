@@ -48,7 +48,7 @@ const MyInfoTab: React.FC<Props> = props => {
             className={ classes.column }
           >
             { renderTextField("name", strings.generic.name, user?.name || "") }
-            { user?.companyAccount && renderTextField("companyId", strings.user.companyId, user?.companyId || "" ) }
+            { user?.companyAccount && renderTextField("companyId", strings.user.businessId, user?.companyId || "" ) }
             { renderTitle(strings.user.contactInformation) }
             { renderTextField("phoneNumber", strings.user.phoneNumber, user?.phoneNumber || "") }
             { renderTextField("email", strings.user.email, user?.email || "" ) }

@@ -156,7 +156,7 @@ export interface IStrings extends LocalizedStringsMethods {
     forgotPassword: string;
     contactInformation: string;
     changePassword: string;
-    companyId: string;
+    businessId: string;
     officeInfo: string;
   };
 

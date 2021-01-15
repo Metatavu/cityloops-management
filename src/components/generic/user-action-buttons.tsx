@@ -96,7 +96,7 @@ class UserActionButtons extends React.Component<Props, State> {
   private getLoginMenuOptions = (keycloak: KeycloakInstance): ActionButton[] => {
     return [{
       name: strings.user.login,
-      action: () => keycloak?.login() || console.log("Missing keycloak instance")
+      action: () => keycloak.login()
     },
     { 
       name: strings.user.register,
@@ -114,7 +114,7 @@ class UserActionButtons extends React.Component<Props, State> {
   private getLoggedInMenuOptions = (keycloak: KeycloakInstance, history: History): ActionButton[] => {
     return [{
       name: strings.user.logout,
-      action: () => keycloak?.logout() || console.log("Missing keycloak instance")
+      action: () => keycloak.logout()
     },
     { 
       name: strings.user.account,

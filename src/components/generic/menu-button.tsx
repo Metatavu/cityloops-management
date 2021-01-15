@@ -32,7 +32,7 @@ const MenuButton: React.FC<Props> = props => {
   }, [open]);
 
   /**
-   * Handler for toggle menu
+   * Event handler for toggle menu
    */
   const handleToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setOpen(prevOpen => !prevOpen);
@@ -40,8 +40,9 @@ const MenuButton: React.FC<Props> = props => {
   };
 
   /**
-   * Handler for close menu
-   * @param event 
+   * Event handler for close
+   *
+   * @param event React mouse event
    */
   const handleClose = (event: React.MouseEvent<EventTarget>) => {
     if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
