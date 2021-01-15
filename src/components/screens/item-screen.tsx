@@ -6,14 +6,13 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
-import { Button, CircularProgress, Grid, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Breadcrumbs, Button, CircularProgress, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
 import { Item } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import AppLayout from "../layouts/app-layout";
-import SearchBar from "../generic/search-bar";
 import ImageCarousel from "../generic/image-carousel";
 import moment from "moment";
 import LocationIcon from "@material-ui/icons/Room";
@@ -105,11 +104,13 @@ export class ItemScreen extends React.Component<Props, State> {
       <AppLayout
         banner={ false }
         history={ history }
+        headerProps={{
+          onAddClick: this.onAddItemClick
+        }}
       >
-        <SearchBar
-          categories={ [] }
-          locale={ this.props.locale }
-        />
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Link>
+        </Breadcrumbs>
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -140,12 +141,6 @@ export class ItemScreen extends React.Component<Props, State> {
           >
             { item ? item?.title : strings.error.itemNotFound }
           </Typography>
-          <Typography
-            variant="h1"
-            className={ classes.itemPrice }
-          >
-            { item ? `${ item.price } ${ item.priceUnit }` : "" }
-          </Typography>
         </div>
         <Grid
           key="contentContainer"
@@ -154,22 +149,21 @@ export class ItemScreen extends React.Component<Props, State> {
           className={ classes.columns }
           alignItems="stretch"
         >
-          <Grid
-            item
-            xs={ 12 }
-            md
-          >
+          <Grid item xs={ 12 } md>
             <ImageCarousel
               imageUrls={ item?.images || [] }
             />
           </Grid>
-          <Grid
-            item
-            xs={ 12 }
-            md
-          >
+          <Grid item xs={ 12 } md>
             <div className={ classes.propertiesContainer }>
+              <Typography
+                variant="h1"
+                className={ classes.itemPrice }
+              >
+                { item ? `${ item.price } ${ item.priceUnit }` : "" }
+              </Typography>
               { this.renderProperties() }
+              { this.renderSellerInfo() }
               { this.renderPriceInfo() }
             </div>
           </Grid>
@@ -208,33 +202,27 @@ export class ItemScreen extends React.Component<Props, State> {
       <div className={ classes.actionButtonsContainer } >
         <Button
           key="delete"
-          size="small"
           variant="outlined"
           color="primary"
-          className={ classes.deleteButton }
           onClick={ this.toggleDeleteDialog }
         >
           { strings.generic.delete }
         </Button>
         <Button
-          key="edit"
-          size="small"
-          variant="contained"
-          color="secondary"
-          className={ classes.editButton }
-          onClick={ () => this.setState({ formOpen: true }) }
-        >
-          { strings.generic.edit }
-        </Button>
-        <Button
           key="renew"
-          size="small"
           variant="text"
           color="secondary"
-          className={ classes.renewButton }
           onClick={ this.renewClick }
         >
           { strings.items.renew }
+        </Button>
+        <Button
+          key="edit"
+          variant="text"
+          color="secondary"
+          onClick={ () => this.setState({ formOpen: true }) }
+        >
+          { strings.generic.edit }
         </Button>
       </div>
     );
@@ -244,28 +232,27 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties
    */
   private renderProperties = () => {
-    const { classes } = this.props;
     const { item } = this.state;
 
     return item?.properties ?
       item.properties.map((property, index) => {
-        return (
-          <div key={ index }>
+        return property.value && (
+          <Box key={ index }>
             <Typography
               key={ property.key }
-              paragraph
-              className={ classes.propertyTitle }
+              variant="h4"
             >
               { property.key }
             </Typography>
-            <Typography
-              key={ property.value }
-              paragraph
-              className={ classes.propertyValue }
-            >
-              { property.value }
-            </Typography>
-          </div>
+            <Box mt={ 1 } mb={ 1 }>
+              <Typography
+                key={ property.value }
+                variant="body1"
+                >
+                { property.value }
+              </Typography>
+            </Box>
+          </Box>
         );
       }) :
       [];
@@ -275,7 +262,6 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties
    */
   private renderPriceInfo = () => {
-    const { classes } = this.props;
     const { item } = this.state;
 
     if (!item) {
@@ -290,52 +276,52 @@ export class ItemScreen extends React.Component<Props, State> {
       <>
         <Typography
           key="deliveryTitle"
-          paragraph
-          className={ classes.propertyTitle }
+          variant="h4"
         >
           { strings.items.delivery.title }
         </Typography>
-        <Typography
-          key="deliveryValue"
-          paragraph
-          className={ classes.propertyValue }
-        >
-          { deliveryText }
-        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography
+            key="deliveryValue"
+            variant="body1"
+          >
+            { deliveryText }
+          </Typography>
+        </Box>
 
         { item.delivery &&
           <>
             <Typography
               key="priceTitle"
-              paragraph
-              className={ classes.propertyTitle }
+              variant="h4"
             >
               { strings.items.deliveryPrice }
             </Typography>
-            <Typography
-              key="priceValue"
-              paragraph
-              className={ classes.propertyValue }
-            >
-              { `${item.deliveryPrice}€` || strings.items.deliveryPrice }
-            </Typography>
+            <Box mt={ 1 } mb={ 1 }>
+              <Typography
+                key="priceValue"
+                variant="body1"
+              >
+                { `${item.deliveryPrice}€` || strings.items.deliveryPrice }
+              </Typography>
+            </Box>
           </>
         }
 
         <Typography
           key="paymentMethodTitle"
-          paragraph
-          className={ classes.propertyTitle }
+          variant="h4"
         >
           { strings.items.paymentMethod }
         </Typography>
-        <Typography
-          key="paymentMethodValue"
-          paragraph
-          className={ classes.propertyValue }
-        >
-          { item.paymentMethod }
-        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography
+            key="paymentMethodValue"
+            variant="body1"
+          >
+            { item.paymentMethod }
+          </Typography>
+        </Box>
       </>
     );
   }
@@ -349,10 +335,46 @@ export class ItemScreen extends React.Component<Props, State> {
     return item && (
       <div className={ classes.locationContainer }>
         <LocationIcon className={ classes.locationIcon }/>
-        <Typography variant="body1">
+        <Box mr={ 2 }>
+          <Typography variant="h4">
+            { item.metadata.locationInfo.description }
+          </Typography>
+        </Box>
+        <Typography variant="h5">
           { item.metadata.locationInfo.address }
         </Typography>
       </div>
+    );
+  }
+
+  /**
+   * Renders seller info
+   */
+  private renderSellerInfo = () => {
+    const { item } = this.state;
+    if (!item) {
+      return null;
+    }
+    
+    return (
+      <>
+        <Typography variant="h4">
+          { strings.items.locationInfo.email }
+        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography variant="body1">
+            { item.metadata.locationInfo.email }
+          </Typography>
+        </Box>
+        <Typography variant="h4">
+          { strings.items.locationInfo.phone }
+        </Typography>
+        <Box mt={ 1 } mb={ 1 }>
+          <Typography variant="body1">
+            { item.metadata.locationInfo.phone }
+          </Typography>
+        </Box>
+      </>
     );
   }
 
@@ -369,11 +391,13 @@ export class ItemScreen extends React.Component<Props, State> {
     const { address, coordinates } = item.metadata.locationInfo;
 
     return (
-      <Map
-        address={ address }
-        coordinates={ coordinates }
-        defaultZoomLevel={ 15 }
-      />
+      <Box mb={ 6 }>
+        <Map
+          address={ address }
+          coordinates={ coordinates }
+          defaultZoomLevel={ 15 }
+        />
+      </Box>
     );
   }
 
@@ -523,6 +547,13 @@ export class ItemScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Event handler for add item click
+   */
+  private onAddItemClick = () => {
+    this.setState({ formOpen: true });
+  }
+
+  /**
    * Event handler for delete click
    */
   private onDeleteClick = async () => {
@@ -538,6 +569,7 @@ export class ItemScreen extends React.Component<Props, State> {
       .then(() => this.setState({ successfulDelete: true, deleteLoading: false }))
       .catch(e => console.error(e));
   }
+
 
   /**
    * Toggle delete dialog

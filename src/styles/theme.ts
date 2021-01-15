@@ -122,6 +122,18 @@ export default createMuiTheme({
       root: {
         minWidth: 40
       }
+    },
+    MuiLink: {
+      root: {
+        cursor: "pointer"
+      }
+    },
+    MuiBreadcrumbs: {
+      ol: {
+        [breakpoints.down("sm")]: {
+          marginLeft: theme.spacing(2)
+        }
+      }
     }
   },
   props: {

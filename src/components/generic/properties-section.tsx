@@ -75,7 +75,7 @@ const PropertiesSection: React.FC<Props> = props => {
   /**
    * Component render
    */
-  return(
+  return (
     <div className={ classes.root }>
       <ImageList
         images={ images }

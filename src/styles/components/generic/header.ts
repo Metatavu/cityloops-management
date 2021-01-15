@@ -29,23 +29,33 @@ export default createStyles({
     alignItems: "center"
   },
 
+  toolbar: {
+    justifyContent: "space-between"
+  },
+
   logo: {
     height: 64,
-    padding: 8
+    padding: theme.spacing(1),
+    cursor: "pointer"
+  },
+
+  mobileLogo: {
+    height: 64
   },
 
   accountSection: {
     height: 64,
     display: "flex",
     alignItems: "center",
-    marginLeft: "auto"
+    marginLeft: "auto",
   },
 
   menuButton: {
     padding: "8px 10px",
-    marginLeft: 20,
     textTransform: "none",
-
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(2)
+    },
     "&:first-child": {
       marginLeft: 0
     }
@@ -53,7 +63,6 @@ export default createStyles({
 
   menuButtonOutlined: {
     padding: "8px 10px",
-    marginLeft: 20,
     borderRadius: 0,
     borderColor: theme.palette.primary.main,
     color: theme.palette.primary.main,

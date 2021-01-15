@@ -21,6 +21,15 @@ export interface AccessToken {
 export type SignedToken = AccessToken | null;
 
 /**
+ * Interface describing generic action button
+ */
+export interface ActionButton {
+  name: string;
+  disabled?: boolean;
+  action: () => void;
+}
+
+/**
  * Interface describing anonymous login configuration
  */
 export interface AnonymousLoginConfig {

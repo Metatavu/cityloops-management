@@ -76,7 +76,10 @@ class MapComponent extends React.Component<Props, State> {
    * @param prevProps previous props
    */
   public componentDidUpdate = (prevProps: Props) => {
-    if (prevProps.address !== this.props.address) {
+    if (
+      prevProps.address !== this.props.address ||
+      prevProps.coordinates !== this.props.coordinates
+    ) {
       this.addLocationMarkerToMap();
     }
   }

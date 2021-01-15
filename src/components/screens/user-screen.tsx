@@ -104,7 +104,7 @@ export class UserScreen extends React.Component<Props, State> {
    */
   public render = () => {
     const { history } = this.props; 
-    const { formOpen } = this.state;
+    const { formOpen, existingItem } = this.state;
 
     return (
       <AppLayout
@@ -115,11 +115,14 @@ export class UserScreen extends React.Component<Props, State> {
         history={ history }
       >
         { this.renderLayoutContent() }
-        <ItemFormDialog
-          open={ formOpen }
-          onClose={ () => this.setState({ formOpen: false }) }
-          onCreated={ this.addItem }
-        />
+        { formOpen &&
+          <ItemFormDialog
+            existingItem={ existingItem }
+            open={ formOpen }
+            onClose={ () => this.setState({ formOpen: false }) }
+            onCreated={ this.addItem }
+          />
+        }
       </AppLayout>
     );
   }
@@ -185,6 +188,7 @@ export class UserScreen extends React.Component<Props, State> {
           <UserItemsTab
             userItems={ userItems }
             onDeleteItemClick={ this.deleteItemClick }
+            onEditItemClick={ this.editItemClick }
             history={ history }
           />
         }
@@ -289,6 +293,18 @@ export class UserScreen extends React.Component<Props, State> {
     this.setState({
       itemToDelete,
       deleteDialogOpen: true
+    });
+  }
+
+  /**
+   * Event handler for edit item click
+   *
+   * @param itemToEdit item to edit 
+   */
+  private editItemClick = (itemToEdit: Item) => {
+    this.setState({
+      formOpen: true,
+      existingItem: itemToEdit
     });
   }
 

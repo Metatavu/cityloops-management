@@ -77,6 +77,7 @@ export default createStyles({
 
   cardImage: {
     maxWidth: "100%",
+    margin: "0 auto"
   },
 
   image: {

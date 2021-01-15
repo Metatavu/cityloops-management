@@ -52,7 +52,7 @@ const AppLayout: React.FC<Props> = props => {
       />
       { banner &&
         <BannerImage
-        image={ bannerImageSrc }
+          image={ bannerImageSrc }
         />
       }
       <Container

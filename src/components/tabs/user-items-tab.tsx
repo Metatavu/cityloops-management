@@ -15,6 +15,7 @@ import theme from "../../styles/theme";
 interface Props extends WithStyles<typeof styles> {
   userItems: Item[];
   onDeleteItemClick: (item: Item) => void;
+  onEditItemClick: (item: Item) => void;
   history: History;
 }
 
@@ -26,6 +27,7 @@ interface Props extends WithStyles<typeof styles> {
 const UserItemsTab: React.FC<Props> = ({
   userItems,
   onDeleteItemClick,
+  onEditItemClick,
   history,
   classes
 }) => {
@@ -51,6 +53,7 @@ const UserItemsTab: React.FC<Props> = ({
           item={ item }
           onClick={ () => onItemClick(item) }
           onDeleteClick={ () => onDeleteItemClick(item) }
+          onEditClick={ () => onEditItemClick(item) }
         />
       );
     });

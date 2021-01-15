@@ -5,15 +5,15 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { signedLogin } from "../../actions/auth";
 import { setLocale } from "../../actions/locale";
-import { AccessToken, SignedToken } from "../../types";
+import { AccessToken, SignedToken, ActionButton } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
-
-import { Button, Hidden, IconButton, withStyles, WithStyles } from "@material-ui/core";
+import { History } from "history";
+import { withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/user-action-buttons";
 import strings from "../../localization/strings";
 import RegistrationFormDialog from "./registration-form-dialog";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import SignOutIcon from "@material-ui/icons/ExitToApp";
+import MenuButton from "./menu-button";
 
 /**
  * Interface describing component properties
@@ -23,6 +23,7 @@ interface Props extends WithStyles<typeof styles> {
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
   signedLogin?: typeof signedLogin;
+  history: History;
 }
 
 /**
@@ -50,50 +51,76 @@ class UserActionButtons extends React.Component<Props, State> {
    * Component render
    */
   public render = () => {
-    const { classes, keycloak, signedToken } = this.props;
+    const { classes, keycloak, signedToken , history } = this.props;
     const { registrationDialogOpen } = this.state;
 
     if (signedToken) {
       return (
         <div className={ classes.root }>
-          <Button
-            startIcon={ <SignOutIcon /> }
-            className={ classes.popoverButton }
-            // TODO: Add proper error handling
-            onClick={ () => keycloak?.logout() || console.log("Missing keycloak instance") }>
-            { strings.user.logout }
-          </Button>
+          { keycloak &&
+            <MenuButton
+              icon={ <AccountCircleIcon color="primary" /> }
+              menuOptions={
+                this.getLoggedInMenuOptions(keycloak, history)
+              }
+            />
+          }
         </div>
       );
     }
 
     return (
       <div className={ classes.root }>
-        <Button
-          className={ classes.popoverButton }
-          onClick={ this.toggleRegistrationDialog }
-        >
-          { strings.user.register }
-        </Button>
         <RegistrationFormDialog
           open={ registrationDialogOpen }
           onClose={ this.toggleRegistrationDialog }
         />
-        <Hidden mdUp>
-          <IconButton onClick={ () => keycloak?.login() || console.log("Missing keycloak instance") }>
-            <AccountCircleIcon htmlColor={ "#fff" } />
-          </IconButton>
-        </Hidden>
-        <Hidden smDown>
-          <Button
-            className={ classes.popoverButton }
-            // TODO: Add proper error handling
-            onClick={ () => keycloak?.login() || console.log("Missing keycloak instance") }>
-            { strings.user.login }
-          </Button>
-        </Hidden>
+        { keycloak &&
+          <MenuButton
+            icon={ <AccountCircleIcon /> }
+            menuOptions={
+              this.getLoginMenuOptions(keycloak)
+            }
+          />
+        }
       </div>
     );
+  }
+
+  /**
+   * Gets menu options for non-logged-in user
+   *
+   * @param keycloak keycloack instance
+   * @returns menu options as action button array
+   */
+  private getLoginMenuOptions = (keycloak: KeycloakInstance): ActionButton[] => {
+    return [{
+      name: strings.user.login,
+      action: () => keycloak.login()
+    },
+    { 
+      name: strings.user.register,
+      action: () => this.setState({ registrationDialogOpen: !this.state.registrationDialogOpen })
+    }
+    ];
+  }
+
+  /**
+   * Gets menu options for logged-in user
+   *
+   * @param keycloak keycloack instance
+   * @returns menu options as action button array
+   */
+  private getLoggedInMenuOptions = (keycloak: KeycloakInstance, history: History): ActionButton[] => {
+    return [{
+      name: strings.user.logout,
+      action: () => keycloak.logout()
+    },
+    { 
+      name: strings.user.account,
+      action: () => history.push("/user")
+    }
+    ];
   }
 
   /**

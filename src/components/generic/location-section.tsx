@@ -1,9 +1,10 @@
 import * as React from "react";
-import { TextField, Typography, WithStyles, withStyles } from '@material-ui/core';
+import { Box, TextField, Typography, WithStyles, withStyles } from '@material-ui/core';
 import styles from "../../styles/components/generic/location-section";
-import { LocationInfo } from "../../generated/client";
+import { Coordinates, LocationInfo } from "../../generated/client";
 import strings from "../../localization/strings";
 import Map from "./map";
+import MapFunctions from "../../utils/map-functions";
 
 /**
  * Interface representing component properties
@@ -17,6 +18,7 @@ interface Props extends WithStyles<typeof styles> {
  * Component state
  */
 interface State {
+  coordinates?: Coordinates;
   searchValue: string;
 }
 
@@ -43,6 +45,25 @@ class LocationSection extends React.Component<Props, State> {
   private delay: NodeJS.Timeout | null = null;
 
   /**
+   * Component did mount life cycle handler
+   */
+  public componentDidMount = async () => {
+    const { locationInfo } = this.props;
+
+    if (!locationInfo.coordinates) {
+      const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
+      const parsedCoordinates = await MapFunctions.parseCoordinates(response);
+      this.setState({
+        coordinates: parsedCoordinates
+      });
+    } else {
+      this.setState({
+        coordinates: locationInfo.coordinates
+      });
+    }
+  }
+
+  /**
    * Component did update life-cycle handler
    *
    * @param prevProps previous props
@@ -63,7 +84,7 @@ class LocationSection extends React.Component<Props, State> {
 
     return (
       <div className={ classes.root }>
-        <Typography variant="h6">
+        <Typography variant="h4">
           { strings.items.location }
         </Typography>
         { this.renderTextField("description", strings.items.locationInfo.description, description || "") }
@@ -85,19 +106,19 @@ class LocationSection extends React.Component<Props, State> {
    * @param value text field value
    */
   private renderTextField = (key: string, displayName: string, value: string) => {
-    const { classes } = this.props;
 
     return (
-      <TextField
-        key={ key }
-        label={ displayName }
-        value={ value }
-        onChange={ this.onChange(key) }
-        fullWidth
-        variant="outlined"
-        InputLabelProps={{ variant: "outlined" }}
-        className={ classes.textField }
-      />
+      <Box mt={ 2 }>
+        <TextField
+          key={ key }
+          label={ displayName }
+          value={ value }
+          onChange={ this.onChange(key) }
+          fullWidth
+          variant="outlined"
+          InputLabelProps={{ variant: "outlined" }}
+        />
+      </Box>
     );
   };
 
@@ -105,13 +126,16 @@ class LocationSection extends React.Component<Props, State> {
    * Renders map component
    */
   private renderMap = () => {
-    const { locationInfo } = this.props;
+    const { locationInfo } = this.props;
+    const { coordinates } = this.state;
 
     return (
-      <Map
-        address={ locationInfo.address }
-        coordinates={ locationInfo.coordinates }
-      />
+      <Box mt={ 2 }>
+        <Map
+          address={ locationInfo.address }
+          coordinates={ coordinates }
+        />
+      </Box>
     );
   };
 

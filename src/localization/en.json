@@ -104,7 +104,8 @@
     "deliveryPrice": "Delivery price",
     "noDeliveryPrice": "Delivery price is not defined",
     "renew": "Renew item",
-    "renewSuccessful": "Renew was successful!"
+    "renewSuccessful": "Renew was successful!",
+    "userInfo": "User information"
   },
 
   "categories": {
@@ -144,7 +145,7 @@
     "forgotPassword": "Forgot your password?",
     "contactInformation": "Contact information",
     "changePassword": "Change password",
-    "businessId": "Business ID",
+    "businessId": "Company ID",
     "officeInfo": "Agency"
   },
 
