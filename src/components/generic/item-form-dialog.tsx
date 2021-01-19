@@ -114,7 +114,12 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes, open, onClose } = this.props;
+    const {
+      classes,
+      open,
+      onClose,
+      existingItem
+    } = this.props;
     const { loading } = this.state;
 
     return (
@@ -127,7 +132,13 @@ class ItemFormDialog extends React.Component<Props, State> {
           PaperProps={{ className: classes.dialogContainer }}
         >
           <DialogTitle className={ classes.dialogTitle }>
-            <Typography variant="h3">{ strings.items.newPosting }</Typography>
+            <Typography variant="h3">
+              {
+                existingItem ?
+                strings.items.editPosting :
+                strings.items.newPosting
+              }
+            </Typography>
             <IconButton
               className={ classes.dialogClose }
               onClick={ onClose }
