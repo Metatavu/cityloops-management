@@ -543,12 +543,6 @@ export class ItemScreen extends React.Component<Props, State> {
     .catch(e => console.error(e));
   }
 
-  /**
-   * Event handler for add item click
-   */
-  private onAddItemClick = () => {
-    this.setState({ formOpen: true });
-  }
 
   /**
    * Event handler for delete click

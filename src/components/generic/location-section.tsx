@@ -48,19 +48,7 @@ class LocationSection extends React.Component<Props, State> {
    * Component did mount life cycle handler
    */
   public componentDidMount = async () => {
-    const { locationInfo } = this.props;
-
-    if (!locationInfo.coordinates) {
-      const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
-      const parsedCoordinates = await MapFunctions.parseCoordinates(response);
-      this.setState({
-        coordinates: parsedCoordinates
-      });
-    } else {
-      this.setState({
-        coordinates: locationInfo.coordinates
-      });
-    }
+    this.setCoordinates();
   }
 
   /**
@@ -70,6 +58,7 @@ class LocationSection extends React.Component<Props, State> {
    */
   public componentDidUpdate = (prevProps: Props) => {
     if (prevProps.locationInfo.address !== this.props.locationInfo.address) {
+      this.setCoordinates();
       this.setState({ searchValue: this.props.locationInfo.address || "" });
     }
   }
@@ -184,6 +173,24 @@ class LocationSection extends React.Component<Props, State> {
     }
   }
 
+  /**
+   * Sets coordinates for map
+   */
+  private setCoordinates = async () => {
+    const { locationInfo } = this.props;
+
+    if (!locationInfo.coordinates) {
+      const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
+      const parsedCoordinates = await MapFunctions.parseCoordinates(response);
+      this.setState({
+        coordinates: parsedCoordinates
+      });
+    } else {
+      this.setState({
+        coordinates: locationInfo.coordinates
+      });
+    }
+  }
 }
 
 export default withStyles(styles)(LocationSection);

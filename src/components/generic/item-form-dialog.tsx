@@ -690,14 +690,15 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     const previousLocationInfo = item?.metadata.locationInfo;
 
-    if (!previousLocationInfo?.coordinates) {
-      locationInfo.coordinates = MapFunctions.defaultCoordinates;
-    }
-
-    if (previousLocationInfo?.address !== locationInfo.address) {
+    if (
+      previousLocationInfo?.address !== locationInfo.address ||
+      !item?.metadata.locationInfo.coordinates
+    ) {
       const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
       const parsedCoordinates = await MapFunctions.parseCoordinates(response);
       locationInfo.coordinates = parsedCoordinates;
+    } else if (!previousLocationInfo?.coordinates) {
+      locationInfo.coordinates = MapFunctions.defaultCoordinates;
     }
 
     this.setState(
