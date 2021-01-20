@@ -114,7 +114,12 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Component render method
    */
   public render = () => {
-    const { classes, open, onClose } = this.props;
+    const {
+      classes,
+      open,
+      onClose,
+      existingItem
+    } = this.props;
     const { loading } = this.state;
 
     return (
@@ -127,7 +132,13 @@ class ItemFormDialog extends React.Component<Props, State> {
           PaperProps={{ className: classes.dialogContainer }}
         >
           <DialogTitle className={ classes.dialogTitle }>
-            <Typography variant="h3">{ strings.items.newPosting }</Typography>
+            <Typography variant="h3">
+              {
+                existingItem ?
+                strings.items.editPosting :
+                strings.items.newPosting
+              }
+            </Typography>
             <IconButton
               className={ classes.dialogClose }
               onClick={ onClose }
@@ -679,14 +690,15 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     const previousLocationInfo = item?.metadata.locationInfo;
 
-    if (!previousLocationInfo?.coordinates) {
-      locationInfo.coordinates = MapFunctions.defaultCoordinates;
-    }
-
-    if (previousLocationInfo?.address !== locationInfo.address) {
+    if (
+      previousLocationInfo?.address !== locationInfo.address ||
+      !item?.metadata.locationInfo.coordinates
+    ) {
       const response = await MapFunctions.fetchNewCoordinatesForAddress(locationInfo.address);
       const parsedCoordinates = await MapFunctions.parseCoordinates(response);
       locationInfo.coordinates = parsedCoordinates;
+    } else if (!previousLocationInfo?.coordinates) {
+      locationInfo.coordinates = MapFunctions.defaultCoordinates;
     }
 
     this.setState(

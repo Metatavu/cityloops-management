@@ -104,9 +104,6 @@ export class ItemScreen extends React.Component<Props, State> {
       <AppLayout
         banner={ false }
         history={ history }
-        headerProps={{
-          onAddClick: this.onAddItemClick
-        }}
       >
         <Breadcrumbs aria-label="breadcrumb">
           <Link onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Link>
@@ -494,7 +491,7 @@ export class ItemScreen extends React.Component<Props, State> {
   }
 
   /**
-   * Event handler for renew clickå
+   * Event handler for renew click
    */
   private renewClick = async () => {
     this.setState({ updateOpen: true });
@@ -546,12 +543,6 @@ export class ItemScreen extends React.Component<Props, State> {
     .catch(e => console.error(e));
   }
 
-  /**
-   * Event handler for add item click
-   */
-  private onAddItemClick = () => {
-    this.setState({ formOpen: true });
-  }
 
   /**
    * Event handler for delete click

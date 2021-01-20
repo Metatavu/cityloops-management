@@ -97,6 +97,7 @@ export interface IStrings extends LocalizedStringsMethods {
     addItem: string;
     addPosting: string;
     newPosting: string;
+    editPosting: string;
     postings: string;
     deletePosting: string;
     itemTitle: string;

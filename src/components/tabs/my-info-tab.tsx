@@ -52,6 +52,7 @@ const MyInfoTab: React.FC<Props> = props => {
             { renderTitle(strings.user.contactInformation) }
             { renderTextField("phoneNumber", strings.user.phoneNumber, user?.phoneNumber || "") }
             { renderTextField("email", strings.user.email, user?.email || "" ) }
+            { renderTextField("address", strings.user.address, user?.address || "" ) }
             { renderActionButtons() }
           </Grid>
           <Grid
