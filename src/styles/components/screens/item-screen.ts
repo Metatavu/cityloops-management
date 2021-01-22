@@ -207,6 +207,7 @@ export default createStyles({
 
   userInfoContainer: {
     display: "flex",
+    alignItems: "flex-start",
     marginTop: 25,
     marginBottom: 25,
     [theme.breakpoints.down("sm")]: {
