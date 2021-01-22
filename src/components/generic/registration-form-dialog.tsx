@@ -5,13 +5,14 @@ import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 
 import { AccessToken, TextFieldTypes } from "../../types";
-import { Button, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/registration-form-dialog";
 import strings from "../../localization/strings";
 import CloseIcon from '@material-ui/icons/Close';
 import Api from "../../api/api";
 import { User } from "../../generated/client";
 import logo from "../../resources/svg/logo-primary.svg";
+import privacyPolicyPDF from "../../resources/tietosuojaseloste.pdf";
 
 /**
  * Interface describing component properties
@@ -30,6 +31,7 @@ interface State {
   error?: FormError;
   user: User;
   success: boolean;
+  termsConfirmed: boolean;
 }
 
 /**
@@ -62,7 +64,8 @@ class RegistrationFormDialog extends React.Component<Props, State> {
         email: "",
         phoneNumber: ""
       },
-      success: false
+      success: false,
+      termsConfirmed: false
     };
   }
 
@@ -71,9 +74,9 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    */
   public render = () => {
     const { classes, open } = this.props;
-    const { loading, error, success } = this.state;
+    const { loading, error, success, termsConfirmed } = this.state;
 
-    const canProceed = this.formFilled() && !error;
+    const canProceed = this.formFilled() && !error && termsConfirmed;
 
     return (
       <Dialog
@@ -148,6 +151,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
                 this.renderTextField("companyId", strings.user.businessId, TextFieldTypes.STRING, user.companyId)
               }
               { this.renderTextField("password", strings.user.password, TextFieldTypes.PASSWORD, user.password) }
+              { this.renderConfirmPrivacy() }
             </>
           )
         }
@@ -208,6 +212,30 @@ class RegistrationFormDialog extends React.Component<Props, State> {
         />
         <Typography variant="body1">
           { displayName }
+        </Typography>
+      </div>
+    );
+  }
+
+  /**
+   * Renders confirm privacy checkbox
+   */
+  private renderConfirmPrivacy = () => {
+    const { classes } = this.props;
+    const { termsConfirmed } = this.state;
+
+    return (
+      <div className={ classes.formRow }>
+        <Checkbox
+          checked={ termsConfirmed }
+          onChange={ () => this.setState({ termsConfirmed: !termsConfirmed }) }
+          className={ classes.checkbox }
+        />
+        <Typography variant="body1">
+          { `${strings.user.confirmTerms} ` }
+          <Link onClick={ () => window.open(privacyPolicyPDF, "_blank") }>
+            { strings.user.privacyPolicies }
+          </Link>
         </Typography>
       </div>
     );

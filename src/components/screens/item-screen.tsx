@@ -9,7 +9,7 @@ import styles from "../../styles/components/screens/item-screen";
 import { Box, Breadcrumbs, Button, CircularProgress, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
-import { Item } from "../../generated/client";
+import { Item, PublicUser } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import AppLayout from "../layouts/app-layout";
@@ -38,6 +38,7 @@ interface Props extends WithStyles<typeof styles> {
 interface State {
   loading: boolean;
   item?: Item;
+  publicUser?: PublicUser;
   formOpen: boolean;
   deleteDialogOpen: boolean;
   deleteLoading: boolean;
@@ -112,6 +113,7 @@ export class ItemScreen extends React.Component<Props, State> {
           { this.renderPropertiesSection() }
         </div>
         <div className={ classes.locationSection }>
+          { this.renderUserInfo() }
           { this.renderLocation() }
           { this.renderMap() }
         </div>
@@ -324,11 +326,35 @@ export class ItemScreen extends React.Component<Props, State> {
   }
 
   /**
+   * Renders user info
+   */
+  private renderUserInfo = () => {
+    const { classes } = this.props;
+    const { publicUser } = this.state;
+
+    return publicUser && (
+      <div className={ classes.userInfoContainer }>
+        <img
+          src={ publicUser.logoUrl }
+          alt={ strings.generic.imageAlt }
+          className={ classes.image }
+        />
+        <Box p={ 4 }>
+          <Typography variant="body1">
+            { publicUser.description }
+          </Typography>
+        </Box>
+      </div>
+    );
+  }
+
+  /**
    * Renders location
    */
   private renderLocation = () => {
     const { classes } = this.props;
     const { item } = this.state;
+
     return item && (
       <div className={ classes.locationContainer }>
         <LocationIcon className={ classes.locationIcon }/>
@@ -349,6 +375,7 @@ export class ItemScreen extends React.Component<Props, State> {
    */
   private renderSellerInfo = () => {
     const { item } = this.state;
+
     if (!item) {
       return null;
     }
@@ -511,8 +538,11 @@ export class ItemScreen extends React.Component<Props, State> {
     }
 
     const itemsApi = Api.getItemsApi(anonymousToken);
+    const usersApi = Api.getUsersApi(anonymousToken);
+
     const item = await itemsApi.findItem({ itemId });
-    this.setState({ item });
+    const publicUser = await usersApi.findPublicUser({ userId: item.userId });
+    this.setState({ item, publicUser });
   }
 
   /**

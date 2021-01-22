@@ -13,6 +13,7 @@ interface Props extends WithStyles<typeof styles> {
   buttonText?: string;
   controlled?: boolean;
   open?: boolean;
+  maxImageCount?: number;
   onClose?: () => void;
 
   /**
@@ -89,7 +90,13 @@ class FileUploader extends React.Component<Props, State> {
    * Render upload dialog
    */
   private renderUploadDialog = () => {
-    const { allowedFileTypes, controlled, open, onClose } = this.props;
+    const {
+      allowedFileTypes,
+      controlled,
+      open,
+      maxImageCount,
+      onClose
+    } = this.props;
     const { dialogOpen } = this.state;
 
     return (
@@ -100,7 +107,7 @@ class FileUploader extends React.Component<Props, State> {
         onSave={ this.onSave }
         cancelButtonText={ strings.generic.cancel }
         submitButtonText={ strings.generic.save }
-        filesLimit={ 10 }
+        filesLimit={ maxImageCount || 10 }
         maxFileSize={ 200000000 }
         showPreviewsInDropzone={ false }
       />

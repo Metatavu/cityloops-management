@@ -203,6 +203,23 @@ export default createStyles({
 
   map: {
     width: "100%"
-  }
+  },
+
+  userInfoContainer: {
+    display: "flex",
+    alignItems: "flex-start",
+    marginTop: 25,
+    marginBottom: 25,
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column"
+    }
+  },
+
+  image: {
+    maxWidth: 300,
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
+    }
+  },
 
 });
