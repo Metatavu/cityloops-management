@@ -21,126 +21,102 @@ import {
 } from './';
 
 /**
- * User object
+ * Public user object
  * @export
- * @interface User
+ * @interface PublicUser
  */
-export interface User {
+export interface PublicUser {
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     readonly id?: string;
     /**
      * User name
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     name: string;
     /**
      * User address
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     address: string;
     /**
      * User email
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     email: string;
     /**
      * User phone number
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     phoneNumber: string;
     /**
-     * Is this user company account
-     * @type {boolean}
-     * @memberof User
-     */
-    companyAccount: boolean;
-    /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     companyId?: string;
     /**
      * 
      * @type {Coordinates}
-     * @memberof User
+     * @memberof PublicUser
      */
     coordinates?: Coordinates;
     /**
-     * Location description
-     * @type {string}
-     * @memberof User
-     */
-    officeInfo?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    password?: string;
-    /**
-     * Has this user been verified/allowed to use online payment
-     * @type {boolean}
-     * @memberof User
-     */
-    verified?: boolean;
-    /**
-     * Is this user prioritized over other users
-     * @type {boolean}
-     * @memberof User
-     */
-    priorityUser?: boolean;
-    /**
      * User description
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     description?: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     logoUrl?: string;
     /**
+     * Location description
+     * @type {string}
+     * @memberof PublicUser
+     */
+    officeInfo?: string;
+    /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     readonly creatorId?: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PublicUser
      */
     readonly lastModifierId?: string;
     /**
      * Created date
      * @type {Date}
-     * @memberof User
+     * @memberof PublicUser
      */
     readonly createdAt?: Date;
     /**
      * Date modified
      * @type {Date}
-     * @memberof User
+     * @memberof PublicUser
      */
     readonly modifiedAt?: Date;
 }
 
-export function UserFromJSON(json: any): User {
-    return UserFromJSONTyped(json, false);
+export function PublicUserFromJSON(json: any): PublicUser {
+    return PublicUserFromJSONTyped(json, false);
 }
 
-export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User {
+export function PublicUserFromJSONTyped(json: any, ignoreDiscriminator: boolean): PublicUser {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -151,15 +127,11 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         'address': json['address'],
         'email': json['email'],
         'phoneNumber': json['phoneNumber'],
-        'companyAccount': json['companyAccount'],
         'companyId': !exists(json, 'companyId') ? undefined : json['companyId'],
         'coordinates': !exists(json, 'coordinates') ? undefined : CoordinatesFromJSON(json['coordinates']),
-        'officeInfo': !exists(json, 'officeInfo') ? undefined : json['officeInfo'],
-        'password': !exists(json, 'password') ? undefined : json['password'],
-        'verified': !exists(json, 'verified') ? undefined : json['verified'],
-        'priorityUser': !exists(json, 'priorityUser') ? undefined : json['priorityUser'],
         'description': !exists(json, 'description') ? undefined : json['description'],
         'logoUrl': !exists(json, 'logoUrl') ? undefined : json['logoUrl'],
+        'officeInfo': !exists(json, 'officeInfo') ? undefined : json['officeInfo'],
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
@@ -167,7 +139,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
     };
 }
 
-export function UserToJSON(value?: User | null): any {
+export function PublicUserToJSON(value?: PublicUser | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -180,15 +152,11 @@ export function UserToJSON(value?: User | null): any {
         'address': value.address,
         'email': value.email,
         'phoneNumber': value.phoneNumber,
-        'companyAccount': value.companyAccount,
         'companyId': value.companyId,
         'coordinates': CoordinatesToJSON(value.coordinates),
-        'officeInfo': value.officeInfo,
-        'password': value.password,
-        'verified': value.verified,
-        'priorityUser': value.priorityUser,
         'description': value.description,
         'logoUrl': value.logoUrl,
+        'officeInfo': value.officeInfo,
     };
 }
 

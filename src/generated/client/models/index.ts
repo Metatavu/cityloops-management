@@ -8,5 +8,6 @@ export * from './ItemProperty';
 export * from './LocationInfo';
 export * from './Metadata';
 export * from './ModelError';
+export * from './PublicUser';
 export * from './SearchHound';
 export * from './User';

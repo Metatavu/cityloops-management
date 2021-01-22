@@ -147,7 +147,11 @@
     "contactInformation": "Contact information",
     "changePassword": "Change password",
     "businessId": "Company ID",
-    "officeInfo": "Agency"
+    "officeInfo": "Agency",
+    "confirmTerms": "I have read and I accept",
+    "privacyPolicies": "Privacy Policies",
+    "description": "User description",
+    "logo": "Logo"
   },
 
   "userPage": {

@@ -148,7 +148,11 @@
     "contactInformation": "Yhteystiedot",
     "changePassword": "Vaihda salasana",
     "businessId": "Y-tunnus",
-    "officeInfo": "Toimipiste"
+    "officeInfo": "Toimipiste",
+    "confirmTerms": "Olen lukenut ja hyväksyn palvelun",
+    "privacyPolicies": "Tietosuojakäytönnöt",
+    "description": "Käyttäjän kuvaus",
+    "logo": "Logo"
   },
 
   "userPage": {

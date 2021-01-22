@@ -194,6 +194,7 @@ export class UserScreen extends React.Component<Props, State> {
         }
         { tabIndex === 1 &&
           <MyInfoTab
+            signedToken={ signedToken }
             user={ user }
             onUserInfoChange={ this.onUserInfoChange } 
             onUserSave={ this.onUserSave }

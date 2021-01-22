@@ -7,11 +7,15 @@ import { User } from "../../generated/client";
 import TextFieldWithDelay from "../generic/text-field-with-delay";
 import MapFunctions from "../../utils/map-functions";
 import { History } from "history";
+import ImageList from "../generic/image-list";
+import { getPresignedPostData, uploadFileToS3 } from "../../utils/image-upload";
+import { SignedToken } from "../../types";
 
 /**
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
+  signedToken: SignedToken;
   user?: User;
   onUserInfoChange: (user: User) => void;
   onUserSave: () => void;
@@ -24,6 +28,7 @@ interface Props extends WithStyles<typeof styles> {
 const MyInfoTab: React.FC<Props> = props => {
   const {
     classes,
+    signedToken,
     user,
     onUserInfoChange,
     onUserSave,
@@ -48,11 +53,19 @@ const MyInfoTab: React.FC<Props> = props => {
             className={ classes.column }
           >
             { renderTextField("name", strings.generic.name, user?.name || "") }
-            { user?.companyAccount && renderTextField("companyId", strings.user.businessId, user?.companyId || "" ) }
+            { user?.companyAccount && renderTextField("companyId", strings.user.businessId, user?.companyId || "") }
             { renderTitle(strings.user.contactInformation) }
             { renderTextField("phoneNumber", strings.user.phoneNumber, user?.phoneNumber || "") }
-            { renderTextField("email", strings.user.email, user?.email || "" ) }
-            { renderTextField("address", strings.user.address, user?.address || "" ) }
+            { renderTextField("email", strings.user.email, user?.email || "") }
+            { renderTextField("address", strings.user.address, user?.address || "") }
+            { renderTextField("description", strings.user.description, user?.description || "", 10) }
+            <ImageList
+              maxImageCount={ 1 }
+              title={ strings.user.logo }
+              onImageDeleteClick={ () => onLogoUpdate() }
+              onUpdate={ onLogoUpdate }
+              images={ [user?.logoUrl || ""] }
+            />
             { renderActionButtons() }
           </Grid>
           <Grid
@@ -77,6 +90,49 @@ const MyInfoTab: React.FC<Props> = props => {
   };
 
   /**
+   * Update user logo
+   *
+   * @param files image files
+   */
+  const onLogoUpdate = async (files?: File[]) => {
+
+    if (!files || files.length < 1) {
+      onUserInfoChange({ ...user, logoUrl: undefined } as User);
+      return;
+    }
+
+    const newLogo = await uploadImages(files);
+    onUserInfoChange({ ...user, logoUrl: newLogo[0] } as User);
+
+  };
+
+  /**
+   * Uploads images to AWS S3
+   *
+   * @param files list of files to upload
+   */
+  const uploadImages = async (files: File[]): Promise<string[]> => {
+
+    if (!signedToken) {
+      return [];
+    }
+
+    const imageUrls: string[] = [];
+    for (const file of files) {
+      try {
+        const res = await getPresignedPostData(file, signedToken.userId!);
+        await uploadFileToS3(res.data, file);
+        const imageUrl = `${res.basePath}/${res.data.fields.key}`;
+        imageUrls.push(imageUrl);
+      } catch (e) {
+        Promise.reject();
+      }
+    }
+
+    return imageUrls;
+  }
+
+  /**
    * Renders text field title
    *
    * @param title title
@@ -98,8 +154,9 @@ const MyInfoTab: React.FC<Props> = props => {
    * @param key text field key
    * @param displayName text field display name
    * @param value text field value
+   * @param rows number of rows
    */
-  const renderTextField = (key: string, displayName: string, value: string) => {
+  const renderTextField = (key: string, displayName: string, value: string, rows?: number) => {
     return (
       <TextField
         className={ classes.inputField }
@@ -111,6 +168,9 @@ const MyInfoTab: React.FC<Props> = props => {
         variant="outlined"
         size="medium"
         fullWidth
+        multiline={ !!rows }
+        rows={ rows }
+        rowsMax={ 10 }
       />
     );
   };

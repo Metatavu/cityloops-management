@@ -58,6 +58,13 @@ export default createStyles({
 
   successfulRegistration: {
     marginTop: 20
+  },
+
+  link: {
+    cursor: "pointer",
+    "&:hover": {
+      textDecoration: "underline"
+    }
   }
 
 });

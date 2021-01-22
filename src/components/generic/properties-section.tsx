@@ -78,6 +78,7 @@ const PropertiesSection: React.FC<Props> = props => {
   return (
     <div className={ classes.root }>
       <ImageList
+        title={ strings.items.images }
         images={ images }
         onUpdate={ onUpdateImages }
         onImageDeleteClick={ onImageDeleteClick }

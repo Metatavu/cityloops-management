@@ -15,6 +15,9 @@
 
 import * as runtime from '../runtime';
 import {
+    PublicUser,
+    PublicUserFromJSON,
+    PublicUserToJSON,
     User,
     UserFromJSON,
     UserToJSON,
@@ -25,6 +28,10 @@ export interface CreateUserRequest {
 }
 
 export interface DeleteUserRequest {
+    userId: string;
+}
+
+export interface FindPublicUserRequest {
     userId: string;
 }
 
@@ -127,6 +134,46 @@ export class UsersApi extends runtime.BaseAPI {
      */
     async deleteUser(requestParameters: DeleteUserRequest): Promise<void> {
         await this.deleteUserRaw(requestParameters);
+    }
+
+    /**
+     * Finds a public user by id
+     * Find a public user.
+     */
+    async findPublicUserRaw(requestParameters: FindPublicUserRequest): Promise<runtime.ApiResponse<PublicUser>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling findPublicUser.');
+        }
+
+        const queryParameters: runtime.HTTPQuery = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = typeof token === 'function' ? token("bearerAuth", []) : token;
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/publicUsers/{userId}`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => PublicUserFromJSON(jsonValue));
+    }
+
+    /**
+     * Finds a public user by id
+     * Find a public user.
+     */
+    async findPublicUser(requestParameters: FindPublicUserRequest): Promise<PublicUser> {
+        const response = await this.findPublicUserRaw(requestParameters);
+        return await response.value();
     }
 
     /**

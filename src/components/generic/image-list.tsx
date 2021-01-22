@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/image-list";
-import strings from "../../localization/strings";
 import AddAPhotoOutlinedIcon from "@material-ui/icons/AddAPhotoOutlined";
 import FileUploader from "../generic/file-uploader";
 import DeleteIcon from "@material-ui/icons/Close";
@@ -10,7 +9,9 @@ import DeleteIcon from "@material-ui/icons/Close";
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
+  title: string;
   images?: string[];
+  maxImageCount?: number;
   onUpdate: (images: File[]) => void;
   onImageDeleteClick: (imageUrl: string) => void;
 }
@@ -19,7 +20,14 @@ interface Props extends WithStyles<typeof styles> {
  * Image list component
  */
 const ImageList: React.FC<Props> = props => {
-  const { classes, images, onUpdate, onImageDeleteClick } = props;
+  const {
+    classes,
+    title,
+    images,
+    maxImageCount,
+    onUpdate,
+    onImageDeleteClick
+  } = props;
 
   const [ uploadModalOpen, toggleSideMenu ] = React.useState(false);
   const toggle = () => toggleSideMenu(!uploadModalOpen);
@@ -64,6 +72,7 @@ const ImageList: React.FC<Props> = props => {
           onClick={ toggle }
         />
         <FileUploader
+          maxImageCount={ maxImageCount }
           controlled={ true }
           open={ uploadModalOpen }
           allowedFileTypes={ [ "image/png", "image/jpeg" ] }
@@ -83,7 +92,7 @@ const ImageList: React.FC<Props> = props => {
         variant="h4"
         className={ classes.title }
       >
-        { strings.items.images }
+        { title }
       </Typography>
       <div className={ classes.imagesContainer}>
         { renderAddImage() }
