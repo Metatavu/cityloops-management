@@ -233,7 +233,9 @@ class RegistrationFormDialog extends React.Component<Props, State> {
         />
         <Typography variant="body1">
           { `${strings.user.confirmTerms} ` }
-          <Link onClick={ () => window.open(privacyPolicyPDF, "_blank") }>{ strings.user.privacyPolicies }</Link>
+          <Link onClick={ () => window.open(privacyPolicyPDF, "_blank") }>
+            { strings.user.privacyPolicies }
+          </Link>
         </Typography>
       </div>
     );
