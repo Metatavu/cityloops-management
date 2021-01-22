@@ -231,9 +231,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
           onChange={ () => this.setState({ termsConfirmed: !termsConfirmed }) }
           className={ classes.checkbox }
         />
-        <Typography
-          variant="body1"
-        >
+        <Typography variant="body1">
           { `${strings.user.confirmTerms} ` }
           <Link onClick={ () => window.open(privacyPolicyPDF, "_blank") }>{ strings.user.privacyPolicies }</Link>
         </Typography>
