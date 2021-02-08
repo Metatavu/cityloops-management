@@ -181,6 +181,20 @@
   },
 
   "privacyStatement": "Privacy Statement",
-  "copyRight": "Copyright @ kiertoon.fi 2020"
+  "copyRight": "Copyright @ kiertoon.fi 2020",
+
+  "info":{
+    "first": "Kiertoon on tarkoitettu kaikessa rakentamisessa ja purkamisessa syntyvien, uudelleen käytettävien ja kierrätettävien materiaalien, kalusteiden, koneiden ja laitteiden vaihdantaan. Täällä voi myös etsiä ja tarjota rakentamiseen ja purkamiseen liittyviä palveluja, kuten jätehuolto- ja asiantuntijapalveluja.",
+    "second": "Tämän kauppapaikan käyttäminen on maksutonta ja avointa. Sivustoa ylläpitää Mikkelin Kehitysyhtiö  Miksei Oy. Otamme vastaan ideoita sivuston edelleen kehittämiseksi.",
+    "third": "Yhteystiedot ja lisätietoja CityLoops-hankkeesta: ",
+    "fourth": "Muita rakennus- ja purkumateriaaleja tarjoavia kauppapaikkoja:",
+    "thisLink": "tästä linkistä",
+    "companies": {
+      "materiaalitori": "Materiaalitori",
+      "purkutori": "Purkutori",
+      "purkukolmio": "Purkukolmio",
+      "kiertonet": "Kiertonet"
+    }
+  }
 
 }

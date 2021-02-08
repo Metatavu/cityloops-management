@@ -20,6 +20,7 @@ import "moment/locale/en-gb";
 import ItemsScreen from "./screens/items-screen";
 import ItemScreen from "./screens/item-screen";
 import UserScreen from "./screens/user-screen";
+import InfoScreen from "./screens/info-screen";
 
 const store = createStore<ReduxState, ReduxActions, any, any>(rootReducer);
 
@@ -93,6 +94,15 @@ class App extends React.Component<Props, State> {
                         exact={ true }
                         render={({ history }) => (
                           <UserScreen
+                            history={ history }
+                          />
+                        )}
+                      />
+                      <Route
+                        path="/info"
+                        exact={ true }
+                        render={({ history }) => (
+                          <InfoScreen
                             history={ history }
                           />
                         )}

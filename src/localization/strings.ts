@@ -219,11 +219,24 @@ export interface IStrings extends LocalizedStringsMethods {
     expires: string;
     noHounds: string;
     activeHounds: string;
-  }
+  };
 
   privacyStatement: string;
   copyRight: string;
 
+  info: {
+    first: string;
+    second: string;
+    third: string;
+    fourth: string;
+    thisLink: string;
+    companies: {
+      materiaalitori: string;
+      purkutori: string;
+      purkukolmio: string;
+      kiertonet: string;
+    };
+  };
 }
 
 const strings: IStrings = new LocalizedStrings({
