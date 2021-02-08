@@ -5,7 +5,7 @@ import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 
 import { AccessToken, TextFieldTypes } from "../../types";
-import { Button, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Button, Checkbox, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Link, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/registration-form-dialog";
 import strings from "../../localization/strings";
 import CloseIcon from '@material-ui/icons/Close';
@@ -231,12 +231,11 @@ class RegistrationFormDialog extends React.Component<Props, State> {
           onChange={ () => this.setState({ termsConfirmed: !termsConfirmed }) }
           className={ classes.checkbox }
         />
-        <Typography
-          variant="body1"
-          onClick={ () => window.open(privacyPolicyPDF, "_blank") }
-          className={ classes.link }
-        >
-          { `${strings.user.confirmTerms} ${strings.user.privacyPolicies}` }
+        <Typography variant="body1">
+          { `${strings.user.confirmTerms} ` }
+          <Link onClick={ () => window.open(privacyPolicyPDF, "_blank") }>
+            { strings.user.privacyPolicies }
+          </Link>
         </Typography>
       </div>
     );

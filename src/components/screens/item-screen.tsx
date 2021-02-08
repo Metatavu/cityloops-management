@@ -340,7 +340,7 @@ export class ItemScreen extends React.Component<Props, State> {
           className={ classes.image }
         />
         <Box p={ 4 }>
-          <Typography variant="h5">
+          <Typography variant="body1">
             { publicUser.description }
           </Typography>
         </Box>

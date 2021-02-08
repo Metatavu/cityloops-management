@@ -64,7 +64,7 @@ const MyInfoTab: React.FC<Props> = props => {
               title={ strings.user.logo }
               onImageDeleteClick={ () => onLogoUpdate() }
               onUpdate={ onLogoUpdate }
-              images={ [user?.logoUrl || ""] }
+              images={[ user?.logoUrl || "" ]}
             />
             { renderActionButtons() }
           </Grid>
