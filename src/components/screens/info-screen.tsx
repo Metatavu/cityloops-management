@@ -8,7 +8,7 @@ import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
 import { CircularProgress, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
-import { AccessToken, SearchParams, SignedToken } from "../../types";
+import { AccessToken, SignedToken } from "../../types";
 import { Category, Item } from "../../generated/client";
 import AppLayout from "../layouts/app-layout";
 import strings from "../../localization/strings";
