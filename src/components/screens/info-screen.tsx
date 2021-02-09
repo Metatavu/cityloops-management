@@ -5,8 +5,8 @@ import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
-import styles from "../../styles/components/screens/items-screen";
-import { CircularProgress, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
+import styles from "../../styles/components/screens/info-screen";
+import { Box, CircularProgress, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
 import { Category, Item } from "../../generated/client";
@@ -103,50 +103,56 @@ export class InfoScreen extends React.Component<Props, State> {
     }
 
     return (
-      <div>
-        <Typography>
-          { strings.info.first }
-        </Typography>
-        <Typography>
-          { strings.info.second }
-        </Typography>
-        <Typography>
-          { strings.info.third }
-          <Link
-          href="https://mikseimikkeli.fi/hankkeet/cityloops-kaupunkien-materiaalivirtojen-silmukan-sulkeminen/"
-          target="_blank"
-          >
-            { strings.info.thisLink }
-          </Link>
-        </Typography>
-
-        <Typography>
-          { strings.info.fourth }
-        </Typography>
-        { this.renderLink(strings.info.companies.materiaalitori, "https://materiaalitori.fi/") }
-        { this.renderLink(strings.info.companies.purkutori, "http://purkutori.fi/") }
-        { this.renderLink(strings.info.companies.purkukolmio, "https://www.purkukolmio.fi/kauppa") }
-        { this.renderLink(strings.info.companies.kiertonet, "https://kiertonet.fi/") }
-      </div>
+      <Box mt={ 2 } className={ classes.root }>
+        <Typography variant="h1" className={ classes.title  }>{ strings.info.title }</Typography>
+        <Box mt={ 2 } mb={ 2 }>
+          <Typography>
+            { strings.info.first }
+          </Typography>
+          <Typography>
+            { strings.info.second }
+          </Typography>
+          <Typography>
+            { strings.info.third }
+            <Link
+            href="https://mikseimikkeli.fi/hankkeet/cityloops-kaupunkien-materiaalivirtojen-silmukan-sulkeminen/"
+            target="_blank"
+            >
+              { strings.info.thisLink }
+            </Link>
+          </Typography>
+        </Box>
+        <Box mt={ 4 } mb={ 2 }>
+          <Typography variant="h4">
+            { strings.info.fourth }
+          </Typography>
+          { this.renderLink(strings.info.companies.materiaalitori, "https://materiaalitori.fi/") }
+          { this.renderLink(strings.info.companies.purkutori, "http://purkutori.fi/") }
+          { this.renderLink(strings.info.companies.purkukolmio, "https://www.purkukolmio.fi/kauppa") }
+          { this.renderLink(strings.info.companies.kiertonet, "https://kiertonet.fi/") }
+        </Box>
+      </Box>
     );
   }
   
-  
-  
-  
-
+  /**
+   * Render link method
+   * 
+   * @param label 
+   * @param address 
+   */
   private renderLink = (label: string, address: string) => {
     return (
-      <>
-        <Typography>
-          <Link
+      <Box mt={ 1 }>
+        <Link
           href={ address }
           target="_blank"
           >
+          <Typography>
             { label }
-          </Link>
-        </Typography>
-      </>
+          </Typography>
+        </Link>
+      </Box>
     );
   }
   

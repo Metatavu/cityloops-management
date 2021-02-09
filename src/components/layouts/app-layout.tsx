@@ -64,7 +64,10 @@ const AppLayout: React.FC<Props> = props => {
         { children ?? <div></div> }
       </Container>
 
-      <Footer { ...footerProps } />
+      <Footer
+        { ...footerProps }
+        history={ history }
+      />
     </div>
   );
 }

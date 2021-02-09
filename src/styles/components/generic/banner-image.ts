@@ -28,9 +28,16 @@ export default createStyles({
   },
 
   partners: {
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
+    gridGap: theme.spacing(2),
     alignSelf: "center",
-    height: 186
+    maxWidth: 1280,
+    width: "90vw",
+    height: 186,
+    [theme.breakpoints.up("md")]: {
+      height: 200
+    },
   },
 
   title: {

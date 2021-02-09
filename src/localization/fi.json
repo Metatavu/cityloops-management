@@ -181,10 +181,19 @@
     "activeHounds": "Aktiiviset hakuagentit"
   },
 
-  "privacyStatement": "Tietosuojaseloste",
-  "copyRight": "Copyright @ kiertoon.fi 2020",
+  "footer": {
+    "privacyStatement": "Tietosuojaseloste",
+    "copyRight": "Copyright @ kiertoon.fi 2020",
+    "infoLink": "Info",
+    "eu": {
+      "text1": "This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 821033.",
+      "disclaimer": "Disclaimer: ",
+      "text2": "The sole responsibility for any error or omissions lies with the editor. The content does not necessarily relfect the opinion of the European Commission. The European Commission is also not responsible for any use that may be made of the information contained herein."
+    }
+  },
 
   "info":{
+    "title": "Info",
     "first": "Kiertoon on tarkoitettu kaikessa rakentamisessa ja purkamisessa syntyvien, uudelleen käytettävien ja kierrätettävien materiaalien, kalusteiden, koneiden ja laitteiden vaihdantaan. Täällä voi myös etsiä ja tarjota rakentamiseen ja purkamiseen liittyviä palveluja, kuten jätehuolto- ja asiantuntijapalveluja.",
     "second": "Tämän kauppapaikan käyttäminen on maksutonta ja avointa. Sivustoa ylläpitää Mikkelin Kehitysyhtiö  Miksei Oy. Otamme vastaan ideoita sivuston edelleen kehittämiseksi.",
     "third": "Yhteystiedot ja lisätietoja CityLoops-hankkeesta: ",

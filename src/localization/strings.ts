@@ -221,10 +221,25 @@ export interface IStrings extends LocalizedStringsMethods {
     activeHounds: string;
   };
 
-  privacyStatement: string;
-  copyRight: string;
+  /**
+   * Translations related to footer contents
+   */
+  footer: {
+    privacyStatement: string;
+    copyRight: string;
+    infoLink: string;
+    eu: {
+      text1: string;
+      disclaimer: string;
+      text2: string;
+    };
+  };
 
+  /**
+   * Translations related to info page contents
+   */
   info: {
+    title: string;
     first: string;
     second: string;
     third: string;
