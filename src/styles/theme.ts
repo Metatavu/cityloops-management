@@ -1,6 +1,5 @@
 import { createMuiTheme } from "@material-ui/core";
 import { red, green, yellow } from "@material-ui/core/colors";
-import { dark } from "@material-ui/core/styles/createPalette";
 
 const theme = createMuiTheme();
 const { breakpoints } = theme;

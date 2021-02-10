@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { Box, Container, Grid, Link, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { Box, Container, Link, Typography, withStyles, WithStyles } from "@material-ui/core";
 import { History } from "history";
 import styles from "../../styles/components/generic/footer";
 import logoWhite from "../../resources/svg/logo-white.svg";
