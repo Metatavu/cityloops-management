@@ -71,12 +71,14 @@ const GenericListItem: React.FC<Props> = props => {
             <div className={ classes.cardListVariantContent }>
               <div>
                 <div className={ classes.spaceBetweenContent }>
-                  <Typography variant="h2">
+                  <Typography variant="h4">
                     { item.title }
                   </Typography>
-                  <Typography variant="h3">
-                    { item.price } { item.priceUnit }
-                  </Typography>
+                    { item.price !== 0 &&
+                      <Typography variant="h3">
+                        { item.price } { item.priceUnit }
+                      </Typography>
+                    }
                 </div>
               </div>
               <div className={ classes.spaceBetweenContent }>

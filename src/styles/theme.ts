@@ -8,14 +8,17 @@ export default createMuiTheme({
 
   palette: {
     // Color scheme for Material UI
-    primary: { main: "#004D76" },
+    primary: { 
+      main: "#004D76",
+      dark: "#222"
+    },
     secondary: { main: "#00B6ED" },
     success: { main: green.A700 },
     warning: { main: yellow.A700 },
     error: { main: red.A700 },
     background: {
       default: "#FFFFFF",
-      paper: "#F7F7F7"
+      paper: "#F7F7F7",
     },
     text: {
       primary: "#222",
@@ -68,9 +71,15 @@ export default createMuiTheme({
       fontWeight: "bold",
       color: "#004D76"
     },
-    subtitle2: {},
+    subtitle2: {
+      fontSize: 14,
+      fontWeight: "bold",
+      color: "#fff"
+    },
     body1: {},
-    body2: {}
+    body2: {
+      fontSize: 14
+    }
   },
   overrides: {
     // Style overrides for Material UI components

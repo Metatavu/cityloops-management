@@ -40,7 +40,7 @@ export default createStyles({
   },
 
   mobileLogo: {
-    height: 64
+    height: 32
   },
 
   accountSection: {
