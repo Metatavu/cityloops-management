@@ -69,8 +69,6 @@ export class InfoScreen extends React.Component<Props, State> {
     return (
       <AppLayout
         banner={ true }
-        headerProps={{
-        }}
         mobileDrawerProps={{
           title: this.props.signedToken?.firstName
         }}
