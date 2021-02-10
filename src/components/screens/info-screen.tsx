@@ -61,12 +61,6 @@ export class InfoScreen extends React.Component<Props, State> {
   }
 
   /**
-   * Component did mount life cycle handler
-   */
-  public componentDidMount = async () => {
-  }
-
-  /**
    * Component render method
    */
   public render = () => {
@@ -138,8 +132,8 @@ export class InfoScreen extends React.Component<Props, State> {
   /**
    * Render link method
    * 
-   * @param label 
-   * @param address 
+   * @param label link label
+   * @param address link address
    */
   private renderLink = (label: string, address: string) => {
     return (
