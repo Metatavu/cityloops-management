@@ -144,7 +144,7 @@ export class InfoScreen extends React.Component<Props, State> {
         <Link
           href={ address }
           target="_blank"
-          >
+        >
           <Typography>
             { label }
           </Typography>
