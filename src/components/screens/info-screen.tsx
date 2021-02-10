@@ -96,7 +96,12 @@ export class InfoScreen extends React.Component<Props, State> {
 
     return (
       <Box mt={ 2 } className={ classes.root }>
-        <Typography variant="h1" className={ classes.title  }>{ strings.info.title }</Typography>
+        <Typography
+          variant="h1"
+          className={ classes.title  }
+        >
+          { strings.info.title }
+        </Typography>
         <Box mt={ 2 } mb={ 2 }>
           <Typography>
             { strings.info.first }
