@@ -12,13 +12,11 @@ export default createStyles({
     flexDirection: "column",
     backgroundImage: "linear-gradient( rgba(255,255,255,1), rgba(255,255,255,0))",
     maxHeight: "100%",
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1)
   },
 
   imageContainer: {
     height: 100,
-    width: 300,
+    width: "100%",
     display: "flex",
     justifyContent: "center",
     "& img": {
