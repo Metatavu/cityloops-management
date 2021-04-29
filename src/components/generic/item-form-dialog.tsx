@@ -5,7 +5,7 @@ import { ReduxState, ReduxActions } from "../../store";
 import { connect } from "react-redux";
 import { SignedToken } from "../../types";
 // tslint:disable-next-line: max-line-length
-import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, GridDirection, GridProps, GridSize, IconButton, TextField, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { Category, Item, ItemProperty, ItemType, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
@@ -181,6 +181,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           { ...this.getGridItemProps(12, 3) }
           className={ classNames(classes.column, classes.columnDivider) }
         >
+          { this.renderItemTypeColumnContent() }
           { this.renderCategoryColumnContent() }
         </Grid>
         <Grid
@@ -190,6 +191,27 @@ class ItemFormDialog extends React.Component<Props, State> {
             { this.renderItemColumnContent() }
         </Grid>
       </Grid>
+    );
+  }
+
+  /**
+   * Renders item type column content
+   */
+  private renderItemTypeColumnContent = () => {
+    return (
+      <Box pb={ 4 }>
+        <TextField
+          select
+          fullWidth
+          variant="filled"
+          label={ strings.search.type }
+          >
+          {/* TODO: add filters */}
+        </TextField>
+        <Box mt={ 4 }>
+          <Divider /> 
+        </Box>
+      </Box>
     );
   }
 
