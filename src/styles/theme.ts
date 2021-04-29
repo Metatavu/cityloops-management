@@ -88,6 +88,11 @@ export default createMuiTheme({
         textTransform: "initial",
         fontWeight: 900
       },
+      containedPrimary: {
+        "&:hover": {
+          backgroundColor: "#0069a0"
+        }
+      },
       containedSecondary: {
         color: "#fff"
       },
@@ -147,5 +152,11 @@ export default createMuiTheme({
   },
   props: {
     // Default properties for Material UI components
+    MuiAppBar: {
+      elevation: 0
+    },
+    MuiButton: {
+      color: "primary"
+    }
   }
 });

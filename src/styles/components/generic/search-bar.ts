@@ -26,23 +26,23 @@ export default createStyles({
 
   selectField: {
     flexGrow: 1,
-    marginRight: 10,
+    marginRight: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       maxWidth: "unset",
-      marginLeft: 10,
-      marginBottom: 10
+      marginLeft: theme.spacing(1),
+      marginBottom: theme.spacing(1)
     }
   },
 
   submitButton: {
     color: theme.palette.common.white,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       maxWidth: "unset",
-      marginLeft: 10,
-      marginRight: 10,
-      padding: 10
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      padding: theme.spacing(1)
     }
   }
 

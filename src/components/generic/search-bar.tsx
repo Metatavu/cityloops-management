@@ -5,6 +5,7 @@ import strings from "../../localization/strings";
 import { Category } from "../../generated/client";
 import { CategoryDataHolder, SearchParams } from "../../types";
 import { TreeDataUtils } from "../../utils/tree-data-utils";
+import SearchIcon from "@material-ui/icons/Search";
 
 /**
  * Interface describing component properties
@@ -110,6 +111,30 @@ const SearchBar: React.FC<Props> = props => {
     );
   };
 
+
+  /**
+   * Renders item type select field
+   */
+  const renderItemTypeSelect = () => {
+
+    const sortedCategories = TreeDataUtils.constructTreeData(categories);
+
+    return (
+      <TextField
+        select
+        size="small"
+        variant="filled"
+        className={ classes.selectField }
+        label={ strings.search.type }
+        value={ selectedCategory?.id || "noFilter" }
+        onChange={ onChangeCategory }
+      >
+        { renderMenuItem("noFilter", "noFilter", strings.search.noFilter, 0) }
+        { renderTreeStructure(sortedCategories, 0) }
+      </TextField>
+    );
+  };
+
   // Text and agency search are not needed at the moment
   // /**
   //  * Renders agency select field
@@ -183,11 +208,12 @@ const SearchBar: React.FC<Props> = props => {
       {/* Text and agency search are not needed at the moment.*/}
       {/* { renderSearchField() } */}
       { renderCategorySelect() }
+      { renderItemTypeSelect() }
       {/* { renderAgencySelect() } */}
       <Button
-        size="small"
+        startIcon={ <SearchIcon /> }
         variant="contained"
-        color="secondary"
+        color="primary"
         className={ classes.submitButton }
         onClick={ onSearchClick }
       >

@@ -58,13 +58,15 @@
     "dataChanged": "You have unsaved changed. Are you sure you want to continue?",
     "noPermissions": "You don't have the permissions to view the content of this page.",
     "saveSuccessful": "Save was successful",
-    "saveError": "Save failed"
+    "saveError": "Save failed",
+    "fetching": "Loading products"
   },
 
   "search": {
     "category": "Category",
     "agency": "Agency",
-    "noFilter": "No filtering"
+    "noFilter": "No filtering",
+    "type": "Type"
   },
 
   "items": {

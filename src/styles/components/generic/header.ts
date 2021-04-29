@@ -12,7 +12,7 @@ export default createStyles({
 
   appBar: {
     backgroundColor: theme.palette.primary.main,
-
+    boxShadow: "0 0 30px rgba(0,0,0,0.2)",
     [theme.breakpoints.up("md")]: {
       backgroundColor: theme.palette.background.default
     }
@@ -77,6 +77,7 @@ export default createStyles({
     marginLeft: theme.spacing(4),
     marginRight: theme.spacing(4),
     color: "#fff",
+
     [theme.breakpoints.down("sm")]: {
       "& .MuiSelect-icon": {
         color: "#fff"
@@ -86,6 +87,12 @@ export default createStyles({
       color: theme.palette.text.primary,
       marginLeft: theme.spacing(6),
       marginRight: theme.spacing(4),
+    },
+    "&:before": {
+      display: "none"
+    },
+    "& .MuiSelect-select": {
+      textTransform: "uppercase"
     }
   },
 

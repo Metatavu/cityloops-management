@@ -61,12 +61,9 @@ const Footer: React.FC<Props> = props => {
               variant="body2"
               className={ classes.footerText }
             >
-              <Typography
-                className={ classes.disclaimer }
-                variant="subtitle2"
-              >
+              <strong className={ classes.disclaimer }>
                 { strings.footer.eu.disclaimer }
-              </Typography>
+              </strong>
               { strings.footer.eu.text2 }
             </Typography>
           </Box>

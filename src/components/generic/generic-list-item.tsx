@@ -1,5 +1,5 @@
 import * as React from "react";
-import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button } from "@material-ui/core";
+import { WithStyles, withStyles, ListItemAvatar, Typography, Card, CardActions, CardContent, Button, Box } from "@material-ui/core";
 import styles from "../../styles/components/generic/generic-list-item";
 import { Item } from "../../generated/client";
 import { CSSProperties } from "@material-ui/core/styles/withStyles";
@@ -93,26 +93,28 @@ const GenericListItem: React.FC<Props> = props => {
           </CardContent>
         :
         <CardContent className={ classes.cardContent }>
-          <div className={ classes.imageWrapper }>
+          <Box className={ classes.imageWrapper }>
             <img
               className={ classes.cardImage }
               alt={ `itemImage-${item.id}` }
               src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
             />
-          </div>
+            { item.price !== 0 &&
+              <Box className={ classes.priceContainer }>
+                <Typography variant="h5" className={ classes.priceText } >
+                  { item.price } { item.priceUnit }
+                </Typography>
+              </Box>
+            }
+          </Box>
           <Typography
             style={{ width: "100%" }}
             variant="h4"
           >
             { item.title }
           </Typography>
-          { item.price !== 0 &&
-            <Typography variant="h6">
-              { item.price } { item.priceUnit }
-            </Typography>
-          }
           <Typography variant="subtitle1">
-            { item.metadata.locationInfo.address }
+            {`${ item.metadata.locationInfo.address }` }
           </Typography>
         </CardContent>
       }

@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { SignedToken } from "../../types";
 // tslint:disable-next-line: max-line-length
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, Grid, GridDirection, GridProps, GridSize, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { Category, Item, ItemProperty, LocationInfo, User } from "../../generated/client";
+import { Category, Item, ItemProperty, ItemType, LocationInfo, User } from "../../generated/client";
 import styles from "../../styles/components/generic/item-form-dialog";
 import strings from "../../localization/strings";
 import CategoryTree from "./category-tree";
@@ -364,7 +364,6 @@ class ItemFormDialog extends React.Component<Props, State> {
         <Button
           variant="contained"
           disableElevation
-          color="secondary"
           disabled={ disabled }
           className={ classes.buttonContained }
           onClick={ this.submitForm }
@@ -529,7 +528,8 @@ class ItemFormDialog extends React.Component<Props, State> {
       category: category?.id,
       delivery: false,
       paymentMethod: strings.items.paymentMethod,
-      expired: false
+      expired: false,
+      itemType: ItemType.SELL
     };
   }
 

@@ -4,6 +4,7 @@ import theme from "../../theme";
 export default createStyles({
 
   root: {
+    borderRadius: 5,
     padding: theme.spacing(2),
     [theme.breakpoints.up("xl")]: {
       padding: theme.spacing(5),

@@ -39,11 +39,6 @@ export interface FindUserRequest {
     userId: string;
 }
 
-export interface ListUsersRequest {
-    companyAccount?: boolean;
-    verified?: boolean;
-}
-
 export interface UpdateUserRequest {
     user: User;
     userId: string;
@@ -213,50 +208,6 @@ export class UsersApi extends runtime.BaseAPI {
      */
     async findUser(requestParameters: FindUserRequest): Promise<User> {
         const response = await this.findUserRaw(requestParameters);
-        return await response.value();
-    }
-
-    /**
-     * Lists users
-     * List users.
-     */
-    async listUsersRaw(requestParameters: ListUsersRequest): Promise<runtime.ApiResponse<Array<User>>> {
-        const queryParameters: runtime.HTTPQuery = {};
-
-        if (requestParameters.companyAccount !== undefined) {
-            queryParameters['companyAccount'] = requestParameters.companyAccount;
-        }
-
-        if (requestParameters.verified !== undefined) {
-            queryParameters['verified'] = requestParameters.verified;
-        }
-
-        const headerParameters: runtime.HTTPHeaders = {};
-
-        if (this.configuration && this.configuration.accessToken) {
-            const token = this.configuration.accessToken;
-            const tokenString = typeof token === 'function' ? token("bearerAuth", []) : token;
-
-            if (tokenString) {
-                headerParameters["Authorization"] = `Bearer ${tokenString}`;
-            }
-        }
-        const response = await this.request({
-            path: `/users`,
-            method: 'GET',
-            headers: headerParameters,
-            query: queryParameters,
-        });
-
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserFromJSON));
-    }
-
-    /**
-     * Lists users
-     * List users.
-     */
-    async listUsers(requestParameters: ListUsersRequest): Promise<Array<User>> {
-        const response = await this.listUsersRaw(requestParameters);
         return await response.value();
     }
 
