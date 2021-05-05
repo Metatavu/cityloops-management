@@ -131,7 +131,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           onClose={ onClose }
           PaperProps={{ className: classes.dialogContainer }}
         >
-          <DialogTitle className={ classes.dialogTitle }>
+          <DialogTitle disableTypography className={ classes.dialogTitle }>
             <Typography variant="h3">
               {
                 existingItem ?
@@ -380,21 +380,23 @@ class ItemFormDialog extends React.Component<Props, State> {
     }
 
     return (
-      <OutlinedSelect
-        key={ `item-${item.id}-delivery` }
-        name="delivery"
-        label={ strings.items.delivery.title }
-        value={ item.delivery }
-        onChange={ this.onDeliveryOptionChange }
-        className={ classes.marginRight }
-      >
-        <MenuItem key={ strings.generic.yes } value={ "true" }>
-          { strings.generic.yes }
-        </MenuItem>
-        <MenuItem key={ strings.generic.no } value={ "false" }>
-          { strings.generic.no }
-        </MenuItem>
-      </OutlinedSelect>
+      <Box mt={ 2 }>
+        <OutlinedSelect
+          key={ `item-${item.id}-delivery` }
+          name="delivery"
+          label={ strings.items.delivery.title }
+          value={ item.delivery }
+          onChange={ this.onDeliveryOptionChange }
+          className={ classes.marginRight }
+          >
+          <MenuItem key={ strings.generic.yes } value={ "true" }>
+            { strings.generic.yes }
+          </MenuItem>
+          <MenuItem key={ strings.generic.no } value={ "false" }>
+            { strings.generic.no }
+          </MenuItem>
+        </OutlinedSelect>
+      </Box>
     );
   }
 

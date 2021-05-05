@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "../../styles/components/tabs/my-info-tab";
 import strings from "../../localization/strings";
-import { TextField, Typography, WithStyles, withStyles, Grid, GridDirection, GridProps, GridSize, Button } from "@material-ui/core";
+import { TextField, Typography, WithStyles, withStyles, Grid, GridDirection, GridProps, GridSize, Button, Box } from "@material-ui/core";
 import Map from "../generic/map";
 import { User } from "../../generated/client";
 import TextFieldWithDelay from "../generic/text-field-with-delay";
@@ -59,13 +59,15 @@ const MyInfoTab: React.FC<Props> = props => {
             { renderTextField("email", strings.user.email, user?.email || "") }
             { renderTextField("address", strings.user.address, user?.address || "") }
             { renderTextField("description", strings.user.description, user?.description || "", 10) }
-            <ImageList
-              maxImageCount={ 1 }
-              title={ strings.user.logo }
-              onImageDeleteClick={ () => onLogoUpdate() }
-              onUpdate={ onLogoUpdate }
-              images={[ user?.logoUrl || "" ]}
-            />
+            <Box mt={ 2 }>
+              <ImageList
+                maxImageCount={ 1 }
+                title={ strings.user.logo }
+                onImageDeleteClick={ () => onLogoUpdate() }
+                onUpdate={ onLogoUpdate }
+                images={[ user?.logoUrl || "" ]}
+              />
+            </Box>
             { renderActionButtons() }
           </Grid>
           <Grid
@@ -140,7 +142,7 @@ const MyInfoTab: React.FC<Props> = props => {
   const renderTitle = (title: string) => {
     return (
       <Typography
-        variant="h2"
+        variant="h4"
         className={ classes.title }
       >
         { title }
