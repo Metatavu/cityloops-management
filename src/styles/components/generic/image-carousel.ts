@@ -31,7 +31,7 @@ export default createStyles({
     position: "absolute",
     width: "100%",
     height: "100%",
-    objectFit: "contain"
+    objectFit: "cover"
   },
 
   previousButton: {

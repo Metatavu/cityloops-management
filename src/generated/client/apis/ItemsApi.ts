@@ -18,6 +18,9 @@ import {
     Item,
     ItemFromJSON,
     ItemToJSON,
+    ItemType,
+    ItemTypeFromJSON,
+    ItemTypeToJSON,
 } from '../models';
 
 export interface CreateItemRequest {
@@ -39,6 +42,7 @@ export interface ListItemsRequest {
     maxResults?: number;
     sortByDateOldestFirst?: boolean;
     includeExpired?: boolean;
+    itemType?: ItemType;
 }
 
 export interface UpdateItemRequest {
@@ -202,6 +206,10 @@ export class ItemsApi extends runtime.BaseAPI {
 
         if (requestParameters.includeExpired !== undefined) {
             queryParameters['includeExpired'] = requestParameters.includeExpired;
+        }
+
+        if (requestParameters.itemType !== undefined) {
+            queryParameters['itemType'] = requestParameters.itemType;
         }
 
         const headerParameters: runtime.HTTPHeaders = {};

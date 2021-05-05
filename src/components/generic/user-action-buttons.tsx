@@ -77,7 +77,7 @@ class UserActionButtons extends React.Component<Props, State> {
         />
         { keycloak &&
           <MenuButton
-            icon={ <AccountCircleIcon /> }
+            icon={ <AccountCircleIcon color="primary" /> }
             menuOptions={
               this.getLoginMenuOptions(keycloak)
             }

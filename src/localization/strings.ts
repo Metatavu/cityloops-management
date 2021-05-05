@@ -77,6 +77,7 @@ export interface IStrings extends LocalizedStringsMethods {
     noPermissions: string;
     saveSuccessful: string;
     saveError: string;
+    fetching: string;
   };
 
   /**
@@ -86,6 +87,7 @@ export interface IStrings extends LocalizedStringsMethods {
     category: string;
     agency: string;
     noFilter: string;
+    type: string;
   };
 
   /**
@@ -133,6 +135,11 @@ export interface IStrings extends LocalizedStringsMethods {
     renew: string;
     renewSuccessful: string;
     userInfo: string;
+    types: {
+      buy: string;
+      sell: string;
+      rent: string;
+    };
   };
 
   /**

@@ -17,7 +17,6 @@ export default createStyles({
     }
   },
 
-
   cards: {
     display: "grid",
     gridTemplateColumns: "repeat(1, 1fr)",

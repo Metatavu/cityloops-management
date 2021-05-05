@@ -139,7 +139,7 @@ const Header: React.FC<Props> = props => {
 
     return (
       <div className={ classes.accountSection }>
-        { renderLanguageSelection() }
+        { renderLanguageSelection() } 
         { signedToken &&
           onAddClick &&
             <Button

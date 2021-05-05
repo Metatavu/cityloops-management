@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TextField, WithStyles, withStyles } from '@material-ui/core';
 import styles from "../../styles/components/generic/properties-section";
-import { ItemProperty } from "../../generated/client";
+import { ItemProperty, ItemType } from "../../generated/client";
 import produce from "immer";
 import ImageList from "./image-list";
 import strings from "../../localization/strings";
@@ -10,6 +10,7 @@ import strings from "../../localization/strings";
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
+  type: ItemType;
   title?: string;
   images?: string[];
   properties?: ItemProperty[];
@@ -25,6 +26,7 @@ interface Props extends WithStyles<typeof styles> {
 const PropertiesSection: React.FC<Props> = props => {
   const {
     classes,
+    type,
     title,
     properties,
     images,
@@ -45,6 +47,7 @@ const PropertiesSection: React.FC<Props> = props => {
       if (!draft) {
         return;
       }
+
       draft[index].value = event.target.value;
     });
 
@@ -53,24 +56,24 @@ const PropertiesSection: React.FC<Props> = props => {
     }
   };
 
-  const propertyFields = properties ?
-    properties.map((property, index) =>
-      <TextField
-        key={ `${property.key}-${index}` }
-        label={ property.key }
-        size="medium"
-        variant="outlined"
-        fullWidth
-        multiline={ property.key === "Lisätiedot" }
-        rows={ 3 }
-        rowsMax={ 10 }
-        className={ classes.propertyField }
-        InputLabelProps={{ variant: "outlined" }}
-        value={ property.value || "" }
-        onChange={ onUpdateProperty(index) }
-      />
-    ) :
-    [];
+  const filteredProperties = type === ItemType.BUY ? properties?.filter(property => property.key === "Lisätiedot") : properties;
+
+  const propertyFields = filteredProperties?.map((property, index) =>
+    <TextField
+      key={ `${property.key}-${index}` }
+      label={ property.key }
+      size="medium"
+      variant="outlined"
+      fullWidth
+      multiline={ property.key === "Lisätiedot" }
+      rows={ 3 }
+      rowsMax={ 10 }
+      className={ classes.propertyField }
+      InputLabelProps={{ variant: "outlined" }}
+      value={ property.value || "" }
+      onChange={ onUpdateProperty(index) }
+    />
+  );
 
   /**
    * Component render

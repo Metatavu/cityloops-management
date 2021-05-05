@@ -6,10 +6,10 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
-import { Box, Breadcrumbs, Button, CircularProgress, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Button, CircularProgress, Divider, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
-import { Item, PublicUser } from "../../generated/client";
+import { Item, ItemType, PublicUser } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import AppLayout from "../layouts/app-layout";
@@ -19,6 +19,7 @@ import LocationIcon from "@material-ui/icons/Room";
 import Map from "../generic/map";
 import ItemFormDialog from "../generic/item-form-dialog";
 import GenericConfirmDialog from "../generic/generic-confirm-dialog";
+import { ArrowBack } from "@material-ui/icons";
 
 /**
  * Component props
@@ -76,6 +77,7 @@ export class ItemScreen extends React.Component<Props, State> {
    * Component did mount life cycle handler
    */
   public componentDidMount = async () => {
+    window.scrollTo(0, 0);
     this.setState({ loading: true });
     await this.fetchData();
     this.setState({ loading: false });
@@ -106,9 +108,17 @@ export class ItemScreen extends React.Component<Props, State> {
         banner={ false }
         history={ history }
       >
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link onClick={ () => this.props.history.push("/") }>{ strings.items.returnToFrontPage }</Link>
-        </Breadcrumbs>
+        <Link
+          underline="none"
+          onClick={ () => this.props.history.push("/") }
+        >
+          <Button
+            variant="text"
+            startIcon={ <ArrowBack /> }
+          >
+            { strings.items.returnToFrontPage }
+          </Button>
+        </Link>
         <div className={ classes.propertiesSection }>
           { this.renderPropertiesSection() }
         </div>
@@ -162,6 +172,7 @@ export class ItemScreen extends React.Component<Props, State> {
                 { item ? `${ item.price } ${ item.priceUnit }` : "" }
               </Typography>
               { this.renderProperties() }
+              <Divider />
               { this.renderSellerInfo() }
               { this.renderPriceInfo() }
             </div>
@@ -236,7 +247,7 @@ export class ItemScreen extends React.Component<Props, State> {
     return item?.properties ?
       item.properties.map((property, index) => {
         return property.value && (
-          <Box key={ index }>
+          <Box key={ index } mb={ 2 }>
             <Typography
               key={ property.key }
               variant="h4"
@@ -263,7 +274,7 @@ export class ItemScreen extends React.Component<Props, State> {
   private renderPriceInfo = () => {
     const { item } = this.state;
 
-    if (!item) {
+    if (!item || item.itemType === ItemType.BUY) {
       return null;
     }
 
@@ -272,24 +283,26 @@ export class ItemScreen extends React.Component<Props, State> {
       strings.items.delivery.no;
 
     return (
-      <>
-        <Typography
-          key="deliveryTitle"
-          variant="h4"
-        >
-          { strings.items.delivery.title }
-        </Typography>
-        <Box mt={ 1 } mb={ 1 }>
+      <Box mt={ 3 } display="flex">
+        <Box mr={ 2 } flex={ 1 }>
           <Typography
-            key="deliveryValue"
-            variant="body1"
-          >
-            { deliveryText }
+            key="deliveryTitle"
+            variant="h4"
+            >
+            { strings.items.delivery.title }
           </Typography>
+          <Box mt={ 1 } mb={ 1 }>
+            <Typography
+              key="deliveryValue"
+              variant="body1"
+              >
+              { deliveryText }
+            </Typography>
+          </Box>
         </Box>
 
         { item.delivery &&
-          <>
+          <Box>
             <Typography
               key="priceTitle"
               variant="h4"
@@ -304,24 +317,25 @@ export class ItemScreen extends React.Component<Props, State> {
                 { `${item.deliveryPrice}€` || strings.items.deliveryPrice }
               </Typography>
             </Box>
-          </>
+          </Box>
         }
-
-        <Typography
-          key="paymentMethodTitle"
-          variant="h4"
-        >
-          { strings.items.paymentMethod }
-        </Typography>
-        <Box mt={ 1 } mb={ 1 }>
+        <Box flex={ 1 }>
           <Typography
-            key="paymentMethodValue"
-            variant="body1"
+            key="paymentMethodTitle"
+            variant="h4"
           >
-            { item.paymentMethod }
+            { strings.items.paymentMethod }
           </Typography>
+          <Box mt={ 1 } mb={ 1 }>
+            <Typography
+              key="paymentMethodValue"
+              variant="body1"
+            >
+              { item.paymentMethod }
+            </Typography>
+          </Box>
         </Box>
-      </>
+      </Box>
     );
   }
 
@@ -381,24 +395,28 @@ export class ItemScreen extends React.Component<Props, State> {
     }
     
     return (
-      <>
-        <Typography variant="h4">
-          { strings.items.locationInfo.email }
-        </Typography>
-        <Box mt={ 1 } mb={ 1 }>
-          <Typography variant="body1">
-            { item.metadata.locationInfo.email }
+      <Box display="flex" mt={ 2 }>
+        <Box mb={ 2 } mr={ 2 } flex={ 1 }>
+          <Typography variant="h4">
+            { strings.items.locationInfo.email }
           </Typography>
+          <Box mt={ 1 } mb={ 1 }>
+            <Typography variant="body1">
+              { item.metadata.locationInfo.email }
+            </Typography>
+          </Box>
         </Box>
-        <Typography variant="h4">
-          { strings.items.locationInfo.phone }
-        </Typography>
-        <Box mt={ 1 } mb={ 1 }>
-          <Typography variant="body1">
-            { item.metadata.locationInfo.phone }
+        <Box mb={ 2 } flex={ 1 }>
+          <Typography variant="h4">
+            { strings.items.locationInfo.phone }
           </Typography>
+          <Box mt={ 1 } mb={ 1 }>
+            <Typography variant="body1">
+              { item.metadata.locationInfo.phone }
+            </Typography>
+          </Box>
         </Box>
-      </>
+      </Box>
     );
   }
 
@@ -520,7 +538,7 @@ export class ItemScreen extends React.Component<Props, State> {
   /**
    * Event handler for renew click
    */
-  private renewClick = async () => {
+  private renewClick = () => {
     this.setState({ updateOpen: true });
 
     this.updateItem(this.state.item)
@@ -608,6 +626,7 @@ export class ItemScreen extends React.Component<Props, State> {
     history.replace("/");
   }
 }
+
 
 /**
  * Redux mapper for mapping store state to component props

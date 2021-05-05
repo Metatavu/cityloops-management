@@ -2,16 +2,17 @@ import * as React from "react";
 import { Button, MenuItem, TextField, WithStyles, withStyles } from '@material-ui/core';
 import styles from "../../styles/components/generic/search-bar";
 import strings from "../../localization/strings";
-import { Category } from "../../generated/client";
+import { Category, ItemType } from "../../generated/client";
 import { CategoryDataHolder, SearchParams } from "../../types";
 import { TreeDataUtils } from "../../utils/tree-data-utils";
+import SearchIcon from "@material-ui/icons/Search";
 
 /**
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
   categories: Category[];
-  onSearch?: (searchParams: SearchParams) => void;
+  onSearch: (searchParams: SearchParams) => void;
   locale: string;
 }
 
@@ -25,6 +26,7 @@ const SearchBar: React.FC<Props> = props => {
 
   // const [ searchTerm, setSearchTerm ] = React.useState<string>("");
   const [ selectedCategory, setSelectedCategory ] = React.useState<Category>();
+  const [ selectedType, setSelectedType ] = React.useState<ItemType>();
   // const [ selectedAgency, setSelectedAgency ] = React.useState<string>();
 
   // /**
@@ -44,6 +46,16 @@ const SearchBar: React.FC<Props> = props => {
   const onChangeCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedCategory(categories.find(category => category.id === event.target.value));
   };
+
+  /**
+   * Event handler for change item type
+   *
+   * @param event React change event
+   */
+  const onChangeType = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSelectedType(value === "noFilter" ? undefined : value as ItemType);
+  }
 
   // /**
   //  * Event handler for change agency
@@ -65,8 +77,9 @@ const SearchBar: React.FC<Props> = props => {
     /**
      * TODO: Add support for search string and location
      */
-    onSearch && onSearch({
-      category: selectedCategory
+    onSearch({
+      category: selectedCategory,
+      itemType: selectedType
     });
   };
 
@@ -109,6 +122,39 @@ const SearchBar: React.FC<Props> = props => {
       </TextField>
     );
   };
+
+
+  /**
+   * Renders item type select field
+   */
+  const renderItemTypeSelect = () => {
+
+    return (
+      <TextField
+        select
+        size="small"
+        variant="filled"
+        className={ classes.selectField }
+        label={ strings.search.type }
+        value={ selectedType || "noFilter" }
+        onChange={ onChangeType }
+      >
+        { renderMenuItem("noFilter", "noFilter", strings.search.noFilter, 0) }
+        { renderTypes() }
+      </TextField>
+    );
+  };
+
+    /**
+     * Renders item types
+     */
+    const renderTypes = () => {
+      return Object.values(ItemType).map(type => 
+        <MenuItem key={ type } value={ type }>
+          { strings.items.types[type.toLowerCase() as keyof object] }
+        </MenuItem>
+      );
+    }
 
   // Text and agency search are not needed at the moment
   // /**
@@ -183,11 +229,12 @@ const SearchBar: React.FC<Props> = props => {
       {/* Text and agency search are not needed at the moment.*/}
       {/* { renderSearchField() } */}
       { renderCategorySelect() }
+      { renderItemTypeSelect() }
       {/* { renderAgencySelect() } */}
       <Button
-        size="small"
+        startIcon={ <SearchIcon /> }
         variant="contained"
-        color="secondary"
+        color="primary"
         className={ classes.submitButton }
         onClick={ onSearchClick }
       >
