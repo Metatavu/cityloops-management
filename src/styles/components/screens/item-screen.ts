@@ -79,7 +79,7 @@ export default createStyles({
   },
 
   contentTitle: {
-    marginTop: 25,
+    marginTop: theme.spacing(4),
     fontFamily: "Nunito Sans, sans-serif",
     fontSize: 28,
     fontWeight: 900,
@@ -88,8 +88,8 @@ export default createStyles({
 
   logo: {
     width: "60%",
-    marginTop: 25,
-    marginBottom: 25
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4)
   },
 
   formRow: {
@@ -102,16 +102,16 @@ export default createStyles({
   checkbox: { },
 
   dialogActions: {
-    padding: 24
+    padding: theme.spacing(3)
   },
 
   submitButton: {
-    padding: 15,
+    padding: theme.spacing(2),
     color: theme.palette.common.white
   },
 
   successfulRegistration: {
-    marginTop: 20
+    marginTop: theme.spacing(3)
   },
 
   propertiesSection: {
@@ -123,7 +123,7 @@ export default createStyles({
       padding: theme.spacing(2),
     },
     [theme.breakpoints.up("md")]: {
-      padding: 25
+      padding: theme.spacing(4)
     },
     [theme.breakpoints.up("lg")]: {
       padding: "50px 50px 50px 100px",
@@ -167,7 +167,7 @@ export default createStyles({
   propertiesContainer: {
     height: "100%",
     width: "100%",
-    paddingLeft: 40,
+    paddingLeft: theme.spacing(5),
     [theme.breakpoints.down("sm")]: {
       paddingLeft: 0
     }
@@ -183,7 +183,8 @@ export default createStyles({
   propertyValue: { },
 
   createdAt: {
-    marginTop: 25
+    marginTop: theme.spacing(4),
+    color: theme.palette.grey[700]
   },
 
   locationSection: { },
@@ -191,13 +192,13 @@ export default createStyles({
   locationContainer: {
     display: "flex",
     alignItems: "center",
-    marginTop: 25,
-    marginBottom: 25
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   },
 
   locationIcon: {
     color: theme.palette.grey[600],
-    marginRight: 20,
+    marginRight: theme.spacing(2),
     fontSize: 30
   },
 
@@ -208,8 +209,8 @@ export default createStyles({
   userInfoContainer: {
     display: "flex",
     alignItems: "flex-start",
-    marginTop: 25,
-    marginBottom: 25,
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column"
     }

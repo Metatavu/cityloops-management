@@ -6,7 +6,7 @@ import { ReduxActions, ReduxState } from "../../store";
 
 import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
-import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SearchParams, SignedToken } from "../../types";
 import { Category, Item } from "../../generated/client";
@@ -74,6 +74,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component did mount life cycle handler
    */
   public componentDidMount = async () => {
+    window.scrollTo(0, 0);
     this.setState({ loading: true });
     await this.fetchData();
     this.setState({ loading: false })
@@ -121,9 +122,16 @@ export class ItemsScreen extends React.Component<Props, State> {
 
     if (loading) {
       return (
-        <div className={ classes.loader }>
-          <CircularProgress size={ 40 } color="secondary" />
-        </div>
+        <Box className={ classes.loaderContainer }>
+          <Box className={ classes.loader }>
+            <Box textAlign="center">
+              <Typography>{ strings.generic.fetching }</Typography>
+              <Box mt={ 2 }>
+                <CircularProgress size={ 40 } color="secondary" />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       );
     }
 
@@ -212,10 +220,11 @@ export class ItemsScreen extends React.Component<Props, State> {
     this.setState({ loading: true });
 
     const categoryId = searchParams.category?.id;
+    const itemType = searchParams.itemType;
     const itemsApi = Api.getItemsApi(anonymousToken);
     const mtResponse = await MTOperations.listItems(searchParams);
     const [ items, mtItems ] = await Promise.all<Item[], Item[]>([
-      itemsApi.listItems({ categoryId: categoryId }),
+      itemsApi.listItems({ categoryId: categoryId, itemType: itemType }),
       this.constructMTItems(mtResponse)
     ]);
 
@@ -310,6 +319,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 
 			mtItems.forEach(item => {
 				const newItem: Item = {
+          itemType: item.itemType,
 					id: item.id,
           title: item.title,
 					metadata: {

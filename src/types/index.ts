@@ -1,4 +1,4 @@
-import { Category } from "../generated/client";
+import { Category, ItemType } from "../generated/client";
 
 /**
  * Interface describing an access token
@@ -12,7 +12,7 @@ export interface AccessToken {
   firstName?: string;
   lastName?: string;
   userId?: string;
-  roles?: string[]
+  roles?: string[];
 }
 
 /**
@@ -91,5 +91,6 @@ export interface OSMData {
 export interface SearchParams {
   text?: string;
   category?: Category;
+  itemType?: ItemType;
   location?: string;
 }

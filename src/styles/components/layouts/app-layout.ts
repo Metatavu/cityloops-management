@@ -1,4 +1,5 @@
 import { createStyles } from "@material-ui/core";
+import theme from "../../theme";
 
 export default createStyles({
 
@@ -9,8 +10,8 @@ export default createStyles({
   },
   contentWrapper: {
     flexGrow: 1,
-    paddingTop: 20,
-    paddingBottom: 10
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   }
 
 });

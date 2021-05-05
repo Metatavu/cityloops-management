@@ -30,6 +30,7 @@ export default createMuiTheme({
     // Typography setup for Material UI
     fontFamily: "'Open Sans', sans-serif",
     h1: {
+      color: "#004D76",
       fontSize: 16,
       fontWeight: 900,
       [breakpoints.up("sm")]: {
@@ -83,10 +84,26 @@ export default createMuiTheme({
   },
   overrides: {
     // Style overrides for Material UI components
+    MuiCssBaseline: {
+      "@global": {
+        a: {
+          "& button": {
+            "&:hover": {
+              textDecoration: "none"
+            }
+          }
+        }
+      },
+    },
     MuiButton: {
       root: {
         textTransform: "initial",
         fontWeight: 900
+      },
+      containedPrimary: {
+        "&:hover": {
+          backgroundColor: "#0069a0"
+        }
       },
       containedSecondary: {
         color: "#fff"
@@ -147,5 +164,11 @@ export default createMuiTheme({
   },
   props: {
     // Default properties for Material UI components
+    MuiAppBar: {
+      elevation: 0
+    },
+    MuiButton: {
+      color: "primary"
+    }
   }
 });

@@ -57,13 +57,15 @@
     "dataChanged": "Sinulla on tallentamattomia muutoksia. Haluatko varmasti jatkaa?",
     "noPermissions": "Sinulla ei ole oikeuksia tämän sivun sisältöön.",
     "saveSuccessful": "Tallennus onnistui",
-    "saveError": "Tallennuksessa tapahtui virhe"
+    "saveError": "Tallennuksessa tapahtui virhe",
+    "fetching": "Haetaan ilmoituksia..."
   },
 
   "search": {
     "category": "Kategoria",
     "agency": "Toimipiste",
-    "noFilter": "Ei rajausta"
+    "noFilter": "Kaikki",
+    "type": "Ilmoituksen tyyppi"
   },
 
   "items": {
@@ -107,7 +109,12 @@
     "showAsGrid": "Näytä tuotteet ruudukkona",
     "renew": "Uusi voimassaoloaika",
     "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!",
-    "userInfo": "Ilmoittajan tiedot"
+    "userInfo": "Ilmoittajan tiedot",
+    "types": {
+      "buy": "Ostetaan",
+      "sell": "Myydään",
+      "rent": "Vuokrataan"
+    }
   },
 
   "categories": {

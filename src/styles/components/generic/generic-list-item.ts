@@ -58,6 +58,8 @@ export default createStyles({
   },
 
   imageWrapper: {
+    borderRadius: theme.shape.borderRadius,
+    position: "relative",
     display: "flex",
     width: "100%",
     height: 100,
@@ -85,7 +87,19 @@ export default createStyles({
     height: 200,
     overflow: "hidden",
     backgroundPosition: "center",
-    backgroundSize: "cover"
+    backgroundSize: "cover",
+  },
+
+  priceContainer: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    padding: `${theme.spacing(1)}px ${theme.spacing(2)}px`,
+    backgroundColor: "rgba(1, 77, 118, 0.8)"
+  },
+
+  priceText: {
+    color: "#fff"
   },
 
   cardListVariantContent: {

@@ -18,6 +18,10 @@ import {
     ItemPropertyFromJSON,
     ItemPropertyFromJSONTyped,
     ItemPropertyToJSON,
+    ItemType,
+    ItemTypeFromJSON,
+    ItemTypeFromJSONTyped,
+    ItemTypeToJSON,
     Metadata,
     MetadataFromJSON,
     MetadataFromJSONTyped,
@@ -128,6 +132,12 @@ export interface Item {
     deliveryPrice?: number;
     /**
      * 
+     * @type {ItemType}
+     * @memberof Item
+     */
+    itemType: ItemType;
+    /**
+     * 
      * @type {string}
      * @memberof Item
      */
@@ -178,6 +188,7 @@ export function ItemFromJSONTyped(json: any, ignoreDiscriminator: boolean): Item
         'paymentMethod': json['paymentMethod'],
         'delivery': json['delivery'],
         'deliveryPrice': !exists(json, 'deliveryPrice') ? undefined : json['deliveryPrice'],
+        'itemType': ItemTypeFromJSON(json['itemType']),
         'creatorId': !exists(json, 'creatorId') ? undefined : json['creatorId'],
         'lastModifierId': !exists(json, 'lastModifierId') ? undefined : json['lastModifierId'],
         'createdAt': !exists(json, 'createdAt') ? undefined : (new Date(json['createdAt'])),
@@ -208,6 +219,7 @@ export function ItemToJSON(value?: Item | null): any {
         'paymentMethod': value.paymentMethod,
         'delivery': value.delivery,
         'deliveryPrice': value.deliveryPrice,
+        'itemType': ItemTypeToJSON(value.itemType),
     };
 }
 

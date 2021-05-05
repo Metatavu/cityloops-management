@@ -12,7 +12,7 @@ export default createStyles({
     maxHeight: "100%",
     width: "100%",
     margin: 0,
-    borderRadius: 0,
+    borderRadius: theme.shape.borderRadius,
     [theme.breakpoints.up("md")]: {
       margin: 32,
       width: "calc(100% - 64px)",

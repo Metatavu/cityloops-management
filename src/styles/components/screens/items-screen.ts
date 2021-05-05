@@ -3,6 +3,11 @@ import theme from "../../theme";
 
 export default createStyles({
 
+  loaderContainer: {
+    position: "relative",
+    height: 300
+  },
+
   loader: {
     height: "100%",
     position: "absolute",
@@ -35,7 +40,7 @@ export default createStyles({
   },
 
   contentTitle: {
-    marginTop: 25,
+    marginTop: theme.spacing(4),
     fontFamily: "Nunito Sans, sans-serif",
     fontSize: 28,
     fontWeight: 900,
@@ -44,12 +49,12 @@ export default createStyles({
 
   logo: {
     width: "60%",
-    marginTop: 25,
-    marginBottom: 25
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
 
   formRow: {
-    marginTop: 20,
+    marginTop: theme.spacing(4),
     width: "100%",
     display: "flex",
     alignItems: "center"
@@ -58,11 +63,11 @@ export default createStyles({
   checkbox: { },
 
   dialogActions: {
-    padding: 24
+    padding: theme.spacing(4),
   },
 
   submitButton: {
-    padding: 15,
+    padding: theme.spacing(2),
     color: theme.palette.common.white
   },
 });
