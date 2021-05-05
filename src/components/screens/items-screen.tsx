@@ -74,6 +74,7 @@ export class ItemsScreen extends React.Component<Props, State> {
    * Component did mount life cycle handler
    */
   public componentDidMount = async () => {
+    window.scrollTo(0, 0);
     this.setState({ loading: true });
     await this.fetchData();
     this.setState({ loading: false })
