@@ -9,7 +9,7 @@ import styles from "../../styles/components/screens/item-screen";
 import { Box, Button, CircularProgress, Divider, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
-import { Item, PublicUser } from "../../generated/client";
+import { Item, ItemType, PublicUser } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import AppLayout from "../layouts/app-layout";
@@ -273,7 +273,7 @@ export class ItemScreen extends React.Component<Props, State> {
   private renderPriceInfo = () => {
     const { item } = this.state;
 
-    if (!item) {
+    if (!item || item.itemType === ItemType.BUY) {
       return null;
     }
 
@@ -537,7 +537,7 @@ export class ItemScreen extends React.Component<Props, State> {
   /**
    * Event handler for renew click
    */
-  private renewClick = async () => {
+  private renewClick = () => {
     this.setState({ updateOpen: true });
 
     this.updateItem(this.state.item)

@@ -181,7 +181,6 @@ class ItemFormDialog extends React.Component<Props, State> {
           { ...this.getGridItemProps(12, 3) }
           className={ classNames(classes.column, classes.columnDivider) }
         >
-          { this.renderItemTypeColumnContent() }
           { this.renderCategoryColumnContent() }
         </Grid>
         <Grid
@@ -198,6 +197,8 @@ class ItemFormDialog extends React.Component<Props, State> {
    * Renders item type column content
    */
   private renderItemTypeColumnContent = () => {
+    const { existingItem } = this.props;
+
     return (
       <Box pb={ 4 }>
         <TextField
@@ -205,13 +206,28 @@ class ItemFormDialog extends React.Component<Props, State> {
           fullWidth
           variant="filled"
           label={ strings.search.type }
-          >
-          {/* TODO: add filters */}
+          name={ "itemType" }
+          onChange={ this.updateItemData }
+          value={ this.state.item?.itemType }
+          disabled={ !!existingItem }
+        >
+          { this.renderTypes() }
         </TextField>
         <Box mt={ 4 }>
           <Divider /> 
         </Box>
       </Box>
+    );
+  }
+
+  /**
+   * Renders item types
+   */
+  private renderTypes = () => {
+    return Object.values(ItemType).map(type =>
+      <MenuItem key={ type } value={ type }>
+        { strings.items.types[type.toLowerCase() as keyof object] }
+      </MenuItem>
     );
   }
 
@@ -261,10 +277,12 @@ class ItemFormDialog extends React.Component<Props, State> {
           { ...this.getGridItemProps(12, 6) }
           className={ classes.column }
         >
+          { this.renderItemTypeColumnContent() }
           <PropertiesSection
-            title={ item?.title }
-            images={ item?.images || [] }
-            properties={ item?.properties }
+            type={ item.itemType }
+            title={ item.title }
+            images={ item.images || [] }
+            properties={ item.properties }
             onUpdateTitle={ this.updateTitle }
             onUpdateImages={ this.updateImages }
             onUpdateProperties={ this.updateProperties }
@@ -277,7 +295,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           className={ classes.column }
         >
           <LocationSection
-            locationInfo={ item.metadata.locationInfo! }
+            locationInfo={ item.metadata.locationInfo }
             onUpdate={ this.updateLocationInfo }
           />
         </Grid>
@@ -291,68 +309,92 @@ class ItemFormDialog extends React.Component<Props, State> {
    * @param item selected item
    */
   private renderPriceInfo = (item: Item) => {
-    const { classes } = this.props;
 
     return (
       <>
-        <OutlinedTextField
-          key={ `item-${item.id}-price` }
-          label={ strings.items.price }
-          value={ item.price || "" }
-          onChange={ this.updateItemData }
-          type="string"
-          name="price"
-          className={ classes.marginTop }
-        />
-        <OutlinedTextField
-          key={ `item-${item.id}-priceUnit` }
-          label={ strings.items.priceUnit }
-          value={ item.priceUnit || "" }
-          onChange={ this.updateItemData }
-          type="string"
-          name="priceUnit"
-          className={ classes.marginTop }
-        />
-        <OutlinedTextField
-          key={ `item-${item.id}-paymentMethod` }
-          label={ strings.items.paymentMethod }
-          value={ item.paymentMethod || "" }
-          onChange={ this.updateItemData }
-          type="string"
-          name="paymentMethod"
-          className={ classes.marginTop }
-        />
+        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "string", "price", item.itemType) }
+        { this.renderOutlinedTextField(`item-${item.id}-priceUnit`, strings.items.priceUnit, item.priceUnit || "", "string", "priceUnit", item.itemType) }
+        { this.renderOutlinedTextField(`item-${item.id}-paymentMethod`, strings.items.paymentMethod, item.paymentMethod || "", "string", "paymentMethod", item.itemType) }
         <Box display={ "flex" } mt={ 2 }>
-          <OutlinedSelect
-            key={ `item-${item.id}-delivery` }
-            name="delivery"
-            label={ strings.items.delivery.title }
-            value={ item.delivery }
-            onChange={ this.onDeliveryOptionChange }
-            className={ classes.marginRight }
-            >
-            <MenuItem key={ strings.generic.yes } value={ "true" }>
-              { strings.generic.yes }
-            </MenuItem>
-            <MenuItem key={ strings.generic.no } value={ "false" }>
-              { strings.generic.no }
-            </MenuItem>
-          </OutlinedSelect>
+          { this.renderDeliverySelect(item) }
           { item.delivery &&
             <Box ml={ 2 }>
-              <OutlinedTextField
-                key={ `item-${item.id}-deliveryPrice` }
-                label={ strings.items.deliveryPrice }
-                value={ item.deliveryPrice || "" }
-                onChange={ this.updateItemData }
-                type="number"
-                name="deliveryPrice"
-                disabled={ !item.delivery }
-              />
+              { this.renderOutlinedTextField(`item-${item.id}-deliveryPrice`, strings.items.deliveryPrice, item.deliveryPrice || "", "string", "deliveryPrice", item.itemType, !item.delivery) }
             </Box>
           }
-          </Box>
+        </Box>
       </>
+    );
+  }
+
+  /**
+   * Renders outlined text field with given parameters
+   *
+   * @param key component key
+   * @param label label
+   * @param value value
+   * @param type input type
+   * @param name input name
+   * @param itemType item type
+   * @param disabled is text field component disabled
+   */
+  private renderOutlinedTextField = (
+    key: string,
+    label: string,
+    value: string | number,
+    type: string,
+    name: string,
+    itemType: ItemType,
+    disabled?: boolean
+  ) => {
+    const { classes } = this.props;
+
+    if (itemType === ItemType.BUY) {
+      return null;
+    }
+
+    return (
+      <OutlinedTextField
+        key={ key }
+        label={ label }
+        value={ value }
+        onChange={ this.updateItemData }
+        type={ type }
+        name={ name }
+        className={ classes.marginTop }
+        disabled={ disabled }
+      />
+    );
+  }
+
+  /**
+   * Renders delivery select
+   *
+   * @param item selected item
+   */
+  private renderDeliverySelect = (item: Item) => {
+    const { classes } = this.props;
+
+    if (item.itemType === ItemType.BUY) {
+      return null;
+    }
+
+    return (
+      <OutlinedSelect
+        key={ `item-${item.id}-delivery` }
+        name="delivery"
+        label={ strings.items.delivery.title }
+        value={ item.delivery }
+        onChange={ this.onDeliveryOptionChange }
+        className={ classes.marginRight }
+      >
+        <MenuItem key={ strings.generic.yes } value={ "true" }>
+          { strings.generic.yes }
+        </MenuItem>
+        <MenuItem key={ strings.generic.no } value={ "false" }>
+          { strings.generic.no }
+        </MenuItem>
+      </OutlinedSelect>
     );
   }
 
@@ -477,7 +519,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
       const item = existingItem;
       const selectedCategory = existingItem ?
-        await categoriesApi.findCategory({ categoryId: existingItem!.category! }) :
+        await categoriesApi.findCategory({ categoryId: existingItem.category! }) :
         undefined;
 
       this.setState({ item, selectedCategory });
@@ -663,6 +705,7 @@ class ItemFormDialog extends React.Component<Props, State> {
   private updateItemData = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { item } = this.state;
     const { name, value } = event.target;
+
     if (!name || !item) {
       return;
     }
@@ -749,7 +792,7 @@ class ItemFormDialog extends React.Component<Props, State> {
   /**
    * Submits form
    */
-  private submitForm = async () => {
+  private submitForm = () => {
     const { existingItem } = this.props;
 
     this.setState({ loading: true });

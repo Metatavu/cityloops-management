@@ -135,6 +135,11 @@ export interface IStrings extends LocalizedStringsMethods {
     renew: string;
     renewSuccessful: string;
     userInfo: string;
+    types: {
+      buy: string;
+      sell: string;
+      rent: string;
+    };
   };
 
   /**

@@ -219,10 +219,11 @@ export class ItemsScreen extends React.Component<Props, State> {
     this.setState({ loading: true });
 
     const categoryId = searchParams.category?.id;
+    const itemType = searchParams.itemType;
     const itemsApi = Api.getItemsApi(anonymousToken);
     const mtResponse = await MTOperations.listItems(searchParams);
     const [ items, mtItems ] = await Promise.all<Item[], Item[]>([
-      itemsApi.listItems({ categoryId: categoryId }),
+      itemsApi.listItems({ categoryId: categoryId, itemType: itemType }),
       this.constructMTItems(mtResponse)
     ]);
 

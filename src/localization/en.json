@@ -108,7 +108,12 @@
     "noDeliveryPrice": "Delivery price is not defined",
     "renew": "Renew item",
     "renewSuccessful": "Renew was successful!",
-    "userInfo": "User information"
+    "userInfo": "User information",
+    "types": {
+      "buy": "Buy",
+      "sell": "Sell",
+      "rent": "Rent"
+    }
   },
 
   "categories": {

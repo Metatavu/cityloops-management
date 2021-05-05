@@ -109,7 +109,12 @@
     "showAsGrid": "Näytä tuotteet ruudukkona",
     "renew": "Uusi voimassaoloaika",
     "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!",
-    "userInfo": "Ilmoittajan tiedot"
+    "userInfo": "Ilmoittajan tiedot",
+    "types": {
+      "buy": "Ostetaan",
+      "sell": "Myydään",
+      "rent": "Vuokrataan"
+    }
   },
 
   "categories": {
