@@ -114,7 +114,7 @@ const GenericListItem: React.FC<Props> = props => {
             { item.title }
           </Typography>
           <Typography variant="subtitle1">
-            {`${ item.metadata.locationInfo.address }` }
+            {`${ item.metadata.locationInfo.address || "" }` }
           </Typography>
         </CardContent>
       }
