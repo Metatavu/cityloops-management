@@ -32,6 +32,7 @@ interface State {
   user: User;
   success: boolean;
   termsConfirmed: boolean;
+  confirmPassword: string;
 }
 
 /**
@@ -64,6 +65,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
         email: "",
         phoneNumber: ""
       },
+      confirmPassword: "",
       success: false,
       termsConfirmed: false
     };
@@ -124,7 +126,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    */
   private renderDialogContent = () => {
     const { classes } = this.props;
-    const { user, success } = this.state;
+    const { user, success, confirmPassword } = this.state;
 
     return (
       <>
@@ -151,6 +153,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
                 this.renderTextField("companyId", strings.user.businessId, TextFieldTypes.STRING, user.companyId)
               }
               { this.renderTextField("password", strings.user.password, TextFieldTypes.PASSWORD, user.password) }
+              { this.renderTextField("confirmPassword", strings.user.confirmPassword, TextFieldTypes.PASSWORD, confirmPassword) }
               { this.renderConfirmPrivacy() }
             </>
           )
@@ -250,10 +253,16 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    */
   private updateValue = (key: string, type?: TextFieldTypes) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked, value } = event.target;
+    const { user, confirmPassword } = this.state;
     const updatedValue = type && type === TextFieldTypes.BOOLEAN ? checked : value;
-    this.setState({
-      user: { ...this.state.user, [key]: updatedValue }
-    });
+    if (key !== "confirmPassword") {
+      this.setState({
+        user: { ...this.state.user, [key]: updatedValue }
+      });
+    } else {
+      this.setState({ confirmPassword: value });
+    }
+    
 
     if (key === "email") {
       if (!this.validEmail(value)) {
@@ -261,6 +270,30 @@ class RegistrationFormDialog extends React.Component<Props, State> {
           error: {
             field: "email",
             reason: strings.error.invalidEmail
+          }
+        });
+      } else {
+        this.setState({ error: undefined });
+      }
+    }
+    if (key === "password") {
+      if (confirmPassword.length && value !== confirmPassword) {
+        this.setState({
+          error: {
+            field: "password",
+            reason: strings.error.passwordsDoNotMatch
+          }
+        });
+      } else {
+        this.setState({ error: undefined });
+      }
+    }
+    if (key === "confirmPassword") {
+      if (user.password?.length && value !== user.password) {
+        this.setState({
+          error: {
+            field: "confirmPassword",
+            reason: strings.error.passwordsDoNotMatch
           }
         });
       } else {
@@ -312,18 +345,39 @@ class RegistrationFormDialog extends React.Component<Props, State> {
       const usersApi = Api.getUsersApi(anonymousToken);
       await usersApi.createUser({ user });
       this.setState({ success: true });
-    } catch(e) {
-      console.error(e);
+    } catch(error) {
+      console.error(error);
+      if (error.status && error.status === 400) {
+        this.setState({
+          error: {
+            field: "email",
+            reason: strings.error.emailInUse
+          }
+        });
+      }
     }
 
     this.setState({ loading: false });
   }
 
   /**
-   * Closes dialog
+   * Closes dialog and clears fields
    */
   private closeDialog = () => {
     const { onClose } = this.props;
+    this.setState({
+      loading: false,
+      user: {
+        name: "",
+        companyAccount: false,
+        verified: false,
+        address: "",
+        email: "",
+        phoneNumber: ""
+      },
+      success: false,
+      termsConfirmed: false
+    });
     onClose && onClose();
   }
 }
