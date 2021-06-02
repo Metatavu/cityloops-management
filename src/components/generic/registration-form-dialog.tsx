@@ -262,7 +262,6 @@ class RegistrationFormDialog extends React.Component<Props, State> {
     } else {
       this.setState({ confirmPassword: value });
     }
-    
 
     if (key === "email") {
       if (!this.validEmail(value)) {
@@ -276,6 +275,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
         this.setState({ error: undefined });
       }
     }
+
     if (key === "password") {
       if (confirmPassword.length && value !== confirmPassword) {
         this.setState({
@@ -288,6 +288,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
         this.setState({ error: undefined });
       }
     }
+
     if (key === "confirmPassword") {
       if (user.password?.length && value !== user.password) {
         this.setState({
@@ -308,13 +309,16 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    * @return true if form is filled, otherwise false
    */
   private formFilled = (): boolean => {
-    const { name, email, address, phoneNumber } = this.state.user;
+    const { name, email, address, phoneNumber, password } = this.state.user;
+    const { confirmPassword } = this.state;
 
     return (
       name !== "" &&
       email !== "" &&
       address !== "" &&
-      phoneNumber !== ""
+      phoneNumber !== "" &&
+      password !== "" &&
+      confirmPassword !== ""
     );
   }
 
