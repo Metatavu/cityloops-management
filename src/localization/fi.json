@@ -16,8 +16,10 @@
 
   "error": {
     "emptyField": "Täytä kenttä",
+    "emailInUse": "Sähköpostiosoite on jo käytössä",
     "invalidEmail": "Tarkista sähköpostin kirjoitusasu",
-    "itemNotFound": "Ilmoitusta ei löytynyt"
+    "itemNotFound": "Ilmoitusta ei löytynyt",
+    "passwordsDoNotMatch": "Salasanat eivät täsmää"
   },
 
   "genericDialog": {
@@ -144,6 +146,7 @@
     "account": "Tili",
     "username": "Käyttäjänimi",
     "password": "Salasana",
+    "confirmPassword": "Vahvista salasana",
     "name": "Nimi",
     "address": "Osoite",
     "email": "Sähköposti",

@@ -29,8 +29,10 @@ export interface IStrings extends LocalizedStringsMethods {
    */
   error: {
     emptyField: string;
+    emailInUse: string;
     invalidEmail: string;
     itemNotFound: string;
+    passwordsDoNotMatch: string;
   };
 
   /**
@@ -154,6 +156,7 @@ export interface IStrings extends LocalizedStringsMethods {
     account: string;
     username: string;
     password: string;
+    confirmPassword: string;
     name: string;
     address: string;
     email: string;
