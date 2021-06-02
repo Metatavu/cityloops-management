@@ -17,8 +17,10 @@
 
   "error": {
     "emptyField": "Fill field",
+    "emailInUse": "Email is already in use",
     "invalidEmail": "Check email spelling",
-    "itemNotFound": "Posting not found"
+    "itemNotFound": "Posting not found",
+    "passwordsDoNotMatch": "Passwords do not match"
   },
 
   "genericDialog": {
@@ -143,6 +145,7 @@
     "account": "Account",
     "username": "Username",
     "password": "Password",
+    "confirmPassword": "Confirm password",
     "name": "Name",
     "address": "Address",
     "email": "Email",
