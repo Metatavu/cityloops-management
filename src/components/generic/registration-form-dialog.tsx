@@ -353,7 +353,7 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    */
   private validNumber = (phoneNumber: string): boolean => {
     let valid = true;
-    for (let i=0; i < phoneNumber.length; i++) {
+    for (let i=0; i<phoneNumber.length; i++) {
       if (i===0) {
         if (!/[0-9+]/.test(phoneNumber[i])) {
           valid = false;

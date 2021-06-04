@@ -34,6 +34,9 @@ const MyInfoTab: React.FC<Props> = props => {
     onUserSave,
   } = props;
 
+  const [ numberError, setNumberError ] = React.useState(false);
+  const [ emailError, setEmailError ] = React.useState(false);
+
   /**
    * Renders my information content
    */
@@ -159,6 +162,16 @@ const MyInfoTab: React.FC<Props> = props => {
    * @param rows number of rows
    */
   const renderTextField = (key: string, displayName: string, value: string, rows?: number) => {
+    let [ error, text ] = [ false, "" ];
+    if (key === "phoneNumber") {
+      error = numberError;
+      text = error ? strings.error.invalidNumber : "";
+    }
+    if (key === "email") {
+      error = emailError;
+      text = error ? strings.error.invalidEmail : "";
+    }
+
     return (
       <TextField
         className={ classes.inputField }
@@ -173,6 +186,8 @@ const MyInfoTab: React.FC<Props> = props => {
         multiline={ !!rows }
         rows={ rows }
         rowsMax={ 10 }
+        error={ error }
+        helperText={ text }
       />
     );
   };
@@ -228,7 +243,37 @@ const MyInfoTab: React.FC<Props> = props => {
       return;
     }
 
-    onUserInfoChange({ ...user, [name]: value });
+    if (name === "email") {
+      let valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(value);
+      if (valid) {
+        setEmailError(false);
+        onUserInfoChange({ ...user, [name]: value });
+      } else {
+        setEmailError(true);
+      }
+    }
+
+    if (name === "phoneNumber") {
+      let valid = true;
+      for (let i=0; i<value.length; i++) {
+        if (i===0) {
+          if (!/[0-9+]/.test(value[i])) {
+            valid = false;
+          }
+        }
+        else if (!/[0-9]/.test(value[i])) {
+          valid = false;
+        }
+      }
+      if (valid) {
+        setNumberError(false);
+        onUserInfoChange({ ...user, [name]: value });
+      } else {
+        setNumberError(true);
+      }
+    } else {
+      onUserInfoChange({ ...user, [name]: value });
+    }
   };
 
   /**
