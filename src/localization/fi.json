@@ -1,6 +1,8 @@
 {
   "browseProducts": "Selaa ilmoituksia",
   "comingSoon": "Tulossa pian!",
+  "priceAmount": "Hinnan suuruus (numeroina)",
+
   "errorDialog": {
     "title": "Hups! Jokin meni pieleen",
     "reloadPage": "Kokeile ladata sivu uudelleen.",
@@ -18,6 +20,7 @@
     "emptyField": "Täytä kenttä",
     "emailInUse": "Sähköpostiosoite on jo käytössä",
     "invalidEmail": "Tarkista sähköpostin kirjoitusasu",
+    "invalidNumber": "Tarkista puhelinnumeron kirjoitusasu",
     "itemNotFound": "Ilmoitusta ei löytynyt",
     "passwordsDoNotMatch": "Salasanat eivät täsmää"
   },

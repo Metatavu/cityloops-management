@@ -49,6 +49,7 @@ interface State {
   user?: User;
   changeCategoryConfirmOpen: boolean;
   closeFormConfirmOpen: boolean;
+  numberError: boolean;
 }
 
 /**
@@ -69,7 +70,8 @@ class ItemFormDialog extends React.Component<Props, State> {
       categories: [],
       dataChanged: false,
       changeCategoryConfirmOpen: false,
-      closeFormConfirmOpen: false
+      closeFormConfirmOpen: false,
+      numberError: false
     };
   }
 
@@ -312,7 +314,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     return (
       <>
-        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "string", "price", item.itemType) }
+        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "number", "price", item.itemType) }
         { this.renderOutlinedTextField(`item-${item.id}-priceUnit`, strings.items.priceUnit, item.priceUnit || "", "string", "priceUnit", item.itemType) }
         { this.renderOutlinedTextField(`item-${item.id}-paymentMethod`, strings.items.paymentMethod, item.paymentMethod || "", "string", "paymentMethod", item.itemType) }
         <Box display={ "flex" } mt={ 2 }>
@@ -363,6 +365,7 @@ class ItemFormDialog extends React.Component<Props, State> {
         name={ name }
         className={ classes.marginTop }
         disabled={ disabled }
+        helperText={ name === "price" ? strings.priceAmount : "" }
       />
     );
   }
@@ -707,15 +710,37 @@ class ItemFormDialog extends React.Component<Props, State> {
   private updateItemData = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { item } = this.state;
     const { name, value } = event.target;
-
+    
     if (!name || !item) {
       return;
     }
-
-    this.setState({
-      dataChanged: true,
-      item: { ...item, [name]: value }
-    });
+    
+    if (name === "price") {
+      let valid = true;
+      for (const letter of value) {
+        if (!/[0-9.,]/.test(letter)) {
+          valid = false;
+        }
+      }
+      console.log(value);
+      console.log(valid);
+      if (valid) {
+        this.setState({
+          numberError: false,
+          dataChanged: true,
+          item: { ...item, [name]: Number(value.replace(",", ".")) }
+        });
+      } else {
+        this.setState({
+          numberError: true
+        });
+      }
+    } else {
+      this.setState({
+        dataChanged: true,
+        item: { ...item, [name]: value }
+      });
+    }
   }
 
   /**

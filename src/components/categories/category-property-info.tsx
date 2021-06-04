@@ -22,6 +22,8 @@ const CategoryPropertyInfo: React.FC<Props> = ({
   onUpdate
 }) => {
 
+  const [ numberError, setNumberError ] = React.useState<string | undefined>(undefined);
+
   /**
    * Event handler for input change
    *
@@ -31,7 +33,8 @@ const CategoryPropertyInfo: React.FC<Props> = ({
     const { name, value, checked } = event.target;
 
     if (name === "defaultValue" && property.type === CategoryPropertyInputType.NUMBER) {
-      const valueAsNumber = Number(value);
+
+      const valueAsNumber = Number(value.replace(",", "."));
       onUpdate({
         ...property,
         defaultValue: !Number.isNaN(valueAsNumber) && valueAsNumber < 0 ? "" : value
@@ -154,7 +157,6 @@ const CategoryPropertyInfo: React.FC<Props> = ({
       />
     </div>
   );
-
 };
 
 export default withStyles(styles)(CategoryPropertyInfo);

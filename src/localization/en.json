@@ -1,6 +1,7 @@
 {
   "browseProducts": "Browse products",
   "comingSoon": "Coming soon!",
+  "priceAmount": "Price amount (in numbers)",
 
   "errorDialog": {
     "title": "Whoops! Something went wrong",
@@ -19,6 +20,7 @@
     "emptyField": "Fill field",
     "emailInUse": "Email is already in use",
     "invalidEmail": "Check email spelling",
+    "invalidNumber": "Check phone number spelling",
     "itemNotFound": "Posting not found",
     "passwordsDoNotMatch": "Passwords do not match"
   },

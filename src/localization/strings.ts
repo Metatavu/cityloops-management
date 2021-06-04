@@ -7,6 +7,7 @@ export interface IStrings extends LocalizedStringsMethods {
 
   comingSoon: string;
   browseProducts: string;
+  priceAmount: string;
 
   /**
    * Translations related to error dialog
@@ -31,6 +32,7 @@ export interface IStrings extends LocalizedStringsMethods {
     emptyField: string;
     emailInUse: string;
     invalidEmail: string;
+    invalidNumber: string;
     itemNotFound: string;
     passwordsDoNotMatch: string;
   };

@@ -276,6 +276,19 @@ class RegistrationFormDialog extends React.Component<Props, State> {
       }
     }
 
+    if (key === "phoneNumber") {
+      if (!this.validNumber(value)) {
+        this.setState({
+          error: {
+            field: "phoneNumber",
+            reason: strings.error.invalidNumber
+          }
+        });
+      } else {
+        this.setState({ error: undefined });
+      }
+    }
+
     if (key === "password") {
       if (confirmPassword.length && value !== confirmPassword) {
         this.setState({
@@ -330,6 +343,26 @@ class RegistrationFormDialog extends React.Component<Props, State> {
    */
   private validEmail = (email: string): boolean => {
     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email);
+  }
+
+  /**
+   * Check if phone number is valid
+   * 
+   * @param phoneNumber phone number
+   * @returns true if number is valid, otherwise false
+   */
+  private validNumber = (phoneNumber: string): boolean => {
+    let valid = true;
+    for (let i=0; i < phoneNumber.length; i++) {
+      if (i===0) {
+        if (!/[0-9+]/.test(phoneNumber[i])) {
+          valid = false;
+        }
+      } else if (!/[0-9]/.test(phoneNumber[i])) {
+        valid = false;
+      }
+    }
+    return valid;
   }
 
   /**

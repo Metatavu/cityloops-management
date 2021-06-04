@@ -17,6 +17,8 @@ interface Props extends WithStyles<typeof styles> {
   style?: CSSProperties;
   type?: string;
   disabled?: boolean;
+  error?: boolean;
+  helperText?: string;
 }
 
 /**
@@ -34,6 +36,8 @@ const OutlinedTextField: React.FC<Props> = ({
   style,
   type,
   disabled,
+  error,
+  helperText,
   onChange
 }) => {
   return (
@@ -51,6 +55,8 @@ const OutlinedTextField: React.FC<Props> = ({
       InputLabelProps={{ variant: "outlined" }}
       value={ value }
       onChange={ onChange && onChange }
+      error={ error ? true : false }
+      helperText={ helperText }
     />
   );
 }
