@@ -314,7 +314,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     return (
       <>
-        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "number", "price", item.itemType) }
+        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "string", "price", item.itemType) }
         { this.renderOutlinedTextField(`item-${item.id}-priceUnit`, strings.items.priceUnit, item.priceUnit || "", "string", "priceUnit", item.itemType) }
         { this.renderOutlinedTextField(`item-${item.id}-paymentMethod`, strings.items.paymentMethod, item.paymentMethod || "", "string", "paymentMethod", item.itemType) }
         <Box display={ "flex" } mt={ 2 }>
@@ -365,6 +365,7 @@ class ItemFormDialog extends React.Component<Props, State> {
         name={ name }
         className={ classes.marginTop }
         disabled={ disabled }
+        error={ name === "price" ? this.state.numberError : false }
         helperText={ name === "price" ? strings.priceAmount : "" }
       />
     );
@@ -732,7 +733,9 @@ class ItemFormDialog extends React.Component<Props, State> {
         });
       } else {
         this.setState({
-          numberError: true
+          numberError: true,
+          dataChanged: true,
+          item: { ...item, [name]: Number(value.replace(",", ".")) }
         });
       }
     } else {
