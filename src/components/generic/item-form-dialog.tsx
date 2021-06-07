@@ -723,19 +723,17 @@ class ItemFormDialog extends React.Component<Props, State> {
           valid = false;
         }
       }
-      console.log(value);
-      console.log(valid);
       if (valid) {
         this.setState({
           numberError: false,
           dataChanged: true,
-          item: { ...item, [name]: Number(value.replace(",", ".")) }
+          item: { ...item, [name]: value.replace(",", ".") as any }
         });
       } else {
         this.setState({
           numberError: true,
           dataChanged: true,
-          item: { ...item, [name]: Number(value.replace(",", ".")) }
+          item: { ...item, [name]: value.replace(",", ".") as any }
         });
       }
     } else {
