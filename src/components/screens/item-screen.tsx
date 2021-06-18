@@ -9,7 +9,7 @@ import styles from "../../styles/components/screens/item-screen";
 import { Box, Button, CircularProgress, Divider, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
-import { Item, ItemType, PublicUser } from "../../generated/client";
+import { Category, Item, ItemType, PublicUser } from "../../generated/client";
 import strings from "../../localization/strings";
 import Api from "../../api/api";
 import AppLayout from "../layouts/app-layout";
@@ -47,6 +47,7 @@ interface State {
   updateOpen: boolean;
   successfulUpdate: boolean;
   updateLoading: boolean;
+  category?: Category;
 }
 
 /**
@@ -139,7 +140,7 @@ export class ItemScreen extends React.Component<Props, State> {
    */
   private renderPropertiesSection = () => {
     const { classes } = this.props;
-    const { item } = this.state;
+    const { item, category } = this.state;
 
     return (
       <>
@@ -148,6 +149,7 @@ export class ItemScreen extends React.Component<Props, State> {
             variant="h1"
             className={ classes.itemTitle }
           >
+            { category?.name ? category.name + " / " : "" }
             { item ? item?.title : strings.error.itemNotFound }
           </Typography>
         </div>
@@ -557,10 +559,15 @@ export class ItemScreen extends React.Component<Props, State> {
 
     const itemsApi = Api.getItemsApi(anonymousToken);
     const usersApi = Api.getUsersApi(anonymousToken);
-
+    const categoriesApi = Api.getCategoriesApi(anonymousToken);
+    
     const item = await itemsApi.findItem({ itemId });
     const publicUser = await usersApi.findPublicUser({ userId: item.userId });
-    this.setState({ item, publicUser });
+    let category: Category | undefined;
+    if (item?.category && anonymousToken) {
+      category = await categoriesApi.findCategory({ categoryId: item.category });
+    }
+    this.setState({ item, publicUser, category });
   }
 
   /**
