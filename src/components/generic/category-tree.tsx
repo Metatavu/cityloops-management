@@ -47,14 +47,21 @@ const CategoryTree: React.FC<Props> = props => {
     );
   }
 
+  let openNode: string | null = null;
+  if (selected?.id) {
+    if (selected?.parentCategoryId) {
+      openNode = selected?.parentCategoryId;
+    }
+  }
+
   return (
     <div className={ classes.root }>
       <TreeMenu
         data={ treeNodes }
         hasSearch={ false }
-        initialOpenNodes={ [ selected?.id || "" ] }
-        initialActiveKey={ selected?.id || "" }
-        initialFocusKey={ selected?.id || "" }
+        initialOpenNodes={ openNode ? [ openNode ] : [ selected?.id || "" ] }
+        initialActiveKey={ selected?.id ?? "" }
+        initialFocusKey={ selected?.id ?? "" }
         onClickItem={ ({ key, label, ...props }) => !disabled && onSelect && onSelect(props.category) }
       >
         {({ items }) => (
@@ -100,7 +107,8 @@ const renderTreeMenuItem = (item: TreeMenuItem, props: Props) => {
         classNames(
           classes.listItem,
           level === 0 ? classes.rootLevel : "",
-          focused ? classes.focused : ""
+          focused ? classes.focused : "",
+          active ? classes.focused : ""
         )
       }
       style={{ paddingLeft: (1 + level) * 20 }}
