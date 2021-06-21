@@ -35,6 +35,29 @@ const CategoryTree: React.FC<Props> = props => {
 
   const treeStructure = TreeDataUtils.constructTreeData(categories);
   const treeNodes = translateToTreeNodes(treeStructure);
+  let openNodes: string[] = [];
+
+  /**
+   * Adding of opened nodes, used to open parent nodes of a node
+   * @param id category id
+   */
+  const addOpenedNodes = (id: string) =>  {
+    const previousCategory = categories.find(item => item.id === id);
+    if (previousCategory?.id) {
+      if (openNodes.length > 0) {
+        openNodes.push(`${previousCategory.id}/${openNodes[openNodes.length-1]}`);
+      } else {
+        openNodes.push(previousCategory.id);
+      }
+
+      console.log(previousCategory);
+      if (previousCategory?.parentCategoryId !== undefined) {
+        addOpenedNodes(previousCategory.parentCategoryId);
+      }
+      return;
+    }
+    return;
+  }
 
   /**
    * Component render
@@ -47,26 +70,27 @@ const CategoryTree: React.FC<Props> = props => {
     );
   }
 
-  let openNode: string | null = null;
   if (selected?.id) {
     if (selected?.parentCategoryId) {
-      openNode = selected?.parentCategoryId;
+      addOpenedNodes(selected?.parentCategoryId);
     }
   }
+
+  console.log(openNodes);
 
   return (
     <div className={ classes.root }>
       <TreeMenu
         data={ treeNodes }
         hasSearch={ false }
-        initialOpenNodes={ openNode ? [ openNode ] : [ selected?.id || "" ] }
+        initialOpenNodes={ openNodes.length > 0 ? openNodes : [ selected?.id || "" ] }
         initialActiveKey={ selected?.id ?? "" }
         initialFocusKey={ selected?.id ?? "" }
         onClickItem={ ({ key, label, ...props }) => !disabled && onSelect && onSelect(props.category) }
       >
         {({ items }) => (
           <List className={ classes.list }>
-            { items.map(item => renderTreeMenuItem(item, props)) }
+            { items.map(item => renderTreeMenuItem(item, props, selected)) }
           </List>
         )}
       </TreeMenu>
@@ -80,7 +104,7 @@ const CategoryTree: React.FC<Props> = props => {
  * @param item tree menu item
  * @param props component properties
  */
-const renderTreeMenuItem = (item: TreeMenuItem, props: Props) => {
+const renderTreeMenuItem = (item: TreeMenuItem, props: Props, selected?: Category) => {
   const {
     level,
     focused,
@@ -107,8 +131,11 @@ const renderTreeMenuItem = (item: TreeMenuItem, props: Props) => {
         classNames(
           classes.listItem,
           level === 0 ? classes.rootLevel : "",
-          focused ? classes.focused : "",
-          active ? classes.focused : ""
+          focused ?
+            classes.focused :
+            item.key.split("/")[item.key.split("/").length-1] === selected?.id ?
+              classes.focused :
+              ""
         )
       }
       style={{ paddingLeft: (1 + level) * 20 }}
