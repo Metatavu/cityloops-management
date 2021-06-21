@@ -140,7 +140,7 @@ export class ItemScreen extends React.Component<Props, State> {
    */
   private renderPropertiesSection = () => {
     const { classes } = this.props;
-    const { item, category } = this.state;
+    const { item } = this.state;
 
     return (
       <>
@@ -149,7 +149,6 @@ export class ItemScreen extends React.Component<Props, State> {
             variant="h1"
             className={ classes.itemTitle }
           >
-            { category?.name ? category.name + " / " : "" }
             { item ? item?.title : strings.error.itemNotFound }
           </Typography>
         </div>
@@ -244,10 +243,11 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties
    */
   private renderProperties = () => {
-    const { item } = this.state;
+    const { item, category } = this.state;
+    let properties: any[] = [];
 
-    return item?.properties ?
-      item.properties.map((property, index) => {
+    if(item?.properties) {
+      properties = item.properties.map((property, index) => {
         return property.value && (
           <Box key={ index } mb={ 2 }>
             <Typography
@@ -266,8 +266,31 @@ export class ItemScreen extends React.Component<Props, State> {
             </Box>
           </Box>
         );
-      }) :
-      [];
+      })
+    }
+
+    if (category) {
+      properties.push(
+        <Box key="category" mb={ 2 }>
+            <Typography
+              key="category"
+              variant="h4"
+            >
+              { strings.categories.category }
+            </Typography>
+            <Box mt={ 1 } mb={ 1 }>
+              <Typography
+                key={ "categoryName" }
+                variant="body1"
+                >
+                { category.name }
+              </Typography>
+            </Box>
+          </Box>
+      );
+    }
+
+    return properties;
   }
 
   /**
