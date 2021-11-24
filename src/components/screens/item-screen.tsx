@@ -204,7 +204,7 @@ export class ItemScreen extends React.Component<Props, State> {
     const { signedToken, classes } = this.props;
     const { item } = this.state;
 
-    if (!item || !signedToken || item.userId !== signedToken.userId) {
+    if (!item || !signedToken || (signedToken.userId !== item.userId && !signedToken.roles?.includes("admin"))) {
       return null;
     }
 

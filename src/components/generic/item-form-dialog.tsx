@@ -143,7 +143,7 @@ class ItemFormDialog extends React.Component<Props, State> {
               className={ classes.dialogClose }
               onClick={ onClose }
             >
-              <CloseIcon />
+              <CloseIcon/>
             </IconButton>
           </DialogTitle>
           <DialogContent
@@ -214,7 +214,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           { this.renderTypes() }
         </TextField>
         <Box mt={ 4 }>
-          <Divider /> 
+          <Divider/> 
         </Box>
       </Box>
     );
@@ -223,13 +223,13 @@ class ItemFormDialog extends React.Component<Props, State> {
   /**
    * Renders item types
    */
-  private renderTypes = () => {
-    return Object.values(ItemType).map(type =>
+  private renderTypes = () => (
+    Object.values(ItemType).map(type =>
       <MenuItem key={ type } value={ type }>
         { strings.items.types[type.toLowerCase() as keyof object] }
       </MenuItem>
-    );
-  }
+    )
+  );
 
   /**
    * Renders category column content
@@ -271,6 +271,8 @@ class ItemFormDialog extends React.Component<Props, State> {
       );
     }
 
+    const { itemType, title, images, properties, metadata } = item;
+
     return (
       <>
         <Grid
@@ -279,10 +281,10 @@ class ItemFormDialog extends React.Component<Props, State> {
         >
           { this.renderItemTypeColumnContent() }
           <PropertiesSection
-            type={ item.itemType }
-            title={ item.title }
-            images={ item.images || [] }
-            properties={ item.properties }
+            type={ itemType }
+            title={ title }
+            images={ images || [] }
+            properties={ properties }
             onUpdateTitle={ this.updateTitle }
             onUpdateImages={ this.updateImages }
             onUpdateProperties={ this.updateProperties }
@@ -295,7 +297,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           className={ classes.column }
         >
           <LocationSection
-            locationInfo={ item.metadata.locationInfo }
+            locationInfo={ metadata.locationInfo }
             onUpdate={ this.updateLocationInfo }
           />
         </Grid>
@@ -669,7 +671,8 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private onImageDelete = (imageToDelete: string) => {
     const { item } = this.state;
-    if (!item || !item.images) {
+
+    if (!item?.images) {
       return;
     }
 
@@ -781,6 +784,7 @@ class ItemFormDialog extends React.Component<Props, State> {
    */
   private closeForm = () => {
     const { dataChanged, closeFormConfirmOpen } = this.state;
+
     if (dataChanged && !closeFormConfirmOpen) {
       this.toggleCloseFormConfirmDialog(true);
       return;
@@ -853,13 +857,12 @@ class ItemFormDialog extends React.Component<Props, State> {
       return;
     }
 
-    const itemsApi = Api.getItemsApi(signedToken);
     const itemId = item.id!;
     if (!itemId) {
       return;
     }
 
-    const updatedItem = await itemsApi.updateItem({ itemId, item });
+    const updatedItem = await Api.getItemsApi(signedToken).updateItem({ itemId, item });
     if (!updatedItem) {
       this.setState({ loading: false });
       return;
@@ -884,9 +887,7 @@ class ItemFormDialog extends React.Component<Props, State> {
       return;
     }
 
-    const itemsApi = Api.getItemsApi(signedToken);
-
-    const newItem = await itemsApi.createItem({ item });
+    const newItem = await Api.getItemsApi(signedToken).createItem({ item });
     if (!newItem) {
       return;
     }
