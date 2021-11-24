@@ -1,3 +1,3 @@
 # cityloops-management
 
-TODO: Add even better README
+TODO: Add README
