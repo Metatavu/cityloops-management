@@ -333,7 +333,7 @@ export class ItemsScreen extends React.Component<Props, State> {
 					onlyForCompanies: false,
 					userId: "materiaalitori",
           category: item.rfoType,
-          price: 0.0,
+          price: "0.0",
           priceUnit: "€",
           delivery: false,
           paymentMethod: "",

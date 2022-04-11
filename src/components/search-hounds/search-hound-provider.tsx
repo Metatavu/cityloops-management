@@ -180,7 +180,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
    *
    * @param clickedSearchHound clicked search hound
    */
-  private onSearchHoundClick = async (clickedSearchHound: SearchHound) => {
+  private onSearchHoundClick = (clickedSearchHound: SearchHound) => {
     this.setState({ selectedSearchHound: clickedSearchHound });
   }
 
@@ -204,7 +204,7 @@ class SearchHoundsProvider extends React.Component<Props, State> {
   /**
    * Event handler for save search hound click
    */
-  private onSearchHoundSave = async () => {
+  private onSearchHoundSave = () => {
     const { selectedSearchHound } = this.state;
 
     if (!selectedSearchHound) {

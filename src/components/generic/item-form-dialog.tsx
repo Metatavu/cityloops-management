@@ -357,7 +357,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     return (
       <OutlinedTextField
-        key={ key }
+        key={ key }
         label={ label }
         value={ value }
         onChange={ this.updateItemData }
@@ -588,7 +588,7 @@ class ItemFormDialog extends React.Component<Props, State> {
           coordinates: user?.coordinates
         },
       },
-      price: 0.0,
+      price: "0.0",
       priceUnit: "€",
       properties: properties,
       onlyForCompanies: false,
