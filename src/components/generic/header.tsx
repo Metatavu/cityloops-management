@@ -143,8 +143,10 @@ const Header: React.FC<Props> = props => {
         { signedToken &&
           onAddClick &&
             <Button
-              variant="outlined"
-              className={ classes.menuButtonOutlined }
+              startIcon={
+                <AddIcon/>
+              }
+              variant="contained"
               onClick={ onAddClick }
             >
             { strings.items.addPosting }

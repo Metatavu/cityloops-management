@@ -8,12 +8,13 @@ import { setLocale } from "../../actions/locale";
 import { AccessToken, SignedToken, ActionButton } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
 import { History } from "history";
-import { withStyles, WithStyles } from "@material-ui/core";
+import { Box, Button, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/user-action-buttons";
 import strings from "../../localization/strings";
 import RegistrationFormDialog from "./registration-form-dialog";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MenuButton from "./menu-button";
+import theme from "../../styles/theme";
 
 /**
  * Interface describing component properties
@@ -76,33 +77,23 @@ class UserActionButtons extends React.Component<Props, State> {
           onClose={ this.toggleRegistrationDialog }
         />
         { keycloak &&
-          <MenuButton
-            icon={ <AccountCircleIcon color="primary" /> }
-            menuOptions={
-              this.getLoginMenuOptions(keycloak)
-            }
-          />
+          <Box style={{ flexDirection: "row" }}>
+            <Button onClick={ () => this.setState({ registrationDialogOpen: !this.state.registrationDialogOpen }) }>
+              { strings.user.register }
+            </Button>
+            <Button
+              style={{
+                marginLeft: theme.spacing(2)
+              }}
+              variant="contained"
+              onClick={() => keycloak.login() }
+            >
+              { strings.user.login }
+            </Button>
+          </Box>
         }
       </div>
     );
-  }
-
-  /**
-   * Gets menu options for non-logged-in user
-   *
-   * @param keycloak keycloack instance
-   * @returns menu options as action button array
-   */
-  private getLoginMenuOptions = (keycloak: KeycloakInstance): ActionButton[] => {
-    return [{
-      name: strings.user.login,
-      action: () => keycloak.login()
-    },
-    { 
-      name: strings.user.register,
-      action: () => this.setState({ registrationDialogOpen: !this.state.registrationDialogOpen })
-    }
-    ];
   }
 
   /**
