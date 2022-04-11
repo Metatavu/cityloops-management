@@ -74,11 +74,9 @@ const GenericListItem: React.FC<Props> = props => {
                   <Typography variant="h4">
                     { item.title }
                   </Typography>
-                  { item.price !== 0 &&
-                    <Typography variant="h3">
-                      { item.price } { item.priceUnit }
-                    </Typography>
-                  }
+                  <Typography variant="h3">
+                    { item.price } { item.priceUnit }
+                  </Typography>
                 </div>
               </div>
               <div className={ classes.spaceBetweenContent }>
@@ -99,13 +97,11 @@ const GenericListItem: React.FC<Props> = props => {
               alt={ `itemImage-${item.id}` }
               src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
             />
-            { item.price !== 0 &&
               <Box className={ classes.priceContainer }>
                 <Typography variant="h5" className={ classes.priceText } >
                   { item.price } { item.priceUnit }
                 </Typography>
               </Box>
-            }
           </Box>
           <Typography
             style={{ width: "100%" }}
