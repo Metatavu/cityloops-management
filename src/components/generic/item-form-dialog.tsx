@@ -579,7 +579,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     }
 
     return {
-      title: "Uusi ilmoitus",
+      title: "",
       metadata: {
         locationInfo: {
           address: user?.address,
@@ -588,14 +588,14 @@ class ItemFormDialog extends React.Component<Props, State> {
           coordinates: user?.coordinates
         },
       },
-      price: "0.0",
-      priceUnit: "€",
+      price: "",
+      priceUnit: "",
       properties: properties,
       onlyForCompanies: false,
       userId: this.props.signedToken?.userId || "",
       category: category?.id,
       delivery: false,
-      paymentMethod: strings.items.paymentMethod,
+      paymentMethod: "",
       expired: false,
       itemType: ItemType.SELL
     };
