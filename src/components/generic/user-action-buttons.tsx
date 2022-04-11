@@ -8,7 +8,7 @@ import { setLocale } from "../../actions/locale";
 import { AccessToken, SignedToken, ActionButton } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
 import { History } from "history";
-import { Box, Button, Divider, withStyles, WithStyles } from "@material-ui/core";
+import { Box, Button, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/user-action-buttons";
 import strings from "../../localization/strings";
 import RegistrationFormDialog from "./registration-form-dialog";
