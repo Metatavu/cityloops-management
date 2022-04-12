@@ -138,7 +138,7 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties section
    */
   private renderPropertiesSection = () => {
-    const { classes } = this.props;
+    const { classes, signedToken } = this.props;
     const { item } = this.state;
 
     return (
@@ -173,7 +173,13 @@ export class ItemScreen extends React.Component<Props, State> {
               </Typography>
               { this.renderProperties() }
               <Divider />
-              { this.renderSellerInfo() }
+              { signedToken ?
+                this.renderSellerInfo()
+              :
+                <Box mt={ 2 }>
+                  <Typography>{ strings.items.registerToSeeSellerInfo }</Typography>
+                </Box>
+              }
               { this.renderPriceInfo() }
             </div>
           </Grid>
@@ -348,11 +354,13 @@ export class ItemScreen extends React.Component<Props, State> {
 
     return publicUser && (
       <div className={ classes.userInfoContainer }>
-        <img
-          src={ publicUser.logoUrl }
-          alt={ strings.generic.imageAlt }
-          className={ classes.image }
-        />
+        { publicUser.logoUrl &&
+          <img
+            src={ publicUser.logoUrl }
+            alt={ strings.generic.imageAlt }
+            className={ classes.image }
+          />
+        }
         <Box p={ 4 }>
           <Typography variant="body1">
             { publicUser.description }

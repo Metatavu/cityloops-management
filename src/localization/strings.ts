@@ -7,6 +7,7 @@ export interface IStrings extends LocalizedStringsMethods {
 
   comingSoon: string;
   browseProducts: string;
+  siteDescription: string;
 
   /**
    * Translations related to error dialog
@@ -142,6 +143,7 @@ export interface IStrings extends LocalizedStringsMethods {
       sell: string;
       rent: string;
     };
+    registerToSeeSellerInfo: string;
   };
 
   /**

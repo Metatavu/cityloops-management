@@ -1,15 +1,16 @@
 import * as React from "react";
 
-import { withStyles, WithStyles } from "@material-ui/core";
+import { Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/partner-item";
 
 /**
  * Interface describing component properties
  */
 export interface Props extends WithStyles<typeof styles> {
-  logo: string;
+  logo?: string;
   url: string;
-  altText: string;
+  altText?: string;
+  title?: string;
 }
 
 /**
@@ -21,7 +22,8 @@ const PartnerItem: React.FC<Props> = ({
     classes,
     logo,
     url,
-    altText
+    altText,
+    title
   }) => {
   /**
    * Component render
@@ -34,7 +36,12 @@ const PartnerItem: React.FC<Props> = ({
       rel="noopener noreferrer"
     >
       <div className={ classes.imageContainer }>
-        <img alt={ altText } src={ logo } />
+        { logo &&
+          <img alt={ altText } src={ logo } />
+        }
+        { title &&
+          <Typography variant="h5">{ title }</Typography>
+        }
       </div>
     </a>
   );

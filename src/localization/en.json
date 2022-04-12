@@ -1,7 +1,7 @@
 {
   "browseProducts": "Browse products",
   "comingSoon": "Coming soon!",
-
+  "siteDescription": "Here you can sell surplus building materials and tools or make requests.",
   "errorDialog": {
     "title": "Whoops! Something went wrong",
     "reloadPage": "Try reloading the page.",
@@ -115,7 +115,8 @@
       "buy": "Buy",
       "sell": "Sell",
       "rent": "Rent"
-    }
+    },
+    "registerToSeeSellerInfo": "Register to see contact information."
   },
 
   "categories": {
