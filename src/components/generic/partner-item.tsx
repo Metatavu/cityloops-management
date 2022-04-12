@@ -30,7 +30,8 @@ const PartnerItem: React.FC<Props> = ({
     <a
       className={ classes.root }
       href={ url }
-      target="_blank" rel="noopener noreferrer"
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <div className={ classes.imageContainer }>
         <img alt={ altText } src={ logo } />
