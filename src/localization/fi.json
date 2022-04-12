@@ -1,6 +1,7 @@
 {
   "browseProducts": "Selaa ilmoituksia",
   "comingSoon": "Tulossa pian!",
+  "siteDescription": "Täällä voit ilmoittaa tarpeettomiksi jääneistä ja ylimääräisistä rakennustuotteista, olivat ne rakennusmateriaaleja tai työkaluja. Voit myös tehdä ostoilmoituksia!",
   "errorDialog": {
     "title": "Hups! Jokin meni pieleen",
     "reloadPage": "Kokeile ladata sivu uudelleen.",
@@ -109,14 +110,18 @@
     "noDeliveryPrice": "Toimituksen hintaa ei ole määritelty",
     "showAsList": "Näytä tuotteet listana",
     "showAsGrid": "Näytä tuotteet ruudukkona",
-    "renew": "Uusi voimassaoloaika",
+    "renew": "Päivitä voimassaoloaika",
     "renewSuccessful": "Voimassaoloajan päivittäminen onnistui!",
     "userInfo": "Ilmoittajan tiedot",
     "types": {
       "buy": "Ostetaan",
       "sell": "Myydään",
       "rent": "Vuokrataan"
-    }
+    },
+    "registerToSeeSellerInfo": "Rekisteröidy nähdäksesi myyjän yhteystiedot.",
+    "dropFilesHere": "Pudota tai valitse tiedostoja",
+    "preview": "Tiedostot",
+    "addImages": "Lisää kuvia"
   },
 
   "categories": {

@@ -97,10 +97,13 @@ class FileUploader extends React.Component<Props, State> {
       maxImageCount,
       onClose
     } = this.props;
-    const { dialogOpen } = this.state;
+    const { dialogOpen } = this.state;
 
     return (
       <DropzoneDialog
+        dialogTitle={ strings.items.addImages }
+        previewText={ strings.items.preview }
+        dropzoneText={ strings.items.dropFilesHere }
         acceptedFiles={ allowedFileTypes }
         open={ controlled ? open : dialogOpen }
         onClose={ controlled ? onClose : this.onClose }
@@ -110,6 +113,8 @@ class FileUploader extends React.Component<Props, State> {
         filesLimit={ maxImageCount || 10 }
         maxFileSize={ 200000000 }
         showPreviewsInDropzone={ false }
+        showFileNamesInPreview={ false }
+        useChipsForPreview={ true }
       />
     );
   }

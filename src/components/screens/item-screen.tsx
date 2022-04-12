@@ -20,6 +20,7 @@ import Map from "../generic/map";
 import ItemFormDialog from "../generic/item-form-dialog";
 import GenericConfirmDialog from "../generic/generic-confirm-dialog";
 import { ArrowBack } from "@material-ui/icons";
+import theme from "../../styles/theme";
 
 /**
  * Component props
@@ -138,7 +139,7 @@ export class ItemScreen extends React.Component<Props, State> {
    * Renders properties section
    */
   private renderPropertiesSection = () => {
-    const { classes } = this.props;
+    const { classes, signedToken } = this.props;
     const { item } = this.state;
 
     return (
@@ -166,14 +167,20 @@ export class ItemScreen extends React.Component<Props, State> {
           <Grid item xs={ 12 } md>
             <div className={ classes.propertiesContainer }>
               <Typography
-                variant="h1"
+                variant="h2"
                 className={ classes.itemPrice }
               >
-                { item ? `${ item.price } ${ item.priceUnit }` : "" }
+                { item ? `${ strings.items.price }: ${ item.price } ${ item.priceUnit }` : "" }
               </Typography>
               { this.renderProperties() }
               <Divider />
-              { this.renderSellerInfo() }
+              { signedToken ?
+                this.renderSellerInfo()
+              :
+                <Box mt={ 2 }>
+                  <Typography>{ strings.items.registerToSeeSellerInfo }</Typography>
+                </Box>
+              }
               { this.renderPriceInfo() }
             </div>
           </Grid>
@@ -209,27 +216,28 @@ export class ItemScreen extends React.Component<Props, State> {
     }
 
     return (
-      <div className={ classes.actionButtonsContainer } >
+      <div className={ classes.actionButtonsContainer }>
         <Button
+          style={{ color: theme.palette.error.main }}
           key="delete"
-          variant="outlined"
-          color="primary"
+          variant="text"
+          color="inherit"
           onClick={ this.toggleDeleteDialog }
         >
           { strings.generic.delete }
         </Button>
         <Button
           key="renew"
-          variant="text"
-          color="secondary"
+          variant="outlined"
+          color="primary"
           onClick={ this.renewClick }
         >
           { strings.items.renew }
         </Button>
         <Button
           key="edit"
-          variant="text"
-          color="secondary"
+          variant="outlined"
+          color="primary"
           onClick={ () => this.setState({ formOpen: true }) }
         >
           { strings.generic.edit }
@@ -348,11 +356,13 @@ export class ItemScreen extends React.Component<Props, State> {
 
     return publicUser && (
       <div className={ classes.userInfoContainer }>
-        <img
-          src={ publicUser.logoUrl }
-          alt={ strings.generic.imageAlt }
-          className={ classes.image }
-        />
+        { publicUser.logoUrl &&
+          <img
+            src={ publicUser.logoUrl }
+            alt={ strings.generic.imageAlt }
+            className={ classes.image }
+          />
+        }
         <Box p={ 4 }>
           <Typography variant="body1">
             { publicUser.description }
