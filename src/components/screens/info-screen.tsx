@@ -3,15 +3,15 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { ReduxActions, ReduxState } from "../../store";
-
 import { History } from "history";
 import styles from "../../styles/components/screens/info-screen";
-import { Box, CircularProgress, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
+import { Box, Button, CircularProgress, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
 import { KeycloakInstance } from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
 import { Category, Item } from "../../generated/client";
 import AppLayout from "../layouts/app-layout";
 import strings from "../../localization/strings";
+import { ArrowBack } from "@material-ui/icons";
 
 /**
  * Component props
@@ -83,7 +83,7 @@ export class InfoScreen extends React.Component<Props, State> {
    * Renders layout content
    */
   private renderLayoutContent = () => {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
     const { loading } = this.state;
 
     if (loading) {
@@ -112,14 +112,14 @@ export class InfoScreen extends React.Component<Props, State> {
           <Typography>
             { strings.info.third }
             <Link
-            href="https://mikseimikkeli.fi/hankkeet/cityloops-kaupunkien-materiaalivirtojen-silmukan-sulkeminen/"
-            target="_blank"
+              href="https://mikseimikkeli.fi/hankkeet/cityloops-kaupunkien-materiaalivirtojen-silmukan-sulkeminen/"
+              target="_blank"
             >
               { strings.info.thisLink }
             </Link>
           </Typography>
         </Box>
-        <Box mt={ 4 } mb={ 2 }>
+        <Box mt={ 4 } mb={ 4 }>
           <Typography variant="h4">
             { strings.info.fourth }
           </Typography>
@@ -128,6 +128,9 @@ export class InfoScreen extends React.Component<Props, State> {
           { this.renderLink(strings.info.companies.purkukolmio, "https://www.purkukolmio.fi/kauppa") }
           { this.renderLink(strings.info.companies.kiertonet, "https://kiertonet.fi/") }
         </Box>
+        <Button startIcon={ <ArrowBack />} onClick={ () => history.push("/") }>
+          { strings.items.returnToFrontPage }
+        </Button>
       </Box>
     );
   }

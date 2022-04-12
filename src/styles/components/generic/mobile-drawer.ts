@@ -1,11 +1,9 @@
 import { createStyles } from "@material-ui/core";
 import theme from "../../theme";
-import drawerBackground from "../../../resources/svg/mobile-drawer-background.svg";
 
 export const styles = createStyles({
 
   drawerContent: {
-    backgroundColor: theme.palette.background.default,
     height: "100%",
     minWidth: 260,
     [theme.breakpoints.up("sm")]: {
@@ -13,31 +11,8 @@ export const styles = createStyles({
     }
   },
 
-  logoArea: {
-    height: 180,
-    backgroundImage: `url(${drawerBackground})`,
-    backgroundPosition: "center bottom",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-
-  logoCircle: {
-    width: 120,
-    height: 120,
-    padding: theme.spacing(2),
-    borderRadius: "50%",
-    backgroundColor: theme.palette.background.default,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-
   logo: {
-    width: "100%"
+    height: 35
   },
 
   title: {

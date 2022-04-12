@@ -4,7 +4,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import { setLocale } from "../../actions/locale";
 
-import { Drawer, Hidden, List, ListItem, ListItemIcon, MenuItem, Select, Typography, withStyles, WithStyles } from "@material-ui/core";
+import { Drawer, Hidden, IconButton, List, ListItem, ListItemIcon, MenuItem, Select, Toolbar, Typography, withStyles, WithStyles } from "@material-ui/core";
 import { styles } from "../../styles/components/generic/mobile-drawer";
 import strings from "../../localization/strings";
 import ListIcon from "@material-ui/icons/List";
@@ -17,6 +17,8 @@ import { AccessToken, SignedToken } from "../../types";
 import { KeycloakInstance } from "keycloak-js";
 import theme from "../../styles/theme";
 import RegistrationFormDialog from "../generic/registration-form-dialog";
+import { InfoOutlined } from "@material-ui/icons";
+import CloseIcon from "@material-ui/icons/Close";
 
 /**
  * Interface describing properties from screen component
@@ -71,17 +73,22 @@ const MobileDrawer: React.FC<Props> = ({
   const renderDrawerContent = () => {
     return (
       <div className={ classes.drawerContent }>
-        { logoUrl &&
-        <div className={ classes.logoArea }>
-          <div className={ classes.logoCircle }>
+        <Toolbar style={{ justifyContent: "space-between" }}>
+          { logoUrl &&
             <img
               alt="logo"
               src={ logoUrl }
               className={ classes.logo }
             />
-          </div>
-        </div>
-        }
+          }
+          <IconButton
+            color="primary"
+            edge="end"
+            onClick={ toggleSideMenu }
+          >
+            <CloseIcon />
+          </IconButton>
+        </Toolbar>
         { renderLanguageSelection() }
         { title &&
           <Typography
@@ -98,6 +105,14 @@ const MobileDrawer: React.FC<Props> = ({
               navigateTo,
               { boldText: true, icon: <ListIcon fontSize="small" /> },
               "/items",
+            )
+          }
+          {
+            renderListItem(
+              strings.info.title,
+              navigateTo,
+              { boldText: true, icon: <InfoOutlined fontSize="small" /> },
+              "/info",
             )
           }
           { signedToken && 

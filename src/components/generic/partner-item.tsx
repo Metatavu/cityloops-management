@@ -8,7 +8,8 @@ import styles from "../../styles/components/generic/partner-item";
  */
 export interface Props extends WithStyles<typeof styles> {
   logo: string;
-  title?: string;
+  url: string;
+  altText: string;
 }
 
 /**
@@ -16,18 +17,26 @@ export interface Props extends WithStyles<typeof styles> {
  *
  * @param props component props
  */
-const PartnerItem: React.FC<Props> = ({ classes, logo }) => {
+const PartnerItem: React.FC<Props> = ({
+    classes,
+    logo,
+    url,
+    altText
+  }) => {
   /**
    * Component render
    */
   return (
-    <div className={ classes.root }>
+    <a
+      className={ classes.root }
+      href={ url }
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className={ classes.imageContainer }>
-        <img alt="Partner logo" src={ logo } />
+        <img alt={ altText } src={ logo } />
       </div>
-      <div className={ classes.buttonContainer }>
-      </div>
-    </div>
+    </a>
   );
 };
 
