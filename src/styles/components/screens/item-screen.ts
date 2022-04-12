@@ -22,22 +22,19 @@ export default createStyles({
   },
 
   actionButtonsContainer: {
+    display: "flex",
+    flexDirection: "column",
     marginTop: theme.spacing(2),
     "& button": {
-      "&:first-child": {
-        marginRight: theme.spacing(2)
-      }
+      marginBottom: theme.spacing(2)
     },
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
       "& button": {
-        "&:first-child": {
-          marginRight: theme.spacing(2)
-        },
-        "&:last-child": {
-          marginLeft: theme.spacing(1)
-        }
-      }
-    }
+        marginRight: theme.spacing(2),
+        marginTop: 0
+      },
+    },
   },
 
   deleteButton: {
@@ -149,7 +146,6 @@ export default createStyles({
   },
 
   itemPrice: {
-    fontWeight: 100,
     marginBottom: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
       fontSize: 28,
@@ -187,7 +183,11 @@ export default createStyles({
     color: theme.palette.grey[700]
   },
 
-  locationSection: { },
+  locationSection: {
+    [theme.breakpoints.down("md")]: {
+      padding: theme.spacing(2)
+    }
+  },
 
   locationContainer: {
     display: "flex",
@@ -219,7 +219,7 @@ export default createStyles({
   image: {
     maxWidth: 300,
     [theme.breakpoints.down("sm")]: {
-      width: "100%"
+      maxWidth: "100%"
     }
   },
 

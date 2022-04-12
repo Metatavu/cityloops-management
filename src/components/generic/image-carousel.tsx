@@ -1,14 +1,14 @@
-import * as React from "react";
-
 import { Dialog, Fade, IconButton, withStyles, WithStyles } from "@material-ui/core";
-import styles from "../../styles/components/generic/image-carousel";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
 import CloseIcon from '@material-ui/icons/Close';
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap';
+import * as React from "react";
 import strings from "../../localization/strings";
-import theme from "../../styles/theme";
 import brokenImage from "../../resources/svg/broken-image-icon.svg";
+import styles from "../../styles/components/generic/image-carousel";
+import theme from "../../styles/theme";
+
 
 /**
  * Interface describing component properties
@@ -136,16 +136,13 @@ const ImageCarousel: React.FC<Props> = ({ classes, imageUrls }) => {
           className: classes.fullscreenContainer
         }}
       >
+        <IconButton onClick={ toggleFullScreen } className={ classes.closeFullScreenButton }>
+          <CloseIcon color="inherit"/>
+        </IconButton>
         { renderImages() }
         { imageUrls.length > 1 &&
           renderNavigation(theme.palette.common.white)
         }
-        <IconButton
-          className={ classes.closeFullScreenButton }
-          onClick={ toggleFullScreen }
-        >
-          <CloseIcon className={ classes.closeIcon }/>
-        </IconButton>
       </Dialog>
     );
   }

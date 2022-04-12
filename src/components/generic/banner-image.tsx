@@ -4,7 +4,7 @@ import { Box, Hidden, IconButton, Paper, Typography, withStyles, WithStyles } fr
 import styles from "../../styles/components/generic/banner-image";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import PartnerItem from "../generic/partner-item";
-import kieppiLogo from "../../resources/images/kieppi_logo.png";
+import uuttaElamaaLogo from "../../resources/images/toimintakeskus.png";
 import metsasairilaLogo from "../../resources/images/metsasairila.png";
 import materiaalitoriLogo from "../../resources/images/materiaalitori.svg";
 import strings from "../../localization/strings";
@@ -52,9 +52,9 @@ const Banner: React.FC<Props> = ({ classes, image, title }) => {
     <Hidden smDown>
       <div className={ classes.partners }>
         <PartnerItem 
-          logo={ kieppiLogo }
-          url="https://www.kierratyskieppi.fi/"
-          altText="Kierrätys kieppi"
+          logo={ uuttaElamaaLogo }
+          url="https://www.uuttaelamaa.fi/"
+          altText="Uutta elämää"
         />
         <PartnerItem
           logo={ metsasairilaLogo }

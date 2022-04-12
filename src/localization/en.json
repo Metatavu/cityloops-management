@@ -116,7 +116,10 @@
       "sell": "Sell",
       "rent": "Rent"
     },
-    "registerToSeeSellerInfo": "Register to see contact information."
+    "registerToSeeSellerInfo": "Register to see contact information.",
+    "dropFilesHere": "Drag and drop files or click to browse file system.",
+    "preview": "Files",
+    "addImages": "Add images"
   },
 
   "categories": {

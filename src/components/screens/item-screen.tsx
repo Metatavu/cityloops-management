@@ -20,6 +20,7 @@ import Map from "../generic/map";
 import ItemFormDialog from "../generic/item-form-dialog";
 import GenericConfirmDialog from "../generic/generic-confirm-dialog";
 import { ArrowBack } from "@material-ui/icons";
+import theme from "../../styles/theme";
 
 /**
  * Component props
@@ -166,10 +167,10 @@ export class ItemScreen extends React.Component<Props, State> {
           <Grid item xs={ 12 } md>
             <div className={ classes.propertiesContainer }>
               <Typography
-                variant="h1"
+                variant="h2"
                 className={ classes.itemPrice }
               >
-                { item ? `${ item.price } ${ item.priceUnit }` : "" }
+                { item ? `${ strings.items.price }: ${ item.price } ${ item.priceUnit }` : "" }
               </Typography>
               { this.renderProperties() }
               <Divider />
@@ -215,27 +216,28 @@ export class ItemScreen extends React.Component<Props, State> {
     }
 
     return (
-      <div className={ classes.actionButtonsContainer } >
+      <div className={ classes.actionButtonsContainer }>
         <Button
+          style={{ color: theme.palette.error.main }}
           key="delete"
-          variant="outlined"
-          color="primary"
+          variant="text"
+          color="inherit"
           onClick={ this.toggleDeleteDialog }
         >
           { strings.generic.delete }
         </Button>
         <Button
           key="renew"
-          variant="text"
-          color="secondary"
+          variant="outlined"
+          color="primary"
           onClick={ this.renewClick }
         >
           { strings.items.renew }
         </Button>
         <Button
           key="edit"
-          variant="text"
-          color="secondary"
+          variant="outlined"
+          color="primary"
           onClick={ () => this.setState({ formOpen: true }) }
         >
           { strings.generic.edit }

@@ -144,6 +144,9 @@ export interface IStrings extends LocalizedStringsMethods {
       rent: string;
     };
     registerToSeeSellerInfo: string;
+    dropFilesHere: string;
+    preview: string;
+    addImages: string;
   };
 
   /**

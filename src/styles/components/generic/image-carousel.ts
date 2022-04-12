@@ -31,13 +31,14 @@ export default createStyles({
     position: "absolute",
     width: "100%",
     height: "100%",
-    objectFit: "cover"
+    objectFit: "contain"
   },
 
   previousButton: {
     position: "absolute",
     left: theme.spacing(1),
     bottom: 0,
+    transition: "color 0.2s ease-out",
     [theme.breakpoints.up("lg")]: {
       bottom: "50%",
       transform: "translateY(50%)"
@@ -47,6 +48,9 @@ export default createStyles({
       [theme.breakpoints.up("lg")]: {
         fontSize: 50,
       }
+    },
+    "&:hover": {
+      color: "#fff"
     }
   },
 
@@ -54,6 +58,7 @@ export default createStyles({
     position: "absolute",
     right: theme.spacing(1),
     bottom: 0,
+    transition: "color 0.2s ease-out",
     [theme.breakpoints.up("lg")]: {
       bottom: "50%",
       transform: "translateY(50%)"
@@ -63,6 +68,9 @@ export default createStyles({
       [theme.breakpoints.up("lg")]: {
         fontSize: 50,
       }
+    },
+    "&:hover": {
+      color: "#fff"
     }
   },
 
@@ -78,6 +86,8 @@ export default createStyles({
   },
 
   closeFullScreenButton: {
+    backgroundColor: theme.palette.common.black,
+    zIndex: 2000,
     position: "absolute",
     top: theme.spacing(1),
     right: theme.spacing(1),
