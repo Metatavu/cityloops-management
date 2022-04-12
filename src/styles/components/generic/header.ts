@@ -100,6 +100,16 @@ export default createStyles({
     [theme.breakpoints.up("md")]: {
       marginLeft: theme.spacing(2)
     }
+  },
+
+  link: {
+    fontSize: 16,
+    fontWeight: 700,
+    cursor: "pointer",
+    marginLeft: theme.spacing(2),
+    "&:hover": {
+      textDecoration: "underline"
+    }
   }
 
 });

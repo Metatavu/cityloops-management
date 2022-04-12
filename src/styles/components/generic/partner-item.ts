@@ -4,6 +4,8 @@ import theme from "../../theme";
 export default createStyles({
 
   root: {
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 5,
     padding: theme.spacing(2),
     [theme.breakpoints.up("xl")]: {
@@ -11,8 +13,13 @@ export default createStyles({
     },
     display: "flex",
     flexDirection: "column",
-    backgroundImage: "linear-gradient( rgba(255,255,255,1), rgba(255,255,255,0))",
+    background: "rgba(255,255,255,0.2)",
     maxHeight: "100%",
+    transition: "background 0.3s ease-out",
+    backdropFilter: "blur(4px)",
+    "&:hover": {
+      background: "rgba(255,255,255,0.5)",
+    }
   },
 
   imageContainer: {
