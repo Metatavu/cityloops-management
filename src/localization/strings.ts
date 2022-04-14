@@ -147,6 +147,7 @@ export interface IStrings extends LocalizedStringsMethods {
     dropFilesHere: string;
     preview: string;
     addImages: string;
+    addPriceHelperText: string;
   };
 
   /**

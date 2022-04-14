@@ -142,6 +142,19 @@ export class ItemScreen extends React.Component<Props, State> {
     const { classes, signedToken } = this.props;
     const { item } = this.state;
 
+    if (!item) {
+      return (
+        <div key="titleContainer" className={ classes.titleContainer }>
+          <Typography
+            variant="h1"
+            className={ classes.itemTitle }
+          >
+            { strings.error.itemNotFound }
+          </Typography>
+        </div>
+      );
+    }
+
     return (
       <>
         <div key="titleContainer" className={ classes.titleContainer }>
@@ -149,7 +162,7 @@ export class ItemScreen extends React.Component<Props, State> {
             variant="h1"
             className={ classes.itemTitle }
           >
-            { item ? item?.title : strings.error.itemNotFound }
+            { item.title }
           </Typography>
         </div>
         <Grid
@@ -166,12 +179,11 @@ export class ItemScreen extends React.Component<Props, State> {
           </Grid>
           <Grid item xs={ 12 } md>
             <div className={ classes.propertiesContainer }>
-              <Typography
-                variant="h2"
-                className={ classes.itemPrice }
-              >
-                { item ? `${ strings.items.price }: ${ item.price } ${ item.priceUnit }` : "" }
-              </Typography>
+              { item.price &&
+                <Typography variant="h2" className={ classes.itemPrice }>
+                  { /^[0-9.,]+$/.test(item.price) ? `${item.price} €` : item.price }
+                </Typography>
+              }
               { this.renderProperties() }
               <Divider />
               { signedToken ?

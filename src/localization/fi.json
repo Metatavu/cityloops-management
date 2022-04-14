@@ -121,7 +121,8 @@
     "registerToSeeSellerInfo": "Rekisteröidy nähdäksesi myyjän yhteystiedot.",
     "dropFilesHere": "Pudota tai valitse tiedostoja",
     "preview": "Tiedostot",
-    "addImages": "Lisää kuvia"
+    "addImages": "Lisää kuvia",
+    "addPriceHelperText": "Voit syöttää hintatiedon tarvittaessa myös tekstinä"
   },
 
   "categories": {

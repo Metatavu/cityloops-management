@@ -17,6 +17,7 @@ interface Props extends WithStyles<typeof styles> {
   style?: CSSProperties;
   type?: string;
   disabled?: boolean;
+  helperText?: string;
 }
 
 /**
@@ -25,6 +26,7 @@ interface Props extends WithStyles<typeof styles> {
  * @param props component props
  */
 const OutlinedTextField: React.FC<Props> = ({
+  helperText,
   classes,
   key,
   name,
@@ -38,6 +40,7 @@ const OutlinedTextField: React.FC<Props> = ({
 }) => {
   return (
     <TextField
+      helperText={ helperText }
       key={ key }
       name={ name }
       label={ label }
