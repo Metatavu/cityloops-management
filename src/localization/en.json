@@ -119,7 +119,8 @@
     "registerToSeeSellerInfo": "Register to see contact information.",
     "dropFilesHere": "Drag and drop files or click to browse file system.",
     "preview": "Files",
-    "addImages": "Add images"
+    "addImages": "Add images",
+    "addPriceHelperText": "You can also put price as text"
   },
 
   "categories": {

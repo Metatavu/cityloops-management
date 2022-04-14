@@ -314,14 +314,13 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     return (
       <>
-        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "string", "price", item.itemType) }
-        { this.renderOutlinedTextField(`item-${item.id}-priceUnit`, strings.items.priceUnit, item.priceUnit || "", "string", "priceUnit", item.itemType) }
+        { this.renderOutlinedTextField(`item-${item.id}-price`, strings.items.price, item.price || "", "string", "price", item.itemType, strings.items.addPriceHelperText) }
         { this.renderOutlinedTextField(`item-${item.id}-paymentMethod`, strings.items.paymentMethod, item.paymentMethod || "", "string", "paymentMethod", item.itemType) }
         <Box display={ "flex" } mt={ 2 }>
           { this.renderDeliverySelect(item) }
           { item.delivery &&
             <Box ml={ 2 }>
-              { this.renderOutlinedTextField(`item-${item.id}-deliveryPrice`, strings.items.deliveryPrice, item.deliveryPrice || "", "string", "deliveryPrice", item.itemType, !item.delivery) }
+              { this.renderOutlinedTextField(`item-${item.id}-deliveryPrice`, strings.items.deliveryPrice, item.deliveryPrice || "", "string", "deliveryPrice", item.itemType, "", !item.delivery) }
             </Box>
           }
         </Box>
@@ -347,6 +346,7 @@ class ItemFormDialog extends React.Component<Props, State> {
     type: string,
     name: string,
     itemType: ItemType,
+    helperText?: string,
     disabled?: boolean
   ) => {
     const { classes } = this.props;
@@ -357,6 +357,7 @@ class ItemFormDialog extends React.Component<Props, State> {
 
     return (
       <OutlinedTextField
+        helperText={ helperText }
         key={ key }
         label={ label }
         value={ value }
