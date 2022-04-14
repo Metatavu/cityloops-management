@@ -1,13 +1,15 @@
 import * as React from "react";
 
-import { withStyles, WithStyles } from "@material-ui/core";
+import { Typography, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/partner-item";
 
 /**
  * Interface describing component properties
  */
 export interface Props extends WithStyles<typeof styles> {
-  logo: string;
+  logo?: string;
+  url: string;
+  altText?: string;
   title?: string;
 }
 
@@ -16,18 +18,32 @@ export interface Props extends WithStyles<typeof styles> {
  *
  * @param props component props
  */
-const PartnerItem: React.FC<Props> = ({ classes, logo }) => {
+const PartnerItem: React.FC<Props> = ({
+    classes,
+    logo,
+    url,
+    altText,
+    title
+  }) => {
   /**
    * Component render
    */
   return (
-    <div className={ classes.root }>
+    <a
+      className={ classes.root }
+      href={ url }
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       <div className={ classes.imageContainer }>
-        <img alt="Partner logo" src={ logo } />
+        { logo &&
+          <img alt={ altText } src={ logo } />
+        }
+        { title &&
+          <Typography variant="h5">{ title }</Typography>
+        }
       </div>
-      <div className={ classes.buttonContainer }>
-      </div>
-    </div>
+    </a>
   );
 };
 

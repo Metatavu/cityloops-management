@@ -6,9 +6,9 @@ export default createStyles({
   root: {
     [theme.breakpoints.up("sm")]: {
       cursor: "pointer",
-      transition: "box-shadow 0.2s ease-out",
+      transition: "box-shadow 0.3s ease-out",
       "&:hover": {
-        boxShadow: "0 0 10px rgba(0,0,0,0.2)"
+        boxShadow: "0 0 30px rgba(0,0,0,0.15)"
       }
     }
   },

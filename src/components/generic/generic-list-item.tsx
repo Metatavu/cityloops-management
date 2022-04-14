@@ -48,9 +48,6 @@ const GenericListItem: React.FC<Props> = props => {
     }
   };
 
-  /**
-   * TODO: Add price to card once API changes are ready
-   */
   return (
     <Card
       elevation={ card ? 0 : 0 }
@@ -71,18 +68,18 @@ const GenericListItem: React.FC<Props> = props => {
             <div className={ classes.cardListVariantContent }>
               <div>
                 <div className={ classes.spaceBetweenContent }>
-                  <Typography variant="h4">
+                  <Typography variant="h3">
                     { item.title }
                   </Typography>
-                  { item.price !== 0 &&
-                    <Typography variant="h3">
-                      { item.price } { item.priceUnit }
+                  { item.price &&
+                    <Typography variant="h2" color="primary">
+                      { /^[0-9.,]+$/.test(item.price) ? `${item.price} €` : item.price }
                     </Typography>
                   }
                 </div>
               </div>
               <div className={ classes.spaceBetweenContent }>
-                <Typography variant="subtitle1">
+                <Typography variant="body1">
                   { item.metadata.locationInfo.address }
                 </Typography>
                 <Typography variant="subtitle2">
@@ -99,10 +96,10 @@ const GenericListItem: React.FC<Props> = props => {
               alt={ `itemImage-${item.id}` }
               src={ item.images && item.images.length > 0 ? item.images[0] : brokenImage }
             />
-            { item.price !== 0 &&
+            { item.price &&
               <Box className={ classes.priceContainer }>
                 <Typography variant="h5" className={ classes.priceText } >
-                  { item.price } { item.priceUnit }
+                { /^[0-9.,]+$/.test(item.price) ? `${item.price} €` : item.price }
                 </Typography>
               </Box>
             }

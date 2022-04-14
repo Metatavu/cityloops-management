@@ -102,10 +102,10 @@ export interface Item {
     userId: string;
     /**
      * Price of the item
-     * @type {number}
+     * @type {string}
      * @memberof Item
      */
-    price: number;
+    price: string;
     /**
      * Price unit of the item
      * @type {string}

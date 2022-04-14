@@ -7,37 +7,41 @@ export default createStyles({
     position: "relative",
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     backgroundPosition: "center 33%",
     backgroundSize: "cover",
-    height: 0,
-    [theme.breakpoints.up("sm")]: {
-      height: 200
-    },
+    flexDirection: "column",
+    padding: theme.spacing(4),
     [theme.breakpoints.up("md")]: {
-      height: 300
+      padding: theme.spacing(6)
     },
 
     [theme.breakpoints.up("lg")]: {
-      height: 400
+      padding: theme.spacing(8)
     },
 
     [theme.breakpoints.up("xl")]: {
-      height: 500
+      padding: theme.spacing(12)
     },
   },
 
   partners: {
     display: "grid",
-    gridTemplateColumns: "1fr 1fr 1fr",
+    gridTemplateColumns: "1fr 1fr 1fr 1fr",
     gridGap: theme.spacing(2),
     alignSelf: "center",
     maxWidth: 1280,
     width: "90vw",
-    height: 186,
     [theme.breakpoints.up("md")]: {
-      height: 200
+      height: 120
     },
+    [theme.breakpoints.up("lg")]: {
+      height: 150
+    },
+    [theme.breakpoints.up("xl")]: {
+      height: 175
+    }
   },
 
   title: {

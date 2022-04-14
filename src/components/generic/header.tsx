@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { setLocale } from "../../actions/locale";
 import { AccessToken, SignedToken } from "../../types";
 
-import { AppBar, Box, Button, Container, Hidden, IconButton, MenuItem, Select, Toolbar, withStyles, WithStyles } from "@material-ui/core";
+import { AppBar, Box, Button, Container, Hidden, IconButton, Link, MenuItem, Select, Toolbar, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/header";
 import strings from "../../localization/strings";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -19,6 +19,7 @@ import MobileDrawer from "../generic/mobile-drawer";
 import logo from "../../resources/svg/logo-primary.svg";
 import { ScreenProps as MobileDrawerProps } from "../generic/mobile-drawer";
 import AddIcon from "@material-ui/icons/Add"
+import theme from "../../styles/theme";
 
 /**
  * Interface describing properties from screen components
@@ -72,19 +73,33 @@ const Header: React.FC<Props> = props => {
   const renderMobileContent = () => {
     return (
       <>
-        <Box display={ "flex" } alignItems={ "center" }>
-          <img
-            alt="logo"
-            src={ logoSecondary }
-            className={ classes.mobileLogo }
-            onClick={ () => history.push("/") }
-          />
+        <Box
+          display="flex"
+          width="100%"
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <Box display="flex" alignItems="center">
+            <IconButton
+              style={{ marginRight: theme.spacing(2) }}
+              edge="start"
+              onClick={ toggle }
+            >
+              <MenuIcon style={{ color: "#fff" }} />
+            </IconButton>
+            <img
+              alt="logo"
+              src={ logoSecondary }
+              className={ classes.mobileLogo }
+              onClick={ () => history.push("/") }
+            />
+          </Box>
           { signedToken &&
             onAddClick &&
               <Button
                 startIcon={ <AddIcon /> }
                 color="inherit"
-                variant="outlined"
+                variant="text"
                 className={ classes.menuButton }
                 onClick={ onAddClick }
               >
@@ -99,9 +114,6 @@ const Header: React.FC<Props> = props => {
           { ...mobileDrawerProps }
           history={ history }
         />
-        <IconButton edge="end" onClick={ toggle }>
-          <MenuIcon fontSize="default" style={{ color: "#fff" }} />
-        </IconButton>
       </>
     );
   };
@@ -121,7 +133,13 @@ const Header: React.FC<Props> = props => {
           src={ logoPrimary }
           className={ classes.logo }
           onClick={ () => history.push("/") }
-          />
+        />
+        <Link
+          className={ classes.link }
+          onClick={ () => history.push("info") }
+        >
+          { strings.footer.infoLink }
+        </Link>
         { onSaveClick &&
           <IconButton style={{ marginLeft: "auto" }} onClick={ onSaveClick && onSaveClick }>
             <SaveIcon fontSize="large" style={{ color: "#fff" }}/>
@@ -139,12 +157,14 @@ const Header: React.FC<Props> = props => {
 
     return (
       <div className={ classes.accountSection }>
-        { renderLanguageSelection() } 
+        { renderLanguageSelection() }
         { signedToken &&
           onAddClick &&
             <Button
-              variant="outlined"
-              className={ classes.menuButtonOutlined }
+              startIcon={
+                <AddIcon/>
+              }
+              variant="contained"
               onClick={ onAddClick }
             >
             { strings.items.addPosting }

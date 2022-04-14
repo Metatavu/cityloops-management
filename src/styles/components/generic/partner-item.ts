@@ -4,15 +4,27 @@ import theme from "../../theme";
 export default createStyles({
 
   root: {
+    textDecoration: "none",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: 5,
     padding: theme.spacing(2),
     [theme.breakpoints.up("xl")]: {
-      padding: theme.spacing(5),
+      padding: theme.spacing(5)
     },
     display: "flex",
     flexDirection: "column",
-    backgroundImage: "linear-gradient( rgba(255,255,255,1), rgba(255,255,255,0))",
+    background: "rgba(255,255,255,0.6)",
+    [theme.breakpoints.up("lg")]: {
+      background: "rgba(255,255,255,0.4)"
+    },
     maxHeight: "100%",
+    transition: "background 0.3s ease-out",
+    backdropFilter: "blur(4px)",
+    "&:hover": {
+      background: "rgba(255,255,255,0.7)",
+      textDecoration: "underline"
+    }
   },
 
   imageContainer: {
@@ -20,6 +32,7 @@ export default createStyles({
     width: "100%",
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     "& img": {
       maxHeight: "100%",
       maxWidth: "100%",
