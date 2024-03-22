@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as querystring from "query-string";
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import moment from "moment";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";

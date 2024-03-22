@@ -7558,10 +7558,10 @@
     "array-includes" "^3.1.1"
     "object.assign" "^4.1.0"
 
-"jwt-decode@^4.0.0":
-  "integrity" "sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA=="
-  "resolved" "https://registry.npmjs.org/jwt-decode/-/jwt-decode-4.0.0.tgz"
-  "version" "4.0.0"
+"jwt-decode@^3.1.2":
+  "integrity" "sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A=="
+  "resolved" "https://registry.npmjs.org/jwt-decode/-/jwt-decode-3.1.2.tgz"
+  "version" "3.1.2"
 
 "keycloak-js@^22.0.5":
   "integrity" "sha512-a7ZwCZeHl8tpeJBy102tZtAnHslDUOA1Nf/sHNF3HYLchKpwoDuaitwIUiS2GnNUe+tlNKLlCqZS+Mi5K79m1w=="
