@@ -7,7 +7,7 @@ import { ReduxActions, ReduxState } from "../../store";
 import { History } from "history";
 import styles from "../../styles/components/screens/items-screen";
 import { Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { KeycloakInstance } from "keycloak-js";
+import Keycloak from "keycloak-js";
 import { AccessToken, SearchParams, SignedToken } from "../../types";
 import { Category, Item } from "../../generated/client";
 import ItemList from "../items/item-list";
@@ -28,7 +28,7 @@ import SearchBar from "../generic/search-bar";
  */
 interface Props extends WithStyles<typeof styles> {
   history: History;
-  keycloak?: KeycloakInstance;
+  keycloak?: Keycloak;
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
   locale: string;
@@ -223,7 +223,7 @@ export class ItemsScreen extends React.Component<Props, State> {
     const itemType = searchParams.itemType;
     const itemsApi = Api.getItemsApi(anonymousToken);
     const mtResponse = await MTOperations.listItems(searchParams);
-    const [ items, mtItems ] = await Promise.all<Item[], Item[]>([
+    const [ items, mtItems ] = await Promise.all([
       itemsApi.listItems({ categoryId: categoryId, itemType: itemType }),
       this.constructMTItems(mtResponse)
     ]);
@@ -294,7 +294,7 @@ export class ItemsScreen extends React.Component<Props, State> {
     const categoriesApi = Api.getCategoriesApi(anonymousToken);
     const mtResponse = await MTOperations.listItems({ });
 
-    const [ categories, items, mtItems ] = await Promise.all<Category[], Item[], Item[]>([
+    const [ categories, items, mtItems ] = await Promise.all([
       categoriesApi.listCategories({}),
       itemsApi.listItems({ }),
       this.constructMTItems(mtResponse)

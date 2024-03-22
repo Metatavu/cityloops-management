@@ -14,7 +14,7 @@ import SignOutIcon from "@material-ui/icons/ExitToApp";
 import RegisterIcon from "@material-ui/icons/PersonAdd";
 import PersonIcon from "@material-ui/icons/Person";
 import { AccessToken, SignedToken } from "../../types";
-import { KeycloakInstance } from "keycloak-js";
+import Keycloak from "keycloak-js";
 import theme from "../../styles/theme";
 import RegistrationFormDialog from "../generic/registration-form-dialog";
 import { InfoOutlined } from "@material-ui/icons";
@@ -24,7 +24,7 @@ import CloseIcon from "@material-ui/icons/Close";
  * Interface describing properties from screen component
  */
 export interface ScreenProps {
-  keycloak?: KeycloakInstance;
+  keycloak?: Keycloak;
   title?: string;
   logoUrl?: string;
 }

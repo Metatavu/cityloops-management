@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as querystring from "query-string";
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import moment from "moment";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
@@ -195,7 +195,7 @@ class AnonymousTokenProvider extends React.Component<Props, State> {
    * @returns access token
    */
   private buildToken = (tokenData: any): AccessToken => {
-    const decodedToken: DecodedAccessToken = jwt_decode(tokenData.access_token);
+    const decodedToken: DecodedAccessToken = jwtDecode(tokenData.access_token);
     const created = new Date();
 
     return {

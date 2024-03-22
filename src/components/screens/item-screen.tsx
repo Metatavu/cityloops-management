@@ -7,7 +7,7 @@ import { ReduxActions, ReduxState } from "../../store";
 import { History } from "history";
 import styles from "../../styles/components/screens/item-screen";
 import { Box, Button, CircularProgress, Divider, Grid, Link, Typography, WithStyles, withStyles } from "@material-ui/core";
-import { KeycloakInstance } from "keycloak-js";
+import Keycloak from "keycloak-js";
 import { AccessToken, SignedToken } from "../../types";
 import { Item, ItemType, PublicUser } from "../../generated/client";
 import strings from "../../localization/strings";
@@ -26,7 +26,7 @@ import theme from "../../styles/theme";
  * Component props
  */
 interface Props extends WithStyles<typeof styles> {
-  keycloak?: KeycloakInstance;
+  keycloak?: Keycloak;
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
   history: History;
