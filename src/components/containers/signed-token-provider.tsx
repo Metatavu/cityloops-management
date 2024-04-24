@@ -7,7 +7,6 @@ import { setKeycloak, signedLogin } from "../../actions/auth";
 
 import { AccessToken, SignedToken } from "../../types";
 import ErrorDialog from "../generic/error-dialog";
-import { KeycloakInstance } from "keycloak-js";
 import Keycloak from "keycloak-js";
 
 /**
@@ -31,7 +30,7 @@ interface State {
  */
 class SignedTokenProvider extends React.Component<Props, State> {
 
-  private keycloak: KeycloakInstance;
+  private keycloak: Keycloak;
   private timer?: any;
 
   /**
@@ -42,10 +41,10 @@ class SignedTokenProvider extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.keycloak = Keycloak({
+    this.keycloak = new Keycloak({
       url: process.env.REACT_APP_KEYCLOAK_URL,
-      realm: process.env.REACT_APP_KEYCLOAK_REALM || "",
-      clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID || ""
+      realm: process.env.REACT_APP_KEYCLOAK_REALM || "",
+      clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID || ""
     });
 
     this.state = {
@@ -68,7 +67,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
         this.props.onSignedLogin(signedToken ?? null);
       }
 
-      this.refreshAccessToken();
+      await this.refreshAccessToken();
 
       this.timer = setInterval(() => {
         this.refreshAccessToken();
@@ -103,9 +102,9 @@ class SignedTokenProvider extends React.Component<Props, State> {
   /**
    * Refreshes access token
    */
-  private refreshAccessToken = () => {
+  private refreshAccessToken = async () => {
     try {
-      const refreshed = this.keycloak.updateToken(70);
+      const refreshed = await this.keycloak.updateToken(70);
       if (refreshed) {
         const signedToken = this.buildToken(this.keycloak);
 
@@ -113,7 +112,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
       }
     } catch (e) {
       this.setState({
-        error: e
+        error: e as any
       });
     }
   }
@@ -123,7 +122,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
    */
   private keycloakInit = () => {
     return new Promise(resolve => {
-      this.keycloak.init({ onLoad:"check-sso", checkLoginIframe: false }).success(resolve);
+      this.keycloak.init({ onLoad:"check-sso", checkLoginIframe: false }).then(resolve);
     });
   }
 
@@ -133,7 +132,7 @@ class SignedTokenProvider extends React.Component<Props, State> {
    * @param keycloak Keycloak instance
    * @returns access token or undefined if building fails
    */
-  private buildToken = (keycloak: KeycloakInstance): AccessToken | undefined => {
+  private buildToken = (keycloak: Keycloak): AccessToken | undefined => {
     const {
       token,
       tokenParsed,
@@ -182,7 +181,7 @@ function mapStateToProps(state: ReduxState) {
 function mapDispatchToProps(dispatch: Dispatch<ReduxActions>) {
   return {
     onSignedLogin: (signedToken?: SignedToken) => dispatch(signedLogin(signedToken)),
-    setKeycloak: (keycloak: KeycloakInstance) => dispatch(setKeycloak(keycloak))
+    setKeycloak: (keycloak: Keycloak) => dispatch(setKeycloak(keycloak))
   };
 }
 

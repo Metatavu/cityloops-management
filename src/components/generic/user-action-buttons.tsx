@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { signedLogin } from "../../actions/auth";
 import { setLocale } from "../../actions/locale";
 import { AccessToken, SignedToken, ActionButton } from "../../types";
-import { KeycloakInstance } from "keycloak-js";
+import Keycloak from "keycloak-js";
 import { History } from "history";
 import { Box, Button, withStyles, WithStyles } from "@material-ui/core";
 import styles from "../../styles/components/generic/user-action-buttons";
@@ -20,7 +20,7 @@ import theme from "../../styles/theme";
  * Interface describing component properties
  */
 interface Props extends WithStyles<typeof styles> {
-  keycloak?: KeycloakInstance;
+  keycloak?: Keycloak;
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
   signedLogin?: typeof signedLogin;
@@ -102,7 +102,7 @@ class UserActionButtons extends React.Component<Props, State> {
    * @param keycloak keycloack instance
    * @returns menu options as action button array
    */
-  private getLoggedInMenuOptions = (keycloak: KeycloakInstance, history: History): ActionButton[] => {
+  private getLoggedInMenuOptions = (keycloak: Keycloak, history: History): ActionButton[] => {
     return [{
       name: strings.user.logout,
       action: () => keycloak.logout()

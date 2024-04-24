@@ -1,4 +1,4 @@
-import { KeycloakInstance } from 'keycloak-js';
+import Keycloak from 'keycloak-js';
 import * as actionTypes from '../constants/actionTypes';
 import { AccessToken, SignedToken } from '../types';
 
@@ -7,7 +7,7 @@ import { AccessToken, SignedToken } from '../types';
  */
 export interface KeycloakAction {
   type: actionTypes.SET_KEYCLOAK;
-  keycloak: KeycloakInstance;
+  keycloak: Keycloak;
 }
 
 /**
@@ -38,7 +38,7 @@ export interface SignedLogoutAction {
  *
  * @param keycloak keycloak instance to store
  */
-export function setKeycloak(keycloak: KeycloakInstance): KeycloakAction {
+export function setKeycloak(keycloak: Keycloak): KeycloakAction {
   return {
     type: actionTypes.SET_KEYCLOAK,
     keycloak: keycloak

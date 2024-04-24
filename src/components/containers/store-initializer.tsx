@@ -5,13 +5,13 @@ import { ReduxState, ReduxActions } from "../../store";
 import { Dispatch } from "redux";
 import { AccessToken, SignedToken } from "../../types";
 import ErrorDialog from "../generic/error-dialog";
-import { KeycloakInstance } from "keycloak-js";
+import Keycloak from "keycloak-js";
 
 /**
  * Component props
  */
 interface Props {
-  keycloak?: KeycloakInstance;
+  keycloak?: Keycloak;
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
 }
@@ -46,7 +46,7 @@ class StoreInitializer extends React.Component<Props, State> {
       // TODO: Initialize all needed data here
     } catch (e) {
       this.setState({
-        error: e
+        error: e as any
       });
     }
   }

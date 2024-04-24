@@ -1,6 +1,6 @@
 import { AuthAction } from '../actions/auth';
 import { ANONYMOUS_LOGIN, SET_KEYCLOAK, SIGNED_LOGIN, SIGNED_LOGOUT } from '../constants/actionTypes';
-import { KeycloakInstance } from 'keycloak-js';
+import Keycloak from 'keycloak-js';
 import { AccessToken, SignedToken } from '../types';
 
 /**
@@ -9,7 +9,7 @@ import { AccessToken, SignedToken } from '../types';
 export interface AuthState {
   anonymousToken?: AccessToken;
   signedToken?: SignedToken;
-  keycloak?: KeycloakInstance;
+  keycloak?: Keycloak;
 }
 
 /**
